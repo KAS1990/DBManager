@@ -521,7 +521,13 @@ namespace DBManager.SettingsWriter
 		/// </summary>
 		[DefaultValue(false)]
 		public bool Only75PercentForCalcGrades = false;
-						
+
+		/// <summary>
+		/// Возраст, с которого можно присваивать разряды 
+		/// </summary>
+		[DefaultValue(10)]
+		public int MinAgeToCalcResultGrade = 10;
+
 		/// <summary>
 		/// Обычный текст
 		/// </summary>
@@ -702,6 +708,9 @@ namespace DBManager.SettingsWriter
 			FTPPassword = "OQFvPx3G";
 
 			MySQLBatFullPath = null;
+
+			Only75PercentForCalcGrades = false;
+			MinAgeToCalcResultGrade = 10;
 		}
 
 
@@ -814,6 +823,9 @@ namespace DBManager.SettingsWriter
 
 			if (string.IsNullOrEmpty(MySQLBatFullPath))
 				MySQLBatFullPath = "D:\\Саша\\Документы\\Эксель\\Для соревнований\\Скалолазание\\Скорость Last Edition\\БД\\RunMySQLServer.lnk";
+
+			if (MinAgeToCalcResultGrade <= 0)
+				MinAgeToCalcResultGrade = 10;
 		}
 	}
 }

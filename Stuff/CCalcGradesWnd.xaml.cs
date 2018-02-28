@@ -113,7 +113,7 @@ namespace DBManager.Stuff
 				{
 					Name = YearOfBirth.ToString(),
 					FilterValue = YearOfBirth,
-					IsSelected = true
+					IsSelected = YearOfBirth <= (DateTime.Today.Year - DBManagerApp.m_AppSettings.m_Settings.MinAgeToCalcResultGrade)
 				};
 				NewPredicate.PropertyChanged += CompYear_PropertyChanged;
 				CompYears.Add(NewPredicate);

@@ -651,21 +651,33 @@ namespace DBManager.Scanning
 									 * Это нужно делать только для финалистов, т.к. для остальных участников это было сделано ранее */
 									foreach (results_speed result in lstRoundResults)
 										result.participations.result_place = result.place;
-									
+
+									int MinAgeToCalcResultGrade = 0;
+									lock (DBManagerApp.m_AppSettings.m_SettigsSyncObj)
+									{
+										MinAgeToCalcResultGrade = DBManagerApp.m_AppSettings.m_Settings.MinAgeToCalcResultGrade;
+									}
+
 									// Присвоение разрядов
 									IEnumerable<dynamic> MembersForGradesCalc = from member in DBManagerApp.m_Entities.members
 																				join part in DBManagerApp.m_Entities.participations on member.id_member equals part.member
 																				where part.Group == m_DBGroup.id_group
+																						&& member.year_of_birth <= (DateTime.Today.Year - MinAgeToCalcResultGrade)
 																				select new
 																				{
 																					member,
 																					part
 																				};
-									if (DBManagerApp.m_AppSettings.m_Settings.Only75PercentForCalcGrades)
-									{	// Учитываем только 75% участников
-										MembersForGradesCalc = (from memberAndPart in MembersForGradesCalc
-																orderby memberAndPart.part.result_place
-																select memberAndPart).Take((int)(Math.Floor(MembersForGradesCalc.Count() * 0.75)));
+									lock (DBManagerApp.m_AppSettings.m_SettigsSyncObj)
+									{
+										if (DBManagerApp.m_AppSettings.m_Settings.Only75PercentForCalcGrades)
+										{   // Учитываем только 75% участников
+											int MaxPlace = (int)(Math.Floor(MembersForGradesCalc.Count() * 0.75));
+											MembersForGradesCalc = (from memberAndPart in MembersForGradesCalc
+																	orderby memberAndPart.part.result_place
+																	where memberAndPart.part.result_place <= MaxPlace
+																	select memberAndPart);
+										}
 									}
 									Dictionary<enGrade?, int> GradesStat = (from memberAndPart in MembersForGradesCalc
 																			group memberAndPart.part by memberAndPart.part.init_grade into MembersGrades
@@ -729,6 +741,7 @@ namespace DBManager.Scanning
 									List<participations> Members = (from member in DBManagerApp.m_Entities.members
 																	 join part in DBManagerApp.m_Entities.participations on member.id_member equals part.member
 																	 where part.Group == m_DBGroup.id_group
+																			&& member.year_of_birth <= (DateTime.Today.Year - MinAgeToCalcResultGrade)
 																	 select part).ToList();
 									foreach (participations part in Members)
 									{

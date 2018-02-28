@@ -967,4 +967,10 @@
   <data name="resSmolclimbSite" xml:space="preserve">
     <value>http://smolclimb.ru/online/</value>
   </data>
+  <data name="resfmtMaxYearToCalcResultGrade" xml:space="preserve">
+    <value>лет (с {0} г.р.)</value>
+  </data>
+  <data name="resResultGradesSetFromAge" xml:space="preserve">
+    <value>Разряды присваиваются с</value>
+  </data>
 </root>

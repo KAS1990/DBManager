@@ -770,6 +770,15 @@ namespace DBManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to лет (с {0} г.р.).
+        /// </summary>
+        internal static string resfmtMaxYearToCalcResultGrade {
+            get {
+                return ResourceManager.GetString("resfmtMaxYearToCalcResultGrade", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Невозможно отправить на FTP-сервер данные о группе &quot;{0}&quot;, т.к. для неё не заданы настройки или произошла ошибка при выполнении обмена данными с FTP-сервером.
         /// </summary>
         internal static string resfmtNoGroupSetsForFTPSending {
@@ -1858,6 +1867,15 @@ namespace DBManager.Properties {
         internal static string resResultGradeCalcMethodRound {
             get {
                 return ResourceManager.GetString("resResultGradeCalcMethodRound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Разряды присваиваются с.
+        /// </summary>
+        internal static string resResultGradesSetFromAge {
+            get {
+                return ResourceManager.GetString("resResultGradesSetFromAge", resourceCulture);
             }
         }
         

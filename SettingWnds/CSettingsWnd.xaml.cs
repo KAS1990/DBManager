@@ -374,6 +374,8 @@ namespace DBManager.SettingWnds
 				cmbResultGradeCalcMethod.SelectedIndex = (int)DBManagerApp.m_AppSettings.m_Settings.ResultGradeCalcMethod;
 
 				chkOnly75PercentForCalcGrades.IsChecked = DBManagerApp.m_AppSettings.m_Settings.Only75PercentForCalcGrades;
+				txtMinAgeToCalcResultGrade.Text = DBManagerApp.m_AppSettings.m_Settings.MinAgeToCalcResultGrade.ToString();
+				RefreshMaxYearToCalcResultGrade(DBManagerApp.m_AppSettings.m_Settings.MinAgeToCalcResultGrade);
 
 				fntstlInvatedToStart.FontStyleSettings = DBManagerApp.m_AppSettings.m_Settings.InvitedToStartFontStyle;
 				fntstlJustRecievedResult.FontStyleSettings = DBManagerApp.m_AppSettings.m_Settings.JustRecievedResultFontStyle;
@@ -581,6 +583,7 @@ namespace DBManager.SettingWnds
 
 					DBManagerApp.m_AppSettings.m_Settings.Only75PercentForCalcGrades = chkOnly75PercentForCalcGrades.IsChecked.HasValue &&
 																						chkOnly75PercentForCalcGrades.IsChecked.Value;
+					DBManagerApp.m_AppSettings.m_Settings.MinAgeToCalcResultGrade = (int)txtMinAgeToCalcResultGrade.Value;
 
 					DBManagerApp.m_AppSettings.m_Settings.InvitedToStartFontStyle = fntstlInvatedToStart.FontStyleSettings;
 					DBManagerApp.m_AppSettings.m_Settings.JustRecievedResultFontStyle = fntstlJustRecievedResult.FontStyleSettings;
@@ -678,6 +681,23 @@ namespace DBManager.SettingWnds
 				txt.TextChanged += txt_TextChanged;
 				txt.TextWrapping = TextWrapping.Wrap;
 			}
+		}
+
+
+		void RefreshMaxYearToCalcResultGrade(int MinAgeToCalcResultGrade)
+		{
+			lblMaxYearToCalcResultGrade.Content = string.Format(Properties.Resources.resfmtMaxYearToCalcResultGrade,
+																DateTime.Today.Year - (int)txtMinAgeToCalcResultGrade.Value);
+		}
+
+
+		private void txtMinAgeToCalcResultGrade_TextChanged(object sender, TextChangedEventArgs e)
+		{
+			if (txtMinAgeToCalcResultGrade.Modified && txtMinAgeToCalcResultGrade.IsRightInput)
+			{
+				RefreshMaxYearToCalcResultGrade((int)txtMinAgeToCalcResultGrade.Value);
+			}
+			base.txt_TextChanged(sender, e);
 		}
 	}
 }
