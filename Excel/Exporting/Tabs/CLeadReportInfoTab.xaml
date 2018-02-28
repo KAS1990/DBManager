@@ -1,0 +1,161 @@
+﻿<tabs:CExportingTabBase x:Class="DBManager.Excel.Exporting.Tabs.CLeadReportInfoTab"
+						 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+						 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+						 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+						 xmlns:viselements="clr-namespace:DBManager.InterfaceElements"
+						 xmlns:tabs="clr-namespace:DBManager.Excel.Exporting.Tabs"
+						 xmlns:parentWnd="clr-namespace:DBManager.Excel.Exporting">
+    <DockPanel LastChildFill="True">
+		<StackPanel DockPanel.Dock="Top"
+					Orientation="Horizontal"
+						Margin="5,5,5,5">
+			<Label Content="{Loc resLeadReportXlsPath}"/>
+			<TextBox Width="500" Margin="0,0,5,0" Text="{Binding XlsPath}"/>
+			<Button Content="..."
+					Width="75"
+					Margin="0,0,0,0"
+					Padding="5"
+					Click="btnBrowseLeadReport_Click" />
+		</StackPanel>
+		
+		<DockPanel DockPanel.Dock="Top" IsEnabled="{Binding HasLeadReport}">
+			<Grid DockPanel.Dock="Top" Margin="5,0,5,5">
+				<Grid.RowDefinitions>
+					<RowDefinition />
+					<RowDefinition />
+					<RowDefinition />
+					<RowDefinition />
+					<RowDefinition />
+				</Grid.RowDefinitions>
+			
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="200" />
+					<ColumnDefinition Width="50" />
+					<ColumnDefinition Width="300" />
+				</Grid.ColumnDefinitions>
+			
+				<TextBlock Grid.Row="0"
+						   Grid.Column="0"
+						   Padding="5"
+						   Text="{Loc resFirstMemberRow}"
+						   Margin="0,0,0,5"
+						   TextWrapping="Wrap"/>
+				<viselements:TextBoxEx Grid.Row="0"
+									   Grid.Column="1"
+									   Text="{Binding FirstMemberRow}"
+									   Margin="0,0,0,5"
+									   Padding="5"
+									   VerticalAlignment="Center"
+									   InputCheckType="PositiveInt"
+									   FieldName="{Loc resFirstMemberRow}"/>
+			
+				<TextBlock Grid.Row="1"
+						   Grid.Column="0"
+						   Padding="5"
+						   Text="{Loc resPlaceColumnIndex}"
+						   Margin="0,0,0,5"
+						   TextWrapping="Wrap"/>
+				<viselements:TextBoxEx Grid.Row="1"
+									   Grid.Column="1"
+									   Text="{Binding PlaceColumnIndex}"
+									   Margin="0,0,0,5"
+									   Padding="5"
+									   VerticalAlignment="Center"
+									   InputCheckType="PositiveInt"
+									   FieldName="{Loc resPlaceColumnIndex}"/>
+			
+				<TextBlock Grid.Row="2"
+						   Grid.Column="0"
+						   Padding="5"
+						   Text="{Loc resPersonalDataColumnIndex}"
+						   Margin="0,0,0,5"
+						   TextWrapping="Wrap"/>
+				<viselements:TextBoxEx Grid.Row="2"
+									   Grid.Column="1"
+									   Text="{Binding PersonalDataColumnIndex}"
+									   Margin="0,0,0,5"
+									   Padding="5"
+									   VerticalAlignment="Center"
+									   InputCheckType="PositiveInt"
+									   FieldName="{Loc resPersonalDataColumnIndex}"/>
+				
+				<TextBlock Grid.Row="3"
+						   Grid.Column="0"
+						   Padding="5"
+						   Text="{Loc resYearOfBirthColumnIndex}"
+						   Margin="0,0,0,5"
+						   TextWrapping="Wrap"/>
+				<viselements:TextBoxEx Grid.Row="3"
+									   Grid.Column="1"
+									   Text="{Binding YearOfBirthColumnIndex}"
+									   Margin="0,0,0,5"
+									   Padding="5"
+									   VerticalAlignment="Center"
+									   InputCheckType="PositiveInt"
+									   FieldName="{Loc resYearOfBirthColumnIndex}"/>
+				
+				<TextBlock Grid.Row="4"
+						   Grid.Column="0"
+						   Padding="5"
+						   Text="{Loc resTeamColumnIndex}"
+						   Margin="0,0,0,5"
+						   TextWrapping="Wrap"/>
+				<viselements:TextBoxEx Grid.Row="4"
+									   Grid.Column="1"
+									   Text="{Binding TeamColumnIndex}"
+									   Margin="0,0,0,5"
+									   Padding="5"
+									   VerticalAlignment="Center"
+									   InputCheckType="PositiveInt"
+									   FieldName="{Loc resTeamColumnIndex}"/>
+			
+				<TextBlock Grid.Row="0"
+						   Grid.Column="2"
+						   Grid.RowSpan="10"
+						   Padding="5"
+						   Text="{Loc resNumbersStartWithOne}"
+						   Margin="10,0,0,5"
+						   VerticalAlignment="Center"
+						   TextWrapping="Wrap"
+						   FontWeight="Bold"/>
+			</Grid>
+			
+			<ListView Margin="5,0,5,5" MinHeight="200" MinWidth="500" ItemsSource="{Binding Groups}" SelectionMode="Single">
+				<ListView.View>
+					<GridView  AllowsColumnReorder="False">
+						<GridViewColumn Header="{Loc resGroupName}" DisplayMemberBinding="{Binding Name}" />
+								
+						<GridViewColumn Header="{Loc resLeadSheetName}">
+							<GridViewColumn.CellTemplate>
+								<DataTemplate>
+									<ComboBox SelectedIndex="{Binding LeadSheetIndex, Mode=TwoWay}"
+											  ItemsSource="{Binding LeadSheets,RelativeSource={RelativeSource AncestorType={x:Type tabs:CLeadReportInfoTab}}}"
+											  Width="250"/>
+								</DataTemplate>
+							</GridViewColumn.CellTemplate>
+						</GridViewColumn>
+						
+						<GridViewColumn Header="{Loc resLeadCompDates}">
+							<GridViewColumn.CellTemplate>
+								<DataTemplate>
+									<StackPanel Orientation="Horizontal">
+										<Label Content="{Loc resFrom}" />
+										<DatePicker SelectedDate="{Binding StartDate}"
+												    Width="100"
+													SelectedDateFormat="Short"
+                                                    FirstDayOfWeek="Monday"/>
+										<Label Content="{Loc resTo}" />
+										<DatePicker SelectedDate="{Binding EndDate}"
+												    Width="100"
+													SelectedDateFormat="Short"
+                                                    FirstDayOfWeek="Monday"/>
+									</StackPanel>
+								</DataTemplate>
+							</GridViewColumn.CellTemplate>
+						</GridViewColumn>
+					</GridView>
+				</ListView.View>
+			</ListView>
+		</DockPanel>
+	</DockPanel>
+</tabs:CExportingTabBase>

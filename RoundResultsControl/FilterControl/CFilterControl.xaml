@@ -1,0 +1,66 @@
+﻿<glob:CNotifyPropertyChangedUserCtrl x:Class="DBManager.RoundResultsControl.FilterControl.CFilterControl"
+									 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+									 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+									 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+									 xmlns:local="clr-namespace:DBManager.RoundResultsControl.FilterControl"
+									 xmlns:glob="clr-namespace:DBManager.Global"
+									 xmlns:gconvs="clr-namespace:DBManager.Global.Converters"
+									 FontSize="12"
+									 FontFamily="Segoe UI" 
+									 Unloaded="CFilterControl_Unloaded">
+    <glob:CNotifyPropertyChangedUserCtrl.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="..\..\Global\GlobalResources.xaml" />
+				<ResourceDictionary Source="..\RoundResultsDataGridTemplates.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
+	</glob:CNotifyPropertyChangedUserCtrl.Resources>
+	
+	<Border BorderBrush="{StaticResource FilterPopupFocusedBorderBrush}"
+			BorderThickness="1"
+			Background="White" >
+		<DockPanel LastChildFill="True">
+			<CheckBox DockPanel.Dock="Top"
+					  Name="chkSelectAll"
+					  Content="{Loc resSelectAll}"
+					  Margin="5"
+					  Click="chkSelectAll_Click"/>
+								
+			<StackPanel DockPanel.Dock="Bottom" HorizontalAlignment="Right" Orientation="Horizontal">
+				<Button Content="{Loc resOK}"
+						Margin="5"
+						Command="{Binding FilterCommand}"/>
+				<Button Content="{Loc resCancel}"
+						Margin="5"
+						Command="{Binding CancelCommand}"/>
+			</StackPanel>
+			
+			<ListBox ItemsSource="{Binding FilterPredicates}"
+					 Height="170"
+					 Width="280" 
+					 Margin="5,0,5,5"
+					 HorizontalContentAlignment="Stretch"
+					 ScrollViewer.CanContentScroll="True"
+					 ScrollViewer.VerticalScrollBarVisibility="Auto"
+					 ScrollViewer.HorizontalScrollBarVisibility="Auto">
+				<ListBox.ItemTemplate>
+					<DataTemplate>
+						<CheckBox IsChecked="{Binding IsSelected}"
+								  Content="{Binding Name}"
+								  Padding="2"
+								  VerticalContentAlignment="Center"/>
+					</DataTemplate>
+				</ListBox.ItemTemplate>
+				
+				<ListBox.ItemContainerStyle>
+					<!-- Запрещаем выделение элементов списка, т.к. оно тут не нужно -->
+					<Style TargetType="{x:Type ListBoxItem}">
+						<Setter Property="FocusVisualStyle" Value="{x:Null}" />
+						<Setter Property="Focusable" Value="False" />
+					</Style>
+				</ListBox.ItemContainerStyle>
+			</ListBox>
+		</DockPanel>
+	</Border>
+</glob:CNotifyPropertyChangedUserCtrl>

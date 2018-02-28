@@ -1,0 +1,161 @@
+﻿<tabs:CExportingTabBase x:Class="DBManager.Excel.Exporting.Tabs.CTeamExportTab"
+						 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+						 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+						 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+						 xmlns:viselements="clr-namespace:DBManager.InterfaceElements"
+						 xmlns:tabs="clr-namespace:DBManager.Excel.Exporting.Tabs"
+						 xmlns:parentWnd="clr-namespace:DBManager.Excel.Exporting">
+    <tabs:CExportingTabBase.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="..\..\..\Global\GlobalResources.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
+	</tabs:CExportingTabBase.Resources>
+	
+	<StackPanel Orientation="Vertical">
+		<CheckBox Margin="5,5,5,10"
+				  Content="{Loc resCreateReport}"
+				  IsChecked="{Binding CreateReport}" />
+		
+		<StackPanel IsEnabled="{Binding CreateReport, Mode=OneWay}">
+			<StackPanel Orientation="Horizontal"
+						 Margin="5,5,5,5"
+						 IsEnabled="{Binding ExportToAnotherWbk, Mode=OneWay}">
+				<Label Content="{Loc resXlsPath}"/>
+				<viselements:TextBoxEx Width="520"
+										Margin="0,0,5,0"
+										Text="{Binding XlsPath}"
+										FieldName="{Loc resXlsPath}"
+										InputCheckType="NotEmpty" />
+				<Button Content="..."
+						Width="75"
+						Margin="0,0,0,0"
+						Padding="5"
+						Click="btnBrowse_Click" />
+			</StackPanel>
+			
+			<CheckBox DockPanel.Dock="Top"
+					  Content="{Loc resExportToAnotherWbk}"
+					  Margin="5,0,5,10"
+					  IsChecked="{Binding ExportToAnotherWbk}" />
+			
+			<CheckBox DockPanel.Dock="Top"
+					  Content="{Loc resHasLeadReport}"
+					  Margin="5,0,5,10"
+					  IsChecked="{Binding HasLeadReport}" />
+		
+			<StackPanel Orientation="Horizontal" Margin="0,5,5,10">
+				<Label Content="{Loc resMenInGroup}" Margin="0,0,0,0" />
+				<viselements:TextBoxEx x:Name="txtMenInGroup"
+									   Width="50"
+									   MaxLength="2"
+									   Margin="0,0,10,0"
+									   Text="{Binding MenInGroup}"
+									   FieldName="{Loc resMenInGroup}"
+									   InputCheckType="PositiveInt"/>
+			
+				<Label Content="{Loc resWomenInGroup}" Margin="0,0,0,0" />
+				<viselements:TextBoxEx x:Name="txtWomenInGroup"
+									   Width="50"
+									   MaxLength="2"
+									   Margin="0,0,0,0"
+									   Text="{Binding WomenInGroup}"
+									   FieldName="{Loc resWomenInGroup}"
+									   InputCheckType="PositiveInt"/>
+			</StackPanel>
+			
+			<GroupBox Margin="0,0,5,0" Header="{Loc resTeamsForTeamReport}">
+				<Grid Margin="1,2,1,1">
+					<Grid.RowDefinitions>
+						<RowDefinition Height="auto" />
+						<RowDefinition Height="300" />
+					</Grid.RowDefinitions>
+					
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition MinWidth="310" />
+						<ColumnDefinition Width="auto" />
+						<ColumnDefinition MinWidth="300" />
+					</Grid.ColumnDefinitions>
+					
+					<Label Grid.Column="0" Grid.Row="0" Content="{Loc resTeamsFromComp}" Margin="0,0,10,0" />
+					<ListBox Grid.Column="0"
+							 Grid.Row="1"
+							 Margin="0,0,10,0"
+							 SelectionMode="Extended"
+							 ItemsSource="{Binding Teams}">
+							<ListBox.Resources>
+								<Style TargetType="ListBoxItem">
+									<Setter Property="IsSelected" Value="{Binding IsSelected}" />
+									<Setter Property="Content" Value="{Binding Name}" />
+								</Style>
+							</ListBox.Resources>
+					</ListBox>
+					
+					<StackPanel Grid.Column="1"
+								Grid.Row="1"
+								Orientation="Vertical"
+								Margin="0,0,10,0"
+								VerticalAlignment="Center">
+						<Button Height="26"
+								Width="26"
+								Margin="0,0,0,10"
+								Padding="0"
+								ToolTip="{Loc resAllByOne}"
+								Click="btnAllByOne_Click">
+							<Image Source="/Icons/ptp.png" RenderOptions.BitmapScalingMode="LowQuality" />
+						</Button>
+						
+						<Button Margin="0,0,0,5"
+								Style="{StaticResource RightButtonStyle}"
+								Click="btnRight_Click" />
+						<Button Margin="0,0,0,0"
+								Style="{StaticResource LeftButtonStyle}"
+								Click="btnLeft_Click" />
+					</StackPanel> 
+					
+					<DockPanel Grid.Column="2" Grid.Row="0" LastChildFill="True">
+						<Button DockPanel.Dock="Right" Height="25" Width="25" Margin="0,2,0,2" Padding="1" Click="btnClearTeamsForReport_Click">
+							<Image Source="/Icons/document_delete.ico" RenderOptions.BitmapScalingMode="Fant" />
+						</Button>
+						<Label  Content="{Loc resTeamsForReport}" />
+					</DockPanel>
+					<TreeView Grid.Column="2"
+							  Grid.Row="1"
+							  Margin="0,0,0,0"
+							  ItemsSource="{Binding TeamsForReport}">
+						<TreeView.ItemTemplate>
+							<HierarchicalDataTemplate ItemsSource="{Binding Subteams}">
+								<viselements:TextBoxEx Text="{Binding Name}"
+														Margin="1"
+														Padding="2"
+														Width="250"
+														InputCheckType="NotEmpty"
+														FieldName="{Loc resTeamsForReport}"/>
+								<HierarchicalDataTemplate.ItemTemplate>
+									<DataTemplate>
+										<CheckBox Content="{Binding Name}"
+												  IsChecked="{Binding IsSelected}"/>
+									</DataTemplate>
+								</HierarchicalDataTemplate.ItemTemplate>
+							</HierarchicalDataTemplate>
+						</TreeView.ItemTemplate>
+						
+						<TreeView.ItemContainerStyle>
+							<Style TargetType="TreeViewItem">
+								<Setter Property="ContextMenu">
+									<Setter.Value>
+										<ContextMenu>
+											<MenuItem Header="{Loc resAddSelected}"
+														Command="{Binding Command}" />
+										</ContextMenu>
+									</Setter.Value>
+								</Setter>
+							</Style>
+						</TreeView.ItemContainerStyle>
+					</TreeView>
+				</Grid>
+			</GroupBox>
+		</StackPanel>
+    </StackPanel>
+</tabs:CExportingTabBase>

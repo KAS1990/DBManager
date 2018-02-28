@@ -1,0 +1,232 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Linq;
+using System.Windows;
+using System.Threading;
+using System.Reflection;
+using System.Drawing;
+using DBManager.SettingsWriter;
+using Hardcodet.Wpf.TaskbarNotification;
+using DBManager.TrayNotification;
+using DBManager.Global;
+using System.Diagnostics;
+using System.IO;
+
+namespace DBManager
+{
+	/// <summary>
+	/// Interaction logic for App.xaml
+	/// </summary>
+	public partial class DBManagerApp : Application
+	{
+		/// <summary>
+		/// Mutex, который запрещает повторный запуск приложения.
+		/// Он должен быть объявлен глобально, иначе будет закрыт после выхода из процедуры, где был объявлен
+		/// </summary>
+		Mutex m_SyncMutex = null;
+
+		public static DBManagerApp m_App = null;
+
+		public static MainWindow MainWnd = null;
+
+		public static XMLSettingsWriter m_AppSettings = null;
+
+		public static compdbEntities m_Entities = null;
+
+		/// <summary>
+		/// Коэффиенты пересчета стандартных dpi (96) в текущие 
+		/// </summary>
+		public static System.Windows.Point m_DPIScale = new System.Windows.Point(1, 1);
+
+		public static TaskbarIcon m_NotifyIcon = null;
+
+		protected override void OnStartup(StartupEventArgs e)
+		{
+			m_App = this;
+
+			bool createdNew;
+			AppDomain.CurrentDomain.UnhandledException += DumpMaker.CurrentDomain_UnhandledException;
+			AppDomain.CurrentDomain.FirstChanceException += (source, ev) =>
+			{
+				ev.ToString();
+			};
+
+			m_AppSettings = new XMLSettingsWriter();
+			
+			m_SyncMutex = new Mutex(true, "DBManager mutex", out createdNew);
+
+			if (!createdNew)
+			{
+				MessageBox.Show(DBManager.Properties.Resources.resmsgAppAlreadyOpened, AppAttributes.Title, MessageBoxButton.OK, MessageBoxImage.Error);
+				Environment.Exit(0);
+				return;
+			}
+
+			// Вычисляем коэффициенты пересчёта размера формы-хоста в зависимости от установленного DPI
+			PropertyInfo dpiXProperty = typeof(SystemParameters).GetProperty("DpiX", BindingFlags.NonPublic | BindingFlags.Static);
+			PropertyInfo dpiYProperty = typeof(SystemParameters).GetProperty("Dpi", BindingFlags.NonPublic | BindingFlags.Static);
+			int dpiX = (int)dpiXProperty.GetValue(null, null);
+			int dpiY = (int)dpiYProperty.GetValue(null, null);
+			m_DPIScale = new System.Windows.Point((float)dpiX / 96.0, (float)dpiY / 96.0);
+
+			m_Entities = new compdbEntities();
+
+			try
+			{
+				if (!m_Entities.DatabaseExists())
+				{
+					throw new InvalidOperationException();
+				}
+			}
+			catch
+			{	// Невозможно подключится к БД => пробуем запустить bat-ник, запускающий MySQL 
+				try
+				{
+					ProcessStartInfo procInfo = new ProcessStartInfo()
+					{
+						FileName = m_AppSettings.m_Settings.MySQLBatFullPath,
+						WorkingDirectory = Path.GetDirectoryName(m_AppSettings.m_Settings.MySQLBatFullPath),
+						Verb = "runas",
+						CreateNoWindow = true,
+					};
+					Process.Start(procInfo);  //Start that process.
+				}
+				catch (Exception ex)
+				{
+					MessageBox.Show(string.Format(DBManager.Properties.Resources.resfmtCantStartMySQL, ex.Message),
+									AppAttributes.Title,
+									MessageBoxButton.OK,
+									MessageBoxImage.Error);
+					Environment.Exit(0);
+					return;
+				}
+
+				// Делаем ещё несколько попыток подключится к БД
+				int i = 5;
+				while (--i > 0)
+				{
+					Thread.Sleep(2 * 1000); // Ожидаем запуска MySQL
+					try
+					{
+						if (m_Entities.DatabaseExists())
+							break;
+					}
+					catch
+					{ }
+				}
+
+				if (i == 0)
+				{
+					MessageBox.Show(string.Format(DBManager.Properties.Resources.resrmtCantConnectToDB, m_Entities.Connection.ConnectionString),
+									AppAttributes.Title,
+									MessageBoxButton.OK,
+									MessageBoxImage.Error);
+					Environment.Exit(0);
+					return;
+				}
+			}
+
+			//m_NotifyIcon = (TaskbarIcon)FindResource("ctrlNotifyIcon");
+
+			GlobalDefines.RefreshVariables();
+
+			base.OnStartup(e);
+		}
+
+
+		void CloseWndOwnedWnds(Window wnd)
+		{
+			if (wnd == null)
+				return;
+
+			while (wnd.OwnedWindows.Count > 0)
+			{
+				CloseWndOwnedWnds(wnd.OwnedWindows[0]);
+				wnd.OwnedWindows[0].Close();
+			}
+		}
+
+
+		private void ctrlNotifyIcon_TrayBalloonTipClicked(object sender, RoutedEventArgs e)
+		{
+			CActivateMainWndCommand ActivateMainWndCommand = new CActivateMainWndCommand();
+			if (ActivateMainWndCommand.CanExecute(null))
+				ActivateMainWndCommand.Execute(null);
+		}
+	}
+	
+
+	static class AppAttributes
+	{
+		static readonly Assembly m_Assembly = null;
+
+		static readonly AssemblyTitleAttribute m_Title = null;
+		static readonly AssemblyCompanyAttribute m_Company = null;
+		static readonly AssemblyCopyrightAttribute m_Copyright = null;
+		static readonly AssemblyProductAttribute m_Product = null;
+		static readonly Icon m_Icon = null;
+
+		public static string Title { get; private set; }
+		public static string CompanyName { get; private set; }
+		public static string Copyright { get; private set; }
+		public static string ProductName { get; private set; }
+		public static Icon AppIcon { get; private set; }
+
+		static Version m_Version = null;
+		public static string Version
+		{
+			get { return m_Version == null ? "" : m_Version.ToString(); }
+		}
+
+		static AppAttributes()
+		{
+			try
+			{
+				Title = "";
+				CompanyName = "";
+				Copyright = "";
+				ProductName = "";
+				m_Version = null;
+				AppIcon = null;
+
+				m_Assembly = Assembly.GetEntryAssembly();
+
+				if (m_Assembly != null)
+				{
+					object[] attributes = m_Assembly.GetCustomAttributes(false);
+
+					foreach (object attribute in attributes)
+					{
+						Type type = attribute.GetType();
+
+						if (type == typeof(AssemblyTitleAttribute)) m_Title = (AssemblyTitleAttribute)attribute;
+						if (type == typeof(AssemblyCompanyAttribute)) m_Company = (AssemblyCompanyAttribute)attribute;
+						if (type == typeof(AssemblyCopyrightAttribute)) m_Copyright = (AssemblyCopyrightAttribute)attribute;
+						if (type == typeof(AssemblyProductAttribute)) m_Product = (AssemblyProductAttribute)attribute;
+					}
+
+					m_Version = m_Assembly.GetName().Version;
+
+					m_Icon = System.Drawing.Icon.ExtractAssociatedIcon(m_Assembly.ManifestModule.FullyQualifiedName);
+				}
+
+				if (m_Title != null)
+					Title = m_Title.Title;
+				if (m_Company != null)
+					CompanyName = m_Company.Company;
+				if (m_Copyright != null)
+					Copyright = m_Copyright.Copyright;
+				if (m_Product != null)
+					ProductName = m_Product.Product;
+				
+				if (m_Icon != null)
+					AppIcon = m_Icon;
+			}
+			catch
+			{
+			}
+		}
+	}
+}

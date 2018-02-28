@@ -1,0 +1,418 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:local="clr-namespace:DBManager.RightPanels"
+					xmlns:gconvs="clr-namespace:DBManager.Global.Converters"
+					xmlns:mainwnd="clr-namespace:DBManager"
+					xmlns:attachedprops="clr-namespace:DBManager.AttachedProperties">
+
+	<ResourceDictionary.MergedDictionaries>
+		<ResourceDictionary Source="..\Global\GlobalResources.xaml" />
+	</ResourceDictionary.MergedDictionaries>
+	
+	<Style x:Key="StdLabelStyle" TargetType="{x:Type Label}">
+		<Setter Property="Margin" Value="0,0,0,5" />
+		<Setter Property="FontFamily" Value="Arial" />
+		<Setter Property="VerticalAlignment" Value="Center" />
+		<Setter Property="FontSize" Value="20" />
+	</Style>
+	<Style x:Key="StdBoldLabelStyle" TargetType="{x:Type Label}" BasedOn="{StaticResource StdLabelStyle}">
+		<Setter Property="FontWeight" Value="Bold" />
+		<Setter Property="HorizontalAlignment" Value="Right" />
+		<Setter Property="FontSize" Value="28" />
+	</Style>
+	
+	<Style x:Key="FilteredMembersQTextBlockStyle" TargetType="{x:Type TextBlock}">
+		<Setter Property="Margin" Value="0,0,0,5" />
+		<Setter Property="Padding" Value="0,2,2,2" />
+		<Setter Property="FontFamily" Value="Arial" />
+		<Setter Property="FontSize" Value="28" />
+		<Setter Property="FontWeight" Value="Bold" />
+		<Setter Property="Foreground" Value="Blue" />
+		<Setter Property="Text" Value="{Binding FilteredMembersQ, StringFormat=({0})}" />
+		<Style.Triggers>
+			<DataTrigger Binding="{Binding FilteredMembersQ}" Value="{x:Null}">
+				<Setter Property="Visibility" Value="Collapsed" />
+			</DataTrigger>
+		</Style.Triggers>
+	</Style>
+
+	<Style x:Key="ColoredLabelStyle" TargetType="{x:Type Label}" BasedOn="{StaticResource StdLabelStyle}">
+		<Setter Property="Margin" Value="5,5,5,5" />
+		<Setter Property="Width" Value="390" />
+		<Setter Property="HorizontalContentAlignment" Value="Center" />
+		<Setter Property="VerticalContentAlignment" Value="Center" />
+		<Setter Property="VerticalAlignment" Value="Stretch" />
+		<Setter Property="BorderBrush" Value="Black" />
+		<Setter Property="BorderThickness" Value="1" />
+		<Setter Property="Padding" Value="5,2,5,2" />
+	</Style>
+	
+	<Style x:Key="ColoredLabelControl" TargetType="{x:Type Label}">
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="{x:Type Label}">
+					<Border Name="PART_Border"
+							Margin="5,5,5,5"
+							Padding="5,2,5,2"
+							Width="390"
+							BorderBrush="Black"
+							BorderThickness="1"
+							HorizontalAlignment="Center"
+							Background="{TemplateBinding Background}" >
+						<StackPanel Name="PART_Panel" Orientation="Vertical" VerticalAlignment="Center">
+							<Label Name="PART_Title"
+								   Margin="0,3,0,5"
+								   Padding="0"
+								   Content="{TemplateBinding Content}"
+								   HorizontalAlignment="Center"
+								   Foreground="{TemplateBinding Foreground}"
+								   FontWeight="{TemplateBinding FontWeight}"
+								   FontStyle="{TemplateBinding FontStyle}"
+								   Style="{StaticResource StdLabelStyle}" />
+							<Label Name="PART_Member"
+								   Margin="0,0,0,3"
+								   Padding="0,0,0,0"
+								   Content="{TemplateBinding Tag}"
+								   HorizontalAlignment="Center"
+								   Foreground="{TemplateBinding Foreground}"
+								   FontSize="22"
+								   FontWeight="Bold" />
+						</StackPanel>
+					</Border>
+					
+					<ControlTemplate.Triggers>
+						<Trigger Property="Content" SourceName="PART_Member" Value="{x:Null}">
+							<Setter Property="Visibility" Value="Collapsed" TargetName="PART_Member" />
+						</Trigger>
+
+						<Trigger Property="attachedprops:RightPanelAttachedProps.ColoredLabelControlOrientation"
+									Value="Horizontal">
+							<Setter Property="Width" Value="auto" TargetName="PART_Border" />
+							<Setter Property="HorizontalAlignment" Value="Stretch" TargetName="PART_Border" />
+							<Setter Property="Orientation" Value="Horizontal" TargetName="PART_Panel" />
+							<Setter Property="Margin" Value="0,0,10,0" TargetName="PART_Title" />
+							<Setter Property="Margin" Value="0,0,0,0" TargetName="PART_Member" />
+						</Trigger>
+					</ControlTemplate.Triggers>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<Style x:Key="InvitedToStartLabelStyle" TargetType="{x:Type Label}" BasedOn="{StaticResource ColoredLabelControl}">
+		<Setter Property="DataContext"
+				Value="{Binding InvitedToStartFontStyle, RelativeSource={RelativeSource AncestorType=local:CRightPanelControl}}" />
+		
+		<Setter Property="Content" Value="{Loc resInvitedToStart}" />
+		<Setter Property="Tag" Value="{Binding InvitedToStartMember, RelativeSource={RelativeSource AncestorType=local:CRightPanelControl}}" />
+		<Setter Property="Background"
+				Value="{Binding BackgroundColor, Converter={gconvs:ColorToSolidBrushMarkupConverter}}" />
+		<Setter Property="Foreground"
+				Value="{Binding ForeColor, Converter={gconvs:ColorToSolidBrushMarkupConverter}}" />
+		<Setter Property="FontStyle"
+				Value="{Binding FontStyle}" />
+		<Setter Property="FontWeight"
+				Value="{Binding FontWeight}" />
+	</Style>
+	
+	<Style x:Key="PreparingLabelStyle" TargetType="{x:Type Label}" BasedOn="{StaticResource ColoredLabelControl}">
+		<Setter Property="DataContext"
+				Value="{Binding PreparingFontStyle, RelativeSource={RelativeSource AncestorType=local:CRightPanelControl}}" />
+		
+		<Setter Property="Content" Value="{Loc resPreparing}" />
+		<Setter Property="Tag" Value="{Binding PreparingMember, RelativeSource={RelativeSource AncestorType=local:CRightPanelControl}}" />
+		<Setter Property="Background" 
+				Value="{Binding BackgroundColor, Converter={gconvs:ColorToSolidBrushMarkupConverter}}" />
+		<Setter Property="Foreground"
+				Value="{Binding ForeColor, Converter={gconvs:ColorToSolidBrushMarkupConverter}}" />
+		<Setter Property="FontStyle"
+				Value="{Binding FontStyle}" />
+		<Setter Property="FontWeight"
+				Value="{Binding FontWeight}" />
+	</Style>
+	
+	<Style x:Key="JustRecievedResultLabelStyle" TargetType="{x:Type Label}" BasedOn="{StaticResource ColoredLabelStyle}">
+		<Setter Property="DataContext"
+				Value="{Binding JustRecievedResultFontStyle, RelativeSource={RelativeSource AncestorType=local:CRightPanelControl}}" />
+		
+		<Setter Property="Content" Value="{Loc resJustRecievedResult}" />
+		<Setter Property="Background" 
+				Value="{Binding BackgroundColor, Converter={gconvs:ColorToSolidBrushMarkupConverter}}" />
+		<Setter Property="Foreground"
+				Value="{Binding ForeColor, Converter={gconvs:ColorToSolidBrushMarkupConverter}}" />
+		<Setter Property="FontStyle"
+				Value="{Binding FontStyle}" />
+		<Setter Property="FontWeight"
+				Value="{Binding FontWeight}" />
+	</Style>
+	
+	<Style x:Key="StayOnStartLabelStyle" TargetType="{x:Type Label}" BasedOn="{StaticResource ColoredLabelStyle}">
+		<Setter Property="DataContext"
+				Value="{Binding StayOnStartFontStyle, RelativeSource={RelativeSource AncestorType=local:CRightPanelControl}}" />
+		
+		<Setter Property="Content" Value="{Loc resStayOnStart}" />
+		<Setter Property="Background" 
+				Value="{Binding BackgroundColor, Converter={gconvs:ColorToSolidBrushMarkupConverter}}" />
+		<Setter Property="Foreground"
+				Value="{Binding ForeColor, Converter={gconvs:ColorToSolidBrushMarkupConverter}}" />
+		<Setter Property="FontStyle"
+				Value="{Binding FontStyle}" />
+		<Setter Property="FontWeight"
+				Value="{Binding FontWeight}" />
+	</Style>
+
+	<Style x:Key="NextRoundMembersCountControl" TargetType="{x:Type Label}">
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate>
+					<StackPanel Orientation="Horizontal">
+						<Border Margin="5,5,15,5"
+								BorderBrush="Black"
+								BorderThickness="1"
+								HorizontalAlignment="Left"
+								DataContext="{Binding NextRoundMembersCountFontStyle, RelativeSource={RelativeSource AncestorType=local:CRightPanelControl}}"
+								Background="{Binding BackgroundColor, Converter={gconvs:ColorToSolidBrushMarkupConverter}}" >
+							<StackPanel Orientation="Horizontal">
+								<Label Margin="0,0,5,0"
+									   Content="{Loc resNextRoundMembersCount}"
+									   Foreground="{Binding ForeColor, Converter={gconvs:ColorToSolidBrushMarkupConverter}}"
+									   FontStyle="{Binding FontStyle}"
+									   FontWeight="{Binding FontWeight}"
+									   Style="{StaticResource StdLabelStyle}" />
+								<Label Margin="0,0,0,0"
+									   Content="{Binding NextRoundMembersQ, RelativeSource={RelativeSource AncestorType=local:CRightPanelControl}}"
+									   Foreground="{Binding ForeColor, Converter={gconvs:ColorToSolidBrushMarkupConverter}}"
+									   FontStyle="{Binding FontStyle}"
+									   Style="{StaticResource StdBoldLabelStyle}" />
+								<Label Margin="0,0,0,0"
+									   Content="{Binding NextRoundMembersQ,
+															RelativeSource={RelativeSource AncestorType=local:CRightPanelControl},
+															Converter={gconvs:PeopleWordMarkupConverter}}"
+									   Foreground="{Binding ForeColor, Converter={gconvs:ColorToSolidBrushMarkupConverter}}"
+									   FontStyle="{Binding FontStyle}"
+									   FontWeight="{Binding FontWeight}"
+									   Style="{StaticResource StdLabelStyle}" />
+							</StackPanel>
+						</Border>
+
+						<Border Margin="5,5,5,5" BorderBrush="Black" BorderThickness="1">
+							<StackPanel Orientation="Horizontal">
+								<Label Content="{Loc resResultsOnSite}"
+									   Style="{StaticResource StdLabelStyle}"
+									   Margin="0,0,0,0"
+									   Padding="5,5,5,5" />
+
+								<Label Content="{Loc resSmolclimbSite}"
+									   Style="{StaticResource StdLabelStyle}"
+									   Margin="0,0,0,0"
+									   Padding="5,5,5,5"
+									   Foreground="Blue" />
+							</StackPanel>
+						</Border>
+					</StackPanel>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+			
+	<!-- Квалификация -->
+	<ControlTemplate x:Key="QualifRightPanel" TargetType="{x:Type local:CRightPanelControl}">
+		<Border BorderBrush="Black" BorderThickness="1" Padding="10">
+			<StackPanel Orientation="Vertical">
+				<StackPanel Orientation="Horizontal" Margin="5,0,5,0">
+					<Label Content="{Loc resWholeMembersCount}" Style="{StaticResource StdLabelStyle}" Padding="0,0,5,0" />
+					<Label Content="{Binding WholeMembersQ}" Style="{StaticResource StdBoldLabelStyle}" Padding="0,0,5,0" />
+					<Label Content="{Binding WholeMembersQ, Converter={gconvs:PeopleWordMarkupConverter}}"
+						   Style="{StaticResource StdLabelStyle}"
+						   Padding="0,0,0,0" />
+					
+					<Label Content="{Loc resRoundMembersCount}"
+						   Margin="20,0,0,0"
+						   Style="{StaticResource StdLabelStyle}"
+						   Padding="0,0,5,0" />
+					<StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+						<Label Content="{Binding RoundMembersQ}" Style="{StaticResource StdBoldLabelStyle}" Padding="0,0,5,0" />
+						<TextBlock Style="{StaticResource FilteredMembersQTextBlockStyle}" Padding="0,0,5,0" />
+					</StackPanel>
+					<Label Content="{Binding RoundMembersQ, Converter={gconvs:PeopleWordMarkupConverter}}"
+						   Style="{StaticResource StdLabelStyle}"
+						   Padding="0,0,0,0" />
+				</StackPanel>
+
+				<Label Style="{StaticResource NextRoundMembersCountControl}" />
+
+				<Grid>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="auto"/>
+						<RowDefinition Height="auto"/>
+					</Grid.RowDefinitions>
+
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="auto"/>
+						<ColumnDefinition Width="auto"/>
+					</Grid.ColumnDefinitions>
+					
+					<Label Grid.Row="0"
+						   Grid.Column="0"
+						   attachedprops:RightPanelAttachedProps.ColoredLabelControlOrientation="Horizontal"
+						   Style="{StaticResource InvitedToStartLabelStyle}"  />
+					<Label Grid.Row="1"
+						   Grid.Column="0"
+						   attachedprops:RightPanelAttachedProps.ColoredLabelControlOrientation="Horizontal"
+						   Style="{StaticResource PreparingLabelStyle}" />
+					<Label Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" Style="{StaticResource StayOnStartLabelStyle}"/>
+				</Grid>
+			</StackPanel>
+		</Border>
+	</ControlTemplate>
+
+	<!-- 1/8 - 1/2 -->
+	<ControlTemplate x:Key="MiddleRoundsRightPanel" TargetType="{x:Type local:CRightPanelControl}">
+		<Border BorderBrush="Black" BorderThickness="1" Padding="10">
+			<StackPanel Orientation="Vertical">
+				<StackPanel Orientation="Horizontal">
+					<Label Content="{Loc resWholeMembersCount}" Style="{StaticResource StdLabelStyle}" Padding="5,2,5,2" />
+					<Label Content="{Binding WholeMembersQ}" Style="{StaticResource StdBoldLabelStyle}" Padding="0,2,5,2"/>
+					<Label Content="{Binding WholeMembersQ, Converter={gconvs:PeopleWordMarkupConverter}}"
+						   Style="{StaticResource StdLabelStyle}"
+						   Padding="0,2,5,2" />
+					
+					<Label Content="{Loc resRoundMembersCount}"
+						   Margin="20,0,0,5"
+						   Style="{StaticResource StdLabelStyle}" />
+					<Label Content="{Binding RoundMembersQ}" Style="{StaticResource StdBoldLabelStyle}" />
+					<Label Content="{Binding RoundMembersQ, Converter={gconvs:PeopleWordMarkupConverter}}"
+						   Style="{StaticResource StdLabelStyle}" />
+				</StackPanel>
+
+				<Label Style="{StaticResource NextRoundMembersCountControl}" />
+				
+				<StackPanel Orientation="Horizontal">
+					<Label Style="{StaticResource JustRecievedResultLabelStyle}"/>
+					<Label Style="{StaticResource StayOnStartLabelStyle}"/>
+				</StackPanel>
+			</StackPanel>
+		</Border>
+	</ControlTemplate>
+
+	<!-- Финал -->
+	<ControlTemplate x:Key="FinalRightPanel" TargetType="{x:Type local:CRightPanelControl}">
+		<Border BorderBrush="Black" BorderThickness="1" Padding="10">
+			<StackPanel Orientation="Vertical">
+				<StackPanel Orientation="Horizontal">
+					<Label Content="{Loc resWholeMembersCount}" Style="{StaticResource StdLabelStyle}" Padding="5,2,5,2" />
+					<Label Content="{Binding WholeMembersQ}" Style="{StaticResource StdBoldLabelStyle}" Padding="0,2,5,2" />
+					<Label Content="{Binding WholeMembersQ, Converter={gconvs:PeopleWordMarkupConverter}}"
+						   Style="{StaticResource StdLabelStyle}"
+						   Padding="0,2,5,2" />
+					
+					<Label Content="{Loc resRoundMembersCount}"
+						   Margin="20,0,0,5"
+						   Style="{StaticResource StdLabelStyle}" />
+					<Label Content="{Binding RoundMembersQ}" Style="{StaticResource StdBoldLabelStyle}" />
+					<Label Content="{Binding RoundMembersQ, Converter={gconvs:PeopleWordMarkupConverter}}"
+						   Style="{StaticResource StdLabelStyle}" />
+				</StackPanel>
+
+				<Label Content="{Loc resWinners}"
+					   DataContext="{Binding NextRoundMembersCountFontStyle,
+												RelativeSource={RelativeSource AncestorType=local:CRightPanelControl}}"
+					   Background="{Binding BackgroundColor, Converter={gconvs:ColorToSolidBrushMarkupConverter}}"
+					   Foreground="{Binding ForeColor, Converter={gconvs:ColorToSolidBrushMarkupConverter}}"
+					   FontStyle="{Binding FontStyle}"
+					   FontWeight="{Binding FontWeight}"
+					   HorizontalAlignment="Left"
+					   Style="{StaticResource ColoredLabelStyle}"/>
+				
+				<StackPanel Orientation="Horizontal">
+					<Label Style="{StaticResource JustRecievedResultLabelStyle}"/>
+					<Label Style="{StaticResource StayOnStartLabelStyle}"/>
+				</StackPanel>
+			</StackPanel>
+		</Border>
+	</ControlTemplate>
+
+	<!-- Итоговый протокол -->
+	<ControlTemplate x:Key="TotalRightPanel" TargetType="{x:Type local:CRightPanelControl}">
+		<Border BorderBrush="Black" BorderThickness="1" Padding="10">
+			<StackPanel Orientation="Vertical">
+				<StackPanel Orientation="Horizontal">
+					<Label Content="{Loc resWholeMembersCount}" Style="{StaticResource StdLabelStyle}" />
+					<StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" >
+						<Label Content="{Binding WholeMembersQ}" Style="{StaticResource StdBoldLabelStyle}" />
+						<TextBlock Style="{StaticResource FilteredMembersQTextBlockStyle}" />
+					</StackPanel>
+					<Label Content="{Binding WholeMembersQ, Converter={gconvs:PeopleWordMarkupConverter}}"
+						   Style="{StaticResource StdLabelStyle}" />
+					
+					<Label Width="20" />
+					
+					<!-- 3, 2, 1 -->
+					<Label>
+						<Label.Style>
+							<Style TargetType="{x:Type Label}" BasedOn="{StaticResource ColoredLabelStyle}">
+								<Setter Property="DataContext"
+										Value="{Binding InvitedToStartFontStyle,
+														RelativeSource={RelativeSource AncestorType=local:CRightPanelControl}}" />
+									
+								<Setter Property="Content" Value="{Loc resAdultGrades}" />
+								<Setter Property="Width" Value="250" />
+								<Setter Property="Background" 
+										Value="{Binding BackgroundColor, Converter={gconvs:ColorToSolidBrushMarkupConverter}}" />
+								<Setter Property="Visibility"
+										Value="{Binding DataContext.CurHighlightGradesType,
+												RelativeSource={RelativeSource AncestorType={x:Type mainwnd:MainWindow}},
+												Converter={local:GradesVisibilityConverter},
+												ConverterParameter=0}" />
+							</Style>
+						</Label.Style>
+					</Label>
+					
+					<!-- 3 юн, 2 юн, 1 юн -->
+					<Label>
+						<Label.Style>
+							<Style TargetType="{x:Type Label}" BasedOn="{StaticResource ColoredLabelStyle}">
+								<Setter Property="DataContext"
+										Value="{Binding StayOnStartFontStyle,
+														RelativeSource={RelativeSource AncestorType=local:CRightPanelControl}}" />
+								<Setter Property="Content" Value="{Loc resYoungGrades}" />
+								<Setter Property="Width" Value="250" />
+								<Setter Property="Background" 
+										Value="{Binding BackgroundColor, Converter={gconvs:ColorToSolidBrushMarkupConverter}}" />
+								<Setter Property="Visibility"
+										Value="{Binding DataContext.CurHighlightGradesType,
+												RelativeSource={RelativeSource AncestorType={x:Type mainwnd:MainWindow}},
+												Converter={local:GradesVisibilityConverter},
+												ConverterParameter=0}" />
+							</Style>
+						</Label.Style>
+					</Label>
+															
+					<!-- Выполненные или подтверждённые разряды -->
+					<Label>
+						<Label.Style>
+							<Style TargetType="{x:Type Label}" BasedOn="{StaticResource ColoredLabelStyle}">
+								<Setter Property="DataContext"
+										Value="{Binding PreparingFontStyle,
+														RelativeSource={RelativeSource AncestorType=local:CRightPanelControl}}" />
+									
+								<Setter Property="Content"
+										Value="{Binding DataContext.CurHighlightGradesType,
+												RelativeSource={RelativeSource AncestorType={x:Type mainwnd:MainWindow}},
+												Converter={local:GradesContentConverter}}" />
+								<Setter Property="Width" Value="500" />
+								<Setter Property="Background" 
+										Value="{Binding BackgroundColor, Converter={gconvs:ColorToSolidBrushMarkupConverter}}" />
+								<Setter Property="Visibility"
+										Value="{Binding DataContext.CurHighlightGradesType,
+												RelativeSource={RelativeSource AncestorType={x:Type mainwnd:MainWindow}},
+												Converter={local:GradesVisibilityConverter},
+												ConverterParameter=1}" />
+							</Style>
+						</Label.Style>
+					</Label>
+				</StackPanel>
+			</StackPanel>
+		</Border>
+	</ControlTemplate>
+</ResourceDictionary>

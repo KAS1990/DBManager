@@ -1,0 +1,20 @@
+﻿<Window x:Class="DBManager.Stuff.CMessageBoxEx"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    ShowInTaskbar="False"
+    WindowStartupLocation="CenterScreen"
+    ResizeMode="NoResize"
+    SizeToContent="WidthAndHeight"
+    Loaded="CMessageBoxEx_Loaded">
+
+    <DockPanel LastChildFill="True">
+        <Grid DockPanel.Dock="Bottom" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
+            <DockPanel x:FieldModifier="private" Name="dbButtons" Margin="10,10,10,12" LastChildFill="False"/>
+        </Grid>
+        
+        <DockPanel LastChildFill="True" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}" Margin="22,20,50,20">
+            <Image x:FieldModifier="private" DockPanel.Dock="Left" Name="img" Width="40" VerticalAlignment="Top" Margin="0,0,5,0" />
+            <TextBlock x:FieldModifier="private" Name="txtblkText" TextWrapping="Wrap" MaxWidth="400" VerticalAlignment="Center" FontWeight="Medium" />
+        </DockPanel>
+    </DockPanel>
+</Window>

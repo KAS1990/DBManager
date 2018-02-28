@@ -1,0 +1,256 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="compdbModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+  <EntityContainer Name="compdbEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="grades" EntityType="compdbModel.grades" />
+    <EntitySet Name="rounds" EntityType="compdbModel.rounds" />
+    <EntitySet Name="teams" EntityType="compdbModel.teams" />
+    <EntitySet Name="members" EntityType="compdbModel.members" />
+    <EntitySet Name="descriptions" EntityType="compdbModel.descriptions" />
+    <EntitySet Name="participations" EntityType="compdbModel.participations" />
+    <AssociationSet Name="fk_participation_members" Association="compdbModel.fk_participation_members">
+      <End Role="members" EntitySet="members" />
+      <End Role="participations" EntitySet="participations" />
+    </AssociationSet>
+    <AssociationSet Name="fk_participation_teams" Association="compdbModel.fk_participation_teams">
+      <End Role="teams" EntitySet="teams" />
+      <End Role="participations" EntitySet="participations" />
+    </AssociationSet>
+    <EntitySet Name="round_dates" EntityType="compdbModel.round_dates" />
+    <EntitySet Name="groups" EntityType="compdbModel.groups" />
+    <AssociationSet Name="fk_groups_description" Association="compdbModel.fk_groups_description">
+      <End Role="descriptions" EntitySet="descriptions" />
+      <End Role="groups" EntitySet="groups" />
+    </AssociationSet>
+    <AssociationSet Name="fk_participation_groups" Association="compdbModel.fk_participation_groups">
+      <End Role="groups" EntitySet="groups" />
+      <End Role="participations" EntitySet="participations" />
+    </AssociationSet>
+    <AssociationSet Name="fk_round_dates_groups1" Association="compdbModel.fk_round_dates_groups1">
+      <End Role="groups" EntitySet="groups" />
+      <End Role="round_dates" EntitySet="round_dates" />
+    </AssociationSet>
+    <EntitySet Name="coaches" EntityType="compdbModel.coaches" />
+    <AssociationSet Name="fk_participation_coaches" Association="compdbModel.fk_participation_coaches">
+      <End Role="coaches" EntitySet="coaches" />
+      <End Role="participations" EntitySet="participations" />
+    </AssociationSet>
+    <EntitySet Name="results_speed" EntityType="compdbModel.results_speed" />
+    <AssociationSet Name="fk_results_speed_participation" Association="compdbModel.fk_results_speed_participation">
+      <End Role="participations" EntitySet="participations" />
+      <End Role="results_speed" EntitySet="results_speed" />
+    </AssociationSet>
+    <EntitySet Name="balls" EntityType="compdbModel.balls" />
+  </EntityContainer>
+  <EntityType Name="grades">
+    <Key>
+      <PropertyRef Name="id_grade" />
+    </Key>
+    <Property Name="id_grade" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" Nullable="false" MaxLength="5" Unicode="false" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="rounds">
+    <Key>
+      <PropertyRef Name="id_round" />
+    </Key>
+    <Property Name="id_round" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" Nullable="false" MaxLength="20" Unicode="false" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="teams">
+    <Key>
+      <PropertyRef Name="id_team" />
+    </Key>
+    <Property Name="id_team" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" Nullable="false" MaxLength="255" Unicode="false" FixedLength="false" />
+    <NavigationProperty Name="participations" Relationship="compdbModel.fk_participation_teams" FromRole="teams" ToRole="participations" />
+  </EntityType>
+  <EntityType Name="members">
+    <Key>
+      <PropertyRef Name="id_member" />
+    </Key>
+    <Property Type="Int64" Name="id_member" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="name" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="surname" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="Int16" Name="year_of_birth" />
+    <Property Type="Byte" Name="sex" Nullable="false" />
+    <NavigationProperty Name="participations" Relationship="compdbModel.fk_participation_members" FromRole="members" ToRole="participations" />
+  </EntityType>
+  <EntityType Name="descriptions">
+    <Key>
+      <PropertyRef Name="id_desc" />
+    </Key>
+    <Property Type="Int64" Name="id_desc" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="name" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="dir" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="groups" Relationship="compdbModel.fk_groups_description" FromRole="descriptions" ToRole="groups" />
+  </EntityType>
+  <EntityType Name="participations">
+    <Key>
+      <PropertyRef Name="id_participation" />
+    </Key>
+    <Property Type="Int64" Name="id_participation" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int64" Name="member" Nullable="false" />
+    <Property Type="Int64" Name="Group" Nullable="false" />
+    <Property Type="Int64" Name="coach" />
+    <Property Type="Int64" Name="team" />
+    <Property Type="Byte" Name="init_grade" />
+    <Property Type="Byte" Name="result_grade" />
+    <Property Type="Byte" Name="result_place" />
+    <NavigationProperty Name="members" Relationship="compdbModel.fk_participation_members" FromRole="participations" ToRole="members" />
+    <NavigationProperty Name="teams" Relationship="compdbModel.fk_participation_teams" FromRole="participations" ToRole="teams" />
+    <NavigationProperty Name="groups" Relationship="compdbModel.fk_participation_groups" FromRole="participations" ToRole="groups" />
+    <NavigationProperty Name="coaches" Relationship="compdbModel.fk_participation_coaches" FromRole="participations" ToRole="coaches" />
+    <NavigationProperty Name="results_speed" Relationship="compdbModel.fk_results_speed_participation" FromRole="participations" ToRole="results_speed" />
+  </EntityType>
+  <Association Name="fk_participation_members">
+    <End Type="compdbModel.members" Role="members" Multiplicity="1" />
+    <End Type="compdbModel.participations" Role="participations" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="members">
+        <PropertyRef Name="id_member" />
+      </Principal>
+      <Dependent Role="participations">
+        <PropertyRef Name="member" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_participation_teams">
+    <End Type="compdbModel.teams" Role="teams" Multiplicity="0..1" />
+    <End Type="compdbModel.participations" Role="participations" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="teams">
+        <PropertyRef Name="id_team" />
+      </Principal>
+      <Dependent Role="participations">
+        <PropertyRef Name="team" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="round_dates">
+    <Key>
+      <PropertyRef Name="id_round_dates" />
+    </Key>
+    <Property Type="Int64" Name="id_round_dates" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Byte" Name="round" Nullable="false" />
+    <Property Type="String" Name="date" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Type="Int64" Name="Group" Nullable="false" />
+    <NavigationProperty Name="groups" Relationship="compdbModel.fk_round_dates_groups1" FromRole="round_dates" ToRole="groups" />
+  </EntityType>
+  <EntityType Name="groups">
+    <Key>
+      <PropertyRef Name="id_group" />
+    </Key>
+    <Property Type="Int64" Name="id_group" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="name" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="start_year" />
+    <Property Type="Int16" Name="end_year" />
+    <Property Type="Int64" Name="desc" Nullable="false" />
+    <Property Type="String" Name="second_col_name" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Type="Byte" Name="from_1_qualif" />
+    <Property Type="Byte" Name="from_2_qualif" />
+    <Property Type="Byte" Name="round_after_qualif" />
+    <Property Type="String" Name="main_judge" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="main_secretary" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="row6" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="xml_file_name" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Type="Byte" Name="sex" Nullable="false" />
+    <Property Type="DateTime" Name="comp_start_date" Nullable="false" />
+    <Property Type="DateTime" Name="comp_end_date" />
+    <NavigationProperty Name="descriptions" Relationship="compdbModel.fk_groups_description" FromRole="groups" ToRole="descriptions" />
+    <NavigationProperty Name="participations" Relationship="compdbModel.fk_participation_groups" FromRole="groups" ToRole="participations" />
+    <NavigationProperty Name="round_dates" Relationship="compdbModel.fk_round_dates_groups1" FromRole="groups" ToRole="round_dates" />
+    <Property Type="Int32" Name="round_finished_flags" />
+  </EntityType>
+  <Association Name="fk_groups_description">
+    <End Type="compdbModel.descriptions" Role="descriptions" Multiplicity="1" />
+    <End Type="compdbModel.groups" Role="groups" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="descriptions">
+        <PropertyRef Name="id_desc" />
+      </Principal>
+      <Dependent Role="groups">
+        <PropertyRef Name="desc" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_participation_groups">
+    <End Type="compdbModel.groups" Role="groups" Multiplicity="1" />
+    <End Type="compdbModel.participations" Role="participations" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="groups">
+        <PropertyRef Name="id_group" />
+      </Principal>
+      <Dependent Role="participations">
+        <PropertyRef Name="Group" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_round_dates_groups1">
+    <End Type="compdbModel.groups" Role="groups" Multiplicity="1" />
+    <End Type="compdbModel.round_dates" Role="round_dates" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="groups">
+        <PropertyRef Name="id_group" />
+      </Principal>
+      <Dependent Role="round_dates">
+        <PropertyRef Name="Group" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="coaches">
+    <Key>
+      <PropertyRef Name="id_coach" />
+    </Key>
+    <Property Type="Int64" Name="id_coach" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="name" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="participations" Relationship="compdbModel.fk_participation_coaches" FromRole="coaches" ToRole="participations" />
+  </EntityType>
+  <Association Name="fk_participation_coaches">
+    <End Type="compdbModel.coaches" Role="coaches" Multiplicity="0..1" />
+    <End Type="compdbModel.participations" Role="participations" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="coaches">
+        <PropertyRef Name="id_coach" />
+      </Principal>
+      <Dependent Role="participations">
+        <PropertyRef Name="coach" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="results_speed">
+    <Key>
+      <PropertyRef Name="id_result" />
+    </Key>
+    <Property Type="Int64" Name="id_result" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int64" Name="participation" Nullable="false" />
+    <Property Type="Byte" Name="number" />
+    <Property Type="Byte" Name="round" Nullable="false" />
+    <Property Type="Time" Name="route1" />
+    <Property Type="Time" Name="route2" />
+    <Property Type="Time" Name="sum" />
+    <Property Type="Single" Name="balls" />
+    <Property Type="Byte" Name="place" />
+    <Property Type="Byte" Name="cond_formating_1" />
+    <Property Type="Byte" Name="cond_formating_2" />
+    <Property Type="Byte" Name="cond_formating_sum" />
+    <NavigationProperty Name="participations" Relationship="compdbModel.fk_results_speed_participation" FromRole="results_speed" ToRole="participations" />
+  </EntityType>
+  <Association Name="fk_results_speed_participation">
+    <End Type="compdbModel.participations" Role="participations" Multiplicity="1" />
+    <End Type="compdbModel.results_speed" Role="results_speed" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="participations">
+        <PropertyRef Name="id_participation" />
+      </Principal>
+      <Dependent Role="results_speed">
+        <PropertyRef Name="participation" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="balls">
+    <Key>
+      <PropertyRef Name="place" />
+    </Key>
+    <Property Type="Byte" Name="place" Nullable="false" />
+    <Property Type="Byte" Name="value" Nullable="false" />
+  </EntityType>
+</Schema>

@@ -1,0 +1,970 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="resConfig" xml:space="preserve">
+    <value>Настройки</value>
+  </data>
+  <data name="resfmtAppCrashedWithStackTrace" xml:space="preserve">
+    <value>В ходе работы программы {0} произошла критическая ошибка "{1}", приложение будет закрыто. Было создано 2 файла отчета об ошибке {2} и {3}.</value>
+  </data>
+  <data name="resMain" xml:space="preserve">
+    <value>Главная</value>
+  </data>
+  <data name="resmsgAppAlreadyOpened" xml:space="preserve">
+    <value>Повторный запуск программы недопустим</value>
+  </data>
+  <data name="resmsgfmtAppCrashed" xml:space="preserve">
+    <value>В ходе работы программы {0} произошла критическая ошибка "{1}", приложение будет закрыто. Был создан файл отчета об ошибке {2}.</value>
+  </data>
+  <data name="RibbonContext_AddToQATText" xml:space="preserve">
+    <value>Добавить на панель быстрого доступа</value>
+  </data>
+  <data name="RibbonContext_MaximizeTheRibbonText" xml:space="preserve">
+    <value>Развернуть ленту</value>
+  </data>
+  <data name="RibbonContext_MinimizeTheRibbonText" xml:space="preserve">
+    <value>Свернуть ленту</value>
+  </data>
+  <data name="RibbonContext_RemoveFromQATText" xml:space="preserve">
+    <value>Удалить с панели быстрого доступа</value>
+  </data>
+  <data name="RibbonContext_ShowQATAboveText" xml:space="preserve">
+    <value>Разместить панель быстрого доступа над лентой</value>
+  </data>
+  <data name="RibbonContext_ShowQATBelowText" xml:space="preserve">
+    <value>Разместить панель быстрого доступа под лентой</value>
+  </data>
+  <data name="resApply" xml:space="preserve">
+    <value>Применить</value>
+  </data>
+  <data name="resCancel" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
+  <data name="resCompDir" xml:space="preserve">
+    <value>Папка с файлами xml</value>
+  </data>
+  <data name="resDecimalPointOrComma" xml:space="preserve">
+    <value>"," или "."</value>
+  </data>
+  <data name="resfmtFloatInvalidNumber" xml:space="preserve">
+    <value>должно быть введено число, в котором разделителем целой и дробной части является символ {0}</value>
+    <comment>Нельзя изменять значение в первом столбце для этой строки!!!</comment>
+  </data>
+  <data name="resfmtFloatOrEmptyInvalidNumber" xml:space="preserve">
+    <value>должно быть введено число, в котором разделителем целой и дробной части является символ {0}, или поле оставлено пустым</value>
+    <comment>Нельзя изменять значение в первом столбце для этой строки!!!</comment>
+  </data>
+  <data name="resfmtIntInvalidNumber" xml:space="preserve">
+    <value>должно быть введено целое число</value>
+    <comment>Нельзя изменять значение в первом столбце для этой строки!!!</comment>
+  </data>
+  <data name="resfmtNotEmptyInvalidNumber" xml:space="preserve">
+    <value>поле нельзя оставлять пустым</value>
+    <comment>Нельзя изменять значение в первом столбце для этой строки!!!</comment>
+  </data>
+  <data name="resfmtNotNegativeFloatInvalidNumber" xml:space="preserve">
+    <value>должно быть введено положительное число, в котором разделителем целой и дробной части является символ {0}, или ноль</value>
+    <comment>Нельзя изменять значение в первом столбце для этой строки!!!</comment>
+  </data>
+  <data name="resfmtNotNegativeFloatOrEmptyInvalidNumber" xml:space="preserve">
+    <value>должно быть введено положительное число, в котором разделителем целой и дробной части является символ {0}, ноль или поле оставлено пустым</value>
+    <comment>Нельзя изменять значение в первом столбце для этой строки!!!</comment>
+  </data>
+  <data name="resfmtPositiveFloatInvalidNumber" xml:space="preserve">
+    <value>должно быть введено положительное число, в котором разделителем целой и дробной части является символ {0}</value>
+    <comment>Нельзя изменять значение в первом столбце для этой строки!!!</comment>
+  </data>
+  <data name="resfmtPositiveFloatOrEmptyInvalidNumber" xml:space="preserve">
+    <value>должно быть введено положительное число, в котором разделителем целой и дробной части является символ {0}</value>
+    <comment>Нельзя изменять значение в первом столбце для этой строки!!!</comment>
+  </data>
+  <data name="resfmtPositiveIntInvalidNumber" xml:space="preserve">
+    <value>должно быть введено целое положительное число</value>
+    <comment>Нельзя изменять значение в первом столбце для этой строки!!!</comment>
+  </data>
+  <data name="resfmtTimeInvalidNumber" xml:space="preserve">
+    <value>должно быть введено не нулевое время в формате "сс", "мм:сс" или "чч:мм:сс"</value>
+    <comment>Нельзя изменять значение в первом столбце для этой строки!!!</comment>
+  </data>
+  <data name="resfmtTimeOrEmptyInvalidNumber" xml:space="preserve">
+    <value>должно быть введено не нулевое время в формате "сс", "мм:сс" или "чч:мм:сс", или поле оставлено пустым</value>
+    <comment>Нельзя изменять значение в первом столбце для этой строки!!!</comment>
+  </data>
+  <data name="resfmtTimeZeroTimeAllowedInvalidNumber" xml:space="preserve">
+    <value>должно быть введено время в формате "сс", "мм:сс" или "чч:мм:сс"</value>
+    <comment>Нельзя изменять значение в первом столбце для этой строки!!!</comment>
+  </data>
+  <data name="resInvalidCompDir" xml:space="preserve">
+    <value>Неверный путь к папке с xml-файлами</value>
+  </data>
+  <data name="resmsgfmtCloseQuestion" xml:space="preserve">
+    <value>Вы действительно хотите закрыть программу {0}?</value>
+  </data>
+  <data name="resOK" xml:space="preserve">
+    <value>ОК</value>
+  </data>
+  <data name="resSettingChanged" xml:space="preserve">
+    <value>Настройки изменились. Сохранить?</value>
+  </data>
+  <data name="resSettings" xml:space="preserve">
+    <value>Настройки</value>
+  </data>
+  <data name="resSettingsWndTitle" xml:space="preserve">
+    <value>Настройки</value>
+  </data>
+  <data name="resStdInputErrMsgEnd" xml:space="preserve">
+    <value>Повторите ввод или нажмите клавишу ESC для возврата последних корректных данных.</value>
+  </data>
+  <data name="resAutoupdating" xml:space="preserve">
+    <value>Автообновление</value>
+  </data>
+  <data name="resPleaseWait" xml:space="preserve">
+    <value>Пожалуйста подождите...</value>
+  </data>
+  <data name="resRefresh" xml:space="preserve">
+    <value>Обновить</value>
+  </data>
+  <data name="resRefreshToolTip" xml:space="preserve">
+    <value>Обновить список</value>
+  </data>
+  <data name="resSelectGroup" xml:space="preserve">
+    <value>Выберите группу</value>
+  </data>
+  <data name="resSelectRound" xml:space="preserve">
+    <value>Выберите раунд</value>
+  </data>
+  <data name="resStartTestToolTip" xml:space="preserve">
+    <value>Запуск автоматического обновления</value>
+  </data>
+  <data name="resStopTestToolTip" xml:space="preserve">
+    <value>Останов автоматического обновления</value>
+  </data>
+  <data name="resTableUpdating" xml:space="preserve">
+    <value>Обновление данных</value>
+  </data>
+  <data name="resTableContent" xml:space="preserve">
+    <value>Содержимое</value>
+  </data>
+  <data name="resfmtStartingDirScanningThread" xml:space="preserve">
+    <value>Запускаем сканирование папки "{0}"</value>
+  </data>
+  <data name="resfmtStartingFileScanningThread" xml:space="preserve">
+    <value>Запускаем сканирование файла "{0}"</value>
+  </data>
+  <data name="resfmtStoppingDirScanningThread" xml:space="preserve">
+    <value>Останавливаем сканирование папки "{0}"</value>
+  </data>
+  <data name="resfmtStoppingFileScanningThread" xml:space="preserve">
+    <value>Останавливаем сканирование файла "{0}"</value>
+  </data>
+  <data name="resfmtScanningFile" xml:space="preserve">
+    <value>Сканируем файл "{0}"</value>
+  </data>
+  <data name="resHandleFileDeletion" xml:space="preserve">
+    <value>Обрабатывать событие удаления файла</value>
+  </data>
+  <data name="resSyncDBWithFiles" xml:space="preserve">
+    <value>Файл-&gt;БД</value>
+  </data>
+  <data name="resSyncDBWithFilesToolTip" xml:space="preserve">
+    <value>Синхронизировать базу данных со всеми файлами</value>
+  </data>
+  <data name="resfmtHandlingFileDeletion" xml:space="preserve">
+    <value>Обрабатываем удаление файла "{0}"</value>
+  </data>
+  <data name="resfmtSyncFailed" xml:space="preserve">
+    <value>Синхронизация каталога "{0}" не произведена из-за ошибки</value>
+  </data>
+  <data name="resfmtSyncingDir" xml:space="preserve">
+    <value>Синхронизируем БД с файлами каталога "{0}"</value>
+  </data>
+  <data name="resfmtSyncSuccessfully" xml:space="preserve">
+    <value>Синхронизация каталога "{0}" прошла успешно</value>
+  </data>
+  <data name="resSyncingDBWithFiles" xml:space="preserve">
+    <value>Синхронизация</value>
+  </data>
+  <data name="resNoDirForScan" xml:space="preserve">
+    <value>Не задана папка, сканирование которой должно проводиться</value>
+  </data>
+  <data name="resrmtCantConnectToDB" xml:space="preserve">
+    <value>Невозможно подключится к БД, используя строку подключения "{0}"</value>
+  </data>
+  <data name="resfmtMainwndTitleNoComp" xml:space="preserve">
+    <value>{0}, Версия {1}</value>
+  </data>
+  <data name="resfmtMainwndTitleWithComp" xml:space="preserve">
+    <value>{0}, Версия {1}. Соревнование "{2}"</value>
+  </data>
+  <data name="resShowGroupHead" xml:space="preserve">
+    <value>Отображать шапку</value>
+  </data>
+  <data name="resSmolensk" xml:space="preserve">
+    <value>Смоленск</value>
+  </data>
+  <data name="resAndElder" xml:space="preserve">
+    <value>и старше</value>
+  </data>
+  <data name="resAndYounger" xml:space="preserve">
+    <value>и моложе</value>
+  </data>
+  <data name="resMen" xml:space="preserve">
+    <value>Мужчины</value>
+  </data>
+  <data name="resSpeed" xml:space="preserve">
+    <value>Скорость</value>
+  </data>
+  <data name="resWomen" xml:space="preserve">
+    <value>Женщины</value>
+  </data>
+  <data name="resDontSet" xml:space="preserve">
+    <value>Не задано</value>
+  </data>
+  <data name="resMainJudge" xml:space="preserve">
+    <value>Главный судья:</value>
+  </data>
+  <data name="resMainSecretary" xml:space="preserve">
+    <value>Главный секретарь:</value>
+  </data>
+  <data name="resRow6" xml:space="preserve">
+    <value>Зам. Главного судьи по виду:</value>
+  </data>
+  <data name="resInvitedToStart" xml:space="preserve">
+    <value>Приглашается на старт</value>
+  </data>
+  <data name="resJustRecievedResult" xml:space="preserve">
+    <value>Только что полученный результат</value>
+  </data>
+  <data name="resRoundMembersCount" xml:space="preserve">
+    <value>В РАУНДЕ участвует</value>
+  </data>
+  <data name="resNextRoundMembersCount" xml:space="preserve">
+    <value>В СЛЕДУЮЩИЙ РАУНД выходят</value>
+  </data>
+  <data name="resPreparing" xml:space="preserve">
+    <value>Готовится</value>
+  </data>
+  <data name="resStayOnStart" xml:space="preserve">
+    <value>Участник находится на старте</value>
+  </data>
+  <data name="resAutoscrollEnabled" xml:space="preserve">
+    <value>Автоматически пролистывать</value>
+  </data>
+  <data name="resWholeMembersCount" xml:space="preserve">
+    <value>В ГРУППЕ участвует</value>
+  </data>
+  <data name="resWinners" xml:space="preserve">
+    <value>ПОБЕДИТЕЛИ</value>
+  </data>
+  <data name="resNumber" xml:space="preserve">
+    <value>Старт №</value>
+  </data>
+  <data name="resYoB" xml:space="preserve">
+    <value>Г.Р.</value>
+  </data>
+  <data name="resGrade" xml:space="preserve">
+    <value>Разряд</value>
+  </data>
+  <data name="resSurnameAndName" xml:space="preserve">
+    <value>Фамилия, Имя</value>
+  </data>
+  <data name="resFall" xml:space="preserve">
+    <value>срыв</value>
+  </data>
+  <data name="resPlace" xml:space="preserve">
+    <value>Место</value>
+  </data>
+  <data name="resRoute1" xml:space="preserve">
+    <value>Трасса 1</value>
+  </data>
+  <data name="resRoute2" xml:space="preserve">
+    <value>Трасса 2</value>
+  </data>
+  <data name="resSum" xml:space="preserve">
+    <value>Сумма</value>
+  </data>
+  <data name="resMemberGenitive" xml:space="preserve">
+    <value>участника</value>
+  </data>
+  <data name="resPair" xml:space="preserve">
+    <value>Забег</value>
+  </data>
+  <data name="resPrevNumber" xml:space="preserve">
+    <value>Пред. №</value>
+  </data>
+  <data name="resfmtFinalName" xml:space="preserve">
+    <value>Финал за {0}-{1} место</value>
+  </data>
+  <data name="resTotalGrade" xml:space="preserve">
+    <value>Выполненный разряд</value>
+  </data>
+  <data name="resResultGradeCalcMethod" xml:space="preserve">
+    <value>Метод для вычисления мест при присвоении разрядов</value>
+  </data>
+  <data name="resResultGradeCalcMethodFloor" xml:space="preserve">
+    <value>Это место и выше (округление "вниз") - как по разрядным требованиям</value>
+  </data>
+  <data name="resResultGradeCalcMethodRound" xml:space="preserve">
+    <value>Это место и выше ("математическое" округление до целых)</value>
+  </data>
+  <data name="resSelectAll" xml:space="preserve">
+    <value>Выделить всё</value>
+  </data>
+  <data name="resEmpty" xml:space="preserve">
+    <value>&lt;пусто&gt;</value>
+  </data>
+  <data name="resSetPlacesAfterFilter" xml:space="preserve">
+    <value>Устанавливать места после фильтрации</value>
+  </data>
+  <data name="resAvailableColorsHeader" xml:space="preserve">
+    <value>Доступные цвета</value>
+  </data>
+  <data name="resBackgroundColor" xml:space="preserve">
+    <value>Фон</value>
+  </data>
+  <data name="resForeColor" xml:space="preserve">
+    <value>Цвет шрифта</value>
+  </data>
+  <data name="resInvitedToStartInOneLine" xml:space="preserve">
+    <value>Участник приглашается на старт</value>
+  </data>
+  <data name="resJustRecievedResultInOneLine" xml:space="preserve">
+    <value>Только что полученный результат</value>
+  </data>
+  <data name="resNextRoundMembersCountInOneLine" xml:space="preserve">
+    <value>В следующий раунд выходят</value>
+  </data>
+  <data name="resPreparingInOneLine" xml:space="preserve">
+    <value>Участник готовится</value>
+  </data>
+  <data name="resRecentColorsHeader" xml:space="preserve">
+    <value>Недавние цвета</value>
+  </data>
+  <data name="resStandardColorsHeader" xml:space="preserve">
+    <value>Стандартные цвета</value>
+  </data>
+  <data name="resStayOnStartInOneLine" xml:space="preserve">
+    <value>Участник находится на старте</value>
+  </data>
+  <data name="resTextSample" xml:space="preserve">
+    <value>Пример текста</value>
+  </data>
+  <data name="resToDefault" xml:space="preserve">
+    <value>Вернуть умолчания</value>
+  </data>
+  <data name="resSportsman" xml:space="preserve">
+    <value>спортсмен</value>
+  </data>
+  <data name="resSportsmanGenitive" xml:space="preserve">
+    <value>спортсмена</value>
+  </data>
+  <data name="resSportsmenGenitive" xml:space="preserve">
+    <value>спортсменов</value>
+  </data>
+  <data name="resFontFamily" xml:space="preserve">
+    <value>Шрифт</value>
+  </data>
+  <data name="resFontSize" xml:space="preserve">
+    <value>Размер шрифта</value>
+  </data>
+  <data name="resPlainResults" xml:space="preserve">
+    <value>Результат участника</value>
+  </data>
+  <data name="resSmola2017" xml:space="preserve">
+    <value>Смола 2017</value>
+  </data>
+  <data name="resAutodetectOnStart" xml:space="preserve">
+    <value>Обрабатывать xml-файлы при старте ПО</value>
+  </data>
+  <data name="resClear" xml:space="preserve">
+    <value>Очистить</value>
+  </data>
+  <data name="resCreationDate" xml:space="preserve">
+    <value>Дата создания</value>
+  </data>
+  <data name="resDBToGrid" xml:space="preserve">
+    <value>БД -&gt; экран</value>
+  </data>
+  <data name="resDBToGridToolTip" xml:space="preserve">
+    <value>Вывести содержимое БД на экран</value>
+  </data>
+  <data name="resErrLogItemChanged" xml:space="preserve">
+    <value>Ошибка</value>
+  </data>
+  <data name="resExceptions" xml:space="preserve">
+    <value>Исключения</value>
+  </data>
+  <data name="resfmtDBToGridCopiedSuccessfully" xml:space="preserve">
+    <value>Данные из БД для каталога "{0}" успешно выведены на экран</value>
+  </data>
+  <data name="resLogWindow" xml:space="preserve">
+    <value>Лог ошибок</value>
+  </data>
+  <data name="resLogWndTitle" xml:space="preserve">
+    <value>Лог</value>
+  </data>
+  <data name="resComp" xml:space="preserve">
+    <value>Соревнование</value>
+  </data>
+  <data name="resExport" xml:space="preserve">
+    <value>Экспортировать</value>
+  </data>
+  <data name="resExportToExcelWndTitle" xml:space="preserve">
+    <value>Экспорт в Excel</value>
+  </data>
+  <data name="resExportToXls" xml:space="preserve">
+    <value>Экспорт в Excel</value>
+  </data>
+  <data name="resExportToXlsTab" xml:space="preserve">
+    <value>Экспорт в Excel</value>
+  </data>
+  <data name="resfmtCompDateForSettingsWnd" xml:space="preserve">
+    <value>{0}
+с {1} по {2}
+{3}</value>
+  </data>
+  <data name="resfmtCompDateForSettingsWndWithoutDates" xml:space="preserve">
+    <value>{0}
+{1}</value>
+  </data>
+  <data name="resfmtInvalidNumber" xml:space="preserve">
+    <value>Поле "{0}" заполнено неверно: {1}. {2}</value>
+  </data>
+  <data name="resInvalidXlsxPath" xml:space="preserve">
+    <value>Неверный путь к файлу Excel</value>
+  </data>
+  <data name="resLogFilePath" xml:space="preserve">
+    <value>Путь к файлу лога</value>
+  </data>
+  <data name="resMainSettingsTab" xml:space="preserve">
+    <value>Основные</value>
+  </data>
+  <data name="resMaxXlsSheetNameLen" xml:space="preserve">
+    <value>Максимальная длина названия листа в книге Excel</value>
+  </data>
+  <data name="resNoRoundsToExport" xml:space="preserve">
+    <value>Нет выбранных раундов</value>
+  </data>
+  <data name="resRoundName" xml:space="preserve">
+    <value>Название раунда</value>
+  </data>
+  <data name="resSheetName" xml:space="preserve">
+    <value>Название листа</value>
+  </data>
+  <data name="resXlsPath" xml:space="preserve">
+    <value>Экспортировать в</value>
+  </data>
+  <data name="resXlsxFileAlreadyExists" xml:space="preserve">
+    <value>Такой файл уже существует</value>
+  </data>
+  <data name="resXlsxFilesFilter" xml:space="preserve">
+    <value>Файлы MS Excel 2007 |*.xlsx</value>
+  </data>
+  <data name="resCreateReport" xml:space="preserve">
+    <value>Формировать протокол</value>
+  </data>
+  <data name="resExportToAnotherWbk" xml:space="preserve">
+    <value>Экспортировать в другую книгу</value>
+  </data>
+  <data name="resfmtExportingToExcel" xml:space="preserve">
+    <value>Экспорт в файл "{0}"</value>
+  </data>
+  <data name="resFrom" xml:space="preserve">
+    <value>C</value>
+  </data>
+  <data name="resInvalidYearsToExport" xml:space="preserve">
+    <value>Для некоторых групп выбраны неверные года рождения</value>
+  </data>
+  <data name="resMainExportTab" xml:space="preserve">
+    <value>Основные настройки</value>
+  </data>
+  <data name="resMenInGroup" xml:space="preserve">
+    <value>Число мужчин в группе от каждой команды</value>
+  </data>
+  <data name="resPersonalExportTab" xml:space="preserve">
+    <value>Настройки личного зачёта</value>
+  </data>
+  <data name="resShowWbkAfterExport" xml:space="preserve">
+    <value>Показать книгу после экспорта</value>
+  </data>
+  <data name="resTeamExportTab" xml:space="preserve">
+    <value>Настройки командного зачёта</value>
+  </data>
+  <data name="resTeamsForReport" xml:space="preserve">
+    <value>Команды для отчёта</value>
+  </data>
+  <data name="resTeamsForTeamReport" xml:space="preserve">
+    <value>Команды</value>
+  </data>
+  <data name="resTeamsFromComp" xml:space="preserve">
+    <value>Команды из соревнования</value>
+  </data>
+  <data name="resTo" xml:space="preserve">
+    <value>по</value>
+  </data>
+  <data name="resWomenInGroup" xml:space="preserve">
+    <value>Число женщин в группе от каждой команды</value>
+  </data>
+  <data name="resAddSelected" xml:space="preserve">
+    <value>Добавить выделенные</value>
+  </data>
+  <data name="resNoTeamsToExport" xml:space="preserve">
+    <value>Не выбраны команды</value>
+  </data>
+  <data name="resAllExcellFilesFilter" xml:space="preserve">
+    <value>Файлы MS Excel 1997-2003 (*.xls)|*.xls|Файлы MS Excel 2007 (*.xlsx)|*.xlsx</value>
+  </data>
+  <data name="resCantCreateExcelApp" xml:space="preserve">
+    <value>Не удалось создать приложение Excel</value>
+  </data>
+  <data name="resLeadReportInfoTab" xml:space="preserve">
+    <value>Экспорт трудности</value>
+  </data>
+  <data name="resLeadReportNotFound" xml:space="preserve">
+    <value>Не найден файл с протоколом трудности</value>
+  </data>
+  <data name="resLeadReportXlsPath" xml:space="preserve">
+    <value>Путь к протоколу трудности</value>
+  </data>
+  <data name="resLeadSheetName" xml:space="preserve">
+    <value>Название листа в трудности</value>
+  </data>
+  <data name="resLeadSheetsDuplicated" xml:space="preserve">
+    <value>Для разных групп выбраны одинаковые листы</value>
+  </data>
+  <data name="resFirstMemberRow" xml:space="preserve">
+    <value>Номер строки, с которой начинается список участников</value>
+  </data>
+  <data name="resfmtErrorDurExcelOperation" xml:space="preserve">
+    <value>При работе с MS Excel произошла ошибка:
+"{0}"</value>
+  </data>
+  <data name="resGroupName" xml:space="preserve">
+    <value>Название группы</value>
+  </data>
+  <data name="resGroupWithoutLeadSheetIndex" xml:space="preserve">
+    <value>Для создания командного отчёта нужно выбрать листы для всех возрастных групп в настройках книги с протоколами трудности</value>
+  </data>
+  <data name="resHasLeadReport" xml:space="preserve">
+    <value>Имеется протокол трудности</value>
+  </data>
+  <data name="resInvalidLeadReportInfoVals" xml:space="preserve">
+    <value>Номера должны начинаться с 1</value>
+  </data>
+  <data name="resNoGroupsToExport" xml:space="preserve">
+    <value>Не выбраны группы</value>
+  </data>
+  <data name="resNumbersStartWithOne" xml:space="preserve">
+    <value>Все номера начинаются с 1!!!</value>
+  </data>
+  <data name="resPersonalDataColumnIndex" xml:space="preserve">
+    <value>Номер столбца, в котором содержится ФИ участника</value>
+  </data>
+  <data name="resPlaceColumnIndex" xml:space="preserve">
+    <value>Номер столбца, в котором находится место участника</value>
+  </data>
+  <data name="resYearsOfBirth" xml:space="preserve">
+    <value>Года рождения</value>
+  </data>
+  <data name="resYearOfBirthColumnIndex" xml:space="preserve">
+    <value>Номер столбца, в котором содержится г.р. участника</value>
+  </data>
+  <data name="resBallsForPlaces" xml:space="preserve">
+    <value>Баллы</value>
+  </data>
+  <data name="resNoTaskToExport" xml:space="preserve">
+    <value>Нечего экспортировать</value>
+  </data>
+  <data name="resPersonalReport" xml:space="preserve">
+    <value>Двоеборье</value>
+  </data>
+  <data name="resCantCreateTargetWbk" xml:space="preserve">
+    <value>Не удалось создать книгу, в которую будет производится экспорт</value>
+  </data>
+  <data name="resCantCreateTemplateWbk" xml:space="preserve">
+    <value>Не удалось открыть книгу с шаблонами</value>
+  </data>
+  <data name="resExportToExcelFinished" xml:space="preserve">
+    <value>Экспорт в Excel завершён</value>
+  </data>
+  <data name="resfmtErrDurQualifExporting" xml:space="preserve">
+    <value>Не удалось экспортировать раунд "{1}" группы "{0}"</value>
+  </data>
+  <data name="resDuplicateSheetNames" xml:space="preserve">
+    <value>Названия листов повторяются</value>
+  </data>
+  <data name="resShowBallsInTotal" xml:space="preserve">
+    <value>Отображать баллы</value>
+  </data>
+  <data name="resErrDurPersonalExporting" xml:space="preserve">
+    <value>Не удалось сформировать протокол двоеборья</value>
+  </data>
+  <data name="resErrDurTeamExporting" xml:space="preserve">
+    <value>Не удалось сформировать протокол командного зачёта</value>
+  </data>
+  <data name="resNoLeadReport" xml:space="preserve">
+    <value>Не выбран протокол трудности для формирования командного зачёта или двоеборья</value>
+  </data>
+  <data name="resPlaceAggregationMethod" xml:space="preserve">
+    <value>Метод определения итогового результата участника</value>
+  </data>
+  <data name="resPlaceAggregationMethodMul" xml:space="preserve">
+    <value>места в скорости и трудности ПЕРЕМНОЖАЮТСЯ</value>
+  </data>
+  <data name="resPlaceAggregationMethodSum" xml:space="preserve">
+    <value>места в скорости и трудности СУММИРУЮТСЯ</value>
+  </data>
+  <data name="resWinnerDetection" xml:space="preserve">
+    <value>Метод определения победителя при равенстве мест</value>
+  </data>
+  <data name="WinnerDetectionBestPlace" xml:space="preserve">
+    <value>По ЛУЧШЕМУ МЕСТУ</value>
+  </data>
+  <data name="WinnerDetectionLeadPriority" xml:space="preserve">
+    <value>ПРИОРИТЕТ ТРУДНОСТИ</value>
+  </data>
+  <data name="WinnerDetectionLessDifference" xml:space="preserve">
+    <value>По МЕНЬШЕЙ РАЗНИЦЕ</value>
+  </data>
+  <data name="WinnerDetectionSpeedPriority" xml:space="preserve">
+    <value>ПРИОРИТЕТ СКОРОСТИ</value>
+  </data>
+  <data name="resfmtCantOpenWbkLead" xml:space="preserve">
+    <value>Не удалось открыть протокол трудности "{0}"</value>
+  </data>
+  <data name="resfmtInvalidYoBInLead" xml:space="preserve">
+    <value>Неверный год рождения ("{1}") в протоколе трудности у участника "{0}"</value>
+  </data>
+  <data name="resInvalidDatesForLeadSheets" xml:space="preserve">
+    <value>Для некоторых групп неверно заданы даты</value>
+  </data>
+  <data name="resLeadCompDates" xml:space="preserve">
+    <value>Даты проведения соревнований</value>
+  </data>
+  <data name="resTeamReportSheetName" xml:space="preserve">
+    <value>Командный зачёт</value>
+  </data>
+  <data name="resfmtUnknownTeamsInLead" xml:space="preserve">
+    <value>В протоколе трудности обнаружены участники, представляющие команды, которых нет в составленном Вами списке команд.
+{0}
+Эти участники были пропущены и исключены из расчёта командного зачёта!</value>
+  </data>
+  <data name="resTeamColumnIndex" xml:space="preserve">
+    <value>Номер столбца, в котором содержится команда участника</value>
+  </data>
+  <data name="resAllByOne" xml:space="preserve">
+    <value>Перенести команды "по одной"</value>
+  </data>
+  <data name="resfmtCompDateOneMonth" xml:space="preserve">
+    <value>{0}-{1} {2} {3} г.</value>
+  </data>
+  <data name="resfmtCompDateTwoMonths" xml:space="preserve">
+    <value>{0} {1} - {2} {3} {4} г.</value>
+  </data>
+  <data name="resfmtCompOneDateForSettingsWnd" xml:space="preserve">
+    <value>{0}
+{1}
+{2}</value>
+  </data>
+  <data name="resAutoSendToFTP" xml:space="preserve">
+    <value>Автоматически отправлять данные</value>
+  </data>
+  <data name="resFTP" xml:space="preserve">
+    <value>FTP</value>
+  </data>
+  <data name="resFTPLog" xml:space="preserve">
+    <value>Лог событий</value>
+  </data>
+  <data name="resFTPSettings" xml:space="preserve">
+    <value>Настройки</value>
+  </data>
+  <data name="resSendToFTP" xml:space="preserve">
+    <value>Отправить на сервер</value>
+  </data>
+  <data name="resClearLogFileQuestion" xml:space="preserve">
+    <value>Очистить файл лога?</value>
+  </data>
+  <data name="resFileName" xml:space="preserve">
+    <value>Файл</value>
+  </data>
+  <data name="resFolderName" xml:space="preserve">
+    <value>Каталог</value>
+  </data>
+  <data name="resFTPLogFolderPath" xml:space="preserve">
+    <value>Путь к каталогу с логом</value>
+  </data>
+  <data name="resFTPLogText" xml:space="preserve">
+    <value>Сообщение</value>
+  </data>
+  <data name="resFTPLogWndTitle" xml:space="preserve">
+    <value>Лог обмена данными с FTP</value>
+  </data>
+  <data name="resFTPWbkName" xml:space="preserve">
+    <value>Книга на FTP</value>
+  </data>
+  <data name="resGroupNameLogTitle" xml:space="preserve">
+    <value>Соревнование и группа</value>
+  </data>
+  <data name="resPCWbkName" xml:space="preserve">
+    <value>Книга на ПК</value>
+  </data>
+  <data name="resStartList" xml:space="preserve">
+    <value>Стартовый</value>
+  </data>
+  <data name="resStartNumber" xml:space="preserve">
+    <value>Старт №</value>
+  </data>
+  <data name="resTotalReport" xml:space="preserve">
+    <value>Итоговый протокол</value>
+  </data>
+  <data name="resfmtNoGroupSetsForFTPSending" xml:space="preserve">
+    <value>Невозможно отправить на FTP-сервер данные о группе "{0}", т.к. для неё не заданы настройки или произошла ошибка при выполнении обмена данными с FTP-сервером</value>
+  </data>
+  <data name="resFTPHost" xml:space="preserve">
+    <value>Хост</value>
+  </data>
+  <data name="resFTPPassword" xml:space="preserve">
+    <value>Пароль</value>
+  </data>
+  <data name="resFTPPort" xml:space="preserve">
+    <value>Порт</value>
+  </data>
+  <data name="resFTPSending" xml:space="preserve">
+    <value>Отправка данных на FTP</value>
+  </data>
+  <data name="resFTPSettingsWndTitle" xml:space="preserve">
+    <value>Настройки пересылки данных на FTP</value>
+  </data>
+  <data name="resFTPTemplateFullPath" xml:space="preserve">
+    <value>Шаблоны листов</value>
+  </data>
+  <data name="resFTPUsername" xml:space="preserve">
+    <value>Имя пользователя</value>
+  </data>
+  <data name="resFTPWbkFullPath" xml:space="preserve">
+    <value>Путь к книге на сервере</value>
+  </data>
+  <data name="resInvalidFTPPaths" xml:space="preserve">
+    <value>В задании путей для выбранных групп есть ошибки.
+ВАЖНО: книги должны иметь расширение .xls</value>
+  </data>
+  <data name="resNoGroupsToSend" xml:space="preserve">
+    <value>Ничего не выделено</value>
+  </data>
+  <data name="resDuplicateFTPPaths" xml:space="preserve">
+    <value>Пути к книгам на FTP не должны повторяться</value>
+  </data>
+  <data name="resfmtWbkSentToFTPSuccefully" xml:space="preserve">
+    <value>Раунд "{0}" группы "{1}" успешно передан на FTP сервер</value>
+  </data>
+  <data name="resDeleteLogQuestion" xml:space="preserve">
+    <value>Вы хотите очистить лог?</value>
+  </data>
+  <data name="resDeletion" xml:space="preserve">
+    <value>Удаление</value>
+  </data>
+  <data name="resfmtCantStartMySQL" xml:space="preserve">
+    <value>Не удалось запустить MySQL! Ошибка:
+"{0}"</value>
+  </data>
+  <data name="resAdultGrades" xml:space="preserve">
+    <value>Взрослые разряды</value>
+  </data>
+  <data name="resCalcGrades" xml:space="preserve">
+    <value>Подсчёт</value>
+  </data>
+  <data name="resCalcGradesBtnContent" xml:space="preserve">
+    <value>Присвоить разряды</value>
+  </data>
+  <data name="resCalcGradesResults" xml:space="preserve">
+    <value>Результаты вычисления разрядов</value>
+  </data>
+  <data name="resCalcGradesWndTitle" xml:space="preserve">
+    <value>Присвоение разрядов</value>
+  </data>
+  <data name="resCalcPlacesBtnContent" xml:space="preserve">
+    <value>Посчитать места</value>
+  </data>
+  <data name="resCantSetGrades" xml:space="preserve">
+    <value>Невозможно установить разряды, т.к. соревнования ещё не закончились</value>
+  </data>
+  <data name="resClose" xml:space="preserve">
+    <value>Закрыть</value>
+  </data>
+  <data name="resGrades" xml:space="preserve">
+    <value>Разряды</value>
+  </data>
+  <data name="resHighlightCarryoutGrades" xml:space="preserve">
+    <value>Подсветить выполнивших разряды</value>
+  </data>
+  <data name="resHighlightNothing" xml:space="preserve">
+    <value>Ничего не подсвечивать</value>
+  </data>
+  <data name="resHighlightResultGrades" xml:space="preserve">
+    <value>Подсветить разряды</value>
+  </data>
+  <data name="resHighlightСonfirmGrades" xml:space="preserve">
+    <value>Подсветить подтвердивших разряды</value>
+  </data>
+  <data name="resMembersCarryiedoutGrades" xml:space="preserve">
+    <value>Участники, выполнившие разряды</value>
+  </data>
+  <data name="resMembersСonfirmedGrades" xml:space="preserve">
+    <value>Участники, подтвердившие разряды</value>
+  </data>
+  <data name="resOnlyStartList" xml:space="preserve">
+    <value>Стартовый протокол</value>
+  </data>
+  <data name="resYoungGrades" xml:space="preserve">
+    <value>Юношеские разряды</value>
+  </data>
+  <data name="resError" xml:space="preserve">
+    <value>Ошибка</value>
+  </data>
+  <data name="resfmtChangeStartNumbersQuestion" xml:space="preserve">
+    <value>Номер спортсмена "{0}" сменился с "{1}" на "{2}". Заменить?</value>
+  </data>
+  <data name="resNo" xml:space="preserve">
+    <value>Нет</value>
+  </data>
+  <data name="resNoToAll" xml:space="preserve">
+    <value>Нет для всех</value>
+  </data>
+  <data name="resScanning" xml:space="preserve">
+    <value>Сканирование...</value>
+  </data>
+  <data name="resYes" xml:space="preserve">
+    <value>Да</value>
+  </data>
+  <data name="resYesToAll" xml:space="preserve">
+    <value>Да для всех</value>
+  </data>
+  <data name="resCmbiClear" xml:space="preserve">
+    <value>&lt;очистить&gt;</value>
+  </data>
+  <data name="resOnly75PercentForCalcGrades" xml:space="preserve">
+    <value>Разряды вычисляются только по 75% участников</value>
+  </data>
+  <data name="resResultsOnSite" xml:space="preserve">
+    <value>РЕЗУЛЬТАТЫ так же НА САЙТЕ</value>
+  </data>
+  <data name="resSmolclimbSite" xml:space="preserve">
+    <value>http://smolclimb.ru/online/</value>
+  </data>
+</root>

@@ -1,0 +1,170 @@
+﻿<glob:CNotifyPropertyChangedUserCtrl x:Class="DBManager.InterfaceElements.CTicker"
+									 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+									 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+									 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+									 xmlns:glob="clr-namespace:DBManager.Global"
+									 xmlns:convs="clr-namespace:DBManager.Global.Converters"
+									 xmlns:local="clr-namespace:DBManager.InterfaceElements"
+									 Padding="0">
+
+	<glob:CNotifyPropertyChangedUserCtrl.Resources>
+		<local:DurationTickerConverter x:Key="valconvDurationTicker" />
+		<local:DurationTickerOneTimeConverter x:Key="valconvDurationTickerOneTime" />
+		<local:FirstBeginTimeTickerConverter x:Key="valconvFirstBeginTimeTicker" />
+				
+		<Style TargetType="TextBlock">
+			<Setter Property="Margin" Value="0" />
+			<Setter Property="Padding" Value="0" />
+			<Setter Property="VerticalAlignment" Value="Center" />
+			<Setter Property="HorizontalAlignment" Value="Center" />
+			<Setter Property="Background" Value="Transparent" />
+			<Setter Property="Canvas.Left" Value="0" />
+
+			<Setter Property="Text" Value="{Binding TickerText, RelativeSource={RelativeSource FindAncestor, AncestorType=local:CTicker}}" />
+
+			<Setter Property="FontSize" Value="{Binding FontSize, RelativeSource={RelativeSource FindAncestor, AncestorType=local:CTicker}}" />
+			<Setter Property="FontFamily" Value="{Binding FontFamily, RelativeSource={RelativeSource FindAncestor, AncestorType=local:CTicker}}" />
+			<Setter Property="FontStyle" Value="{Binding FontStyle, RelativeSource={RelativeSource FindAncestor, AncestorType=local:CTicker}}" />
+			<Setter Property="FontWeight" Value="{Binding FontWeight, RelativeSource={RelativeSource FindAncestor, AncestorType=local:CTicker}}" />
+			<Setter Property="Foreground" Value="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType=local:CTicker}}" />
+		</Style>
+
+		<!-- Для первого поля текста только 1 раз -->
+		<Storyboard x:Key="Ticker1OneTimeStoryboard" RepeatBehavior="1x" FillBehavior="HoldEnd">
+			<DoubleAnimation Storyboard.TargetName="txtblkTickerOneTime"
+							 Storyboard.TargetProperty="(Canvas.Left)"
+							 From="0" >
+				<DoubleAnimation.To>
+					<MultiBinding Converter="{local:LastLeftMultiTickerMarkupConverter}">
+						<Binding Path="ActualWidth" ElementName="cnvsTicker" />
+						<Binding Path="ActualWidth" ElementName="txtblkTicker1" />
+					</MultiBinding>
+				</DoubleAnimation.To>
+
+				<DoubleAnimation.Duration>
+					<MultiBinding Converter="{StaticResource valconvDurationTickerOneTime}">
+						<Binding Path="ActualWidth" ElementName="cnvsTicker" />
+						<Binding Path="ActualWidth" ElementName="txtblkTicker1" />
+						<Binding Path="TickerSpeed" RelativeSource="{RelativeSource FindAncestor,AncestorType=local:CTicker}" />
+					</MultiBinding>
+				</DoubleAnimation.Duration>
+			</DoubleAnimation>
+			
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetName="txtblkTicker1" Storyboard.TargetProperty="Opacity" FillBehavior="Stop">
+				<DoubleAnimationUsingKeyFrames.Duration>
+					<MultiBinding Converter="{StaticResource valconvDurationTickerOneTime}">
+						<Binding Path="ActualWidth" ElementName="cnvsTicker" />
+						<Binding Path="ActualWidth" ElementName="txtblkTicker1" />
+						<Binding Path="TickerSpeed" RelativeSource="{RelativeSource FindAncestor,AncestorType=local:CTicker}" />
+					</MultiBinding>
+				</DoubleAnimationUsingKeyFrames.Duration>
+				
+				<DiscreteDoubleKeyFrame KeyTime="0" Value="0" />
+			</DoubleAnimationUsingKeyFrames>
+		</Storyboard>
+
+		<!-- Для первого поля текста -->
+		<Storyboard x:Key="Ticker1Storyboard" RepeatBehavior="Forever">
+			<Storyboard.Duration>
+				<MultiBinding Converter="{StaticResource valconvDurationTicker}" ConverterParameter="0">
+					<Binding Path="ActualWidth" ElementName="cnvsTicker" />
+					<Binding Path="ActualWidth" ElementName="txtblkTicker1" />
+					<Binding Path="TickerSpeed" RelativeSource="{RelativeSource FindAncestor,AncestorType=local:CTicker}" />
+				</MultiBinding>
+			</Storyboard.Duration>
+			
+			<Storyboard.BeginTime>
+				<MultiBinding Converter="{StaticResource valconvDurationTickerOneTime}">
+					<Binding Path="ActualWidth" ElementName="cnvsTicker" />
+					<Binding Path="ActualWidth" ElementName="txtblkTicker1" />
+					<Binding Path="TickerSpeed" RelativeSource="{RelativeSource FindAncestor, AncestorType=local:CTicker}" />
+				</MultiBinding>
+			</Storyboard.BeginTime>
+
+			<DoubleAnimation Storyboard.TargetName="txtblkTicker1"
+							 Storyboard.TargetProperty="(Canvas.Left)"
+							 From="{Binding ActualWidth, ElementName=cnvsTicker}"
+							 To="{Binding ActualWidth, ElementName=txtblkTicker1, Converter={local:LastLeftTickerMarkupConverter}}">
+				<DoubleAnimation.Duration>
+					<MultiBinding Converter="{StaticResource valconvDurationTicker}" ConverterParameter="1">
+						<Binding Path="ActualWidth" ElementName="cnvsTicker" />
+						<Binding Path="ActualWidth" ElementName="txtblkTicker1" />
+						<Binding Path="TickerSpeed" RelativeSource="{RelativeSource FindAncestor,AncestorType=local:CTicker}" />
+					</MultiBinding>
+				</DoubleAnimation.Duration>
+			</DoubleAnimation>
+		</Storyboard>
+		
+		<!-- Скрывание второго поля до начала его движения -->
+		<Storyboard x:Key="Ticker2HideStoryboard" RepeatBehavior="1x" FillBehavior="Stop">
+			<Storyboard.Duration>
+				<MultiBinding Converter="{StaticResource valconvFirstBeginTimeTicker}">
+					<Binding Path="ActualWidth" ElementName="cnvsTicker" />
+					<Binding Path="ActualWidth" ElementName="txtblkTicker1" />
+					<Binding Path="TickerSpeed" RelativeSource="{RelativeSource FindAncestor,AncestorType=local:CTicker}" />
+				</MultiBinding>
+			</Storyboard.Duration>
+
+			<DoubleAnimationUsingKeyFrames Storyboard.TargetName="txtblkTicker2" Storyboard.TargetProperty="Opacity">
+				<DiscreteDoubleKeyFrame KeyTime="0" Value="0" />
+			</DoubleAnimationUsingKeyFrames>
+		</Storyboard>
+
+		<!-- Для второго поля текста -->
+		<Storyboard x:Key="Ticker2Storyboard" RepeatBehavior="Forever">
+			<Storyboard.Duration>
+				<MultiBinding Converter="{StaticResource valconvDurationTicker}" ConverterParameter="0">
+					<Binding Path="ActualWidth" ElementName="cnvsTicker" />
+					<Binding Path="ActualWidth" ElementName="txtblkTicker1" />
+					<Binding Path="TickerSpeed" RelativeSource="{RelativeSource FindAncestor,AncestorType=local:CTicker}" />
+				</MultiBinding>
+			</Storyboard.Duration>
+
+			<Storyboard.BeginTime>
+				<MultiBinding Converter="{StaticResource valconvFirstBeginTimeTicker}">
+					<Binding Path="ActualWidth" ElementName="cnvsTicker" />
+					<Binding Path="ActualWidth" ElementName="txtblkTicker1" />
+					<Binding Path="TickerSpeed" RelativeSource="{RelativeSource FindAncestor,AncestorType=local:CTicker}" />
+				</MultiBinding>
+			</Storyboard.BeginTime>
+
+			<DoubleAnimation Storyboard.TargetName="txtblkTicker2"
+							 Storyboard.TargetProperty="(Canvas.Left)"
+							 From="{Binding ActualWidth, ElementName=cnvsTicker}"
+							 To="{Binding ActualWidth, ElementName=txtblkTicker1, Converter={local:LastLeftTickerMarkupConverter}}">
+				<DoubleAnimation.Duration>
+					<MultiBinding Converter="{StaticResource valconvDurationTicker}" ConverterParameter="1">
+						<Binding Path="ActualWidth" ElementName="cnvsTicker" />
+						<Binding Path="ActualWidth" ElementName="txtblkTicker1" />
+						<Binding Path="TickerSpeed" RelativeSource="{RelativeSource FindAncestor,AncestorType=local:CTicker}" />
+					</MultiBinding>
+				</DoubleAnimation.Duration>
+			</DoubleAnimation>
+		</Storyboard>
+	</glob:CNotifyPropertyChangedUserCtrl.Resources>
+		
+	<Canvas x:Name="cnvsTicker"
+			x:FieldModifier="private"
+			Background="Transparent"
+			VerticalAlignment="Stretch"
+			HorizontalAlignment="Stretch"
+			MinWidth="100"
+			Margin="0"
+			ClipToBounds="True"
+			Loaded="cnvsTicker_Loaded"
+			SizeChanged="cnvsTicker_SizeChanged">
+		
+		<TextBlock Name="txtblkTickerOneTime" x:FieldModifier="private" />
+		<TextBlock Name="txtblkTicker1" x:FieldModifier="private" />
+		<TextBlock Name="txtblkTicker2"
+				   x:FieldModifier="private"
+				   Visibility="{Binding RunAnimation, Converter={convs:BoolToVisibilityMarkupConverter}}" />
+		
+		<Rectangle Fill="Blue"
+				   Width="10"
+				   Canvas.Left="{Binding ActualWidth, ElementName=cnvsTicker, Converter={local:HalfWidthConverter}}"
+				   Height="{Binding ActualHeight, ElementName=cnvsTicker}"
+				   Visibility="Collapsed"
+				   />
+	</Canvas>
+</glob:CNotifyPropertyChangedUserCtrl>
