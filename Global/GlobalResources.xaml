@@ -1,5 +1,5 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 					xmlns:ribbon="clr-namespace:Microsoft.Windows.Controls.Ribbon;assembly=RibbonControlsLibrary"
 					xmlns:viselements="clr-namespace:DBManager.InterfaceElements"
 					xmlns:attachedprops="clr-namespace:DBManager.AttachedProperties"
@@ -9,10 +9,18 @@
 	<SolidColorBrush x:Key="NextRoundMembersCountBrush" Color="#FFC5D9F1" />
 	<SolidColorBrush x:Key="InvitedToStartBrush" Color="#FF92D050" />
 	<SolidColorBrush x:Key="PreparingBrush" Color="Yellow" />
-	<SolidColorBrush x:Key="JustRecievedResultBrush" Color="#FFC2D69A" />
+	<SolidColorBrush x:Key="JustRecievedResultBrush" Color="Blue" />
 	<SolidColorBrush x:Key="StayOnStartBrush" Color="#FFFAC090" />
 	<SolidColorBrush x:Key="DataGridLinesBrush" Color="Gray" />
-	
+
+	<SolidColorBrush x:Key="PlainResultsForeBrush" Color="Black" />
+	<SolidColorBrush x:Key="NextRoundMembersCountForeBrush" Color="Black" />
+	<SolidColorBrush x:Key="InvitedToStartForeBrush" Color="Black" />
+	<SolidColorBrush x:Key="PreparingForeBrush" Color="Black" />
+	<SolidColorBrush x:Key="JustRecievedResultForeBrush" Color="White" />
+	<SolidColorBrush x:Key="StayOnStartForeBrush" Color="Black" />
+	<SolidColorBrush x:Key="DataGridLinesForeBrush" Color="Black" />
+
 	<sys:Double x:Key="DefaultFontSize">14</sys:Double>
 	<sys:String x:Key="DefaultFontFamilyName">Arial</sys:String>
 	

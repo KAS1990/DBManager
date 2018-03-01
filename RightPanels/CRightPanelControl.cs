@@ -272,56 +272,12 @@ namespace DBManager.RightPanels
 		{
 			DataContext = this;
 
-			if (m_GlobalResources != null && m_GlobalResources.Count > 0)
-			{
-				if (m_GlobalResources["PlainResultsBrush"] is SolidColorBrush)
-				{
-					m_PlainResultsFontStyle = new CFontStyleSettings()
-					{
-						BackgroundColor = (m_GlobalResources["PlainResultsBrush"] as SolidColorBrush).Color
-					};
-				}
-
-				if (m_GlobalResources["NextRoundMembersCountBrush"] is SolidColorBrush)
-				{
-					m_NextRoundMembersCountFontStyle = new CFontStyleSettings()
-					{
-						BackgroundColor = (m_GlobalResources["NextRoundMembersCountBrush"] as SolidColorBrush).Color
-					};
-				}
-
-				if (m_GlobalResources["InvitedToStartBrush"] is SolidColorBrush)
-				{
-					m_InvitedToStartFontStyle = new CFontStyleSettings()
-					{
-						BackgroundColor = (m_GlobalResources["InvitedToStartBrush"] as SolidColorBrush).Color
-					};
-				}
-
-				if (m_GlobalResources["PreparingBrush"] is SolidColorBrush)
-				{
-					m_PreparingFontStyle = new CFontStyleSettings()
-					{
-						BackgroundColor = (m_GlobalResources["PreparingBrush"] as SolidColorBrush).Color
-					};
-				}
-
-				if (m_GlobalResources["StayOnStartBrush"] is SolidColorBrush)
-				{
-					m_StayOnStartFontStyle = new CFontStyleSettings()
-					{
-						BackgroundColor = (m_GlobalResources["StayOnStartBrush"] as SolidColorBrush).Color
-					};
-				}
-
-				if (m_GlobalResources["JustRecievedResultBrush"] is SolidColorBrush)
-				{
-					m_JustRecievedResultFontStyle = new CFontStyleSettings()
-					{
-						BackgroundColor = (m_GlobalResources["JustRecievedResultBrush"] as SolidColorBrush).Color
-					};
-				}
-			}
+			m_PlainResultsFontStyle = DBManagerApp.m_AppSettings.m_Settings.PlainResultsFontStyle;
+			m_NextRoundMembersCountFontStyle = DBManagerApp.m_AppSettings.m_Settings.NextRoundMembersCountFontStyle;
+			m_InvitedToStartFontStyle = DBManagerApp.m_AppSettings.m_Settings.InvitedToStartFontStyle;
+			m_PreparingFontStyle = DBManagerApp.m_AppSettings.m_Settings.PreparingFontStyle;
+			m_StayOnStartFontStyle = DBManagerApp.m_AppSettings.m_Settings.StayOnStartFontStyle;
+			m_JustRecievedResultFontStyle = DBManagerApp.m_AppSettings.m_Settings.JustRecievedResultFontStyle;
 		}
 
 

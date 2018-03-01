@@ -33,35 +33,50 @@ namespace DBManager.RoundMembers.Converters
 			}
 		}
 
-		public static CConverterResult Convert(CResult result, enRounds? Round, int? RoundPlace, int? MembersFromQualif, enCellType DestColumnType)
+		public static CConverterResult Convert(CResult result,
+												enRounds? Round,
+												int? RoundPlace,
+												int? MembersFromQualif,
+												enCellType DestColumnType,
+												out bool PlainStyleSetted)
 		{
 			if ((RoundPlace != null) || (MembersFromQualif != null))
 			{
 				if ((result == null) || (Round == null) || (RoundPlace == null) || (MembersFromQualif == null))
 				{
 					if (result != null && result.CondFormating.HasValue && Round.HasValue && MembersFromQualif.HasValue)
-					{	// Возможно участник стоит на старте
+					{   // Возможно участник стоит на старте
 						lock (DBManagerApp.m_AppSettings.m_SettigsSyncObj)
 						{
 							if (result.CondFormating.Value == enCondFormating.StayOnStart &&
 								DestColumnType != enCellType.StartNumber &&
 								DestColumnType != enCellType.SurnameAndName)
 							{
+								PlainStyleSetted = false;
 								return new CConverterResult(DBManagerApp.m_AppSettings.m_Settings.StayOnStartFontStyle, false);
 							}
 						}
 					}
 					else
+					{
+						PlainStyleSetted = true;
 						return new CConverterResult(DBManagerApp.m_AppSettings.m_Settings.PlainResultsFontStyle, true);
+					}
 				}
 			}
 			else if ((RoundPlace == null) && (MembersFromQualif == null))
 			{
 				if ((result == null) || (Round == null))
+				{
+					PlainStyleSetted = true;
 					return new CConverterResult(DBManagerApp.m_AppSettings.m_Settings.PlainResultsFontStyle, true);
+				}
 			}
 			else
+			{
+				PlainStyleSetted = true;
 				return new CConverterResult(DBManagerApp.m_AppSettings.m_Settings.PlainResultsFontStyle, true);
+			}
 
 
 			if (!(result == null || result.CondFormating == null || DestColumnType == enCellType.None))
@@ -76,12 +91,16 @@ namespace DBManager.RoundMembers.Converters
 								case enCellType.StartNumber:
 								case enCellType.SurnameAndName:
 									if (Round == enRounds.Qualif || Round == enRounds.Qualif2)
+									{
+										PlainStyleSetted = false;
 										return new CConverterResult(DBManagerApp.m_AppSettings.m_Settings.InvitedToStartFontStyle, false);
+									}
 									break;
 
 								case enCellType.Route1:
 								case enCellType.Route2:
 								case enCellType.Sum:
+									PlainStyleSetted = false;
 									return new CConverterResult(DBManagerApp.m_AppSettings.m_Settings.StayOnStartFontStyle, false);
 
 								default:
@@ -90,14 +109,16 @@ namespace DBManager.RoundMembers.Converters
 							break;
 
 						case enCondFormating.JustRecievedResult: // Только что полученный результат
-							if (Round == enRounds.Qualif ||
-								Round == enRounds.Qualif2 ||
-								(Round > enRounds.Qualif2 && Round <= enRounds.Final && result.ResultColumnNumber == enResultColumnNumber.Sum))
-							{	// Тут подсветка не нужна
-								break;
+							if (Round == enRounds.Qualif || Round == enRounds.Qualif2)
+							{   // Тут подсветка не нужна
+								PlainStyleSetted = false;
+								return new CConverterResult(DBManagerApp.m_AppSettings.m_Settings.JustRecievedResultFontStyle, false);
 							}
 							else
+							{
+								PlainStyleSetted = false;
 								return new CConverterResult(DBManagerApp.m_AppSettings.m_Settings.JustRecievedResultFontStyle, false);
+							}
 
 						case enCondFormating.Preparing: // Участник готовится
 							if (Round == enRounds.Qualif || Round == enRounds.Qualif2)
@@ -106,6 +127,7 @@ namespace DBManager.RoundMembers.Converters
 								{
 									case enCellType.StartNumber:
 									case enCellType.SurnameAndName:
+										PlainStyleSetted = false;
 										return new CConverterResult(DBManagerApp.m_AppSettings.m_Settings.PreparingFontStyle, false);
 
 									default:
@@ -123,14 +145,21 @@ namespace DBManager.RoundMembers.Converters
 			if (RoundPlace.HasValue && MembersFromQualif.HasValue)
 			{
 				if (RoundPlace > 0 && RoundPlace <= MembersFromQualif)
-				{	// Участник проходит в следуюущий тур
+				{   // Участник проходит в следуюущий тур
+					PlainStyleSetted = false;
 					return new CConverterResult(DBManagerApp.m_AppSettings.m_Settings.NextRoundMembersCountFontStyle, false);
 				}
 				else
+				{
+					PlainStyleSetted = true;
 					return new CConverterResult(DBManagerApp.m_AppSettings.m_Settings.PlainResultsFontStyle, true);
+				}
 			}
 			else
-				return new CConverterResult(DBManagerApp.m_AppSettings.m_Settings.PlainResultsFontStyle,true);
+			{
+				PlainStyleSetted = true;
+				return new CConverterResult(DBManagerApp.m_AppSettings.m_Settings.PlainResultsFontStyle, true);
+			}
 		}
 	}
 }

@@ -669,27 +669,33 @@ namespace DBManager.SettingsWriter
 
 			PlainResultsFontStyle = new CFontStyleSettings()
 			{
-				BackgroundColor = (m_GlobalResources["PlainResultsBrush"] as SolidColorBrush).Color
+				BackgroundColor = (m_GlobalResources["PlainResultsBrush"] as SolidColorBrush).Color,
+				ForeColor = (m_GlobalResources["PlainResultsForeBrush"] as SolidColorBrush).Color
 			};
 			NextRoundMembersCountFontStyle = new CFontStyleSettings()
 			{
-				BackgroundColor = (m_GlobalResources["NextRoundMembersCountBrush"] as SolidColorBrush).Color
+				BackgroundColor = (m_GlobalResources["NextRoundMembersCountBrush"] as SolidColorBrush).Color,
+				ForeColor = (m_GlobalResources["NextRoundMembersCountForeBrush"] as SolidColorBrush).Color
 			};
 			InvitedToStartFontStyle = new CFontStyleSettings()
 			{
-				BackgroundColor = (m_GlobalResources["InvitedToStartBrush"] as SolidColorBrush).Color
+				BackgroundColor = (m_GlobalResources["InvitedToStartBrush"] as SolidColorBrush).Color,
+				ForeColor = (m_GlobalResources["InvitedToStartForeBrush"] as SolidColorBrush).Color
 			};
 			PreparingFontStyle = new CFontStyleSettings()
 			{
-				BackgroundColor = (m_GlobalResources["PreparingBrush"] as SolidColorBrush).Color
+				BackgroundColor = (m_GlobalResources["PreparingBrush"] as SolidColorBrush).Color,
+				ForeColor = (m_GlobalResources["PreparingForeBrush"] as SolidColorBrush).Color
 			};
 			StayOnStartFontStyle = new CFontStyleSettings()
 			{
-				BackgroundColor = (m_GlobalResources["StayOnStartBrush"] as SolidColorBrush).Color
+				BackgroundColor = (m_GlobalResources["StayOnStartBrush"] as SolidColorBrush).Color,
+				ForeColor = (m_GlobalResources["StayOnStartForeBrush"] as SolidColorBrush).Color
 			};
 			JustRecievedResultFontStyle = new CFontStyleSettings()
 			{
-				BackgroundColor = (m_GlobalResources["JustRecievedResultBrush"] as SolidColorBrush).Color
+				BackgroundColor = (m_GlobalResources["JustRecievedResultBrush"] as SolidColorBrush).Color,
+				ForeColor = (m_GlobalResources["JustRecievedResultForeBrush"] as SolidColorBrush).Color
 			};
 
 			FontSize = 14.0;
@@ -726,7 +732,8 @@ namespace DBManager.SettingsWriter
 			{
 				PlainResultsFontStyle = new CFontStyleSettings()
 				{
-					BackgroundColor = (m_GlobalResources["PlainResultsBrush"] as SolidColorBrush).Color
+					BackgroundColor = (m_GlobalResources["PlainResultsBrush"] as SolidColorBrush).Color,
+					ForeColor = (m_GlobalResources["PlainResultsForeBrush"] as SolidColorBrush).Color
 				};
 			}
 						
@@ -734,7 +741,8 @@ namespace DBManager.SettingsWriter
 			{
 				NextRoundMembersCountFontStyle = new CFontStyleSettings()
 				{
-					BackgroundColor = (m_GlobalResources["NextRoundMembersCountBrush"] as SolidColorBrush).Color
+					BackgroundColor = (m_GlobalResources["NextRoundMembersCountBrush"] as SolidColorBrush).Color,
+					ForeColor = (m_GlobalResources["NextRoundMembersCountForeBrush"] as SolidColorBrush).Color
 				};
 			}
 
@@ -742,7 +750,8 @@ namespace DBManager.SettingsWriter
 			{
 				InvitedToStartFontStyle = new CFontStyleSettings()
 				{
-					BackgroundColor = (m_GlobalResources["InvitedToStartBrush"] as SolidColorBrush).Color
+					BackgroundColor = (m_GlobalResources["InvitedToStartBrush"] as SolidColorBrush).Color,
+					ForeColor = (m_GlobalResources["InvitedToStartForeBrush"] as SolidColorBrush).Color
 				};
 			}
 
@@ -750,7 +759,8 @@ namespace DBManager.SettingsWriter
 			{
 				PreparingFontStyle = new CFontStyleSettings()
 				{
-					BackgroundColor = (m_GlobalResources["PreparingBrush"] as SolidColorBrush).Color
+					BackgroundColor = (m_GlobalResources["PreparingBrush"] as SolidColorBrush).Color,
+					ForeColor = (m_GlobalResources["PreparingForeBrush"] as SolidColorBrush).Color
 				};
 			}
 
@@ -758,7 +768,8 @@ namespace DBManager.SettingsWriter
 			{
 				StayOnStartFontStyle = new CFontStyleSettings()
 				{
-					BackgroundColor = (m_GlobalResources["StayOnStartBrush"] as SolidColorBrush).Color
+					BackgroundColor = (m_GlobalResources["StayOnStartBrush"] as SolidColorBrush).Color,
+					ForeColor = (m_GlobalResources["StayOnStartForeBrush"] as SolidColorBrush).Color
 				};
 			}
 
@@ -766,7 +777,8 @@ namespace DBManager.SettingsWriter
 			{
 				JustRecievedResultFontStyle = new CFontStyleSettings()
 				{
-					BackgroundColor = (m_GlobalResources["JustRecievedResultBrush"] as SolidColorBrush).Color
+					BackgroundColor = (m_GlobalResources["JustRecievedResultBrush"] as SolidColorBrush).Color,
+					ForeColor = (m_GlobalResources["JustRecievedResultForeBrush"] as SolidColorBrush).Color
 				};
 			}
 

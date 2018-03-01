@@ -116,12 +116,19 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 
 		public void RefreshFields(CDBAdditionalClassBase Parent, COneRoundResults RouteResults, CFontStyleSettings RowFontStyle)
 		{
-			Route1.RefreshFields(Parent, RouteResults, RouteResults.Route1, RowFontStyle);
-			Route2.RefreshFields(Parent, RouteResults, RouteResults.Route2, RowFontStyle);
-			Sum.RefreshFields(Parent, RouteResults, RouteResults.Sum, RowFontStyle);
+			bool PlainStyleSetted = false;
 
-			StartNumber.RefreshFields(Parent, RouteResults, RouteResults.Route1, RowFontStyle);
-			SurnameAndName.RefreshFields(Parent, RouteResults, RouteResults.Route1, RowFontStyle);
+			Route1.RefreshFields(Parent, RouteResults, RouteResults.Route1, RowFontStyle, out PlainStyleSetted);
+			Route2.RefreshFields(Parent, RouteResults, RouteResults.Route2, RowFontStyle, out PlainStyleSetted);
+			Sum.RefreshFields(Parent, RouteResults, RouteResults.Sum, RowFontStyle, out PlainStyleSetted);
+
+			StartNumber.RefreshFields(Parent, RouteResults, RouteResults.Route1, RowFontStyle, out PlainStyleSetted);
+			if (PlainStyleSetted)
+				StartNumber.RefreshFields(Parent, RouteResults, RouteResults.Sum, RowFontStyle, out PlainStyleSetted);
+			
+			SurnameAndName.RefreshFields(Parent, RouteResults, RouteResults.Route1, RowFontStyle, out PlainStyleSetted);
+			if (PlainStyleSetted)
+				SurnameAndName.RefreshFields(Parent, RouteResults, RouteResults.Sum, RowFontStyle, out PlainStyleSetted);
 		}
 
 

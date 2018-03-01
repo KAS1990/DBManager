@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Settings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <IsRestarting>false</IsRestarting>
-  <CompDir>D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\Скорость Last Edition</CompDir>
+  <CompDir>D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\24-25.02.2018</CompDir>
   <DefaultCompSettings>
     <MenInGroup>3</MenInGroup>
     <WomenInGroup>3</WomenInGroup>
@@ -147,43 +147,43 @@
     <BackgroundColor>
       <Color>
         <A>255</A>
-        <R>194</R>
-        <G>214</G>
-        <B>154</B>
+        <R>0</R>
+        <G>0</G>
+        <B>255</B>
         <ScA>1</ScA>
-        <ScR>0.5394795</ScR>
-        <ScG>0.672443151</ScG>
-        <ScB>0.3231432</ScB>
+        <ScR>0</ScR>
+        <ScG>0</ScG>
+        <ScB>1</ScB>
       </Color>
     </BackgroundColor>
     <ForeColor>
       <Color>
         <A>255</A>
-        <R>0</R>
-        <G>0</G>
-        <B>0</B>
+        <R>255</R>
+        <G>255</G>
+        <B>255</B>
         <ScA>1</ScA>
-        <ScR>0</ScR>
-        <ScG>0</ScG>
-        <ScB>0</ScB>
+        <ScR>1</ScR>
+        <ScG>1</ScG>
+        <ScB>1</ScB>
       </Color>
     </ForeColor>
   </JustRecievedResultFontStyle>
   <FileScannerSettings>
-    <item key="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\Скорость Last Edition\Таблица Скорость Новая.xml">
-      <CFileScannerSettings FullFilePath="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\Скорость Last Edition\Таблица Скорость Новая.xml" GroupId="23" />
-    </item>
-    <item key="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\24-25.02.2018\Младшие Девушки.xml">
-      <CFileScannerSettings FullFilePath="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\24-25.02.2018\Младшие Девушки.xml" GroupId="11" />
-    </item>
-    <item key="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\24-25.02.2018\Младшие Юноши.xml">
-      <CFileScannerSettings FullFilePath="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\24-25.02.2018\Младшие Юноши.xml" GroupId="12" />
+    <item key="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\24-25.02.2018\Подростки Мальчики.xml">
+      <CFileScannerSettings FullFilePath="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\24-25.02.2018\Подростки Мальчики.xml" GroupId="22" />
     </item>
     <item key="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\24-25.02.2018\Подростки Девочки.xml">
       <CFileScannerSettings FullFilePath="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\24-25.02.2018\Подростки Девочки.xml" GroupId="13" />
     </item>
-    <item key="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\24-25.02.2018\Подростки Мальчики.xml">
-      <CFileScannerSettings FullFilePath="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\24-25.02.2018\Подростки Мальчики.xml" GroupId="22" />
+    <item key="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\24-25.02.2018\Младшие Юноши.xml">
+      <CFileScannerSettings FullFilePath="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\24-25.02.2018\Младшие Юноши.xml" GroupId="12" />
+    </item>
+    <item key="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\24-25.02.2018\Младшие Девушки.xml">
+      <CFileScannerSettings FullFilePath="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\24-25.02.2018\Младшие Девушки.xml" GroupId="11" />
+    </item>
+    <item key="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\Скорость Last Edition\Таблица Скорость Новая.xml">
+      <CFileScannerSettings FullFilePath="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\Скорость Last Edition\Таблица Скорость Новая.xml" GroupId="23" />
     </item>
   </FileScannerSettings>
   <CompSettings>
@@ -460,6 +460,12 @@
     <item key="7">
       <CCompSpecificSets>
         <CompId>7</CompId>
+        <TeamsForTeamReport />
+        <PlaceColumnIndex>1</PlaceColumnIndex>
+        <PersonalDataColumnIndex>2</PersonalDataColumnIndex>
+        <YearOfBirthColumnIndex>4</YearOfBirthColumnIndex>
+        <TeamColumnIndex>3</TeamColumnIndex>
+        <GroupsLeadSheetsInfos />
         <GroupsForAutosendToFTP>
           <item key="23">
             <CFTPGroupItemInSets>
