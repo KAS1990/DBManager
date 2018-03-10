@@ -156,7 +156,7 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 		}
 		#endregion
 
-
+				
 		private static readonly string SurnameAndNamePropertyName = GlobalDefines.GetPropertyName<CFullMemberInfo>(m => m.SurnameAndName);
 		public string SurnameAndName
 		{

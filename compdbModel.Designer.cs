@@ -26,6 +26,7 @@ using System.Xml.Serialization;
 [assembly: EdmRelationshipAttribute("compdbModel", "fk_round_dates_groups1", "groups", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(DBManager.groups), "round_dates", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(DBManager.round_dates), true)]
 [assembly: EdmRelationshipAttribute("compdbModel", "fk_participation_coaches", "coaches", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(DBManager.coaches), "participations", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(DBManager.participations), true)]
 [assembly: EdmRelationshipAttribute("compdbModel", "fk_results_speed_participation", "participations", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(DBManager.participations), "results_speed", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(DBManager.results_speed), true)]
+[assembly: EdmRelationshipAttribute("compdbModel", "fk_falsestarts_rules_groups1", "groups", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(DBManager.groups), "falsestarts_rules", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(DBManager.falsestarts_rules), true)]
 
 #endregion
 
@@ -224,6 +225,38 @@ namespace DBManager
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
+        public ObjectSet<balls> balls
+        {
+            get
+            {
+                if ((_balls == null))
+                {
+                    _balls = base.CreateObjectSet<balls>("balls");
+                }
+                return _balls;
+            }
+        }
+        private ObjectSet<balls> _balls;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<additional_events_types> additional_events_types
+        {
+            get
+            {
+                if ((_additional_events_types == null))
+                {
+                    _additional_events_types = base.CreateObjectSet<additional_events_types>("additional_events_types");
+                }
+                return _additional_events_types;
+            }
+        }
+        private ObjectSet<additional_events_types> _additional_events_types;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
         public ObjectSet<results_speed> results_speed
         {
             get
@@ -240,18 +273,18 @@ namespace DBManager
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        public ObjectSet<balls> balls
+        public ObjectSet<falsestarts_rules> falsestarts_rules
         {
             get
             {
-                if ((_balls == null))
+                if ((_falsestarts_rules == null))
                 {
-                    _balls = base.CreateObjectSet<balls>("balls");
+                    _falsestarts_rules = base.CreateObjectSet<falsestarts_rules>("falsestarts_rules");
                 }
-                return _balls;
+                return _falsestarts_rules;
             }
         }
-        private ObjectSet<balls> _balls;
+        private ObjectSet<falsestarts_rules> _falsestarts_rules;
 
         #endregion
 
@@ -330,6 +363,22 @@ namespace DBManager
         }
     
         /// <summary>
+        /// Deprecated Method for adding a new object to the balls EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToballs(balls balls)
+        {
+            base.AddObject("balls", balls);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the additional_events_types EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToadditional_events_types(additional_events_types additional_events_types)
+        {
+            base.AddObject("additional_events_types", additional_events_types);
+        }
+    
+        /// <summary>
         /// Deprecated Method for adding a new object to the results_speed EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
         public void AddToresults_speed(results_speed results_speed)
@@ -338,11 +387,11 @@ namespace DBManager
         }
     
         /// <summary>
-        /// Deprecated Method for adding a new object to the balls EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// Deprecated Method for adding a new object to the falsestarts_rules EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
-        public void AddToballs(balls balls)
+        public void AddTofalsestarts_rules(falsestarts_rules falsestarts_rules)
         {
-            base.AddObject("balls", balls);
+            base.AddObject("falsestarts_rules", falsestarts_rules);
         }
 
         #endregion
@@ -352,6 +401,141 @@ namespace DBManager
     #endregion
 
     #region Entities
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="compdbModel", Name="additional_events_types")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class additional_events_types : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new additional_events_types object.
+        /// </summary>
+        /// <param name="flag">Initial value of the flag property.</param>
+        /// <param name="name">Initial value of the name property.</param>
+        /// <param name="short_name">Initial value of the short_name property.</param>
+        /// <param name="name_in_xml">Initial value of the name_in_xml property.</param>
+        public static additional_events_types Createadditional_events_types(global::System.Int64 flag, global::System.String name, global::System.String short_name, global::System.String name_in_xml)
+        {
+            additional_events_types additional_events_types = new additional_events_types();
+            additional_events_types.flag = flag;
+            additional_events_types.name = name;
+            additional_events_types.short_name = short_name;
+            additional_events_types.name_in_xml = name_in_xml;
+            return additional_events_types;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int64 flag
+        {
+            get
+            {
+                return _flag;
+            }
+            set
+            {
+                if (_flag != value)
+                {
+                    OnflagChanging(value);
+                    ReportPropertyChanging("flag");
+                    _flag = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("flag");
+                    OnflagChanged();
+                }
+            }
+        }
+        private global::System.Int64 _flag;
+        partial void OnflagChanging(global::System.Int64 value);
+        partial void OnflagChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String name
+        {
+            get
+            {
+                return _name;
+            }
+            set
+            {
+                OnnameChanging(value);
+                ReportPropertyChanging("name");
+                _name = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("name");
+                OnnameChanged();
+            }
+        }
+        private global::System.String _name;
+        partial void OnnameChanging(global::System.String value);
+        partial void OnnameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String short_name
+        {
+            get
+            {
+                return _short_name;
+            }
+            set
+            {
+                Onshort_nameChanging(value);
+                ReportPropertyChanging("short_name");
+                _short_name = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("short_name");
+                Onshort_nameChanged();
+            }
+        }
+        private global::System.String _short_name;
+        partial void Onshort_nameChanging(global::System.String value);
+        partial void Onshort_nameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String name_in_xml
+        {
+            get
+            {
+                return _name_in_xml;
+            }
+            set
+            {
+                Onname_in_xmlChanging(value);
+                ReportPropertyChanging("name_in_xml");
+                _name_in_xml = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("name_in_xml");
+                Onname_in_xmlChanged();
+            }
+        }
+        private global::System.String _name_in_xml;
+        partial void Onname_in_xmlChanging(global::System.String value);
+        partial void Onname_in_xmlChanged();
+
+        #endregion
+
+    
+    }
     
     /// <summary>
     /// No Metadata Documentation available.
@@ -672,6 +856,186 @@ namespace DBManager
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<groups>("compdbModel.fk_groups_description", "groups", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="compdbModel", Name="falsestarts_rules")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class falsestarts_rules : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new falsestarts_rules object.
+        /// </summary>
+        /// <param name="id_falsestarts_rules">Initial value of the id_falsestarts_rules property.</param>
+        /// <param name="group">Initial value of the Group property.</param>
+        /// <param name="start_round">Initial value of the start_round property.</param>
+        /// <param name="end_round">Initial value of the end_round property.</param>
+        public static falsestarts_rules Createfalsestarts_rules(global::System.Int64 id_falsestarts_rules, global::System.Int64 group, global::System.Byte start_round, global::System.Byte end_round)
+        {
+            falsestarts_rules falsestarts_rules = new falsestarts_rules();
+            falsestarts_rules.id_falsestarts_rules = id_falsestarts_rules;
+            falsestarts_rules.Group = group;
+            falsestarts_rules.start_round = start_round;
+            falsestarts_rules.end_round = end_round;
+            return falsestarts_rules;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int64 id_falsestarts_rules
+        {
+            get
+            {
+                return _id_falsestarts_rules;
+            }
+            set
+            {
+                if (_id_falsestarts_rules != value)
+                {
+                    Onid_falsestarts_rulesChanging(value);
+                    ReportPropertyChanging("id_falsestarts_rules");
+                    _id_falsestarts_rules = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("id_falsestarts_rules");
+                    Onid_falsestarts_rulesChanged();
+                }
+            }
+        }
+        private global::System.Int64 _id_falsestarts_rules;
+        partial void Onid_falsestarts_rulesChanging(global::System.Int64 value);
+        partial void Onid_falsestarts_rulesChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int64 Group
+        {
+            get
+            {
+                return _Group;
+            }
+            set
+            {
+                if (_Group != value)
+                {
+                    OnGroupChanging(value);
+                    ReportPropertyChanging("Group");
+                    _Group = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("Group");
+                    OnGroupChanged();
+                }
+            }
+        }
+        private global::System.Int64 _Group;
+        partial void OnGroupChanging(global::System.Int64 value);
+        partial void OnGroupChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Byte start_round
+        {
+            get
+            {
+                return _start_round;
+            }
+            set
+            {
+                Onstart_roundChanging(value);
+                ReportPropertyChanging("start_round");
+                _start_round = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("start_round");
+                Onstart_roundChanged();
+            }
+        }
+        private global::System.Byte _start_round;
+        partial void Onstart_roundChanging(global::System.Byte value);
+        partial void Onstart_roundChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Byte end_round
+        {
+            get
+            {
+                return _end_round;
+            }
+            set
+            {
+                Onend_roundChanging(value);
+                ReportPropertyChanging("end_round");
+                _end_round = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("end_round");
+                Onend_roundChanged();
+            }
+        }
+        private global::System.Byte _end_round;
+        partial void Onend_roundChanging(global::System.Byte value);
+        partial void Onend_roundChanged();
+
+        #endregion
+
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("compdbModel", "fk_falsestarts_rules_groups1", "groups")]
+        public groups groups
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<groups>("compdbModel.fk_falsestarts_rules_groups1", "groups").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<groups>("compdbModel.fk_falsestarts_rules_groups1", "groups").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<groups> groupsReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<groups>("compdbModel.fk_falsestarts_rules_groups1", "groups");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<groups>("compdbModel.fk_falsestarts_rules_groups1", "groups", value);
                 }
             }
         }
@@ -1294,6 +1658,28 @@ namespace DBManager
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<round_dates>("compdbModel.fk_round_dates_groups1", "round_dates", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("compdbModel", "fk_falsestarts_rules_groups1", "falsestarts_rules")]
+        public EntityCollection<falsestarts_rules> falsestarts_rules
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<falsestarts_rules>("compdbModel.fk_falsestarts_rules_groups1", "falsestarts_rules");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<falsestarts_rules>("compdbModel.fk_falsestarts_rules_groups1", "falsestarts_rules", value);
                 }
             }
         }
@@ -2213,6 +2599,78 @@ namespace DBManager
         private Nullable<global::System.Byte> _cond_formating_sum;
         partial void Oncond_formating_sumChanging(Nullable<global::System.Byte> value);
         partial void Oncond_formating_sumChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int64> event_1
+        {
+            get
+            {
+                return _event_1;
+            }
+            set
+            {
+                Onevent_1Changing(value);
+                ReportPropertyChanging("event_1");
+                _event_1 = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("event_1");
+                Onevent_1Changed();
+            }
+        }
+        private Nullable<global::System.Int64> _event_1;
+        partial void Onevent_1Changing(Nullable<global::System.Int64> value);
+        partial void Onevent_1Changed();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int64> event_2
+        {
+            get
+            {
+                return _event_2;
+            }
+            set
+            {
+                Onevent_2Changing(value);
+                ReportPropertyChanging("event_2");
+                _event_2 = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("event_2");
+                Onevent_2Changed();
+            }
+        }
+        private Nullable<global::System.Int64> _event_2;
+        partial void Onevent_2Changing(Nullable<global::System.Int64> value);
+        partial void Onevent_2Changed();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int64> event_sum
+        {
+            get
+            {
+                return _event_sum;
+            }
+            set
+            {
+                Onevent_sumChanging(value);
+                ReportPropertyChanging("event_sum");
+                _event_sum = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("event_sum");
+                Onevent_sumChanged();
+            }
+        }
+        private Nullable<global::System.Int64> _event_sum;
+        partial void Onevent_sumChanging(Nullable<global::System.Int64> value);
+        partial void Onevent_sumChanged();
 
         #endregion
 

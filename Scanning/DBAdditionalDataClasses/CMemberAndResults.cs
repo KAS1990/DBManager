@@ -117,6 +117,26 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 		#endregion
 
 
+		#region HasFalsestart
+		private static readonly string HasFalsestartPropertyName = GlobalDefines.GetPropertyName<CMemberAndResults>(m => m.HasFalsestart);
+
+		private bool m_HasFalsestart = false;
+
+		public bool HasFalsestart
+		{
+			get { return m_HasFalsestart; }
+			set
+			{
+				if (m_HasFalsestart != value)
+				{
+					m_HasFalsestart = value;
+					OnPropertyChanged(HasFalsestartPropertyName);
+				}
+			}
+		}
+		#endregion
+
+
 		#region Вместо конвертеров
 		#region BackgroundForShow
 		private static readonly string BackgroundForShowPropertyName = GlobalDefines.GetPropertyName<CMemberAndResults>(m => m.BackgroundForShow);

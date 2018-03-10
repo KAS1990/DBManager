@@ -973,4 +973,10 @@
   <data name="resResultGradesSetFromAge" xml:space="preserve">
     <value>Разряды присваиваются с</value>
   </data>
+  <data name="resFalsestartInOneLine" xml:space="preserve">
+    <value>Участник с фальстартом</value>
+  </data>
+  <data name="resRemoveFalsestart" xml:space="preserve">
+    <value>Убрать фальстарт</value>
+  </data>
 </root>

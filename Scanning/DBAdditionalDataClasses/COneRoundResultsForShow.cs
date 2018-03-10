@@ -114,21 +114,51 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 		#endregion
 
 
-		public void RefreshFields(CDBAdditionalClassBase Parent, COneRoundResults RouteResults, CFontStyleSettings RowFontStyle)
+		public void RefreshFields(CMemberAndResults Parent, COneRoundResults RouteResults, CFontStyleSettings RowFontStyle)
 		{
 			bool PlainStyleSetted = false;
-
+						
 			Route1.RefreshFields(Parent, RouteResults, RouteResults.Route1, RowFontStyle, out PlainStyleSetted);
 			Route2.RefreshFields(Parent, RouteResults, RouteResults.Route2, RowFontStyle, out PlainStyleSetted);
 			Sum.RefreshFields(Parent, RouteResults, RouteResults.Sum, RowFontStyle, out PlainStyleSetted);
 
 			StartNumber.RefreshFields(Parent, RouteResults, RouteResults.Route1, RowFontStyle, out PlainStyleSetted);
-			if (PlainStyleSetted)
-				StartNumber.RefreshFields(Parent, RouteResults, RouteResults.Sum, RowFontStyle, out PlainStyleSetted);
 			
 			SurnameAndName.RefreshFields(Parent, RouteResults, RouteResults.Route1, RowFontStyle, out PlainStyleSetted);
-			if (PlainStyleSetted)
-				SurnameAndName.RefreshFields(Parent, RouteResults, RouteResults.Sum, RowFontStyle, out PlainStyleSetted);
+			
+			switch (RouteResults.m_Round)
+			{
+				#region Qualif, Qualif2
+				case enRounds.Qualif:
+				case enRounds.Qualif2:
+					if (RouteResults.Sum != null && RouteResults.Sum.CondFormating.HasValue)
+					{
+						switch (RouteResults.Sum.CondFormating.Value)
+						{
+							case enCondFormating.StayOnStart: // Находится на старте
+							case enCondFormating.Preparing: // Участник готовится
+								break;
+
+							case enCondFormating.JustRecievedResult: // Только что полученный результат
+								StartNumber.RefreshFields(Parent, RouteResults, RouteResults.Sum, RowFontStyle, out PlainStyleSetted);
+								SurnameAndName.RefreshFields(Parent, RouteResults, RouteResults.Sum, RowFontStyle, out PlainStyleSetted);
+								break;
+
+							default:
+								break;
+						}
+					}
+					break;
+				#endregion
+
+				#region OneEighthFinal, QuaterFinal, SemiFinal, Final
+				case enRounds.OneEighthFinal:
+				case enRounds.QuaterFinal:
+				case enRounds.SemiFinal:
+				case enRounds.Final:
+					break;
+					#endregion
+			}
 		}
 
 

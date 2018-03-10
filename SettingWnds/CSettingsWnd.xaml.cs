@@ -383,13 +383,15 @@ namespace DBManager.SettingWnds
 				fntstlPreparing.FontStyleSettings = DBManagerApp.m_AppSettings.m_Settings.PreparingFontStyle;
 				fntstlStayOnStart.FontStyleSettings = DBManagerApp.m_AppSettings.m_Settings.StayOnStartFontStyle;
 				fntstlPlainResults.FontStyleSettings = DBManagerApp.m_AppSettings.m_Settings.PlainResultsFontStyle;
+				fntstlFalsestart.FontStyleSettings = DBManagerApp.m_AppSettings.m_Settings.FalsestartFontStyle;
 
 				fntstlInvatedToStart.FontSize =
 					fntstlJustRecievedResult.FontSize =
 					fntstlNextRoundMembersCount.FontSize =
 					fntstlPreparing.FontSize =
 					fntstlStayOnStart.FontSize =
-					fntstlPlainResults.FontSize = DBManagerApp.m_AppSettings.m_Settings.FontSize;
+					fntstlPlainResults.FontSize =
+					fntstlFalsestart.FontSize = DBManagerApp.m_AppSettings.m_Settings.FontSize;
 				txtFontSize.Text = ((int)DBManagerApp.m_AppSettings.m_Settings.FontSize).ToString();
 
 				lblFontFamilyName.Content =
@@ -398,14 +400,16 @@ namespace DBManager.SettingWnds
 					fntstlNextRoundMembersCount.FontFamilyName =
 					fntstlPreparing.FontFamilyName =
 					fntstlStayOnStart.FontFamilyName =
-					fntstlPlainResults.FontFamilyName = DBManagerApp.m_AppSettings.m_Settings.FontFamilyName;
+					fntstlPlainResults.FontFamilyName =
+					fntstlFalsestart.FontFamilyName = DBManagerApp.m_AppSettings.m_Settings.FontFamilyName;
 
 				fntstlInvatedToStart.Modified =
 					fntstlJustRecievedResult.Modified =
 					fntstlNextRoundMembersCount.Modified =
 					fntstlPreparing.Modified =
 					fntstlStayOnStart.Modified =
-					fntstlPlainResults.Modified = false;
+					fntstlPlainResults.Modified =
+					fntstlFalsestart.Modified = false;
 
 				fntstlInvatedToStart.PropertyChanged += fntstl_PropertyChanged;
 				fntstlJustRecievedResult.PropertyChanged += fntstl_PropertyChanged;
@@ -413,6 +417,7 @@ namespace DBManager.SettingWnds
 				fntstlPreparing.PropertyChanged += fntstl_PropertyChanged;
 				fntstlStayOnStart.PropertyChanged += fntstl_PropertyChanged;
 				fntstlPlainResults.PropertyChanged += fntstl_PropertyChanged;
+				fntstlFalsestart.PropertyChanged += fntstl_PropertyChanged;
 			}
 
 			GlobalDefines.TuneComboboxWidth2(cmbResultGradeCalcMethod);
@@ -497,7 +502,8 @@ namespace DBManager.SettingWnds
 					fntstlNextRoundMembersCount.FontSize =
 					fntstlPreparing.FontSize =
 					fntstlStayOnStart.FontSize =
-					fntstlPlainResults.FontSize = (int)txtFontSize.Value;
+					fntstlPlainResults.FontSize =
+					fntstlFalsestart.FontSize = (int)txtFontSize.Value;
 			}
 		}
 
@@ -529,7 +535,8 @@ namespace DBManager.SettingWnds
 					fntstlNextRoundMembersCount.FontFamilyName =
 					fntstlPreparing.FontFamilyName =
 					fntstlStayOnStart.FontFamilyName =
-					fntstlPlainResults.FontFamilyName = fd.Font.Name;
+					fntstlPlainResults.FontFamilyName =
+					fntstlFalsestart.FontFamilyName = fd.Font.Name;
 			}
 		}
 		
@@ -591,6 +598,7 @@ namespace DBManager.SettingWnds
 					DBManagerApp.m_AppSettings.m_Settings.PreparingFontStyle = fntstlPreparing.FontStyleSettings;
 					DBManagerApp.m_AppSettings.m_Settings.StayOnStartFontStyle = fntstlStayOnStart.FontStyleSettings;
 					DBManagerApp.m_AppSettings.m_Settings.PlainResultsFontStyle = fntstlPlainResults.FontStyleSettings;
+					DBManagerApp.m_AppSettings.m_Settings.FalsestartFontStyle = fntstlFalsestart.FontStyleSettings;
 
 					DBManagerApp.m_AppSettings.m_Settings.FontFamilyName = lblFontFamilyName.Content.ToString();
 					DBManagerApp.m_AppSettings.m_Settings.FontSize = (int)txtFontSize.Value;
@@ -604,6 +612,7 @@ namespace DBManager.SettingWnds
 					fntstlPreparing.Modified =
 					fntstlStayOnStart.Modified =
 					fntstlPlainResults.Modified =
+					fntstlFalsestart.Modified =
 					Modified = false;
 			}
 						
@@ -620,43 +629,57 @@ namespace DBManager.SettingWnds
 					fntstlNextRoundMembersCount.FontSize =
 					fntstlPreparing.FontSize =
 					fntstlStayOnStart.FontSize =
-					fntstlPlainResults.FontSize = (int)txtFontSize.Value;
+					fntstlPlainResults.FontSize =
+					fntstlFalsestart.FontSize = (int)txtFontSize.Value;
 
 			fntstlInvatedToStart.FontFamilyName =
 				fntstlJustRecievedResult.FontFamilyName =
 				fntstlNextRoundMembersCount.FontFamilyName =
 				fntstlPreparing.FontFamilyName =
 				fntstlStayOnStart.FontFamilyName =
-				fntstlPlainResults.FontFamilyName = lblFontFamilyName.Content.ToString();
+				fntstlPlainResults.FontFamilyName =
+				fntstlFalsestart.FontFamilyName = lblFontFamilyName.Content.ToString();
 
 			fntstlPlainResults.FontStyleSettings = new CFontStyleSettings()
 			{
-				BackgroundColor = (m_GlobalResources["PlainResultsBrush"] as SolidColorBrush).Color
+				BackgroundColor = (m_GlobalResources["PlainResultsBrush"] as SolidColorBrush).Color,
+				ForeColor = (m_GlobalResources["PlainResultsForeBrush"] as SolidColorBrush).Color,
 			};
 
 			fntstlNextRoundMembersCount.FontStyleSettings = new CFontStyleSettings()
 			{
-				BackgroundColor = (m_GlobalResources["NextRoundMembersCountBrush"] as SolidColorBrush).Color
+				BackgroundColor = (m_GlobalResources["NextRoundMembersCountBrush"] as SolidColorBrush).Color,
+				ForeColor = (m_GlobalResources["NextRoundMembersCountForeBrush"] as SolidColorBrush).Color,
 			};
 
 			fntstlInvatedToStart.FontStyleSettings = new CFontStyleSettings()
 			{
-				BackgroundColor = (m_GlobalResources["InvitedToStartBrush"] as SolidColorBrush).Color
+				BackgroundColor = (m_GlobalResources["InvitedToStartBrush"] as SolidColorBrush).Color,
+				ForeColor = (m_GlobalResources["InvitedToStartForeBrush"] as SolidColorBrush).Color,
 			};
 
 			fntstlPreparing.FontStyleSettings = new CFontStyleSettings()
 			{
-				BackgroundColor = (m_GlobalResources["PreparingBrush"] as SolidColorBrush).Color
+				BackgroundColor = (m_GlobalResources["PreparingBrush"] as SolidColorBrush).Color,
+				ForeColor = (m_GlobalResources["PreparingForeBrush"] as SolidColorBrush).Color,
 			};
 
 			fntstlStayOnStart.FontStyleSettings = new CFontStyleSettings()
 			{
-				BackgroundColor = (m_GlobalResources["StayOnStartBrush"] as SolidColorBrush).Color
+				BackgroundColor = (m_GlobalResources["StayOnStartBrush"] as SolidColorBrush).Color,
+				ForeColor = (m_GlobalResources["StayOnStartForeBrush"] as SolidColorBrush).Color,
 			};
 
 			fntstlJustRecievedResult.FontStyleSettings = new CFontStyleSettings()
 			{
-				BackgroundColor = (m_GlobalResources["JustRecievedResultBrush"] as SolidColorBrush).Color
+				BackgroundColor = (m_GlobalResources["JustRecievedResultBrush"] as SolidColorBrush).Color,
+				ForeColor = (m_GlobalResources["JustRecievedResultForeBrush"] as SolidColorBrush).Color,
+			};
+
+			fntstlFalsestart.FontStyleSettings = new CFontStyleSettings()
+			{
+				BackgroundColor = (m_GlobalResources["FalsestartBrush"] as SolidColorBrush).Color,
+				ForeColor = (m_GlobalResources["FalsestartForeBrush"] as SolidColorBrush).Color,
 			};
 		}
 

@@ -28,7 +28,7 @@
 		
 		<Setter Property="Background" Value="{Binding First.BackgroundForShow}" />
 		<Setter Property="Foreground" Value="{Binding First.ForegroundForShow}" />
-		<Setter Property="FontWeight" Value="{Binding First.FontWeightForShowForShow}" />
+		<Setter Property="FontWeight" Value="{Binding First.FontWeightForShow}" />
 		<Setter Property="FontStyle" Value="{Binding First.FontStyleForShow}" />
 	</Style>
 	
@@ -37,7 +37,7 @@
 		
 		<Setter Property="Background" Value="{Binding Second.BackgroundForShow}" />
 		<Setter Property="Foreground" Value="{Binding Second.ForegroundForShow}" />
-		<Setter Property="FontWeight" Value="{Binding Second.FontWeightForShowForShow}" />
+		<Setter Property="FontWeight" Value="{Binding Second.FontWeightForShow}" />
 		<Setter Property="FontStyle" Value="{Binding Second.FontStyleForShow}" />
 	</Style>
 	
@@ -401,6 +401,14 @@
 					<Setter Property="Foreground" Value="{Binding Results.ResultsForShow.Route1.Foreground}" />
 					<Setter Property="FontWeight" Value="{Binding Results.ResultsForShow.Route1.FontWeight}" />
 					<Setter Property="FontStyle" Value="{Binding Results.ResultsForShow.Route1.FontStyle}" />
+
+					<Setter Property="ContextMenu">
+						<Setter.Value>
+							<ContextMenu>
+                                <MenuItem Header="{Loc resRemoveFalsestart}" Command="{Binding Results.Route1.RemoveFalsestart}" />
+							</ContextMenu>
+						</Setter.Value>
+					</Setter>
 				</Style>
 			</DataGridTextColumn.ElementStyle>
 		</DataGridTextColumn>
@@ -412,6 +420,14 @@
 					<Setter Property="Foreground" Value="{Binding Results.ResultsForShow.Route2.Foreground}" />
 					<Setter Property="FontWeight" Value="{Binding Results.ResultsForShow.Route2.FontWeight}" />
 					<Setter Property="FontStyle" Value="{Binding Results.ResultsForShow.Route2.FontStyle}" />
+
+					<Setter Property="ContextMenu">
+						<Setter.Value>
+							<ContextMenu>
+                                <MenuItem Header="{Loc resRemoveFalsestart}" Command="{Binding Results.Route2.RemoveFalsestart}" />
+							</ContextMenu>
+						</Setter.Value>
+					</Setter>
 				</Style>
 			</DataGridTextColumn.ElementStyle>
 		</DataGridTextColumn>
@@ -484,6 +500,14 @@
 					<Setter Property="Foreground" Value="{Binding Results.ResultsForShow.Route1.Foreground}" />
 					<Setter Property="FontWeight" Value="{Binding Results.ResultsForShow.Route1.FontWeight}" />
 					<Setter Property="FontStyle" Value="{Binding Results.ResultsForShow.Route1.FontStyle}" />
+
+					<Setter Property="ContextMenu">
+						<Setter.Value>
+							<ContextMenu>
+                                <MenuItem Header="{Loc resRemoveFalsestart}" Command="{Binding Results.Route1.RemoveFalsestart}" />
+							</ContextMenu>
+						</Setter.Value>
+					</Setter>
 				</Style>
 			</DataGridTextColumn.ElementStyle>
 		</DataGridTextColumn>
@@ -495,6 +519,14 @@
 					<Setter Property="Foreground" Value="{Binding Results.ResultsForShow.Route2.Foreground}" />
 					<Setter Property="FontWeight" Value="{Binding Results.ResultsForShow.Route2.FontWeight}" />
 					<Setter Property="FontStyle" Value="{Binding Results.ResultsForShow.Route2.FontStyle}" />
+
+					<Setter Property="ContextMenu">
+						<Setter.Value>
+							<ContextMenu>
+                                <MenuItem Header="{Loc resRemoveFalsestart}" Command="{Binding Results.Route2.RemoveFalsestart}" />
+							</ContextMenu>
+						</Setter.Value>
+					</Setter>
 				</Style>
 			</DataGridTextColumn.ElementStyle>
 		</DataGridTextColumn>
@@ -592,7 +624,7 @@
 							<RowDefinition />
 							<RowDefinition />
 						</Grid.RowDefinitions>
-												
+
 						<Label Content="{Binding First.StartNumber}" Style="{StaticResource RndResBorderedLabel1stStyle}" />
 						<Label Content="{Binding Second.StartNumber}" Style="{StaticResource RndResBorderedLabel2ndStyle}" />
 						
@@ -652,16 +684,32 @@
 							<RowDefinition />
 							<RowDefinition />
 						</Grid.RowDefinitions>
-						
+
 						<Label Content="{Binding First.MemberInfo.SurnameAndName}"
 							   Padding="3,5,5,1"
-							   HorizontalContentAlignment="Left"
-							   Style="{StaticResource RndResBorderedLabel1stStyle}" />
+							   HorizontalContentAlignment="Left" >
+							<Label.Style>
+								<Style TargetType="{x:Type Label}" BasedOn="{StaticResource RndResBorderedLabel1stStyle}">
+									<Setter Property="Background" Value="{Binding First.Results.ResultsForShow.SurnameAndName.Background}" />
+									<Setter Property="Foreground" Value="{Binding First.Results.ResultsForShow.SurnameAndName.Foreground}" />
+									<Setter Property="FontWeight" Value="{Binding First.Results.ResultsForShow.SurnameAndName.FontWeight}" />
+									<Setter Property="FontStyle" Value="{Binding First.Results.ResultsForShow.SurnameAndName.FontStyle}" />
+								</Style>
+							</Label.Style>
+						</Label>
 						<Label Content="{Binding Second.MemberInfo.SurnameAndName}"
 							   Padding="3,5,5,1"
-							   HorizontalContentAlignment="Left"
-							   Style="{StaticResource RndResBorderedLabel2ndStyle}" />
-						
+							   HorizontalContentAlignment="Left" >
+							<Label.Style>
+								<Style TargetType="{x:Type Label}" BasedOn="{StaticResource RndResBorderedLabel2ndStyle}">
+									<Setter Property="Background" Value="{Binding Second.Results.ResultsForShow.SurnameAndName.Background}" />
+									<Setter Property="Foreground" Value="{Binding Second.Results.ResultsForShow.SurnameAndName.Foreground}" />
+									<Setter Property="FontWeight" Value="{Binding Second.Results.ResultsForShow.SurnameAndName.FontWeight}" />
+									<Setter Property="FontStyle" Value="{Binding Second.Results.ResultsForShow.SurnameAndName.FontStyle}" />
+								</Style>
+							</Label.Style>
+						</Label>
+
 						<Border Style="{StaticResource RndResBorderHighlightSelectionStyle}" />
 					</Grid>
 				</DataTemplate>
@@ -752,7 +800,16 @@
 										<Setter Property="Foreground" Value="{Binding First.Results.ResultsForShow.Route1.Foreground}" />
 										<Setter Property="FontWeight" Value="{Binding First.Results.ResultsForShow.Route1.FontWeight}" />
 										<Setter Property="FontStyle" Value="{Binding First.Results.ResultsForShow.Route1.FontStyle}" />
-									</Style>
+
+                                        <Setter Property="ContextMenu">
+                                            <Setter.Value>
+                                                <ContextMenu>
+                                                    <MenuItem Header="{Loc resRemoveFalsestart}"
+                                                              Command="{Binding First.Results.Route1.RemoveFalsestart}"/>
+                                                </ContextMenu>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
 								</Label.Style>
 							</Label>
 						</Border>
@@ -765,7 +822,16 @@
 										<Setter Property="Foreground" Value="{Binding Second.Results.ResultsForShow.Route1.Foreground}" />
 										<Setter Property="FontWeight" Value="{Binding Second.Results.ResultsForShow.Route1.FontWeight}" />
 										<Setter Property="FontStyle" Value="{Binding Second.Results.ResultsForShow.Route1.FontStyle}" />
-									</Style>
+
+                                        <Setter Property="ContextMenu">
+                                            <Setter.Value>
+                                                <ContextMenu>
+                                                    <MenuItem Header="{Loc resRemoveFalsestart}"
+                                                              Command="{Binding Second.Results.Route1.RemoveFalsestart}"/>
+                                                </ContextMenu>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
 								</Label.Style>
 							</Label>
 						</Border>
@@ -793,7 +859,16 @@
 										<Setter Property="Foreground" Value="{Binding First.Results.ResultsForShow.Route2.Foreground}" />
 										<Setter Property="FontWeight" Value="{Binding First.Results.ResultsForShow.Route2.FontWeight}" />
 										<Setter Property="FontStyle" Value="{Binding First.Results.ResultsForShow.Route2.FontStyle}" />
-									</Style>
+
+                                        <Setter Property="ContextMenu">
+                                            <Setter.Value>
+                                                <ContextMenu>
+                                                    <MenuItem Header="{Loc resRemoveFalsestart}"
+                                                              Command="{Binding First.Results.Route2.RemoveFalsestart}"/>
+                                                </ContextMenu>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
 								</Label.Style>
 							</Label>
 						</Border>
@@ -806,7 +881,16 @@
 										<Setter Property="Foreground" Value="{Binding Second.Results.ResultsForShow.Route2.Foreground}" />
 										<Setter Property="FontWeight" Value="{Binding Second.Results.ResultsForShow.Route2.FontWeight}" />
 										<Setter Property="FontStyle" Value="{Binding Second.Results.ResultsForShow.Route2.FontStyle}" />
-									</Style>
+
+                                        <Setter Property="ContextMenu">
+                                            <Setter.Value>
+                                                <ContextMenu>
+                                                    <MenuItem Header="{Loc resRemoveFalsestart}"
+                                                              Command="{Binding Second.Results.Route2.RemoveFalsestart}"/>
+                                                </ContextMenu>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
 								</Label.Style>
 							</Label>
 						</Border>
@@ -834,7 +918,7 @@
 										<Setter Property="Foreground" Value="{Binding First.Results.ResultsForShow.Sum.Foreground}" />
 										<Setter Property="FontWeight" Value="{Binding First.Results.ResultsForShow.Sum.FontWeight}" />
 										<Setter Property="FontStyle" Value="{Binding First.Results.ResultsForShow.Sum.FontStyle}" />
-									</Style>
+                                    </Style>
 								</Label.Style>
 							</Label>
 						</Border>
@@ -847,7 +931,7 @@
 										<Setter Property="Foreground" Value="{Binding Second.Results.ResultsForShow.Sum.Foreground}" />
 										<Setter Property="FontWeight" Value="{Binding Second.Results.ResultsForShow.Sum.FontWeight}" />
 										<Setter Property="FontStyle" Value="{Binding Second.Results.ResultsForShow.Sum.FontStyle}" />
-									</Style>
+                                    </Style>
 								</Label.Style>
 							</Label>
 						</Border>
@@ -939,9 +1023,27 @@
 							<RowDefinition />
 							<RowDefinition />
 						</Grid.RowDefinitions>
-												
-						<Label Content="{Binding First.StartNumber}" Style="{StaticResource RndResBorderedLabel1stStyle}" />
-						<Label Content="{Binding Second.StartNumber}" Style="{StaticResource RndResBorderedLabel2ndStyle}" />
+
+						<Label Content="{Binding First.StartNumber}" >
+							<Label.Style>
+								<Style TargetType="{x:Type Label}" BasedOn="{StaticResource RndResBorderedLabel1stStyle}">
+									<Setter Property="Background" Value="{Binding First.Results.ResultsForShow.StartNumber.Background}" />
+									<Setter Property="Foreground" Value="{Binding First.Results.ResultsForShow.StartNumber.Foreground}" />
+									<Setter Property="FontWeight" Value="{Binding First.Results.ResultsForShow.StartNumber.FontWeight}" />
+									<Setter Property="FontStyle" Value="{Binding First.Results.ResultsForShow.StartNumber.FontStyle}" />
+								</Style>
+							</Label.Style>
+						</Label>
+						<Label Content="{Binding Second.StartNumber}" >
+							<Label.Style>
+								<Style TargetType="{x:Type Label}" BasedOn="{StaticResource RndResBorderedLabel2ndStyle}">
+									<Setter Property="Background" Value="{Binding Second.Results.ResultsForShow.StartNumber.Background}" />
+									<Setter Property="Foreground" Value="{Binding Second.Results.ResultsForShow.StartNumber.Foreground}" />
+									<Setter Property="FontWeight" Value="{Binding Second.Results.ResultsForShow.StartNumber.FontWeight}" />
+									<Setter Property="FontStyle" Value="{Binding Second.Results.ResultsForShow.StartNumber.FontStyle}" />
+								</Style>
+							</Label.Style>
+						</Label>
 						
 						<Border Style="{StaticResource RndResBorderHighlightSelectionStyle}" />
 					</Grid>
@@ -957,15 +1059,31 @@
 							<RowDefinition />
 							<RowDefinition />
 						</Grid.RowDefinitions>
-						
+
 						<Label Content="{Binding First.MemberInfo.SurnameAndName}"
 							   Padding="3,5,5,1"
-							   HorizontalContentAlignment="Left"
-							   Style="{StaticResource RndResBorderedLabel1stStyle}" />
+							   HorizontalContentAlignment="Left" >
+							<Label.Style>
+								<Style TargetType="{x:Type Label}" BasedOn="{StaticResource RndResBorderedLabel1stStyle}">
+									<Setter Property="Background" Value="{Binding First.Results.ResultsForShow.SurnameAndName.Background}" />
+									<Setter Property="Foreground" Value="{Binding First.Results.ResultsForShow.SurnameAndName.Foreground}" />
+									<Setter Property="FontWeight" Value="{Binding First.Results.ResultsForShow.SurnameAndName.FontWeight}" />
+									<Setter Property="FontStyle" Value="{Binding First.Results.ResultsForShow.SurnameAndName.FontStyle}" />
+								</Style>
+							</Label.Style>
+						</Label>
 						<Label Content="{Binding Second.MemberInfo.SurnameAndName}"
 							   Padding="3,5,5,1"
-							   HorizontalContentAlignment="Left"
-							   Style="{StaticResource RndResBorderedLabel2ndStyle}" />
+							   HorizontalContentAlignment="Left" >
+							<Label.Style>
+								<Style TargetType="{x:Type Label}" BasedOn="{StaticResource RndResBorderedLabel2ndStyle}">
+									<Setter Property="Background" Value="{Binding Second.Results.ResultsForShow.SurnameAndName.Background}" />
+									<Setter Property="Foreground" Value="{Binding Second.Results.ResultsForShow.SurnameAndName.Foreground}" />
+									<Setter Property="FontWeight" Value="{Binding Second.Results.ResultsForShow.SurnameAndName.FontWeight}" />
+									<Setter Property="FontStyle" Value="{Binding Second.Results.ResultsForShow.SurnameAndName.FontStyle}" />
+								</Style>
+							</Label.Style>
+						</Label>
 						
 						<Border Style="{StaticResource RndResBorderHighlightSelectionStyle}" />
 					</Grid>
@@ -1057,7 +1175,16 @@
 										<Setter Property="Foreground" Value="{Binding First.Results.ResultsForShow.Route1.Foreground}" />
 										<Setter Property="FontWeight" Value="{Binding First.Results.ResultsForShow.Route1.FontWeight}" />
 										<Setter Property="FontStyle" Value="{Binding First.Results.ResultsForShow.Route1.FontStyle}" />
-									</Style>
+
+                                        <Setter Property="ContextMenu">
+                                            <Setter.Value>
+                                                <ContextMenu>
+                                                    <MenuItem Header="{Loc resRemoveFalsestart}"
+                                                              Command="{Binding First.Results.Route1.RemoveFalsestart}"/>
+                                                </ContextMenu>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
 								</Label.Style>
 							</Label>
 						</Border>
@@ -1070,7 +1197,16 @@
 										<Setter Property="Foreground" Value="{Binding Second.Results.ResultsForShow.Route1.Foreground}" />
 										<Setter Property="FontWeight" Value="{Binding Second.Results.ResultsForShow.Route1.FontWeight}" />
 										<Setter Property="FontStyle" Value="{Binding Second.Results.ResultsForShow.Route1.FontStyle}" />
-									</Style>
+
+                                        <Setter Property="ContextMenu">
+                                            <Setter.Value>
+                                                <ContextMenu>
+                                                    <MenuItem Header="{Loc resRemoveFalsestart}"
+                                                              Command="{Binding Second.Results.Route1.RemoveFalsestart}"/>
+                                                </ContextMenu>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
 								</Label.Style>
 							</Label>
 						</Border>
@@ -1098,7 +1234,16 @@
 										<Setter Property="Foreground" Value="{Binding First.Results.ResultsForShow.Route2.Foreground}" />
 										<Setter Property="FontWeight" Value="{Binding First.Results.ResultsForShow.Route2.FontWeight}" />
 										<Setter Property="FontStyle" Value="{Binding First.Results.ResultsForShow.Route2.FontStyle}" />
-									</Style>
+
+                                        <Setter Property="ContextMenu">
+                                            <Setter.Value>
+                                                <ContextMenu>
+                                                    <MenuItem Header="{Loc resRemoveFalsestart}"
+                                                              Command="{Binding First.Results.Route2.RemoveFalsestart}"/>
+                                                </ContextMenu>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
 								</Label.Style>
 							</Label>
 						</Border>
@@ -1111,7 +1256,16 @@
 										<Setter Property="Foreground" Value="{Binding Second.Results.ResultsForShow.Route2.Foreground}" />
 										<Setter Property="FontWeight" Value="{Binding Second.Results.ResultsForShow.Route2.FontWeight}" />
 										<Setter Property="FontStyle" Value="{Binding Second.Results.ResultsForShow.Route2.FontStyle}" />
-									</Style>
+
+                                        <Setter Property="ContextMenu">
+                                            <Setter.Value>
+                                                <ContextMenu>
+                                                    <MenuItem Header="{Loc resRemoveFalsestart}"
+                                                              Command="{Binding Second.Results.Route2.RemoveFalsestart}"/>
+                                                </ContextMenu>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
 								</Label.Style>
 							</Label>
 						</Border>
@@ -1139,7 +1293,7 @@
 										<Setter Property="Foreground" Value="{Binding First.Results.ResultsForShow.Sum.Foreground}" />
 										<Setter Property="FontWeight" Value="{Binding First.Results.ResultsForShow.Sum.FontWeight}" />
 										<Setter Property="FontStyle" Value="{Binding First.Results.ResultsForShow.Sum.FontStyle}" />
-									</Style>
+                                    </Style>
 								</Label.Style>
 							</Label>
 						</Border>
@@ -1152,7 +1306,7 @@
 										<Setter Property="Foreground" Value="{Binding Second.Results.ResultsForShow.Sum.Foreground}" />
 										<Setter Property="FontWeight" Value="{Binding Second.Results.ResultsForShow.Sum.FontWeight}" />
 										<Setter Property="FontStyle" Value="{Binding Second.Results.ResultsForShow.Sum.FontStyle}" />
-									</Style>
+                                    </Style>
 								</Label.Style>
 							</Label>
 						</Border>

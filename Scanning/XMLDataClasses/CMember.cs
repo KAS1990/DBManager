@@ -220,12 +220,9 @@ namespace DBManager.Scanning.XMLDataClasses
 					}
 					
 					if (string.IsNullOrWhiteSpace(m_Route1))
-						Route1Ext.Time = null;
+						Route1Ext.ClearTime();
 					else
-					{
-						m_Route1 = m_Route1.Trim();
-						Route1Ext.Time = GlobalDefines.RouteResultToTime(m_Route1);
-					}
+						Route1Ext.SetTime(ref m_Route1);
 				}
 			}
 		}
@@ -259,14 +256,11 @@ namespace DBManager.Scanning.XMLDataClasses
 							ResultColumnNumber = enResultColumnNumber.Route2
 						};
 					}
-					
+
 					if (string.IsNullOrWhiteSpace(m_Route2))
-						Route2Ext.Time = null;
+						Route2Ext.ClearTime();
 					else
-					{
-						m_Route2 = m_Route2.Trim();
-						Route2Ext.Time = GlobalDefines.RouteResultToTime(m_Route2);
-					}
+						Route2Ext.SetTime(ref m_Route2);
 				}
 			}
 		}
@@ -302,12 +296,9 @@ namespace DBManager.Scanning.XMLDataClasses
 					}
 
 					if (string.IsNullOrWhiteSpace(m_Sum))
-						SumExt.Time = null;
+						SumExt.ClearTime();
 					else
-					{
-						m_Sum = m_Sum.Trim();
-						SumExt.Time = GlobalDefines.RouteResultToTime(m_Sum);
-					}
+						SumExt.SetTime(ref m_Sum);
 				}
 			}
 		}
@@ -340,16 +331,7 @@ namespace DBManager.Scanning.XMLDataClasses
 						};
 					}
 
-					if (string.IsNullOrWhiteSpace(m_CondFormatingRoute1))
-						Route1Ext.CondFormating = null;
-					else
-					{
-						byte res = 0;
-						if (byte.TryParse(m_CondFormatingRoute1, out res) && Enum.IsDefined(typeof(enCondFormating), (enCondFormating)res))
-							Route1Ext.CondFormating = (enCondFormating)res;
-						else
-							Route1Ext.CondFormating = null;
-					}
+					Route1Ext.SetCondFormating(m_CondFormatingRoute1);
 				}
 			}
 		}
@@ -380,16 +362,7 @@ namespace DBManager.Scanning.XMLDataClasses
 						};
 					}
 
-					if (string.IsNullOrWhiteSpace(m_CondFormatingRoute2))
-						Route2Ext.CondFormating = null;
-					else
-					{
-						byte res = 0;
-						if (byte.TryParse(m_CondFormatingRoute2, out res) && Enum.IsDefined(typeof(enCondFormating), (enCondFormating)res))
-							Route2Ext.CondFormating = (enCondFormating)res;
-						else
-							Route2Ext.CondFormating = null;
-					}
+					Route2Ext.SetCondFormating(m_CondFormatingRoute2);
 				}
 			}
 		}
@@ -420,16 +393,7 @@ namespace DBManager.Scanning.XMLDataClasses
 						};
 					}
 
-					if (string.IsNullOrWhiteSpace(m_CondFormatingSum))
-						SumExt.CondFormating = null;
-					else
-					{
-						byte res = 0;
-						if (byte.TryParse(m_CondFormatingSum, out res) && Enum.IsDefined(typeof(enCondFormating), (enCondFormating)res))
-							SumExt.CondFormating = (enCondFormating)res;
-						else
-							SumExt.CondFormating = null;
-					}
+					SumExt.SetCondFormating(m_CondFormatingSum);
 				}
 			}
 		}
@@ -659,25 +623,28 @@ namespace DBManager.Scanning.XMLDataClasses
 			{
 				result.route1 = Route1Ext.Time;
 				result.cond_formating_1 = (byte?)Route1Ext.CondFormating;
+				result.event_1 = (long?)Route1Ext.AdditionalEventTypes;
 			}
 
 			if (Route2Ext != null)
 			{
 				result.route2 = Route2Ext.Time;
 				result.cond_formating_2 = (byte?)Route2Ext.CondFormating;
+				result.event_2 = (long?)Route2Ext.AdditionalEventTypes;
 			}
 
 			if (SumExt != null)
 			{
 				result.sum = SumExt.Time;
 				result.cond_formating_sum = (byte?)SumExt.CondFormating;
+				result.event_sum = (long?)SumExt.AdditionalEventTypes;
 			}
 
 			return result;
 		}
 		#endregion
 
-		
+
 		/// <summary>
 		/// 
 		/// </summary>

@@ -111,107 +111,18 @@ namespace DBManager.Global
 		}
 
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="ResultInDB"></param>
-		/// <param name="ResultInXML"></param>
-		/// <returns>Что поменялось</returns>
-		public static enChangedResult UpdateResults(this results_speed ResultInDB, CMember ResultInXML)
+		public static enCondFormating GetCondFormating(this byte ExcelCondFormatingFlags)
 		{
-			enChangedResult result = enChangedResult.None;
-
-			if (ResultInXML.Route1Ext != null)
-			{
-				if (ResultInDB.route1 != ResultInXML.Route1Ext)
-				{
-					ResultInDB.route1 = ResultInXML.Route1Ext.Time;
-					result |= enChangedResult.Route1Time;
-				}
-				if (ResultInDB.cond_formating_1 != (byte?)ResultInXML.Route1Ext.CondFormating)
-				{
-					ResultInDB.cond_formating_1 = (byte?)ResultInXML.Route1Ext.CondFormating;
-					result |= enChangedResult.Route1CondFormatting;
-				}
-			}
-			else
-			{
-				if (ResultInDB.route1 != null)
-				{
-					ResultInDB.route1 = null;
-					result |= enChangedResult.Route1Time;
-				}
-				if (ResultInDB.cond_formating_1 != null)
-				{
-					ResultInDB.cond_formating_1 = null;
-					result |= enChangedResult.Route1CondFormatting;
-				}
-			}
-
-			if (ResultInXML.Route2Ext != null)
-			{
-				if (ResultInDB.route2 != ResultInXML.Route2Ext)
-				{
-					ResultInDB.route2 = ResultInXML.Route2Ext.Time;
-					result |= enChangedResult.Route2Time;
-				}
-				if (ResultInDB.cond_formating_2 != (byte?)ResultInXML.Route2Ext.CondFormating)
-				{
-					ResultInDB.cond_formating_2 = (byte?)ResultInXML.Route2Ext.CondFormating;
-					result |= enChangedResult.Route2CondFormatting;
-				}
-			}
-			else
-			{
-				if (ResultInDB.route2 != null)
-				{
-					ResultInDB.route2 = null;
-					result |= enChangedResult.Route2Time;
-				}
-				if (ResultInDB.cond_formating_2 != null)
-				{
-					ResultInDB.cond_formating_2 = null;
-					result |= enChangedResult.Route2CondFormatting;
-				}
-			}
-
-			if (ResultInXML.SumExt != null)
-			{
-				if (ResultInDB.sum != ResultInXML.SumExt)
-				{
-					ResultInDB.sum = ResultInXML.SumExt.Time;
-					result |= enChangedResult.SumTime;
-				}
-				if (ResultInDB.cond_formating_sum != (byte?)ResultInXML.SumExt.CondFormating)
-				{
-					ResultInDB.cond_formating_sum = (byte?)ResultInXML.SumExt.CondFormating;
-					result |= enChangedResult.SumCondFormatting;
-				}
-			}
-			else
-			{
-				if (ResultInDB.sum != null)
-				{
-					ResultInDB.sum = null;
-					result |= enChangedResult.SumTime;
-				}
-				if (ResultInDB.cond_formating_sum != null)
-				{
-					ResultInDB.cond_formating_sum = null;
-					result |= enChangedResult.SumCondFormatting;
-				}
-			}
-
-			return result;
+			return (enCondFormating)(ExcelCondFormatingFlags & 0x0000000F);
 		}
 
 
-		public static bool IsWinnerInPair(this results_speed lhs, results_speed rhs)
+		public static enAdditionalEventTypes GetAdditionalEventTypes(this byte ExcelCondFormatingFlags)
 		{
-			return lhs.sum < rhs.sum;
+			return (enAdditionalEventTypes)(ExcelCondFormatingFlags >> 4);
 		}
 
-
+				
 		public static bool TryAddValue<TKey, TValue>(this IDictionary<TKey, TValue> dict, TKey key, TValue value)
 		{
 			if (dict.ContainsKey(key))
@@ -224,88 +135,7 @@ namespace DBManager.Global
 				return true;
 			}
 		}
-
-				
-		/// <summary>
-		/// Равны ли данные об участниках без учёта индексов
-		/// </summary>
-		/// <param name="lhs"></param>
-		/// <param name="rhs"></param>
-		/// <returns></returns>
-		public static bool OnlyDataFieldsEqual(this members lhs, members rhs)
-		{
-			return lhs.name == rhs.name &&
-					lhs.surname == rhs.surname &&
-					lhs.year_of_birth == rhs.year_of_birth &&
-					lhs.sex == rhs.sex;
-		}
-
-
-		/// <summary>
-		/// Равны ли данные, которые заносятся в таблицу participations из xml-файла
-		/// </summary>
-		/// <param name="lhs"></param>
-		/// <param name="rhs"></param>
-		/// <returns></returns>
-		public static bool OnlyFillFromXMLFieldsEqual(this participations lhs, CMember rhs, CCompSettings CompSettings)
-		{
-			bool result = lhs.init_grade == (byte)rhs.GradeInEnum;
-			
-			if (result)
-			{
-				if (CompSettings.SecondColNameType == enSecondColNameType.Coach)
-				{
-					if (rhs.SecondCol == null)
-					{
-						if (lhs.coach != null)
-							result = false;
-					}
-					else if (lhs.coach == null)
-						result = false;
-					else
-					{	// Проверяем, не изменилось ли название тренера
-						coaches CurCoachInDB = DBManagerApp.m_Entities.coaches.First(arg => arg.id_coach == lhs.coach);
-						result = CurCoachInDB.name == rhs.SecondCol;
-					}
-				}
-				else
-				{
-					if (rhs.SecondCol == null)
-					{
-						if (lhs.team != null)
-							result = false;
-					}
-					else if (lhs.team == null)
-						result = false;
-					else
-					{	// Проверяем, не изменилось ли название тренера
-						teams CurTeamInDB = DBManagerApp.m_Entities.teams.First(arg => arg.id_team == lhs.team);
-						result = CurTeamInDB.name == rhs.SecondCol;
-					}
-				}
-			}
-
-			return result;
-		}
-
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="lhs"></param>
-		/// <param name="rhs"></param>
-		/// <returns></returns>
-		public static void ClearResults(this results_speed lhs)
-		{
-			lhs.route1 = lhs.route2 = lhs.sum = null;
-		}
-
-
-		public static void ClearCondFormating(this results_speed lhs)
-		{
-			lhs.cond_formating_1 = lhs.cond_formating_2 = lhs.cond_formating_sum = null;
-		}
-		
+								
 
 		/// <summary>
 		/// Сравнение TimeSpan с учётом того, что в БД хранятся не миллисекунды а сотые доли секунды
@@ -361,96 +191,96 @@ namespace DBManager.Global
 
 
 		private static readonly string entityAssemblyName =
-            "system.data.entity, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089";
+			"system.data.entity, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089";
 
-        public static string ToTraceString(this IQueryable query)
-        {
-            System.Reflection.MethodInfo toTraceStringMethod = query.GetType().GetMethod("ToTraceString");
+		public static string ToTraceString(this IQueryable query)
+		{
+			System.Reflection.MethodInfo toTraceStringMethod = query.GetType().GetMethod("ToTraceString");
 
-            if (toTraceStringMethod != null)
-                return toTraceStringMethod.Invoke(query, null).ToString();
-            else
-                return "";
-        }
+			if (toTraceStringMethod != null)
+				return toTraceStringMethod.Invoke(query, null).ToString();
+			else
+				return "";
+		}
 
-        public static string ToTraceString(this ObjectContext ctx)
-        {
-            Assembly entityAssemly = Assembly.Load(entityAssemblyName);
+		public static string ToTraceString(this ObjectContext ctx)
+		{
+			Assembly entityAssemly = Assembly.Load(entityAssemblyName);
 
-            Type updateTranslatorType = entityAssemly.GetType(
-                "System.Data.Mapping.Update.Internal.UpdateTranslator");
+			Type updateTranslatorType = entityAssemly.GetType(
+				"System.Data.Mapping.Update.Internal.UpdateTranslator");
 
-            Type functionUpdateCommandType = entityAssemly.GetType(
-                "System.Data.Mapping.Update.Internal.FunctionUpdateCommand");
+			Type functionUpdateCommandType = entityAssemly.GetType(
+				"System.Data.Mapping.Update.Internal.FunctionUpdateCommand");
 
-            Type dynamicUpdateCommandType = entityAssemly.GetType(
-                "System.Data.Mapping.Update.Internal.DynamicUpdateCommand");
+			Type dynamicUpdateCommandType = entityAssemly.GetType(
+				"System.Data.Mapping.Update.Internal.DynamicUpdateCommand");
 
-            object[] ctorParams = new object[]
-                        {
-                            ctx.ObjectStateManager,
-                            ((EntityConnection)ctx.Connection).GetMetadataWorkspace(),
-                            (EntityConnection)ctx.Connection,
-                            ctx.CommandTimeout
-                        };
+			object[] ctorParams = new object[]
+						{
+							ctx.ObjectStateManager,
+							((EntityConnection)ctx.Connection).GetMetadataWorkspace(),
+							(EntityConnection)ctx.Connection,
+							ctx.CommandTimeout
+						};
 
-            object updateTranslator = Activator.CreateInstance(updateTranslatorType,
-                BindingFlags.NonPublic | BindingFlags.Instance, null, ctorParams, null);
+			object updateTranslator = Activator.CreateInstance(updateTranslatorType,
+				BindingFlags.NonPublic | BindingFlags.Instance, null, ctorParams, null);
 
-            MethodInfo produceCommandsMethod = updateTranslatorType
-                .GetMethod("ProduceCommands", BindingFlags.Instance | BindingFlags.NonPublic);
-            object updateCommands = produceCommandsMethod.Invoke(updateTranslator, null);
+			MethodInfo produceCommandsMethod = updateTranslatorType
+				.GetMethod("ProduceCommands", BindingFlags.Instance | BindingFlags.NonPublic);
+			object updateCommands = produceCommandsMethod.Invoke(updateTranslator, null);
 
-            List<DbCommand> dbCommands = new List<DbCommand>();
+			List<DbCommand> dbCommands = new List<DbCommand>();
 
-            foreach (object o in (IEnumerable)updateCommands)
-            {
-                if (functionUpdateCommandType.IsInstanceOfType(o))
-                {
-                    FieldInfo m_dbCommandField = functionUpdateCommandType.GetField(
-                        "m_dbCommand", BindingFlags.Instance | BindingFlags.NonPublic);
+			foreach (object o in (IEnumerable)updateCommands)
+			{
+				if (functionUpdateCommandType.IsInstanceOfType(o))
+				{
+					FieldInfo m_dbCommandField = functionUpdateCommandType.GetField(
+						"m_dbCommand", BindingFlags.Instance | BindingFlags.NonPublic);
 
-                    dbCommands.Add((DbCommand)m_dbCommandField.GetValue(o));
-                }
-                else if (dynamicUpdateCommandType.IsInstanceOfType(o))
-                {
-                    MethodInfo createCommandMethod = dynamicUpdateCommandType.GetMethod(
-                        "CreateCommand", BindingFlags.Instance | BindingFlags.NonPublic);
+					dbCommands.Add((DbCommand)m_dbCommandField.GetValue(o));
+				}
+				else if (dynamicUpdateCommandType.IsInstanceOfType(o))
+				{
+					MethodInfo createCommandMethod = dynamicUpdateCommandType.GetMethod(
+						"CreateCommand", BindingFlags.Instance | BindingFlags.NonPublic);
 
-                    object[] methodParams = new object[]
-                    {
-                        updateTranslator,
-                        new Dictionary<int, object>()
-                    };
+					object[] methodParams = new object[]
+					{
+						updateTranslator,
+						new Dictionary<int, object>()
+					};
 
-                    dbCommands.Add((DbCommand)createCommandMethod.Invoke(o, methodParams));
-                }
-                else
-                {
-                    throw new NotSupportedException("Unknown UpdateCommand Kind");
-                }
-            }
+					dbCommands.Add((DbCommand)createCommandMethod.Invoke(o, methodParams));
+				}
+				else
+				{
+					throw new NotSupportedException("Unknown UpdateCommand Kind");
+				}
+			}
 
 
-            StringBuilder traceString = new StringBuilder();
-            foreach (DbCommand command in dbCommands)
-            {
-                traceString.AppendLine("=============== BEGIN COMMAND ===============");
-                traceString.AppendLine();
+			StringBuilder traceString = new StringBuilder();
+			foreach (DbCommand command in dbCommands)
+			{
+				traceString.AppendLine("=============== BEGIN COMMAND ===============");
+				traceString.AppendLine();
 
-                traceString.AppendLine(command.CommandText);
-                foreach (DbParameter param in command.Parameters)
-                {
-                    traceString.AppendFormat("{0} = {1}", param.ParameterName, param.Value);
-                    traceString.AppendLine();
-                }
+				traceString.AppendLine(command.CommandText);
+				foreach (DbParameter param in command.Parameters)
+				{
+					traceString.AppendFormat("{0} = {1}", param.ParameterName, param.Value);
+					traceString.AppendLine();
+				}
 
-                traceString.AppendLine();
-                traceString.AppendLine("=============== END COMMAND ===============");
-            }
+				traceString.AppendLine();
+				traceString.AppendLine("=============== END COMMAND ===============");
+			}
 
-            return traceString.ToString();
-        }
+			return traceString.ToString();
+		}
 
 
 		/// <summary>

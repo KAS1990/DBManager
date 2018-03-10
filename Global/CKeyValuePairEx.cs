@@ -22,7 +22,7 @@ namespace DBManager.Global
 		private static readonly string KeyPropertyName = GlobalDefines.GetPropertyName<CKeyValuePairEx<TKey, TValue>>(m => m.Key);
 
 		private TKey m_Key = default(TKey);
-          
+		  
 		public TKey Key
 		{
 			get { return m_Key; }

@@ -106,10 +106,10 @@ namespace DBManager.RightPanels
 			}
 		}
 		#endregion
-		
-		
+
+
 		#region NextRoundMembersCountFontStyle
-		private static readonly string NextRoundMembersCountFontStylePropertyName = GlobalDefines.GetPropertyName<CRightPanelControl>(m => m.NextRoundMembersCountFontStyle);
+		public static readonly string NextRoundMembersCountFontStylePropertyName = GlobalDefines.GetPropertyName<CRightPanelControl>(m => m.NextRoundMembersCountFontStyle);
 
 		private CFontStyleSettings m_NextRoundMembersCountFontStyle = new CFontStyleSettings();
 
@@ -127,9 +127,9 @@ namespace DBManager.RightPanels
 		}
 		#endregion
 
-		
+
 		#region InvitedToStartFontStyle
-		private static readonly string InvitedToStartFontStylePropertyName = GlobalDefines.GetPropertyName<CRightPanelControl>(m => m.InvitedToStartFontStyle);
+		public static readonly string InvitedToStartFontStylePropertyName = GlobalDefines.GetPropertyName<CRightPanelControl>(m => m.InvitedToStartFontStyle);
 
 		private CFontStyleSettings m_InvitedToStartFontStyle = new CFontStyleSettings();
 
@@ -147,9 +147,9 @@ namespace DBManager.RightPanels
 		}
 		#endregion
 
-		
+
 		#region PreparingFontStyle
-		private static readonly string PreparingFontStylePropertyName = GlobalDefines.GetPropertyName<CRightPanelControl>(m => m.PreparingFontStyle);
+		public static readonly string PreparingFontStylePropertyName = GlobalDefines.GetPropertyName<CRightPanelControl>(m => m.PreparingFontStyle);
 
 		private CFontStyleSettings m_PreparingFontStyle = new CFontStyleSettings();
 
@@ -167,9 +167,9 @@ namespace DBManager.RightPanels
 		}
 		#endregion
 
-		
+
 		#region StayOnStartFontStyle
-		private static readonly string StayOnStartFontStylePropertyName = GlobalDefines.GetPropertyName<CRightPanelControl>(m => m.StayOnStartFontStyle);
+		public static readonly string StayOnStartFontStylePropertyName = GlobalDefines.GetPropertyName<CRightPanelControl>(m => m.StayOnStartFontStyle);
 
 		private CFontStyleSettings m_StayOnStartFontStyle = new CFontStyleSettings();
 
@@ -187,9 +187,29 @@ namespace DBManager.RightPanels
 		}
 		#endregion
 
-		
+
+		#region FalsestartFontStyle
+		public static readonly string FalsestartFontStylePropertyName = GlobalDefines.GetPropertyName<CRightPanelControl>(m => m.FalsestartFontStyle);
+
+		private CFontStyleSettings m_FalsestartFontStyle = new CFontStyleSettings();
+
+		public CFontStyleSettings FalsestartFontStyle
+		{
+			get { return m_FalsestartFontStyle; }
+			set
+			{
+				if (m_FalsestartFontStyle != value)
+				{
+					m_FalsestartFontStyle = value;
+					OnPropertyChanged(FalsestartFontStylePropertyName);
+				}
+			}
+		}
+		#endregion
+
+
 		#region JustRecievedResultFontStyle
-		private static readonly string JustRecievedResultFontStylePropertyName = GlobalDefines.GetPropertyName<CRightPanelControl>(m => m.JustRecievedResultFontStyle);
+		public static readonly string JustRecievedResultFontStylePropertyName = GlobalDefines.GetPropertyName<CRightPanelControl>(m => m.JustRecievedResultFontStyle);
 
 		private CFontStyleSettings m_JustRecievedResultFontStyle = new CFontStyleSettings();
 
@@ -207,9 +227,9 @@ namespace DBManager.RightPanels
 		}
 		#endregion
 
-		
+
 		#region InvitedToStartMember
-		private static readonly string InvitedToStartMemberPropertyName = GlobalDefines.GetPropertyName<CRightPanelControl>(m => m.InvitedToStartMember);
+		public static readonly string InvitedToStartMemberPropertyName = GlobalDefines.GetPropertyName<CRightPanelControl>(m => m.InvitedToStartMember);
 
 		private string m_InvitedToStartMember = null;
 
@@ -226,10 +246,10 @@ namespace DBManager.RightPanels
 			}
 		}
 		#endregion
-								
+
 
 		#region PreparingMember
-		private static readonly string PreparingMemberPropertyName = GlobalDefines.GetPropertyName<CRightPanelControl>(m => m.PreparingMember);
+		public static readonly string PreparingMemberPropertyName = GlobalDefines.GetPropertyName<CRightPanelControl>(m => m.PreparingMember);
 
 		private string m_PreparingMember = null;
 
@@ -249,7 +269,7 @@ namespace DBManager.RightPanels
 
 
 		#region PlainResultsFontStyle
-		private static readonly string PlainResultsFontStylePropertyName = GlobalDefines.GetPropertyName<CRightPanelControl>(m => m.PlainResultsFontStyle);
+		public static readonly string PlainResultsFontStylePropertyName = GlobalDefines.GetPropertyName<CRightPanelControl>(m => m.PlainResultsFontStyle);
 
 		private CFontStyleSettings m_PlainResultsFontStyle = new CFontStyleSettings();
 
@@ -278,6 +298,7 @@ namespace DBManager.RightPanels
 			m_PreparingFontStyle = DBManagerApp.m_AppSettings.m_Settings.PreparingFontStyle;
 			m_StayOnStartFontStyle = DBManagerApp.m_AppSettings.m_Settings.StayOnStartFontStyle;
 			m_JustRecievedResultFontStyle = DBManagerApp.m_AppSettings.m_Settings.JustRecievedResultFontStyle;
+			m_FalsestartFontStyle = DBManagerApp.m_AppSettings.m_Settings.FalsestartFontStyle;
 		}
 
 

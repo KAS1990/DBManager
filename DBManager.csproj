@@ -109,6 +109,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>compdbModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="DAL\members.cs" />
+    <Compile Include="DAL\participations.cs" />
+    <Compile Include="DAL\results_speed.cs" />
     <Compile Include="DumpMaker.cs" />
     <Compile Include="Commands\CCommand.cs" />
     <Compile Include="Excel\Exporting\ExportingClasses\CFinalExporter.cs" />

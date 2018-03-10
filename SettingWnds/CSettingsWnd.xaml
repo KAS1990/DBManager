@@ -213,6 +213,12 @@
 										 Grid.ColumnSpan="10"
 										 x:Name="fntstlJustRecievedResult"
 										 TextSample="{Loc resJustRecievedResultInOneLine}" />
-		</Grid>
+
+            <localctrls:CFontStylePicker Grid.Row="14"
+										 Grid.Column="0"
+										 Grid.ColumnSpan="10"
+										 x:Name="fntstlFalsestart"
+										 TextSample="{Loc resFalsestartInOneLine}" />
+        </Grid>
 	</DockPanel>
 </baseWnd:СCustomSettingsWnd>

@@ -571,6 +571,13 @@ namespace DBManager.SettingsWriter
 		public CFontStyleSettings JustRecievedResultFontStyle = null;
 
 		/// <summary>
+		/// Участник сделал фальстарт
+		/// </summary>
+		[XmlElement]
+		[DefaultValue(null)]
+		public CFontStyleSettings FalsestartFontStyle = null;
+
+		/// <summary>
 		/// Шрифт
 		/// </summary>
 		[XmlElement]
@@ -697,7 +704,12 @@ namespace DBManager.SettingsWriter
 				BackgroundColor = (m_GlobalResources["JustRecievedResultBrush"] as SolidColorBrush).Color,
 				ForeColor = (m_GlobalResources["JustRecievedResultForeBrush"] as SolidColorBrush).Color
 			};
-
+			FalsestartFontStyle = new CFontStyleSettings()
+			{
+				BackgroundColor = (m_GlobalResources["FalsestartBrush"] as SolidColorBrush).Color,
+				ForeColor = (m_GlobalResources["FalsestartForeBrush"] as SolidColorBrush).Color
+			};
+						
 			FontSize = 14.0;
 			FontFamilyName = "Arial";
 			
@@ -779,6 +791,15 @@ namespace DBManager.SettingsWriter
 				{
 					BackgroundColor = (m_GlobalResources["JustRecievedResultBrush"] as SolidColorBrush).Color,
 					ForeColor = (m_GlobalResources["JustRecievedResultForeBrush"] as SolidColorBrush).Color
+				};
+			}
+
+			if (FalsestartFontStyle == null)
+			{
+				FalsestartFontStyle = new CFontStyleSettings()
+				{
+					BackgroundColor = (m_GlobalResources["FalsestartBrush"] as SolidColorBrush).Color,
+					ForeColor = (m_GlobalResources["FalsestartForeBrush"] as SolidColorBrush).Color
 				};
 			}
 

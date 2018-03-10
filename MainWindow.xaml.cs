@@ -34,7 +34,7 @@ using DBManager.Stuff;
 using DBManager.Excel.Exporting;
 using DBManager.FTP;
 using DBManager.FTP.SheetGenerators;
-
+using DBManager.RightPanels;
 
 namespace DBManager
 {
@@ -1478,13 +1478,16 @@ namespace DBManager
 			RightPanel.NextRoundMembersCountFontStyle = DBManagerApp.m_AppSettings.m_Settings.NextRoundMembersCountFontStyle;
 			RightPanel.PreparingFontStyle = DBManagerApp.m_AppSettings.m_Settings.PreparingFontStyle;
 			RightPanel.StayOnStartFontStyle = DBManagerApp.m_AppSettings.m_Settings.StayOnStartFontStyle;
+			RightPanel.FalsestartFontStyle = DBManagerApp.m_AppSettings.m_Settings.FalsestartFontStyle;
+			
 
-			OnPropertyChanged("PlainResultsFontStyle");
-			OnPropertyChanged("InvitedToStartFontStyle");
-			OnPropertyChanged("JustRecievedResultFontStyle");
-			OnPropertyChanged("NextRoundMembersCountFontStyle");
-			OnPropertyChanged("PreparingFontStyle");
-			OnPropertyChanged("StayOnStartFontStyle");
+			OnPropertyChanged(CRightPanelControl.PlainResultsFontStylePropertyName);
+			OnPropertyChanged(CRightPanelControl.InvitedToStartFontStylePropertyName);
+			OnPropertyChanged(CRightPanelControl.JustRecievedResultFontStylePropertyName);
+			OnPropertyChanged(CRightPanelControl.NextRoundMembersCountFontStylePropertyName);
+			OnPropertyChanged(CRightPanelControl.PreparingFontStylePropertyName);
+			OnPropertyChanged(CRightPanelControl.StayOnStartFontStylePropertyName);
+			OnPropertyChanged(CRightPanelControl.FalsestartFontStylePropertyName);
 		}
 
 
@@ -2026,22 +2029,25 @@ namespace DBManager
 															Route1 = new CResult()
 															{
 																ResultColumnNumber = enResultColumnNumber.Route1,
-																Time = MemberResult.route1,
 																CondFormating = (enCondFormating?)MemberResult.cond_formating_1,
+																AdditionalEventTypes = (enAdditionalEventTypes?)MemberResult.event_1,
+																Time = MemberResult.route1,
 																ResultPossible = true
 															},
 															Route2 = new CResult()
 															{
 																ResultColumnNumber = enResultColumnNumber.Route2,
-																Time = MemberResult.route2,
 																CondFormating = (enCondFormating?)MemberResult.cond_formating_2,
+																AdditionalEventTypes = (enAdditionalEventTypes?)MemberResult.event_2,
+																Time = MemberResult.route2,
 																ResultPossible = true
 															},
 															Sum = new CResult()
 															{
 																ResultColumnNumber = enResultColumnNumber.Sum,
-																Time = MemberResult.sum,
 																CondFormating = (enCondFormating?)MemberResult.cond_formating_sum,
+																AdditionalEventTypes = (enAdditionalEventTypes?)MemberResult.event_sum,
+																Time = MemberResult.sum,
 																ResultPossible = true
 															},
 															IsLastMember = MemberInTotal.id_part == LastRoundMemberPart
@@ -2090,6 +2096,24 @@ namespace DBManager
 					}
 				}
 
+				falsestarts_rules RuleForCurRound = (from rule in DBManagerApp.m_Entities.falsestarts_rules
+													 where rule.Group == CurrentGroups.SelectedKey
+															 && rule.start_round <= CurrentRounds.SelectedKey
+															 && CurrentRounds.SelectedKey <= rule.end_round
+													 select rule).FirstOrDefault();
+				byte StartRoundForFalsestarts = RuleForCurRound == null ? CurrentRounds.SelectedKey : RuleForCurRound.start_round;
+				byte EndRoundForFalsestarts = RuleForCurRound == null ? CurrentRounds.SelectedKey : RuleForCurRound.end_round;
+
+				List<members> MembersWithFalsestarts = (from member in DBManagerApp.m_Entities.members
+														join part in DBManagerApp.m_Entities.participations on member.id_member equals part.member
+														join result in DBManagerApp.m_Entities.results_speed on part.id_participation equals result.participation
+														where result.round >= StartRoundForFalsestarts
+																 && result.round <= EndRoundForFalsestarts
+																 && part.Group == CurrentGroups.SelectedKey
+																 && ((result.event_1.HasValue && ((result.event_1.Value & (long)enAdditionalEventTypes.Falsestart) != 0))
+																	 || (result.event_2.HasValue && ((result.event_2.Value & (long)enAdditionalEventTypes.Falsestart) != 0)))
+														select member).ToList();
+
 				// Список участников раунда со всей необходимой информацией 
 				m_CurrentRoundMembers = (from member in DBManagerApp.m_Entities.members
 										 join part in DBManagerApp.m_Entities.participations on member.id_member equals part.member
@@ -2114,20 +2138,23 @@ namespace DBManager
 												 Route1 = new CResult()
 												 {
 													 ResultColumnNumber = enResultColumnNumber.Route1,
+													 CondFormating = (enCondFormating?)result.cond_formating_1,
+													 AdditionalEventTypes = (enAdditionalEventTypes?)result.event_1,
 													 Time = result.route1,
-													 CondFormating = (enCondFormating?)result.cond_formating_1
 												 },
 												 Route2 = new CResult()
 												 {
 													 ResultColumnNumber = enResultColumnNumber.Route2,
+													 CondFormating = (enCondFormating?)result.cond_formating_2,
+													 AdditionalEventTypes = (enAdditionalEventTypes?)result.event_2,
 													 Time = result.route2,
-													 CondFormating = (enCondFormating?)result.cond_formating_2
 												 },
 												 Sum = new CResult()
 												 {
 													 ResultColumnNumber = enResultColumnNumber.Sum,
+													 CondFormating = (enCondFormating?)result.cond_formating_sum,
+													 AdditionalEventTypes = (enAdditionalEventTypes?)result.event_sum,
 													 Time = result.sum,
-													 CondFormating = (enCondFormating?)result.cond_formating_sum
 												 },
 											 },
 
@@ -2168,6 +2195,8 @@ namespace DBManager
 						TickerText += item.StringForTicker() + "\t";
 					}
 #endif
+
+					item.HasFalsestart = MembersWithFalsestarts.Exists(arg => arg.id_member == item.MemberInfo.IDMember);
 				}
 
 				switch (SelectedRound)

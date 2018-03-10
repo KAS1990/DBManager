@@ -53,6 +53,7 @@ namespace DBManager.Global
 		public static readonly DateTime DEFAULT_XML_DATE_TIME_VAL = DateTime.MinValue;
 		
 		public static readonly TimeSpan FALL_TIME_SPAN_VAL = new TimeSpan(20, 00, 0);
+		public static readonly TimeSpan DONT_APPEAR_TIME_SPAN_VAL = new TimeSpan(30, 00, 0);
 		/// <summary>
 		/// Время суммы будет больше этого времени, если участник сорвался на второй трассе
 		/// </summary>
@@ -107,6 +108,11 @@ namespace DBManager.Global
 		/// Все названия разрядов
 		/// </summary>
 		public static Dictionary<enGrade, string> GRADE_NAMES = new Dictionary<enGrade, string>();
+
+		/// <summary>
+		/// Все названия разрядов
+		/// </summary>
+		public static Dictionary<enAdditionalEventTypes, additional_events_types> ADDITIONAL_EVENT_NAMES = new Dictionary<enAdditionalEventTypes, additional_events_types>();
 
 		/// <summary>
 		/// Номера строк для перевода участников из одного раунда в другой.
@@ -189,6 +195,10 @@ namespace DBManager.Global
 					GRADE_NAMES.Add((enGrade)grade.id_grade, grade.name);
 
 				GRADE_NAMES.Add(enGrade.None, GRADE_NAMES[enGrade.WithoutGrade]);
+
+				// Заполняем словарь с названиями разрядов
+				foreach (additional_events_types type in DBManagerApp.m_Entities.additional_events_types)
+					ADDITIONAL_EVENT_NAMES.Add((enAdditionalEventTypes)type.flag, type);
 			}
 
 			ROW_SEQUENCE.Clear();
@@ -1067,14 +1077,22 @@ namespace DBManager.Global
 		}
 
 
-		public static TimeSpan? RouteResultToTime(string ResInStr)
+		public static TimeSpan? RouteResultToTime(string ResInStr, out enAdditionalEventTypes AdditionalEventType)
 		{
+			AdditionalEventType = enAdditionalEventTypes.None;
 			if (string.IsNullOrWhiteSpace(ResInStr))
 				return null;
 
 			if (ResInStr == "срыв")
+			{
 				return FALL_TIME_SPAN_VAL;
-
+			}
+			else if (ResInStr == ADDITIONAL_EVENT_NAMES[enAdditionalEventTypes.DontAppear].name_in_xml)
+			{
+				AdditionalEventType = enAdditionalEventTypes.DontAppear;
+				return DONT_APPEAR_TIME_SPAN_VAL;
+			}
+			
 			double ResInDbl;
 			if (!double.TryParse(ResInStr, out ResInDbl))
 			{

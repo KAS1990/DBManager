@@ -135,7 +135,6 @@ namespace DBManager
 			base.OnStartup(e);
 		}
 
-
 		void CloseWndOwnedWnds(Window wnd)
 		{
 			if (wnd == null)

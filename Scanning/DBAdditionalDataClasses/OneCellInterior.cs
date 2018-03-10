@@ -97,7 +97,7 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 		#endregion
 
 
-		public void RefreshFields(CDBAdditionalClassBase Member,
+		public void RefreshFields(CMemberAndResults Member,
 									COneRoundResults RouteResults,
 									CResult RouteResult,
 									CFontStyleSettings RowFontStyle,
@@ -114,9 +114,9 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 					{
 						case enRounds.Qualif:
 						case enRounds.Qualif2:
-							ConverterResult = MemberInteriorConverter.Convert(RouteResult,
+							ConverterResult = MemberInteriorConverter.Convert(Member,
+																				RouteResult,
 																				RouteResults.m_Round,
-																				Member.Place,
 																				DBManagerApp.MainWnd.MembersFromQualif,
 																				m_CellType,
 																				out PlainStyleSetted);
@@ -126,9 +126,9 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 						case enRounds.QuaterFinal:
 						case enRounds.SemiFinal:
 						case enRounds.Final:
-							ConverterResult = MemberInteriorConverter.Convert(RouteResult,
+							ConverterResult = MemberInteriorConverter.Convert(Member, 
+																				RouteResult,
 																				RouteResults.m_Round,
-																				null,
 																				null,
 																				m_CellType,
 																				out PlainStyleSetted);
@@ -139,18 +139,18 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 				case enCellType.StartNumber:
 					if (RouteResults.m_Round == enRounds.Qualif || RouteResults.m_Round == enRounds.Qualif2)
 					{
-						ConverterResult = MemberInteriorConverter.Convert(RouteResult,
+						ConverterResult = MemberInteriorConverter.Convert(Member, 
+																			RouteResult,
 																			RouteResults.m_Round,
-																			Member.Place,
 																			DBManagerApp.MainWnd.MembersFromQualif,
 																			m_CellType,
 																			out PlainStyleSetted);
 					}
 					else
 					{
-						ConverterResult = MemberInteriorConverter.Convert(null,
-																			null,
-																			null,
+						ConverterResult = MemberInteriorConverter.Convert(Member,
+																			RouteResult,
+																			RouteResults.m_Round,
 																			null,
 																			m_CellType,
 																			out PlainStyleSetted);
@@ -160,18 +160,18 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 				case enCellType.SurnameAndName:
 					if (RouteResults.m_Round == enRounds.Qualif || RouteResults.m_Round == enRounds.Qualif2)
 					{
-						ConverterResult = MemberInteriorConverter.Convert(RouteResult,
+						ConverterResult = MemberInteriorConverter.Convert(Member, 
+																			RouteResult,
 																			RouteResults.m_Round,
-																			Member.Place,
 																			DBManagerApp.MainWnd.MembersFromQualif,
 																			m_CellType,
 																			out PlainStyleSetted);
 					}
 					else
 					{
-						ConverterResult = MemberInteriorConverter.Convert(null,
-																			null,
-																			null,
+						ConverterResult = MemberInteriorConverter.Convert(Member,
+																			RouteResult,
+																			RouteResults.m_Round,
 																			null,
 																			m_CellType,
 																			out PlainStyleSetted);
@@ -182,10 +182,20 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 					break;
 			}
 
-			Background = ConverterResult.Background;
-			Foreground = PlainStyleSetted ? new SolidColorBrush(RowFontStyle.ForeColor) : ConverterResult.Foreground;
-			FontWeight = ConverterResult.FontWeight;
-			FontStyle = ConverterResult.FontStyle;
+            if (PlainStyleSetted)
+            {
+                Background = new SolidColorBrush(RowFontStyle.BackgroundColor);
+                Foreground = new SolidColorBrush(RowFontStyle.ForeColor);
+                FontWeight = RowFontStyle.FontWeight;
+                FontStyle = RowFontStyle.FontStyle;
+            }
+            else
+            {
+                Background = ConverterResult.Background;
+                Foreground = ConverterResult.Foreground;
+                FontWeight = ConverterResult.FontWeight;
+                FontStyle = ConverterResult.FontStyle;
+            }
 		}
 
 

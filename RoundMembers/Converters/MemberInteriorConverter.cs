@@ -9,6 +9,7 @@ using System.Windows.Media;
 using DBManager.Global;
 using DBManager.SettingsWriter;
 using System.Windows;
+using DBManager.Scanning.DBAdditionalDataClasses;
 
 namespace DBManager.RoundMembers.Converters
 {
@@ -19,147 +20,210 @@ namespace DBManager.RoundMembers.Converters
 	{
 		public class CConverterResult
 		{
-			public FontWeight FontWeight;
-			public FontStyle FontStyle;
-			public Brush Background;
-			public Brush Foreground;
+			private bool isEmpty = true;
+			public bool IsEmpty
+			{
+				get { return isEmpty; }
+			}
+
+			public FontWeight FontWeight = FontWeights.Normal;
+			public FontStyle FontStyle = FontStyles.Normal;
+			public Brush Background = Brushes.Transparent;
+			public Brush Foreground = Brushes.Black;
+
+			public CConverterResult()
+			{
+			}
+
 
 			public CConverterResult(CFontStyleSettings fontStyle, bool UseTransparentBackcolor)
 			{
+				isEmpty = false;
 				FontWeight = fontStyle.FontWeight;
 				FontStyle = fontStyle.FontStyle;
 				Background = UseTransparentBackcolor ? Brushes.Transparent : new SolidColorBrush(fontStyle.BackgroundColor);
 				Foreground = new SolidColorBrush(fontStyle.ForeColor);
 			}
+
+
+			public CConverterResult MixWithOther(CConverterResult rhs, bool IsRhsHasMorePriority)
+			{
+				if (IsEmpty)
+				{
+					FontWeight = rhs.FontWeight;
+					FontStyle = rhs.FontStyle;
+					Background = rhs.Background;
+					Foreground = rhs.Foreground;
+				}
+				else if (!rhs.IsEmpty)
+				{
+					FontWeight = IsRhsHasMorePriority ? rhs.FontWeight : FontWeight;
+					FontStyle = IsRhsHasMorePriority ? rhs.FontStyle : FontStyle;
+
+					if (Background != rhs.Background)
+					{
+						if (Background.ToString() == Brushes.Transparent.ToString() || IsRhsHasMorePriority)
+							Background = rhs.Background;
+					}
+
+					if (Foreground != rhs.Foreground)
+					{
+						if (IsRhsHasMorePriority)
+							Foreground = rhs.Foreground;
+					}
+				}
+
+				return this;
+			}
 		}
 
-		public static CConverterResult Convert(CResult result,
+		public static CConverterResult Convert(CMemberAndResults Member,
+												CResult result,
 												enRounds? Round,
-												int? RoundPlace,
 												int? MembersFromQualif,
 												enCellType DestColumnType,
 												out bool PlainStyleSetted)
 		{
-			if ((RoundPlace != null) || (MembersFromQualif != null))
-			{
-				if ((result == null) || (Round == null) || (RoundPlace == null) || (MembersFromQualif == null))
-				{
-					if (result != null && result.CondFormating.HasValue && Round.HasValue && MembersFromQualif.HasValue)
-					{   // Возможно участник стоит на старте
-						lock (DBManagerApp.m_AppSettings.m_SettigsSyncObj)
-						{
-							if (result.CondFormating.Value == enCondFormating.StayOnStart &&
-								DestColumnType != enCellType.StartNumber &&
-								DestColumnType != enCellType.SurnameAndName)
-							{
-								PlainStyleSetted = false;
-								return new CConverterResult(DBManagerApp.m_AppSettings.m_Settings.StayOnStartFontStyle, false);
-							}
-						}
-					}
-					else
-					{
-						PlainStyleSetted = true;
-						return new CConverterResult(DBManagerApp.m_AppSettings.m_Settings.PlainResultsFontStyle, true);
-					}
-				}
-			}
-			else if ((RoundPlace == null) && (MembersFromQualif == null))
-			{
-				if ((result == null) || (Round == null))
-				{
-					PlainStyleSetted = true;
-					return new CConverterResult(DBManagerApp.m_AppSettings.m_Settings.PlainResultsFontStyle, true);
-				}
-			}
-			else
-			{
-				PlainStyleSetted = true;
-				return new CConverterResult(DBManagerApp.m_AppSettings.m_Settings.PlainResultsFontStyle, true);
-			}
+			PlainStyleSetted = false;
 
+			CConverterResult res = new CConverterResult();
 
-			if (!(result == null || result.CondFormating == null || DestColumnType == enCellType.None))
+			lock (DBManagerApp.m_AppSettings.m_SettigsSyncObj)
 			{
-				lock (DBManagerApp.m_AppSettings.m_SettigsSyncObj)
+				if ((Member.HasFalsestart && DestColumnType == enCellType.SurnameAndName)
+					|| (result.AdditionalEventTypes.HasValue && result.AdditionalEventTypes.Value.HasFlag(enAdditionalEventTypes.Falsestart)
+							&& (DestColumnType == enCellType.Route1 || DestColumnType == enCellType.Route2)))
 				{
-					switch (result.CondFormating.Value)
+					res = new CConverterResult(DBManagerApp.m_AppSettings.m_Settings.FalsestartFontStyle, false);
+				}
+
+				if (Round.HasValue)
+				{
+					switch (Round)
 					{
-						case enCondFormating.StayOnStart: // Находится на старте
+						#region Qualif, Qualif2
+						case enRounds.Qualif:
+						case enRounds.Qualif2:
 							switch (DestColumnType)
 							{
+								#region StartNumber, SurnameAndName
 								case enCellType.StartNumber:
 								case enCellType.SurnameAndName:
-									if (Round == enRounds.Qualif || Round == enRounds.Qualif2)
+									if (result.CondFormating.HasValue)
 									{
-										PlainStyleSetted = false;
-										return new CConverterResult(DBManagerApp.m_AppSettings.m_Settings.InvitedToStartFontStyle, false);
+										switch (result.CondFormating.Value)
+										{
+											case enCondFormating.StayOnStart: // Находится на старте
+												return res.MixWithOther(new CConverterResult(DBManagerApp.m_AppSettings.m_Settings.InvitedToStartFontStyle, false),
+																		 false);
+
+											case enCondFormating.JustRecievedResult: // Только что полученный результат
+												if (result.ResultColumnNumber == enResultColumnNumber.Sum)
+												{
+													return res.MixWithOther(new CConverterResult(DBManagerApp.m_AppSettings.m_Settings.JustRecievedResultFontStyle, false),
+																			 false);
+												}
+												else
+													break;
+
+											case enCondFormating.Preparing: // Участник готовится
+												return res.MixWithOther(new CConverterResult(DBManagerApp.m_AppSettings.m_Settings.PreparingFontStyle, false),
+																		  false);
+
+											default:
+												break;
+										}
 									}
 									break;
+								#endregion
 
+								#region Route1, Route2, Sum
 								case enCellType.Route1:
 								case enCellType.Route2:
 								case enCellType.Sum:
-									PlainStyleSetted = false;
-									return new CConverterResult(DBManagerApp.m_AppSettings.m_Settings.StayOnStartFontStyle, false);
+									if (result.CondFormating.HasValue)
+									{
+										switch (result.CondFormating.Value)
+										{
+											case enCondFormating.StayOnStart: // Находится на старте
+												return res.MixWithOther(new CConverterResult(DBManagerApp.m_AppSettings.m_Settings.StayOnStartFontStyle, false),
+																		  false);
+
+											case enCondFormating.JustRecievedResult: // Только что полученный результат
+												return res.MixWithOther(new CConverterResult(DBManagerApp.m_AppSettings.m_Settings.JustRecievedResultFontStyle, false),
+																		  false);
+												
+											case enCondFormating.Preparing: // Участник готовится
+												break;
+
+											default:
+												break;
+										}
+									}
+									break;
+								#endregion
+
+								default:
+									break;
+							}
+
+							if (Member.Place.HasValue && Member.Place > 0 && Member.Place <= MembersFromQualif)
+							{   // Участник проходит в следуюущий тур
+								return res.MixWithOther(new CConverterResult(DBManagerApp.m_AppSettings.m_Settings.NextRoundMembersCountFontStyle, false),
+														false);
+							}
+							break;
+						#endregion
+
+						#region OneEighthFinal, QuaterFinal, SemiFinal, Final
+						case enRounds.OneEighthFinal:
+						case enRounds.QuaterFinal:
+						case enRounds.SemiFinal:
+						case enRounds.Final:
+							switch (DestColumnType)
+							{
+								#region StartNumber, SurnameAndName
+								case enCellType.StartNumber:
+								case enCellType.SurnameAndName:
+									break;
+								#endregion
+
+								#region Route1, Route2, Sum
+								case enCellType.Route1:
+								case enCellType.Route2:
+								case enCellType.Sum:
+									if (result.CondFormating.HasValue)
+									{
+										switch (result.CondFormating.Value)
+										{
+											case enCondFormating.StayOnStart: // Находится на старте
+												return res.MixWithOther(new CConverterResult(DBManagerApp.m_AppSettings.m_Settings.StayOnStartFontStyle, false),
+																		 false);
+
+											case enCondFormating.JustRecievedResult: // Только что полученный результат
+											case enCondFormating.Preparing: // Участник готовится
+												break;
+
+											default:
+												break;
+										}
+									}
+									break;
+								#endregion
 
 								default:
 									break;
 							}
 							break;
-
-						case enCondFormating.JustRecievedResult: // Только что полученный результат
-							if (Round == enRounds.Qualif || Round == enRounds.Qualif2)
-							{   // Тут подсветка не нужна
-								PlainStyleSetted = false;
-								return new CConverterResult(DBManagerApp.m_AppSettings.m_Settings.JustRecievedResultFontStyle, false);
-							}
-							else
-							{
-								PlainStyleSetted = false;
-								return new CConverterResult(DBManagerApp.m_AppSettings.m_Settings.JustRecievedResultFontStyle, false);
-							}
-
-						case enCondFormating.Preparing: // Участник готовится
-							if (Round == enRounds.Qualif || Round == enRounds.Qualif2)
-							{
-								switch (DestColumnType)
-								{
-									case enCellType.StartNumber:
-									case enCellType.SurnameAndName:
-										PlainStyleSetted = false;
-										return new CConverterResult(DBManagerApp.m_AppSettings.m_Settings.PreparingFontStyle, false);
-
-									default:
-										break;
-								}
-							}
-							break;
-
-						default:
-							break;
+						#endregion
 					}
 				}
 			}
 
-			if (RoundPlace.HasValue && MembersFromQualif.HasValue)
-			{
-				if (RoundPlace > 0 && RoundPlace <= MembersFromQualif)
-				{   // Участник проходит в следуюущий тур
-					PlainStyleSetted = false;
-					return new CConverterResult(DBManagerApp.m_AppSettings.m_Settings.NextRoundMembersCountFontStyle, false);
-				}
-				else
-				{
-					PlainStyleSetted = true;
-					return new CConverterResult(DBManagerApp.m_AppSettings.m_Settings.PlainResultsFontStyle, true);
-				}
-			}
-			else
-			{
+			if (res.IsEmpty)
 				PlainStyleSetted = true;
-				return new CConverterResult(DBManagerApp.m_AppSettings.m_Settings.PlainResultsFontStyle, true);
-			}
+			return res.MixWithOther(new CConverterResult(DBManagerApp.m_AppSettings.m_Settings.PlainResultsFontStyle, true),
+									false);
 		}
 	}
 }

@@ -4,48 +4,16 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="compdbModel.Store" Alias="Self" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.7" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
-        <EntityContainer Name="compdbModelStoreContainer">
-          <EntitySet Name="balls" EntityType="compdbModel.Store.balls" store:Type="Tables" Schema="compdb" />
-          <EntitySet Name="coaches" EntityType="compdbModel.Store.coaches" store:Type="Tables" Schema="compdb" />
-          <EntitySet Name="descriptions" EntityType="compdbModel.Store.descriptions" store:Type="Tables" Schema="compdb" />
-          <EntitySet Name="grades" EntityType="compdbModel.Store.grades" store:Type="Tables" Schema="compdb" />
-          <EntitySet Name="groups" EntityType="compdbModel.Store.groups" store:Type="Tables" Schema="compdb" />
-          <EntitySet Name="members" EntityType="compdbModel.Store.members" store:Type="Tables" Schema="compdb" />
-          <EntitySet Name="participations" EntityType="compdbModel.Store.participations" store:Type="Tables" Schema="compdb" />
-          <EntitySet Name="results_speed" EntityType="compdbModel.Store.results_speed" store:Type="Tables" Schema="compdb" />
-          <EntitySet Name="round_dates" EntityType="compdbModel.Store.round_dates" store:Type="Tables" Schema="compdb" />
-          <EntitySet Name="rounds" EntityType="compdbModel.Store.rounds" store:Type="Tables" Schema="compdb" />
-          <EntitySet Name="teams" EntityType="compdbModel.Store.teams" store:Type="Tables" Schema="compdb" />
-          <AssociationSet Name="fk_groups_description" Association="compdbModel.Store.fk_groups_description">
-            <End Role="descriptions" EntitySet="descriptions" />
-            <End Role="groups" EntitySet="groups" />
-          </AssociationSet>
-          <AssociationSet Name="fk_participation_coaches" Association="compdbModel.Store.fk_participation_coaches">
-            <End Role="coaches" EntitySet="coaches" />
-            <End Role="participations" EntitySet="participations" />
-          </AssociationSet>
-          <AssociationSet Name="fk_participation_groups" Association="compdbModel.Store.fk_participation_groups">
-            <End Role="groups" EntitySet="groups" />
-            <End Role="participations" EntitySet="participations" />
-          </AssociationSet>
-          <AssociationSet Name="fk_participation_members" Association="compdbModel.Store.fk_participation_members">
-            <End Role="members" EntitySet="members" />
-            <End Role="participations" EntitySet="participations" />
-          </AssociationSet>
-          <AssociationSet Name="fk_participation_teams" Association="compdbModel.Store.fk_participation_teams">
-            <End Role="teams" EntitySet="teams" />
-            <End Role="participations" EntitySet="participations" />
-          </AssociationSet>
-          <AssociationSet Name="fk_results_speed_participation" Association="compdbModel.Store.fk_results_speed_participation">
-            <End Role="participations" EntitySet="participations" />
-            <End Role="results_speed" EntitySet="results_speed" />
-          </AssociationSet>
-          <AssociationSet Name="fk_round_dates_groups1" Association="compdbModel.Store.fk_round_dates_groups1">
-            <End Role="groups" EntitySet="groups" />
-            <End Role="round_dates" EntitySet="round_dates" />
-          </AssociationSet>
-        </EntityContainer>
+    <Schema Namespace="compdbModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.7" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityType Name="additional_events_types">
+          <Key>
+            <PropertyRef Name="flag" />
+          </Key>
+          <Property Name="flag" Type="uint" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="short_name" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="name_in_xml" Type="varchar" MaxLength="45" Nullable="false" />
+        </EntityType>
         <EntityType Name="balls">
           <Key>
             <PropertyRef Name="place" />
@@ -57,41 +25,51 @@
           <Key>
             <PropertyRef Name="id_coach" />
           </Key>
-          <Property Name="id_coach" Type="uint" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="name" Type="varchar" Nullable="false" MaxLength="255" />
+          <Property Name="id_coach" Type="uint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="255" Nullable="false" />
         </EntityType>
         <EntityType Name="descriptions">
           <Key>
             <PropertyRef Name="id_desc" />
           </Key>
-          <Property Name="id_desc" Type="uint" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="name" Type="varchar" Nullable="false" MaxLength="255" />
-          <Property Name="dir" Type="varchar" Nullable="false" MaxLength="255" />
+          <Property Name="id_desc" Type="uint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="dir" Type="varchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="falsestarts_rules">
+          <Key>
+            <PropertyRef Name="id_falsestarts_rules" />
+            <PropertyRef Name="Group" />
+          </Key>
+          <Property Name="id_falsestarts_rules" Type="uint" Nullable="false" />
+          <Property Name="Group" Type="uint" Nullable="false" />
+          <Property Name="start_round" Type="utinyint" Nullable="false" />
+          <Property Name="end_round" Type="utinyint" Nullable="false" />
         </EntityType>
         <EntityType Name="grades">
           <Key>
             <PropertyRef Name="id_grade" />
           </Key>
-          <Property Name="id_grade" Type="utinyint" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="name" Type="varchar" Nullable="false" MaxLength="5" />
+          <Property Name="id_grade" Type="utinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="5" Nullable="false" />
         </EntityType>
         <EntityType Name="groups">
           <Key>
             <PropertyRef Name="id_group" />
           </Key>
-          <Property Name="id_group" Type="uint" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="name" Type="varchar" Nullable="false" MaxLength="255" />
+          <Property Name="id_group" Type="uint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="start_year" Type="usmallint" />
           <Property Name="end_year" Type="smallint" />
           <Property Name="desc" Type="uint" Nullable="false" />
-          <Property Name="second_col_name" Type="varchar" Nullable="false" MaxLength="10" />
+          <Property Name="second_col_name" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="from_1_qualif" Type="utinyint" />
           <Property Name="from_2_qualif" Type="utinyint" />
           <Property Name="round_after_qualif" Type="utinyint" />
           <Property Name="main_judge" Type="varchar" MaxLength="255" />
           <Property Name="main_secretary" Type="varchar" MaxLength="255" />
           <Property Name="row6" Type="varchar" MaxLength="255" />
-          <Property Name="xml_file_name" Type="varchar" Nullable="false" MaxLength="255" />
+          <Property Name="xml_file_name" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="sex" Type="utinyint" Nullable="false" />
           <Property Name="comp_start_date" Type="date" Nullable="false" />
           <Property Name="comp_end_date" Type="date" />
@@ -101,9 +79,9 @@
           <Key>
             <PropertyRef Name="id_member" />
           </Key>
-          <Property Name="id_member" Type="uint" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="name" Type="varchar" Nullable="false" MaxLength="100" />
-          <Property Name="surname" Type="varchar" Nullable="false" MaxLength="100" />
+          <Property Name="id_member" Type="uint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="surname" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="year_of_birth" Type="year" />
           <Property Name="sex" Type="utinyint" Nullable="false" />
         </EntityType>
@@ -111,7 +89,7 @@
           <Key>
             <PropertyRef Name="id_participation" />
           </Key>
-          <Property Name="id_participation" Type="uint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="id_participation" Type="uint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="member" Type="uint" Nullable="false" />
           <Property Name="Group" Type="uint" Nullable="false" />
           <Property Name="coach" Type="uint" />
@@ -124,7 +102,7 @@
           <Key>
             <PropertyRef Name="id_result" />
           </Key>
-          <Property Name="id_result" Type="uint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="id_result" Type="uint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="participation" Type="uint" Nullable="false" />
           <Property Name="number" Type="utinyint" />
           <Property Name="round" Type="utinyint" Nullable="false" />
@@ -136,33 +114,48 @@
           <Property Name="cond_formating_1" Type="utinyint" />
           <Property Name="cond_formating_2" Type="utinyint" />
           <Property Name="cond_formating_sum" Type="utinyint" />
+          <Property Name="event_1" Type="uint" />
+          <Property Name="event_2" Type="uint" />
+          <Property Name="event_sum" Type="uint" />
         </EntityType>
         <EntityType Name="round_dates">
           <Key>
             <PropertyRef Name="id_round_dates" />
           </Key>
-          <Property Name="id_round_dates" Type="uint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="id_round_dates" Type="uint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="round" Type="utinyint" Nullable="false" />
-          <Property Name="date" Type="varchar" Nullable="false" MaxLength="20" />
+          <Property Name="date" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="Group" Type="uint" Nullable="false" />
         </EntityType>
         <EntityType Name="rounds">
           <Key>
             <PropertyRef Name="id_round" />
           </Key>
-          <Property Name="id_round" Type="utinyint" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="name" Type="varchar" Nullable="false" MaxLength="20" />
+          <Property Name="id_round" Type="utinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="20" Nullable="false" />
         </EntityType>
         <EntityType Name="teams">
           <Key>
             <PropertyRef Name="id_team" />
           </Key>
-          <Property Name="id_team" Type="uint" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="name" Type="varchar" Nullable="false" MaxLength="255" />
+          <Property Name="id_team" Type="uint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="255" Nullable="false" />
         </EntityType>
+        <Association Name="fk_falsestarts_rules_groups1">
+          <End Role="groups" Type="Self.groups" Multiplicity="1" />
+          <End Role="falsestarts_rules" Type="Self.falsestarts_rules" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="groups">
+              <PropertyRef Name="id_group" />
+            </Principal>
+            <Dependent Role="falsestarts_rules">
+              <PropertyRef Name="Group" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_groups_description">
-          <End Role="descriptions" Type="compdbModel.Store.descriptions" Multiplicity="1" />
-          <End Role="groups" Type="compdbModel.Store.groups" Multiplicity="*" />
+          <End Role="descriptions" Type="Self.descriptions" Multiplicity="1" />
+          <End Role="groups" Type="Self.groups" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="descriptions">
               <PropertyRef Name="id_desc" />
@@ -173,8 +166,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_participation_coaches">
-          <End Role="coaches" Type="compdbModel.Store.coaches" Multiplicity="0..1" />
-          <End Role="participations" Type="compdbModel.Store.participations" Multiplicity="*" />
+          <End Role="coaches" Type="Self.coaches" Multiplicity="0..1" />
+          <End Role="participations" Type="Self.participations" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="coaches">
               <PropertyRef Name="id_coach" />
@@ -185,10 +178,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_participation_groups">
-          <End Role="groups" Type="compdbModel.Store.groups" Multiplicity="1">
+          <End Role="groups" Type="Self.groups" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="participations" Type="compdbModel.Store.participations" Multiplicity="*" />
+          <End Role="participations" Type="Self.participations" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="groups">
               <PropertyRef Name="id_group" />
@@ -199,10 +192,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_participation_members">
-          <End Role="members" Type="compdbModel.Store.members" Multiplicity="1">
+          <End Role="members" Type="Self.members" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="participations" Type="compdbModel.Store.participations" Multiplicity="*" />
+          <End Role="participations" Type="Self.participations" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="members">
               <PropertyRef Name="id_member" />
@@ -213,8 +206,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_participation_teams">
-          <End Role="teams" Type="compdbModel.Store.teams" Multiplicity="0..1" />
-          <End Role="participations" Type="compdbModel.Store.participations" Multiplicity="*" />
+          <End Role="teams" Type="Self.teams" Multiplicity="0..1" />
+          <End Role="participations" Type="Self.participations" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="teams">
               <PropertyRef Name="id_team" />
@@ -225,10 +218,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_results_speed_participation">
-          <End Role="participations" Type="compdbModel.Store.participations" Multiplicity="1">
+          <End Role="participations" Type="Self.participations" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="results_speed" Type="compdbModel.Store.results_speed" Multiplicity="*" />
+          <End Role="results_speed" Type="Self.results_speed" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="participations">
               <PropertyRef Name="id_participation" />
@@ -239,8 +232,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_round_dates_groups1">
-          <End Role="groups" Type="compdbModel.Store.groups" Multiplicity="1" />
-          <End Role="round_dates" Type="compdbModel.Store.round_dates" Multiplicity="*" />
+          <End Role="groups" Type="Self.groups" Multiplicity="1" />
+          <End Role="round_dates" Type="Self.round_dates" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="groups">
               <PropertyRef Name="id_group" />
@@ -250,6 +243,53 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityContainer Name="compdbModelStoreContainer">
+          <EntitySet Name="additional_events_types" EntityType="Self.additional_events_types" Schema="compdb" store:Type="Tables" />
+          <EntitySet Name="balls" EntityType="Self.balls" Schema="compdb" store:Type="Tables" />
+          <EntitySet Name="coaches" EntityType="Self.coaches" Schema="compdb" store:Type="Tables" />
+          <EntitySet Name="descriptions" EntityType="Self.descriptions" Schema="compdb" store:Type="Tables" />
+          <EntitySet Name="falsestarts_rules" EntityType="Self.falsestarts_rules" Schema="compdb" store:Type="Tables" />
+          <EntitySet Name="grades" EntityType="Self.grades" Schema="compdb" store:Type="Tables" />
+          <EntitySet Name="groups" EntityType="Self.groups" Schema="compdb" store:Type="Tables" />
+          <EntitySet Name="members" EntityType="Self.members" Schema="compdb" store:Type="Tables" />
+          <EntitySet Name="participations" EntityType="Self.participations" Schema="compdb" store:Type="Tables" />
+          <EntitySet Name="results_speed" EntityType="Self.results_speed" Schema="compdb" store:Type="Tables" />
+          <EntitySet Name="round_dates" EntityType="Self.round_dates" Schema="compdb" store:Type="Tables" />
+          <EntitySet Name="rounds" EntityType="Self.rounds" Schema="compdb" store:Type="Tables" />
+          <EntitySet Name="teams" EntityType="Self.teams" Schema="compdb" store:Type="Tables" />
+          <AssociationSet Name="fk_falsestarts_rules_groups1" Association="Self.fk_falsestarts_rules_groups1">
+            <End Role="groups" EntitySet="groups" />
+            <End Role="falsestarts_rules" EntitySet="falsestarts_rules" />
+          </AssociationSet>
+          <AssociationSet Name="fk_groups_description" Association="Self.fk_groups_description">
+            <End Role="descriptions" EntitySet="descriptions" />
+            <End Role="groups" EntitySet="groups" />
+          </AssociationSet>
+          <AssociationSet Name="fk_participation_coaches" Association="Self.fk_participation_coaches">
+            <End Role="coaches" EntitySet="coaches" />
+            <End Role="participations" EntitySet="participations" />
+          </AssociationSet>
+          <AssociationSet Name="fk_participation_groups" Association="Self.fk_participation_groups">
+            <End Role="groups" EntitySet="groups" />
+            <End Role="participations" EntitySet="participations" />
+          </AssociationSet>
+          <AssociationSet Name="fk_participation_members" Association="Self.fk_participation_members">
+            <End Role="members" EntitySet="members" />
+            <End Role="participations" EntitySet="participations" />
+          </AssociationSet>
+          <AssociationSet Name="fk_participation_teams" Association="Self.fk_participation_teams">
+            <End Role="teams" EntitySet="teams" />
+            <End Role="participations" EntitySet="participations" />
+          </AssociationSet>
+          <AssociationSet Name="fk_results_speed_participation" Association="Self.fk_results_speed_participation">
+            <End Role="participations" EntitySet="participations" />
+            <End Role="results_speed" EntitySet="results_speed" />
+          </AssociationSet>
+          <AssociationSet Name="fk_round_dates_groups1" Association="Self.fk_round_dates_groups1">
+            <End Role="groups" EntitySet="groups" />
+            <End Role="round_dates" EntitySet="round_dates" />
+          </AssociationSet>
+        </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -288,12 +328,18 @@
             <End Role="coaches" EntitySet="coaches" />
             <End Role="participations" EntitySet="participations" />
           </AssociationSet>
+          <EntitySet Name="balls" EntityType="compdbModel.balls" />
+          <EntitySet Name="additional_events_types" EntityType="compdbModel.additional_events_types" />
           <EntitySet Name="results_speed" EntityType="compdbModel.results_speed" />
           <AssociationSet Name="fk_results_speed_participation" Association="compdbModel.fk_results_speed_participation">
             <End Role="participations" EntitySet="participations" />
             <End Role="results_speed" EntitySet="results_speed" />
           </AssociationSet>
-          <EntitySet Name="balls" EntityType="compdbModel.balls" />
+          <EntitySet Name="falsestarts_rules" EntityType="compdbModel.falsestarts_rules" />
+          <AssociationSet Name="fk_falsestarts_rules_groups1" Association="compdbModel.fk_falsestarts_rules_groups1">
+            <End Role="groups" EntitySet="groups" />
+            <End Role="falsestarts_rules" EntitySet="falsestarts_rules" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="grades">
           <Key>
@@ -413,6 +459,7 @@
           <NavigationProperty Name="participations" Relationship="compdbModel.fk_participation_groups" FromRole="groups" ToRole="participations" />
           <NavigationProperty Name="round_dates" Relationship="compdbModel.fk_round_dates_groups1" FromRole="groups" ToRole="round_dates" />
           <Property Type="Int32" Name="round_finished_flags" />
+          <NavigationProperty Name="falsestarts_rules" Relationship="compdbModel.fk_falsestarts_rules_groups1" FromRole="groups" ToRole="falsestarts_rules" />
         </EntityType>
         <Association Name="fk_groups_description">
           <End Type="compdbModel.descriptions" Role="descriptions" Multiplicity="1" />
@@ -470,26 +517,47 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="balls">
+          <Key>
+            <PropertyRef Name="place" />
+          </Key>
+          <Property Type="Byte" Name="place" Nullable="false" />
+          <Property Type="Byte" Name="value" Nullable="false" />
+        </EntityType>
+        <EntityType Name="additional_events_types">
+          <Key>
+            <PropertyRef Name="flag" />
+          </Key>
+          <Property Name="flag" Type="Int64" Nullable="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="short_name" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="name_in_xml" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
+        </EntityType>
         <EntityType Name="results_speed">
           <Key>
             <PropertyRef Name="id_result" />
           </Key>
-          <Property Type="Int64" Name="id_result" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="Int64" Name="participation" Nullable="false" />
-          <Property Type="Byte" Name="number" />
-          <Property Type="Byte" Name="round" Nullable="false" />
-          <Property Type="Time" Name="route1" />
-          <Property Type="Time" Name="route2" />
-          <Property Type="Time" Name="sum" />
-          <Property Type="Single" Name="balls" />
-          <Property Type="Byte" Name="place" />
-          <Property Type="Byte" Name="cond_formating_1" />
-          <Property Type="Byte" Name="cond_formating_2" />
-          <Property Type="Byte" Name="cond_formating_sum" />
+          <Property Name="id_result" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="participation" Type="Int64" Nullable="false" />
+          <Property Name="number" Type="Byte" />
+          <Property Name="round" Type="Byte" Nullable="false" />
+          <Property Name="route1" Type="Time" />
+          <Property Name="route2" Type="Time" />
+          <Property Name="sum" Type="Time" />
+          <Property Name="balls" Type="Single" />
+          <Property Name="place" Type="Byte" />
+          <Property Name="cond_formating_1" Type="Byte" />
+          <Property Name="cond_formating_2" Type="Byte" />
+          <Property Name="cond_formating_sum" Type="Byte" />
+          <Property Name="event_1" Type="Int64" />
+          <Property Name="event_2" Type="Int64" />
+          <Property Name="event_sum" Type="Int64" />
           <NavigationProperty Name="participations" Relationship="compdbModel.fk_results_speed_participation" FromRole="results_speed" ToRole="participations" />
         </EntityType>
         <Association Name="fk_results_speed_participation">
-          <End Type="compdbModel.participations" Role="participations" Multiplicity="1" />
+          <End Type="compdbModel.participations" Role="participations" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Type="compdbModel.results_speed" Role="results_speed" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="participations">
@@ -500,13 +568,29 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="balls">
+        <EntityType Name="falsestarts_rules">
           <Key>
-            <PropertyRef Name="place" />
+            <PropertyRef Name="id_falsestarts_rules" />
+            <PropertyRef Name="Group" />
           </Key>
-          <Property Type="Byte" Name="place" Nullable="false" />
-          <Property Type="Byte" Name="value" Nullable="false" />
+          <Property Name="id_falsestarts_rules" Type="Int64" Nullable="false" />
+          <Property Name="Group" Type="Int64" Nullable="false" />
+          <Property Name="start_round" Type="Byte" Nullable="false" />
+          <Property Name="end_round" Type="Byte" Nullable="false" />
+          <NavigationProperty Name="groups" Relationship="compdbModel.fk_falsestarts_rules_groups1" FromRole="falsestarts_rules" ToRole="groups" />
         </EntityType>
+        <Association Name="fk_falsestarts_rules_groups1">
+          <End Type="compdbModel.groups" Role="groups" Multiplicity="1" />
+          <End Type="compdbModel.falsestarts_rules" Role="falsestarts_rules" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="groups">
+              <PropertyRef Name="id_group" />
+            </Principal>
+            <Dependent Role="falsestarts_rules">
+              <PropertyRef Name="Group" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -612,9 +696,30 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="balls">
+            <EntityTypeMapping TypeName="compdbModel.balls">
+              <MappingFragment StoreEntitySet="balls">
+                <ScalarProperty Name="value" ColumnName="value" />
+                <ScalarProperty Name="place" ColumnName="place" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="additional_events_types">
+            <EntityTypeMapping TypeName="compdbModel.additional_events_types">
+              <MappingFragment StoreEntitySet="additional_events_types">
+                <ScalarProperty Name="name_in_xml" ColumnName="name_in_xml" />
+                <ScalarProperty Name="short_name" ColumnName="short_name" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="flag" ColumnName="flag" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="results_speed">
             <EntityTypeMapping TypeName="compdbModel.results_speed">
               <MappingFragment StoreEntitySet="results_speed">
+                <ScalarProperty Name="event_sum" ColumnName="event_sum" />
+                <ScalarProperty Name="event_2" ColumnName="event_2" />
+                <ScalarProperty Name="event_1" ColumnName="event_1" />
                 <ScalarProperty Name="cond_formating_sum" ColumnName="cond_formating_sum" />
                 <ScalarProperty Name="cond_formating_2" ColumnName="cond_formating_2" />
                 <ScalarProperty Name="cond_formating_1" ColumnName="cond_formating_1" />
@@ -630,11 +735,13 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="balls">
-            <EntityTypeMapping TypeName="compdbModel.balls">
-              <MappingFragment StoreEntitySet="balls">
-                <ScalarProperty Name="value" ColumnName="value" />
-                <ScalarProperty Name="place" ColumnName="place" />
+          <EntitySetMapping Name="falsestarts_rules">
+            <EntityTypeMapping TypeName="compdbModel.falsestarts_rules">
+              <MappingFragment StoreEntitySet="falsestarts_rules">
+                <ScalarProperty Name="end_round" ColumnName="end_round" />
+                <ScalarProperty Name="start_round" ColumnName="start_round" />
+                <ScalarProperty Name="Group" ColumnName="Group" />
+                <ScalarProperty Name="id_falsestarts_rules" ColumnName="id_falsestarts_rules" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -654,6 +761,7 @@
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
         <DesignerProperty Name="EnablePluralization" Value="False" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="UseLegacyProvider" Value="True" />
       </DesignerInfoPropertySet>
     </Options>
     <!-- Diagram content (shape and connector positions) -->
@@ -663,7 +771,7 @@
         <EntityTypeShape EntityType="compdbModel.rounds" Width="1.5" PointX="7.75" PointY="5.75" Height="1.4033821614583317" IsExpanded="true" />
         <EntityTypeShape EntityType="compdbModel.teams" Width="1.5" PointX="3" PointY="11.25" Height="1.5956835937499996" IsExpanded="true" />
         <EntityTypeShape EntityType="compdbModel.members" Width="1.5" PointX="3" PointY="8.5" Height="2.1725878906250031" />
-        <EntityTypeShape EntityType="compdbModel.descriptions" Width="1.5" PointX="0.75" PointY="2.5" Height="1.7879850260416674" />
+        <EntityTypeShape EntityType="compdbModel.descriptions" Width="1.5" PointX="0.75" PointY="1.375" Height="1.7879850260416674" />
         <EntityTypeShape EntityType="compdbModel.participations" Width="1.5" PointX="8.25" PointY="8.125" Height="3.5186979166666674" />
         <AssociationConnector Association="compdbModel.fk_participation_members" >
           <ConnectorPoint PointX="4.5" PointY="10.025476451822918" />
@@ -673,7 +781,7 @@
           <ConnectorPoint PointX="4.5" PointY="11.446848958333334" />
           <ConnectorPoint PointX="8.25" PointY="11.446848958333334" />
         </AssociationConnector>
-        <EntityTypeShape EntityType="compdbModel.round_dates" Width="1.5" PointX="5.25" PointY="2.375" Height="1.9802864583333388" />
+        <EntityTypeShape EntityType="compdbModel.round_dates" Width="1.5" PointX="0.75" PointY="4.5" Height="1.9802864583333388" />
         <EntityTypeShape EntityType="compdbModel.groups" Width="1.5" PointX="3" PointY="0.75" Height="4.6725065104166674" />
         <AssociationConnector Association="compdbModel.fk_groups_description" >
           <ConnectorPoint PointX="2.25" PointY="3.3939925130208333" />
@@ -688,19 +796,15 @@
           <ConnectorPoint PointX="4.5" PointY="3.3651432291666667" />
           <ConnectorPoint PointX="5.25" PointY="3.3651432291666667" />
         </AssociationConnector>
-        <EntityTypeShape EntityType="compdbModel.coaches" Width="1.5" PointX="10.375" PointY="0.875" Height="1.5956835937499996" />
-        <AssociationConnector Association="compdbModel.fk_participation_coaches" >
-          <ConnectorPoint PointX="11.125" PointY="2.4706835937499996" />
-          <ConnectorPoint PointX="11.125" PointY="9.8843489583333337" />
-          <ConnectorPoint PointX="9.75" PointY="9.8843489583333337" />
-        </AssociationConnector>
-        <EntityTypeShape EntityType="compdbModel.results_speed" Width="1.75" PointX="7.5" PointY="1.5" Height="3.5186979166666745" />
-        <AssociationConnector Association="compdbModel.fk_results_speed_participation" >
-          <ConnectorPoint PointX="8.25" PointY="9.2533650130208329" />
-          <ConnectorPoint PointX="7.59375" PointY="9.2533650130208329" />
-          <ConnectorPoint PointX="7.59375" PointY="5.0186979166666745" />
+        <EntityTypeShape EntityType="compdbModel.coaches" Width="1.5" PointX="12.25" PointY="1.375" Height="1.5956835937499996" />
+        <AssociationConnector Association="compdbModel.fk_participation_coaches" ManuallyRouted="false" >
         </AssociationConnector>
         <EntityTypeShape EntityType="compdbModel.balls" Width="1.5" PointX="1.375" PointY="6.625" Height="1.4033821614583353" />
+        <EntityTypeShape EntityType="compdbModel.additional_events_types" Width="1.5" PointX="10.5" PointY="6.125" />
+        <EntityTypeShape EntityType="compdbModel.results_speed" Width="1.5" PointX="10.5" PointY="8.875" />
+        <AssociationConnector Association="compdbModel.fk_results_speed_participation" />
+        <EntityTypeShape EntityType="compdbModel.falsestarts_rules" Width="1.5" PointX="5.25" PointY="2.25" />
+        <AssociationConnector Association="compdbModel.fk_falsestarts_rules_groups1" />
       </Diagram>
     </Diagrams>
   </Designer>

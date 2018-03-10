@@ -16,7 +16,13 @@ namespace DBManager.RoundMembers.Converters
 		{
 			if (result == null || result.Time == null)
 				return "";
-			else if (result.Time == GlobalDefines.FALL_TIME_SPAN_VAL)
+			if (result.AdditionalEventTypes.HasValue)
+			{
+				if (result.AdditionalEventTypes.Value.HasFlag(enAdditionalEventTypes.DontAppear))
+					return GlobalDefines.ADDITIONAL_EVENT_NAMES[enAdditionalEventTypes.DontAppear].short_name;
+			}
+			
+			if (result.Time == GlobalDefines.FALL_TIME_SPAN_VAL)
 				return Properties.Resources.resFall;
 			else if (result.Time > GlobalDefines.FALL_ON_ROUTE_2_TIME_SPAN_VAL)
 			{	/* Участник сорвался на второй трассе =>

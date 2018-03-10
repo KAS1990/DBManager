@@ -170,7 +170,11 @@ namespace DBManager.Global
 		Route1CondFormatting = 1 << 3,
 		Route2CondFormatting = 1 << 4,
 		SumCondFormatting = 1 << 5,
-	}
+
+        Route1AdditionalEvent = 1 << 6,
+        Route2AdditionalEvent = 1 << 7,
+        SumAdditionalEvent = 1 << 8,
+    }
 
 
 	/// <summary>
@@ -324,5 +328,28 @@ namespace DBManager.Global
 		Sum,
 		StartNumber,
 		SurnameAndName
+	}
+
+
+	/// <summary>
+	/// 
+	/// </summary>
+	[Flags]
+	public enum enAdditionalEventTypes
+	{
+		None = 0,
+
+		/// <summary>
+		/// Фальстарт
+		/// </summary>
+		Falsestart = 1 << 0,
+		/// <summary>
+		/// Неявка 
+		/// </summary>
+		DontAppear = 1 << 1,
+		/// <summary>
+		/// вк
+		/// </summary>
+		BeyondQualif = 1 << 2,
 	}
 }

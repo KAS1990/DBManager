@@ -35,9 +35,7 @@ namespace DBManager.Commands
 				if (m_canExecute != value)
 				{
 					m_canExecute = value;
-					EventHandler canExecuteChanged = CanExecuteChanged;
-					if (canExecuteChanged != null)
-						canExecuteChanged(this, EventArgs.Empty);
+					CanExecuteChanged?.Invoke(this, EventArgs.Empty);
 					CommandManager.InvalidateRequerySuggested();
 				}
 			}

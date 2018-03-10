@@ -161,6 +161,21 @@
 				Value="{Binding FontWeight}" />
 	</Style>
 
+	<Style x:Key="FalsestartLabelStyle" TargetType="{x:Type Label}" BasedOn="{StaticResource ColoredLabelStyle}">
+		<Setter Property="DataContext"
+				Value="{Binding FalsestartFontStyle, RelativeSource={RelativeSource AncestorType=local:CRightPanelControl}}" />
+
+		<Setter Property="Content" Value="{Loc resFalsestartInOneLine}" />
+		<Setter Property="Background" 
+				Value="{Binding BackgroundColor, Converter={gconvs:ColorToSolidBrushMarkupConverter}}" />
+		<Setter Property="Foreground"
+				Value="{Binding ForeColor, Converter={gconvs:ColorToSolidBrushMarkupConverter}}" />
+		<Setter Property="FontStyle"
+				Value="{Binding FontStyle}" />
+		<Setter Property="FontWeight"
+				Value="{Binding FontWeight}" />
+	</Style>
+
 	<Style x:Key="NextRoundMembersCountControl" TargetType="{x:Type Label}">
 		<Setter Property="Template">
 			<Setter.Value>
@@ -250,6 +265,7 @@
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="auto"/>
 						<ColumnDefinition Width="auto"/>
+						<ColumnDefinition Width="auto"/>
 					</Grid.ColumnDefinitions>
 					
 					<Label Grid.Row="0"
@@ -262,6 +278,8 @@
 						   Style="{StaticResource PreparingLabelStyle}" />
 					<Label Grid.Row="0" Grid.Column="1" Style="{StaticResource StayOnStartLabelStyle}"/>
 					<Label Grid.Row="1" Grid.Column="1" Style="{StaticResource JustRecievedResultLabelStyle}"/>
+
+					<Label Grid.Row="1" Grid.Column="2" Style="{StaticResource FalsestartLabelStyle}"/>
 				</Grid>
 			</StackPanel>
 		</Border>
@@ -289,8 +307,8 @@
 				<Label Style="{StaticResource NextRoundMembersCountControl}" />
 				
 				<StackPanel Orientation="Horizontal">
-					<Label Style="{StaticResource JustRecievedResultLabelStyle}"/>
 					<Label Style="{StaticResource StayOnStartLabelStyle}"/>
+					<Label Style="{StaticResource FalsestartLabelStyle}"/>
 				</StackPanel>
 			</StackPanel>
 		</Border>
@@ -326,8 +344,8 @@
 					   Style="{StaticResource ColoredLabelStyle}"/>
 				
 				<StackPanel Orientation="Horizontal">
-					<Label Style="{StaticResource JustRecievedResultLabelStyle}"/>
 					<Label Style="{StaticResource StayOnStartLabelStyle}"/>
+					<Label Style="{StaticResource FalsestartLabelStyle}"/>
 				</StackPanel>
 			</StackPanel>
 		</Border>

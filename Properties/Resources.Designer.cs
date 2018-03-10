@@ -547,6 +547,15 @@ namespace DBManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Участник с фальстартом.
+        /// </summary>
+        internal static string resFalsestartInOneLine {
+            get {
+                return ResourceManager.GetString("resFalsestartInOneLine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Файл.
         /// </summary>
         internal static string resFileName {
@@ -1840,6 +1849,15 @@ namespace DBManager.Properties {
         internal static string resRefreshToolTip {
             get {
                 return ResourceManager.GetString("resRefreshToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Убрать фальстарт.
+        /// </summary>
+        internal static string resRemoveFalsestart {
+            get {
+                return ResourceManager.GetString("resRemoveFalsestart", resourceCulture);
             }
         }
         
