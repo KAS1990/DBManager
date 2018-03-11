@@ -14,6 +14,9 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 {
 	public class COneRoundResultsForShow : INotifyPropertyChanged
 	{
+		CMemberAndResults m_Parent = null;
+		CFontStyleSettings m_RowFontStyle = null;
+
 		#region Route1
 		private static readonly string Route1PropertyName = GlobalDefines.GetPropertyName<COneRoundResultsForShow>(m => m.Route1);
 
@@ -114,8 +117,11 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 		#endregion
 
 
-		public void RefreshFields(CMemberAndResults Parent, COneRoundResults RouteResults, CFontStyleSettings RowFontStyle)
+		public void RefreshFields(COneRoundResults RouteResults, CMemberAndResults Parent = null, CFontStyleSettings RowFontStyle = null)
 		{
+			m_Parent = Parent = m_Parent ?? Parent;
+			m_RowFontStyle = RowFontStyle = m_RowFontStyle ?? RowFontStyle;
+
 			bool PlainStyleSetted = false;
 						
 			Route1.RefreshFields(Parent, RouteResults, RouteResults.Route1, RowFontStyle, out PlainStyleSetted);

@@ -27,6 +27,11 @@ namespace DBManager.Scanning.XMLDataClasses
 		[XmlIgnore]
 		public enResultColumnNumber ResultColumnNumber { get; set; }
 
+
+		[XmlIgnore]
+		public results_speed ResultInDB { get; set; } = null;
+
+
 		#region Time
 		private static readonly string InTimePropertyName = GlobalDefines.GetPropertyName<CResult>(m => m.Time);
 
@@ -75,9 +80,9 @@ namespace DBManager.Scanning.XMLDataClasses
 		}
 		#endregion
 
-		
+
 		#region AdditionalEventTypes
-		private static readonly string AdditionalEventTypesPropertyName = GlobalDefines.GetPropertyName<CResult>(m => m.AdditionalEventTypes);
+		public static readonly string AdditionalEventTypesPropertyName = GlobalDefines.GetPropertyName<CResult>(m => m.AdditionalEventTypes);
 
 		private enAdditionalEventTypes? m_AdditionalEventTypes = null;
 		[XmlIgnore]
@@ -92,7 +97,8 @@ namespace DBManager.Scanning.XMLDataClasses
 				{
 					m_AdditionalEventTypes = value;
 					ResultForShow = RouteResultsMarkupConverter.Convert(this);
-					RemoveFalsestart.CanExecute = m_AdditionalEventTypes.HasValue && m_AdditionalEventTypes.Value.HasFlag(enAdditionalEventTypes.Falsestart);
+					if (RemoveFalsestart != null)
+						RemoveFalsestart.CanExecute = m_AdditionalEventTypes.HasValue && m_AdditionalEventTypes.Value.HasFlag(enAdditionalEventTypes.Falsestart);
 
 					OnPropertyChanged(AdditionalEventTypesPropertyName);
 				}
@@ -168,6 +174,9 @@ namespace DBManager.Scanning.XMLDataClasses
 		public CResult(CResult rhs):
 			base(rhs)
 		{
+			ResultInDB = rhs.ResultInDB;
+			ResultColumnNumber = rhs.ResultColumnNumber;
+
 			RemoveFalsestart = new CCommand(RemoveFalsestart_Executed,
 				AdditionalEventTypes.HasValue && AdditionalEventTypes.Value.HasFlag(enAdditionalEventTypes.Falsestart));
 		}
@@ -176,6 +185,33 @@ namespace DBManager.Scanning.XMLDataClasses
 		private void RemoveFalsestart_Executed()
 		{
 			AdditionalEventTypes = AdditionalEventTypes.Value ^ enAdditionalEventTypes.Falsestart;
+			// Убираем фальстарт из БД
+			if (ResultInDB != null)
+			{
+				switch (ResultColumnNumber)
+				{
+					case enResultColumnNumber.Route1:
+						ResultInDB.event_1 = (long?)AdditionalEventTypes;
+						break;
+
+					case enResultColumnNumber.Route2:
+						ResultInDB.event_2 = (long?)AdditionalEventTypes;
+						break;
+
+					case enResultColumnNumber.Sum:
+						ResultInDB.event_sum = (long?)AdditionalEventTypes;
+						break;
+				}
+
+				try
+				{
+					DBManagerApp.m_Entities.SaveChanges();
+				}
+				catch (Exception ex)
+				{
+					ex.ToString();
+				}
+			}
 		}
 
 

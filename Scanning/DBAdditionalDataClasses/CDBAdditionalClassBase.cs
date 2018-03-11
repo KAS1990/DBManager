@@ -122,9 +122,8 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 
 		protected void OnPropertyChanged(string info)
 		{
-			if (PropertyChanged != null)
-				PropertyChanged(this, new PropertyChangedEventArgs(info));
-		}
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
+        }
 		#endregion
 	}
 }

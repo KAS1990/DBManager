@@ -338,8 +338,8 @@ namespace DBManager.Scanning
 																		  select results;
 							switch (MemberResultInDB.Count())
 							{
-								case 0:	// У этого участника ещё нет результатов в данном раунде => добавляем их в БД
-									DBManagerApp.m_Entities.AddToresults_speed(result.ToResults_Speed(keys.Participation.id_participation,
+								case 0: // У этого участника ещё нет результатов в данном раунде => добавляем их в БД
+                                    DBManagerApp.m_Entities.AddToresults_speed(result.ToResults_Speed(keys.Participation.id_participation,
 																				RoundId));
 									HasChanges = true;
 									SumChanged |= result.SumExt != null && result.SumExt.Time != null;

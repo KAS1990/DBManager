@@ -621,6 +621,8 @@ namespace DBManager.Scanning.XMLDataClasses
 
 			if (Route1Ext != null)
 			{
+				Route1Ext.ResultInDB = result;
+
 				result.route1 = Route1Ext.Time;
 				result.cond_formating_1 = (byte?)Route1Ext.CondFormating;
 				result.event_1 = (long?)Route1Ext.AdditionalEventTypes;
@@ -628,6 +630,8 @@ namespace DBManager.Scanning.XMLDataClasses
 
 			if (Route2Ext != null)
 			{
+				Route2Ext.ResultInDB = result;
+
 				result.route2 = Route2Ext.Time;
 				result.cond_formating_2 = (byte?)Route2Ext.CondFormating;
 				result.event_2 = (long?)Route2Ext.AdditionalEventTypes;
@@ -635,6 +639,8 @@ namespace DBManager.Scanning.XMLDataClasses
 
 			if (SumExt != null)
 			{
+				SumExt.ResultInDB = result;
+
 				result.sum = SumExt.Time;
 				result.cond_formating_sum = (byte?)SumExt.CondFormating;
 				result.event_sum = (long?)SumExt.AdditionalEventTypes;

@@ -152,9 +152,18 @@ namespace DBManager.Excel.Exporting.ExportingClasses
 								  Results = new COneRoundResults()
 								  {
 									  m_Round = (enRounds)CurTask.m_ReportType,
-									  Route1 = new CResult(),
-									  Route2 = new CResult(),
-									  Sum = new CResult(),
+									  Route1 = new CResult()
+									  {
+										  ResultInDB = result,
+									  },
+									  Route2 = new CResult()
+									  {
+										  ResultInDB = result,
+									  },
+									  Sum = new CResult()
+									  {
+										  ResultInDB = result,
+									  },
 								  },
 
 								  Place = result.place
@@ -189,14 +198,17 @@ namespace DBManager.Excel.Exporting.ExportingClasses
 									  m_Round = (enRounds)result.round,
 									  Route1 = new CResult()
 									  {
+										  ResultInDB = result,
 										  Time = result.route1,
 									  },
 									  Route2 = new CResult()
 									  {
+										  ResultInDB = result,
 										  Time = result.route2,
 									  },
 									  Sum = new CResult()
 									  {
+										  ResultInDB = result,
 										  Time = result.sum,
 									  },
 								  },

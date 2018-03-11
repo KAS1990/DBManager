@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using DBManager.Scanning.XMLDataClasses;
 using DBManager.Global;
+using System.ComponentModel;
 
 namespace DBManager.Scanning.DBAdditionalDataClasses
 {
@@ -26,7 +27,14 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 			{
 				if (m_Route1 != value)
 				{
+					if (m_Route1 != null)
+						m_Route1.PropertyChanged -= result_PropertyChanged;
+
 					m_Route1 = value;
+
+					if (m_Route1 != null)
+						m_Route1.PropertyChanged += result_PropertyChanged;
+
 					OnPropertyChanged(Route1PropertyName);
 				}
 			}
@@ -46,7 +54,14 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 			{
 				if (m_Route2 != value)
 				{
+					if (m_Route2 != null)
+						m_Route2.PropertyChanged -= result_PropertyChanged;
+
 					m_Route2 = value;
+
+					if (m_Route2 != null)
+						m_Route2.PropertyChanged += result_PropertyChanged;
+
 					OnPropertyChanged(Route2PropertyName);
 				}
 			}
@@ -66,7 +81,14 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 			{
 				if (m_Sum != value)
 				{
+					if (m_Route1 != null)
+						m_Route1.PropertyChanged -= result_PropertyChanged;
+
 					m_Sum = value;
+
+					if (m_Sum != null)
+						m_Sum.PropertyChanged += result_PropertyChanged;
+
 					OnPropertyChanged(SumPropertyName);
 				}
 			}
@@ -141,6 +163,15 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 		#endregion
 
 
+		void result_PropertyChanged(object sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName == CResult.AdditionalEventTypesPropertyName)
+			{
+				ResultsForShow.RefreshFields(this);
+			}
+		}
+
+
 		/// <summary>
 		/// Для вывода в бегущую строку
 		/// </summary>
@@ -160,5 +191,8 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 
 			return result.Trim();
 		}
+
+
+
 	}
 }

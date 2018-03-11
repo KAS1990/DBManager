@@ -405,7 +405,7 @@
 					<Setter Property="ContextMenu">
 						<Setter.Value>
 							<ContextMenu>
-                                <MenuItem Header="{Loc resRemoveFalsestart}" Command="{Binding Results.Route1.RemoveFalsestart}" />
+								<MenuItem Header="{Loc resRemoveFalsestart}" Command="{Binding Results.Route1.RemoveFalsestart}" />
 							</ContextMenu>
 						</Setter.Value>
 					</Setter>
@@ -424,7 +424,7 @@
 					<Setter Property="ContextMenu">
 						<Setter.Value>
 							<ContextMenu>
-                                <MenuItem Header="{Loc resRemoveFalsestart}" Command="{Binding Results.Route2.RemoveFalsestart}" />
+								<MenuItem Header="{Loc resRemoveFalsestart}" Command="{Binding Results.Route2.RemoveFalsestart}" />
 							</ContextMenu>
 						</Setter.Value>
 					</Setter>
@@ -504,7 +504,7 @@
 					<Setter Property="ContextMenu">
 						<Setter.Value>
 							<ContextMenu>
-                                <MenuItem Header="{Loc resRemoveFalsestart}" Command="{Binding Results.Route1.RemoveFalsestart}" />
+								<MenuItem Header="{Loc resRemoveFalsestart}" Command="{Binding Results.Route1.RemoveFalsestart}" />
 							</ContextMenu>
 						</Setter.Value>
 					</Setter>
@@ -523,7 +523,7 @@
 					<Setter Property="ContextMenu">
 						<Setter.Value>
 							<ContextMenu>
-                                <MenuItem Header="{Loc resRemoveFalsestart}" Command="{Binding Results.Route2.RemoveFalsestart}" />
+								<MenuItem Header="{Loc resRemoveFalsestart}" Command="{Binding Results.Route2.RemoveFalsestart}" />
 							</ContextMenu>
 						</Setter.Value>
 					</Setter>
@@ -801,15 +801,15 @@
 										<Setter Property="FontWeight" Value="{Binding First.Results.ResultsForShow.Route1.FontWeight}" />
 										<Setter Property="FontStyle" Value="{Binding First.Results.ResultsForShow.Route1.FontStyle}" />
 
-                                        <Setter Property="ContextMenu">
-                                            <Setter.Value>
-                                                <ContextMenu>
-                                                    <MenuItem Header="{Loc resRemoveFalsestart}"
-                                                              Command="{Binding First.Results.Route1.RemoveFalsestart}"/>
-                                                </ContextMenu>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </Style>
+										<Setter Property="ContextMenu">
+											<Setter.Value>
+												<ContextMenu>
+													<MenuItem Header="{Loc resRemoveFalsestart}"
+															  Command="{Binding First.Results.Route1.RemoveFalsestart}"/>
+												</ContextMenu>
+											</Setter.Value>
+										</Setter>
+									</Style>
 								</Label.Style>
 							</Label>
 						</Border>
@@ -823,15 +823,15 @@
 										<Setter Property="FontWeight" Value="{Binding Second.Results.ResultsForShow.Route1.FontWeight}" />
 										<Setter Property="FontStyle" Value="{Binding Second.Results.ResultsForShow.Route1.FontStyle}" />
 
-                                        <Setter Property="ContextMenu">
-                                            <Setter.Value>
-                                                <ContextMenu>
-                                                    <MenuItem Header="{Loc resRemoveFalsestart}"
-                                                              Command="{Binding Second.Results.Route1.RemoveFalsestart}"/>
-                                                </ContextMenu>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </Style>
+										<Setter Property="ContextMenu">
+											<Setter.Value>
+												<ContextMenu>
+													<MenuItem Header="{Loc resRemoveFalsestart}"
+															  Command="{Binding Second.Results.Route1.RemoveFalsestart}"/>
+												</ContextMenu>
+											</Setter.Value>
+										</Setter>
+									</Style>
 								</Label.Style>
 							</Label>
 						</Border>
@@ -860,15 +860,15 @@
 										<Setter Property="FontWeight" Value="{Binding First.Results.ResultsForShow.Route2.FontWeight}" />
 										<Setter Property="FontStyle" Value="{Binding First.Results.ResultsForShow.Route2.FontStyle}" />
 
-                                        <Setter Property="ContextMenu">
-                                            <Setter.Value>
-                                                <ContextMenu>
-                                                    <MenuItem Header="{Loc resRemoveFalsestart}"
-                                                              Command="{Binding First.Results.Route2.RemoveFalsestart}"/>
-                                                </ContextMenu>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </Style>
+										<Setter Property="ContextMenu">
+											<Setter.Value>
+												<ContextMenu>
+													<MenuItem Header="{Loc resRemoveFalsestart}"
+															  Command="{Binding First.Results.Route2.RemoveFalsestart}"/>
+												</ContextMenu>
+											</Setter.Value>
+										</Setter>
+									</Style>
 								</Label.Style>
 							</Label>
 						</Border>
@@ -882,15 +882,15 @@
 										<Setter Property="FontWeight" Value="{Binding Second.Results.ResultsForShow.Route2.FontWeight}" />
 										<Setter Property="FontStyle" Value="{Binding Second.Results.ResultsForShow.Route2.FontStyle}" />
 
-                                        <Setter Property="ContextMenu">
-                                            <Setter.Value>
-                                                <ContextMenu>
-                                                    <MenuItem Header="{Loc resRemoveFalsestart}"
-                                                              Command="{Binding Second.Results.Route2.RemoveFalsestart}"/>
-                                                </ContextMenu>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </Style>
+										<Setter Property="ContextMenu">
+											<Setter.Value>
+												<ContextMenu>
+													<MenuItem Header="{Loc resRemoveFalsestart}"
+															  Command="{Binding Second.Results.Route2.RemoveFalsestart}"/>
+												</ContextMenu>
+											</Setter.Value>
+										</Setter>
+									</Style>
 								</Label.Style>
 							</Label>
 						</Border>
@@ -918,7 +918,7 @@
 										<Setter Property="Foreground" Value="{Binding First.Results.ResultsForShow.Sum.Foreground}" />
 										<Setter Property="FontWeight" Value="{Binding First.Results.ResultsForShow.Sum.FontWeight}" />
 										<Setter Property="FontStyle" Value="{Binding First.Results.ResultsForShow.Sum.FontStyle}" />
-                                    </Style>
+									</Style>
 								</Label.Style>
 							</Label>
 						</Border>
@@ -931,7 +931,7 @@
 										<Setter Property="Foreground" Value="{Binding Second.Results.ResultsForShow.Sum.Foreground}" />
 										<Setter Property="FontWeight" Value="{Binding Second.Results.ResultsForShow.Sum.FontWeight}" />
 										<Setter Property="FontStyle" Value="{Binding Second.Results.ResultsForShow.Sum.FontStyle}" />
-                                    </Style>
+									</Style>
 								</Label.Style>
 							</Label>
 						</Border>
@@ -1176,15 +1176,15 @@
 										<Setter Property="FontWeight" Value="{Binding First.Results.ResultsForShow.Route1.FontWeight}" />
 										<Setter Property="FontStyle" Value="{Binding First.Results.ResultsForShow.Route1.FontStyle}" />
 
-                                        <Setter Property="ContextMenu">
-                                            <Setter.Value>
-                                                <ContextMenu>
-                                                    <MenuItem Header="{Loc resRemoveFalsestart}"
-                                                              Command="{Binding First.Results.Route1.RemoveFalsestart}"/>
-                                                </ContextMenu>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </Style>
+										<Setter Property="ContextMenu">
+											<Setter.Value>
+												<ContextMenu>
+													<MenuItem Header="{Loc resRemoveFalsestart}"
+															  Command="{Binding First.Results.Route1.RemoveFalsestart}"/>
+												</ContextMenu>
+											</Setter.Value>
+										</Setter>
+									</Style>
 								</Label.Style>
 							</Label>
 						</Border>
@@ -1198,15 +1198,15 @@
 										<Setter Property="FontWeight" Value="{Binding Second.Results.ResultsForShow.Route1.FontWeight}" />
 										<Setter Property="FontStyle" Value="{Binding Second.Results.ResultsForShow.Route1.FontStyle}" />
 
-                                        <Setter Property="ContextMenu">
-                                            <Setter.Value>
-                                                <ContextMenu>
-                                                    <MenuItem Header="{Loc resRemoveFalsestart}"
-                                                              Command="{Binding Second.Results.Route1.RemoveFalsestart}"/>
-                                                </ContextMenu>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </Style>
+										<Setter Property="ContextMenu">
+											<Setter.Value>
+												<ContextMenu>
+													<MenuItem Header="{Loc resRemoveFalsestart}"
+															  Command="{Binding Second.Results.Route1.RemoveFalsestart}"/>
+												</ContextMenu>
+											</Setter.Value>
+										</Setter>
+									</Style>
 								</Label.Style>
 							</Label>
 						</Border>
@@ -1235,15 +1235,15 @@
 										<Setter Property="FontWeight" Value="{Binding First.Results.ResultsForShow.Route2.FontWeight}" />
 										<Setter Property="FontStyle" Value="{Binding First.Results.ResultsForShow.Route2.FontStyle}" />
 
-                                        <Setter Property="ContextMenu">
-                                            <Setter.Value>
-                                                <ContextMenu>
-                                                    <MenuItem Header="{Loc resRemoveFalsestart}"
-                                                              Command="{Binding First.Results.Route2.RemoveFalsestart}"/>
-                                                </ContextMenu>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </Style>
+										<Setter Property="ContextMenu">
+											<Setter.Value>
+												<ContextMenu>
+													<MenuItem Header="{Loc resRemoveFalsestart}"
+															  Command="{Binding First.Results.Route2.RemoveFalsestart}"/>
+												</ContextMenu>
+											</Setter.Value>
+										</Setter>
+									</Style>
 								</Label.Style>
 							</Label>
 						</Border>
@@ -1257,15 +1257,15 @@
 										<Setter Property="FontWeight" Value="{Binding Second.Results.ResultsForShow.Route2.FontWeight}" />
 										<Setter Property="FontStyle" Value="{Binding Second.Results.ResultsForShow.Route2.FontStyle}" />
 
-                                        <Setter Property="ContextMenu">
-                                            <Setter.Value>
-                                                <ContextMenu>
-                                                    <MenuItem Header="{Loc resRemoveFalsestart}"
-                                                              Command="{Binding Second.Results.Route2.RemoveFalsestart}"/>
-                                                </ContextMenu>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </Style>
+										<Setter Property="ContextMenu">
+											<Setter.Value>
+												<ContextMenu>
+													<MenuItem Header="{Loc resRemoveFalsestart}"
+															  Command="{Binding Second.Results.Route2.RemoveFalsestart}"/>
+												</ContextMenu>
+											</Setter.Value>
+										</Setter>
+									</Style>
 								</Label.Style>
 							</Label>
 						</Border>
@@ -1293,7 +1293,7 @@
 										<Setter Property="Foreground" Value="{Binding First.Results.ResultsForShow.Sum.Foreground}" />
 										<Setter Property="FontWeight" Value="{Binding First.Results.ResultsForShow.Sum.FontWeight}" />
 										<Setter Property="FontStyle" Value="{Binding First.Results.ResultsForShow.Sum.FontStyle}" />
-                                    </Style>
+									</Style>
 								</Label.Style>
 							</Label>
 						</Border>
@@ -1306,7 +1306,7 @@
 										<Setter Property="Foreground" Value="{Binding Second.Results.ResultsForShow.Sum.Foreground}" />
 										<Setter Property="FontWeight" Value="{Binding Second.Results.ResultsForShow.Sum.FontWeight}" />
 										<Setter Property="FontStyle" Value="{Binding Second.Results.ResultsForShow.Sum.FontStyle}" />
-                                    </Style>
+									</Style>
 								</Label.Style>
 							</Label>
 						</Border>

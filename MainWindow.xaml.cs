@@ -2028,6 +2028,7 @@ namespace DBManager
 															m_Round = (enRounds)MemberResult.round,
 															Route1 = new CResult()
 															{
+																ResultInDB = MemberResult,
 																ResultColumnNumber = enResultColumnNumber.Route1,
 																CondFormating = (enCondFormating?)MemberResult.cond_formating_1,
 																AdditionalEventTypes = (enAdditionalEventTypes?)MemberResult.event_1,
@@ -2036,6 +2037,7 @@ namespace DBManager
 															},
 															Route2 = new CResult()
 															{
+																ResultInDB = MemberResult,
 																ResultColumnNumber = enResultColumnNumber.Route2,
 																CondFormating = (enCondFormating?)MemberResult.cond_formating_2,
 																AdditionalEventTypes = (enAdditionalEventTypes?)MemberResult.event_2,
@@ -2044,6 +2046,7 @@ namespace DBManager
 															},
 															Sum = new CResult()
 															{
+																ResultInDB = MemberResult,
 																ResultColumnNumber = enResultColumnNumber.Sum,
 																CondFormating = (enCondFormating?)MemberResult.cond_formating_sum,
 																AdditionalEventTypes = (enAdditionalEventTypes?)MemberResult.event_sum,
@@ -2137,6 +2140,7 @@ namespace DBManager
 												 m_Round = (enRounds)result.round,
 												 Route1 = new CResult()
 												 {
+													 ResultInDB = result,
 													 ResultColumnNumber = enResultColumnNumber.Route1,
 													 CondFormating = (enCondFormating?)result.cond_formating_1,
 													 AdditionalEventTypes = (enAdditionalEventTypes?)result.event_1,
@@ -2144,6 +2148,7 @@ namespace DBManager
 												 },
 												 Route2 = new CResult()
 												 {
+													 ResultInDB = result,
 													 ResultColumnNumber = enResultColumnNumber.Route2,
 													 CondFormating = (enCondFormating?)result.cond_formating_2,
 													 AdditionalEventTypes = (enAdditionalEventTypes?)result.event_2,
@@ -2151,6 +2156,7 @@ namespace DBManager
 												 },
 												 Sum = new CResult()
 												 {
+													 ResultInDB = result,
 													 ResultColumnNumber = enResultColumnNumber.Sum,
 													 CondFormating = (enCondFormating?)result.cond_formating_sum,
 													 AdditionalEventTypes = (enAdditionalEventTypes?)result.event_sum,
@@ -3108,16 +3114,19 @@ namespace DBManager
 																m_Round = (enRounds)MemberResult.round,
 																Route1 = new CResult()
 																{
+																	ResultInDB = MemberResult,
 																	ResultColumnNumber = enResultColumnNumber.Route1,
 																	Time = MemberResult.route1,
 																},
 																Route2 = new CResult()
 																{
+																	ResultInDB = MemberResult,
 																	ResultColumnNumber = enResultColumnNumber.Route2,
 																	Time = MemberResult.route2,
 																},
 																Sum = new CResult()
 																{
+																	ResultInDB = MemberResult,
 																	ResultColumnNumber = enResultColumnNumber.Sum,
 																	Time = MemberResult.sum,
 																},
@@ -3167,16 +3176,19 @@ namespace DBManager
 									   m_Round = (enRounds)result.round,
 									   Route1 = new CResult()
 									   {
+										   ResultInDB = result,
 										   ResultColumnNumber = enResultColumnNumber.Route1,
 										   Time = result.route1,
 									   },
 									   Route2 = new CResult()
 									   {
+										   ResultInDB = result,
 										   ResultColumnNumber = enResultColumnNumber.Route2,
 										   Time = result.route2,
 									   },
 									   Sum = new CResult()
 									   {
+										   ResultInDB = result,
 										   ResultColumnNumber = enResultColumnNumber.Sum,
 										   Time = result.sum,
 									   },

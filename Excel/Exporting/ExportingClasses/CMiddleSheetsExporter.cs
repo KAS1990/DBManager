@@ -140,14 +140,17 @@ namespace DBManager.Excel.Exporting.ExportingClasses
 																m_Round = (enRounds)result.round,
 																Route1 = new CResult()
 																{
+																	ResultInDB = result,
 																	Time = result.route1,
 																},
 																Route2 = new CResult()
 																{
+																	ResultInDB = result,
 																	Time = result.route2,
 																},
 																Sum = new CResult()
 																{
+																	ResultInDB = result,
 																	Time = result.sum,
 																},
 															},

@@ -283,7 +283,7 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 			FontStyleForShow = RowFontStyle.FontStyle;
 
 			if (Results != null)
-				Results.ResultsForShow.RefreshFields(this, Results, RowFontStyle);
+				Results.ResultsForShow.RefreshFields(Results, this, RowFontStyle);
 		}
 	}
 }
