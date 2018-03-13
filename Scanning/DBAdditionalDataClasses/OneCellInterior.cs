@@ -182,20 +182,20 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 					break;
 			}
 
-            if (PlainStyleSetted)
-            {
-                Background = new SolidColorBrush(RowFontStyle.BackgroundColor);
-                Foreground = new SolidColorBrush(RowFontStyle.ForeColor);
-                FontWeight = RowFontStyle.FontWeight;
-                FontStyle = RowFontStyle.FontStyle;
-            }
-            else
-            {
-                Background = ConverterResult.Background;
-                Foreground = ConverterResult.Foreground;
-                FontWeight = ConverterResult.FontWeight;
-                FontStyle = ConverterResult.FontStyle;
-            }
+			if (PlainStyleSetted)
+			{
+				Background = new SolidColorBrush(RowFontStyle.BackgroundColor);
+				Foreground = new SolidColorBrush(RowFontStyle.ForeColor);
+				FontWeight = RowFontStyle.FontWeight;
+				FontStyle = RowFontStyle.FontStyle;
+			}
+			else
+			{
+				Background = ConverterResult.Background;
+				Foreground = ConverterResult.Foreground;
+				FontWeight = ConverterResult.FontWeight;
+				FontStyle = ConverterResult.FontStyle;
+			}
 		}
 
 
@@ -211,8 +211,7 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 
 		public void OnPropertyChanged(string info)
 		{
-			if (PropertyChanged != null)
-				PropertyChanged(this, new PropertyChangedEventArgs(info));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
 		}
 		#endregion
 	}

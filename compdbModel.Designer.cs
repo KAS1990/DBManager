@@ -925,7 +925,7 @@ namespace DBManager
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
         public global::System.Int64 Group
         {
@@ -935,14 +935,11 @@ namespace DBManager
             }
             set
             {
-                if (_Group != value)
-                {
-                    OnGroupChanging(value);
-                    ReportPropertyChanging("Group");
-                    _Group = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("Group");
-                    OnGroupChanged();
-                }
+                OnGroupChanging(value);
+                ReportPropertyChanging("Group");
+                _Group = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Group");
+                OnGroupChanged();
             }
         }
         private global::System.Int64 _Group;

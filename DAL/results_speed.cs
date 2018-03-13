@@ -19,6 +19,8 @@ namespace DBManager
 
 			if (ResultInXML != null)
 			{
+				ResultInXML.ResultInDB = this;
+
 				if (RouteInDB != ResultInXML)
 				{
 					RouteInDB = ResultInXML.Time;

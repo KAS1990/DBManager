@@ -7,6 +7,8 @@ using System.Xml.Serialization;
 using DBManager.RoundMembers.Converters;
 using System.Globalization;
 using DBManager.Commands;
+using DBManager.Scanning.DBAdditionalDataClasses;
+using System.ComponentModel;
 
 namespace DBManager.Scanning.XMLDataClasses
 {
@@ -19,7 +21,7 @@ namespace DBManager.Scanning.XMLDataClasses
 	}
 
 
-	public class CResult : CXMLSerializerBase
+	public class CResult : CXMLSerializerBase, IShowedClass
 	{
 		/// <summary>
 		/// Тип колонки с результатом
@@ -28,8 +30,25 @@ namespace DBManager.Scanning.XMLDataClasses
 		public enResultColumnNumber ResultColumnNumber { get; set; }
 
 
+		private results_speed m_ResultInDB = null;
 		[XmlIgnore]
-		public results_speed ResultInDB { get; set; } = null;
+		public results_speed ResultInDB
+		{
+			get { return m_ResultInDB; }
+			set
+			{
+				if (m_ResultInDB?.participations?.groups != null)
+					m_ResultInDB.participations.groups.PropertyChanged -= groups_PropertyChanged;
+
+				m_ResultInDB = value;
+
+				if (m_ResultInDB?.participations?.groups != null)
+					m_ResultInDB.participations.groups.PropertyChanged += groups_PropertyChanged;
+
+				if (RemoveFalsestart != null)
+					RemoveFalsestart.RefreshCanExecute();
+			}
+		}
 
 
 		#region Time
@@ -98,7 +117,7 @@ namespace DBManager.Scanning.XMLDataClasses
 					m_AdditionalEventTypes = value;
 					ResultForShow = RouteResultsMarkupConverter.Convert(this);
 					if (RemoveFalsestart != null)
-						RemoveFalsestart.CanExecute = m_AdditionalEventTypes.HasValue && m_AdditionalEventTypes.Value.HasFlag(enAdditionalEventTypes.Falsestart);
+						RemoveFalsestart.RefreshCanExecute();
 
 					OnPropertyChanged(AdditionalEventTypesPropertyName);
 				}
@@ -139,6 +158,9 @@ namespace DBManager.Scanning.XMLDataClasses
 					m_RemoveFalsestart = value;
 			}
 		}
+
+
+
 		#endregion
 
 
@@ -167,7 +189,14 @@ namespace DBManager.Scanning.XMLDataClasses
 		public CResult()
 		{
 			RemoveFalsestart = new CCommand(RemoveFalsestart_Executed,
-				AdditionalEventTypes.HasValue && AdditionalEventTypes.Value.HasFlag(enAdditionalEventTypes.Falsestart));
+											() =>
+											{
+												return AdditionalEventTypes.HasValue
+														&& AdditionalEventTypes.Value.HasFlag(enAdditionalEventTypes.Falsestart)
+														&& ResultInDB?.participations?.groups != null
+														&& !GlobalDefines.IsRoundFinished(ResultInDB.participations.groups.round_finished_flags, (enRounds)ResultInDB.round);
+											}
+				);
 		}
 
 
@@ -178,39 +207,55 @@ namespace DBManager.Scanning.XMLDataClasses
 			ResultColumnNumber = rhs.ResultColumnNumber;
 
 			RemoveFalsestart = new CCommand(RemoveFalsestart_Executed,
-				AdditionalEventTypes.HasValue && AdditionalEventTypes.Value.HasFlag(enAdditionalEventTypes.Falsestart));
+											() =>
+											{
+												return AdditionalEventTypes.HasValue
+														&& AdditionalEventTypes.Value.HasFlag(enAdditionalEventTypes.Falsestart)
+														&& ResultInDB?.participations?.groups != null
+														&& !GlobalDefines.IsRoundFinished(ResultInDB.participations.groups.round_finished_flags, (enRounds)ResultInDB.round);
+											}
+				);
 		}
 
 
 		private void RemoveFalsestart_Executed()
 		{
 			AdditionalEventTypes = AdditionalEventTypes.Value ^ enAdditionalEventTypes.Falsestart;
-			// Убираем фальстарт из БД
-			if (ResultInDB != null)
+			switch (ResultColumnNumber)
 			{
-				switch (ResultColumnNumber)
-				{
-					case enResultColumnNumber.Route1:
-						ResultInDB.event_1 = (long?)AdditionalEventTypes;
-						break;
+				case enResultColumnNumber.Route1:
+					ResultInDB.event_1 = (long?)AdditionalEventTypes;
+					break;
 
-					case enResultColumnNumber.Route2:
-						ResultInDB.event_2 = (long?)AdditionalEventTypes;
-						break;
+				case enResultColumnNumber.Route2:
+					ResultInDB.event_2 = (long?)AdditionalEventTypes;
+					break;
 
-					case enResultColumnNumber.Sum:
-						ResultInDB.event_sum = (long?)AdditionalEventTypes;
-						break;
-				}
+				case enResultColumnNumber.Sum:
+					ResultInDB.event_sum = (long?)AdditionalEventTypes;
+					break;
+			}
 
-				try
-				{
-					DBManagerApp.m_Entities.SaveChanges();
-				}
-				catch (Exception ex)
-				{
-					ex.ToString();
-				}
+			try
+			{
+				DBManagerApp.m_Entities.SaveChanges();
+
+				OnStyleChanged(this, AdditionalEventTypesPropertyName);
+			}
+			catch (Exception ex)
+			{
+				ex.ToString();
+			}
+		}
+
+
+		public void groups_PropertyChanged(object sender, PropertyChangedEventArgs e)
+		{
+			if (ResultInDB?.participations?.groups != null
+				&& e.PropertyName == nameof(ResultInDB.participations.groups.round_finished_flags))
+			{
+				if (RemoveFalsestart != null)
+					RemoveFalsestart.RefreshCanExecute();
 			}
 		}
 
@@ -373,6 +418,35 @@ namespace DBManager.Scanning.XMLDataClasses
 		public static bool operator !=(CResult lhs, TimeSpan rhs)
 		{
 			return !(lhs == rhs);
+		}
+		#endregion
+
+
+		#region OnStyleChanged and StyleChanged event
+		public event StyleChangedEventHandler StyleChanged;
+
+
+		void IShowedClass.OnStyleChanged(IShowedClass source, string propertyName)
+		{
+			OnStyleChanged(source, propertyName);
+		}
+
+
+		protected void OnStyleChanged(IShowedClass source, string propertyName)
+		{
+			StyleChanged?.Invoke(this, new StyleChangedEventArgs(source, propertyName));
+		}
+
+
+		void IShowedClass.OnStyleChanged(StyleChangedEventArgs e)
+		{
+			OnStyleChanged(e);
+		}
+
+
+		protected void OnStyleChanged(StyleChangedEventArgs e)
+		{
+			StyleChanged?.Invoke(this, new StyleChangedEventArgs(e));
 		}
 		#endregion
 	}

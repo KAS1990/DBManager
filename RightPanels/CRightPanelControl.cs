@@ -322,9 +322,7 @@ namespace DBManager.RightPanels
 
 		public void OnPropertyChanged(string info)
 		{
-			PropertyChangedEventHandler handler = PropertyChanged;
-			if (handler != null)
-				handler(this, new PropertyChangedEventArgs(info));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
 		}
 		#endregion
 	}

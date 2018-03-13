@@ -5,6 +5,7 @@ using System.Text;
 using DBManager.Scanning.XMLDataClasses;
 using DBManager.Global;
 using System.ComponentModel;
+using DBManager.DAL;
 
 namespace DBManager.Scanning.DBAdditionalDataClasses
 {
@@ -28,12 +29,12 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 				if (m_Route1 != value)
 				{
 					if (m_Route1 != null)
-						m_Route1.PropertyChanged -= result_PropertyChanged;
+						m_Route1.StyleChanged -= Result_StyleChanged;
 
 					m_Route1 = value;
 
 					if (m_Route1 != null)
-						m_Route1.PropertyChanged += result_PropertyChanged;
+						m_Route1.StyleChanged += Result_StyleChanged;
 
 					OnPropertyChanged(Route1PropertyName);
 				}
@@ -55,12 +56,12 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 				if (m_Route2 != value)
 				{
 					if (m_Route2 != null)
-						m_Route2.PropertyChanged -= result_PropertyChanged;
+						m_Route2.StyleChanged -= Result_StyleChanged;
 
 					m_Route2 = value;
 
 					if (m_Route2 != null)
-						m_Route2.PropertyChanged += result_PropertyChanged;
+						m_Route2.StyleChanged += Result_StyleChanged;
 
 					OnPropertyChanged(Route2PropertyName);
 				}
@@ -81,13 +82,13 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 			{
 				if (m_Sum != value)
 				{
-					if (m_Route1 != null)
-						m_Route1.PropertyChanged -= result_PropertyChanged;
+					if (m_Sum != null)
+						m_Sum.StyleChanged -= Result_StyleChanged;
 
 					m_Sum = value;
 
 					if (m_Sum != null)
-						m_Sum.PropertyChanged += result_PropertyChanged;
+						m_Sum.StyleChanged += Result_StyleChanged;
 
 					OnPropertyChanged(SumPropertyName);
 				}
@@ -163,12 +164,18 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 		#endregion
 
 
-		void result_PropertyChanged(object sender, PropertyChangedEventArgs e)
+		results_speed ResultInDB
 		{
-			if (e.PropertyName == CResult.AdditionalEventTypesPropertyName)
+			get
 			{
-				ResultsForShow.RefreshFields(this);
+				return Route1?.ResultInDB ?? Route2?.ResultInDB ?? Sum?.ResultInDB;
 			}
+		} 
+
+
+		void Result_StyleChanged(object sender, StyleChangedEventArgs e)
+		{
+			OnStyleChanged(e);
 		}
 
 
@@ -191,8 +198,5 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 
 			return result.Trim();
 		}
-
-
-
 	}
 }

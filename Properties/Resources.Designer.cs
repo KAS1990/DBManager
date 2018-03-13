@@ -439,6 +439,15 @@ namespace DBManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Конечный раунд.
+        /// </summary>
+        internal static string resEndFalsestartRound {
+            get {
+                return ResourceManager.GetString("resEndFalsestartRound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Не удалось сформировать протокол двоеборья.
         /// </summary>
         internal static string resErrDurPersonalExporting {
@@ -556,6 +565,24 @@ namespace DBManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Настройки действия фальстартов изменились. Сохранить?.
+        /// </summary>
+        internal static string resFalsestartRuleChanged {
+            get {
+                return ResourceManager.GetString("resFalsestartRuleChanged", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Фальстарты.
+        /// </summary>
+        internal static string resFalsestartRules {
+            get {
+                return ResourceManager.GetString("resFalsestartRules", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Файл.
         /// </summary>
         internal static string resFileName {
@@ -598,6 +625,17 @@ namespace DBManager.Properties {
         internal static string resfmtCantStartMySQL {
             get {
                 return ResourceManager.GetString("resfmtCantStartMySQL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Не удалось обновить правила.
+        ///Ошибка:
+        ///{0}.
+        /// </summary>
+        internal static string resfmtCantUpdateFalsestartRules {
+            get {
+                return ResourceManager.GetString("resfmtCantUpdateFalsestartRules", resourceCulture);
             }
         }
         
@@ -670,6 +708,15 @@ namespace DBManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Удалить правило №{0}?.
+        /// </summary>
+        internal static string resfmtDeleteFalsestartRuleQuestion {
+            get {
+                return ResourceManager.GetString("resfmtDeleteFalsestartRuleQuestion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Не удалось экспортировать раунд &quot;{1}&quot; группы &quot;{0}&quot;.
         /// </summary>
         internal static string resfmtErrDurQualifExporting {
@@ -694,6 +741,24 @@ namespace DBManager.Properties {
         internal static string resfmtExportingToExcel {
             get {
                 return ResourceManager.GetString("resfmtExportingToExcel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Правила в строках {0} и {1} пересекаются.
+        /// </summary>
+        internal static string resfmtFalsestartRulesAreIntersected {
+            get {
+                return ResourceManager.GetString("resfmtFalsestartRulesAreIntersected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Правила для фальстартов. Группа &quot;{0}&quot;.
+        /// </summary>
+        internal static string resfmtFalsestartRulesWndTitle {
+            get {
+                return ResourceManager.GetString("resfmtFalsestartRulesWndTitle", resourceCulture);
             }
         }
         
@@ -739,6 +804,15 @@ namespace DBManager.Properties {
         internal static string resfmtIntInvalidNumber {
             get {
                 return ResourceManager.GetString("resfmtIntInvalidNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to В строке №{0} присутствует правило с неверными настройками.
+        /// </summary>
+        internal static string resfmtInvalidFalsestartRule {
+            get {
+                return ResourceManager.GetString("resfmtInvalidFalsestartRule", resourceCulture);
             }
         }
         
@@ -1520,6 +1594,15 @@ namespace DBManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to -.
+        /// </summary>
+        internal static string resMinus {
+            get {
+                return ResourceManager.GetString("resMinus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Повторный запуск программы недопустим.
         /// </summary>
         internal static string resmsgAppAlreadyOpened {
@@ -1664,6 +1747,15 @@ namespace DBManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to №.
+        /// </summary>
+        internal static string resNumberSymbol {
+            get {
+                return ResourceManager.GetString("resNumberSymbol", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ОК.
         /// </summary>
         internal static string resOK {
@@ -1795,6 +1887,15 @@ namespace DBManager.Properties {
         internal static string resPleaseWait {
             get {
                 return ResourceManager.GetString("resPleaseWait", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to +.
+        /// </summary>
+        internal static string resPlus {
+            get {
+                return ResourceManager.GetString("resPlus", resourceCulture);
             }
         }
         
@@ -2146,6 +2247,15 @@ namespace DBManager.Properties {
         internal static string resStandardColorsHeader {
             get {
                 return ResourceManager.GetString("resStandardColorsHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Начальный раунд.
+        /// </summary>
+        internal static string resStartFalsestartRound {
+            get {
+                return ResourceManager.GetString("resStartFalsestartRound", resourceCulture);
             }
         }
         

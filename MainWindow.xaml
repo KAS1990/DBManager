@@ -178,7 +178,12 @@
 										 LargeImageSource="RibbonIcons/CreateReport.png"
 										 IsEnabled="{Binding LogWindowEnabled}"
 										 Click="LogWindowCmdExecuted" />
-				</ribbon:RibbonGroup> 
+
+                    <ribbon:RibbonButton Name="rbtnFalsestartRules" 
+										 Label="{Loc resFalsestartRules}"
+										 IsEnabled="{Binding FalsestartRulesEnabled}"
+										 Click="FalsestartRulesCmdExecuted" />
+                </ribbon:RibbonGroup> 
 				
 				<ribbon:RibbonGroup Header="{Loc resGrades}" IsEnabled="{Binding CalcGradesEnabled}">
 					<ribbon:RibbonButton Label="{Loc resCalcGrades}"

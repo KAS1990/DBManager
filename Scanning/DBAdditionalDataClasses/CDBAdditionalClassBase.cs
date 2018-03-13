@@ -9,7 +9,7 @@ using System.Globalization;
 
 namespace DBManager.Scanning.DBAdditionalDataClasses
 {
-	public class CDBAdditionalClassBase : INotifyPropertyChanged
+	public class CDBAdditionalClassBase : INotifyPropertyChanged, IShowedClass
 	{	
 		#region Place
 		public static readonly string PlacePropertyName = GlobalDefines.GetPropertyName<CDBAdditionalClassBase>(m => m.Place);
@@ -122,8 +122,37 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 
 		protected void OnPropertyChanged(string info)
 		{
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
-        }
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
+		}
+		#endregion
+
+
+		#region OnStyleChanged and StyleChanged event
+		public event StyleChangedEventHandler StyleChanged;
+
+
+		void IShowedClass.OnStyleChanged(IShowedClass source, string propertyName)
+		{
+			OnStyleChanged(source, propertyName);
+		}
+
+
+		protected void OnStyleChanged(IShowedClass source, string propertyName)
+		{
+			StyleChanged?.Invoke(this, new StyleChangedEventArgs(source, propertyName));
+		}
+
+
+		void IShowedClass.OnStyleChanged(StyleChangedEventArgs e)
+		{
+			OnStyleChanged(e);
+		}
+
+
+		protected void OnStyleChanged(StyleChangedEventArgs e)
+		{
+			StyleChanged?.Invoke(this, new StyleChangedEventArgs(e));
+		}
 		#endregion
 	}
 }

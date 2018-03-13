@@ -14,6 +14,8 @@ namespace DBManager.Commands
 		protected Action m_action = null;
 		protected Action<object> m_parameterizedAction = null;
 
+		protected Func<bool> m_CanExecuteFunc = null;
+
 
 		#region Свойство CanExecute
 		/// <summary>
@@ -83,6 +85,32 @@ namespace DBManager.Commands
 			m_parameterizedAction = parameterizedAction;
 			m_canExecute = canExecute;
 		}
+
+
+		/// <summary>
+		/// Инициализация нового экземпляра класса без параметров <see cref="Command"/>.
+		/// </summary>
+		/// <param name="action">Действие.</param>
+		/// <param name="canExecute">Если установлено в<c>true</c> [can execute] (выполнение разрешено).</param>
+		public CCommand(Action action, Func<bool> canExecute)
+		{
+			//  Set the action.
+			m_action = action;
+			m_CanExecuteFunc = canExecute;
+			m_canExecute = m_CanExecuteFunc();
+		}
+
+		/// <summary>
+		/// Инициализация нового экземпляра класса с параметрами <see cref="Command"/> class.
+		/// </summary>
+		/// <param name="parameterizedAction">Параметризированное действие.</param>
+		/// <param name="canExecute"> Если установлено в <c>true</c> [can execute](выполнение разрешено).</param>
+		public CCommand(Action<object> parameterizedAction, Func<bool> canExecute)
+		{
+			//  Set the action.
+			m_parameterizedAction = parameterizedAction;
+			m_CanExecuteFunc = canExecute;
+		}
 		#endregion
 
 
@@ -142,24 +170,28 @@ namespace DBManager.Commands
 		{
 			if (m_action != null)
 				m_action();
-			else if (m_parameterizedAction != null)
-				m_parameterizedAction(param);
+			else
+				m_parameterizedAction?.Invoke(param);
 		}
 
 		protected void InvokeExecuted(CommandEventArgs args)
 		{
 			//  Вызвать все события
-			if (Executed != null)
-				Executed(this, args);
+			Executed?.Invoke(this, args);
 		}
 
 		protected void InvokeExecuting(CancelCommandEventArgs args)
 		{
 			//  Call the executed event.
-			if (Executing != null)
-				Executing(this, args);
+			Executing?.Invoke(this, args);
 		}
 		#endregion
+
+
+		public void RefreshCanExecute()
+		{
+			CanExecute = m_CanExecuteFunc();
+		}
 	}
 
 

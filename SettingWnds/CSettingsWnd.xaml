@@ -1,7 +1,6 @@
 ﻿<baseWnd:СCustomSettingsWnd x:Class="DBManager.SettingWnds.CSettingsWnd"
 							xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 							xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-							xmlns:viselements="clr-namespace:DBManager.InterfaceElements"
 							xmlns:baseWnd="clr-namespace:DBManager.SettingWnds"
 							xmlns:localctrls="clr-namespace:DBManager.InterfaceElements"
 		Title="{Loc resSettingsWndTitle}"
@@ -14,7 +13,7 @@
 
 	<DockPanel LastChildFill="True">
 		<DockPanel DockPanel.Dock="Bottom">
-			<viselements:CancelButton DockPanel.Dock="Right"
+            <localctrls:CancelButton DockPanel.Dock="Right"
 									  x:Name="btnCancel"
 									  Content="{Loc resCancel}"
 									  Margin="5"
@@ -143,7 +142,7 @@
 
 			<Label Grid.Row="5" Grid.Column="0" Content="{Loc resResultGradesSetFromAge}" Margin="0,0,0,5" />
 			<StackPanel Grid.Row="5" Grid.Column="1" Orientation="Horizontal">
-				<viselements:TextBoxEx x:Name="txtMinAgeToCalcResultGrade"
+                <localctrls:TextBoxEx x:Name="txtMinAgeToCalcResultGrade"
 								   Width="50"
 								   MaxLength="2"
 								   Margin="0,0,0,5"
@@ -155,7 +154,7 @@
 			</StackPanel>
 			
 			<Label Grid.Row="6" Grid.Column="0" Content="{Loc resFontSize}" Margin="0,0,0,5" />
-			<viselements:TextBoxEx Grid.Row="6"
+            <localctrls:TextBoxEx Grid.Row="6"
 								   Grid.Column="1"
 								   x:Name="txtFontSize"
 								   Width="50"
@@ -214,11 +213,11 @@
 										 x:Name="fntstlJustRecievedResult"
 										 TextSample="{Loc resJustRecievedResultInOneLine}" />
 
-            <localctrls:CFontStylePicker Grid.Row="14"
+			<localctrls:CFontStylePicker Grid.Row="14"
 										 Grid.Column="0"
 										 Grid.ColumnSpan="10"
 										 x:Name="fntstlFalsestart"
 										 TextSample="{Loc resFalsestartInOneLine}" />
-        </Grid>
+		</Grid>
 	</DockPanel>
 </baseWnd:СCustomSettingsWnd>

@@ -10,6 +10,7 @@ using System.Globalization;
 using System.Windows.Media;
 using System.ComponentModel;
 using DBManager.SettingsWriter;
+using DBManager.DAL;
 
 namespace DBManager.Scanning.DBAdditionalDataClasses
 {
@@ -49,7 +50,14 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 			{
 				if (m_Results != value)
 				{
+					if (m_Results != null)
+						m_Results.StyleChanged -= Results_StyleChanged;
+
 					m_Results = value;
+
+					if (m_Results != null)
+						m_Results.StyleChanged += Results_StyleChanged;
+
 					OnPropertyChanged(ResultsPropertyName);
 				}
 			}
@@ -284,6 +292,33 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 
 			if (Results != null)
 				Results.ResultsForShow.RefreshFields(Results, this, RowFontStyle);
+		}
+
+
+		void Results_StyleChanged(object sender, StyleChangedEventArgs e)
+		{
+			OnStyleChanged(e);
+			CResult ResultHasBeenChanged = e.Source as CResult;
+			if (ResultHasBeenChanged != null && e.PropertyName == CResult.AdditionalEventTypesPropertyName)
+			{
+				FalstartsRulesRange Range = GlobalDefines.GetFalstartsRulesRange(ResultHasBeenChanged.ResultInDB.participations.Group,
+																					ResultHasBeenChanged.ResultInDB.round);
+
+				List<members> MembersWithFalsestarts = (from member in DBManagerApp.m_Entities.members
+														join part in DBManagerApp.m_Entities.participations on member.id_member equals part.member
+														join result in DBManagerApp.m_Entities.results_speed on part.id_participation equals result.participation
+														where result.round >= Range.StartRound
+																 && result.round <= Range.EndRound
+																 && part.Group == ResultHasBeenChanged.ResultInDB.participations.Group
+																 && ((result.event_1.HasValue && ((result.event_1.Value & (long)enAdditionalEventTypes.Falsestart) != 0))
+																	 || (result.event_2.HasValue && ((result.event_2.Value & (long)enAdditionalEventTypes.Falsestart) != 0)))
+														select member).ToList();
+
+				HasFalsestart = MembersWithFalsestarts.Exists(arg => arg.id_member == MemberInfo.IDMember);
+
+				if (Results != null)
+					Results.ResultsForShow.RefreshFields(Results);
+			}
 		}
 	}
 }

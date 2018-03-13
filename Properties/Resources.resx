@@ -979,4 +979,42 @@
   <data name="resRemoveFalsestart" xml:space="preserve">
     <value>Убрать фальстарт</value>
   </data>
+  <data name="resFalsestartRuleChanged" xml:space="preserve">
+    <value>Настройки действия фальстартов изменились. Сохранить?</value>
+  </data>
+  <data name="resfmtFalsestartRulesWndTitle" xml:space="preserve">
+    <value>Правила для фальстартов. Группа "{0}"</value>
+  </data>
+  <data name="resfmtInvalidFalsestartRule" xml:space="preserve">
+    <value>В строке №{0} присутствует правило с неверными настройками</value>
+  </data>
+  <data name="resEndFalsestartRound" xml:space="preserve">
+    <value>Конечный раунд</value>
+  </data>
+  <data name="resFalsestartRules" xml:space="preserve">
+    <value>Фальстарты</value>
+  </data>
+  <data name="resfmtCantUpdateFalsestartRules" xml:space="preserve">
+    <value>Не удалось обновить правила.
+Ошибка:
+{0}</value>
+  </data>
+  <data name="resfmtDeleteFalsestartRuleQuestion" xml:space="preserve">
+    <value>Удалить правило №{0}?</value>
+  </data>
+  <data name="resfmtFalsestartRulesAreIntersected" xml:space="preserve">
+    <value>Правила в строках {0} и {1} пересекаются</value>
+  </data>
+  <data name="resMinus" xml:space="preserve">
+    <value>-</value>
+  </data>
+  <data name="resNumberSymbol" xml:space="preserve">
+    <value>№</value>
+  </data>
+  <data name="resPlus" xml:space="preserve">
+    <value>+</value>
+  </data>
+  <data name="resStartFalsestartRound" xml:space="preserve">
+    <value>Начальный раунд</value>
+  </data>
 </root>

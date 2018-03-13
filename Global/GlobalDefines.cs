@@ -17,7 +17,7 @@ using System.Diagnostics;
 using MSExcel = Microsoft.Office.Interop.Excel;
 using System.Runtime.InteropServices;
 using DBManager.SettingsWriter;
-
+using DBManager.DAL;
 
 namespace DBManager.Global
 {
@@ -1687,6 +1687,22 @@ namespace DBManager.Global
 			}
 
 			return 0;
+		}
+
+
+		public static FalstartsRulesRange GetFalstartsRulesRange(long GroupId, byte CurrentRound)
+		{
+			FalstartsRulesRange result = new FalstartsRulesRange();
+
+			falsestarts_rules RuleForCurRound = (from rule in DBManagerApp.m_Entities.falsestarts_rules
+												 where rule.Group == GroupId
+														 && rule.start_round <= CurrentRound
+														 && CurrentRound <= rule.end_round
+												 select rule).FirstOrDefault();
+			result.StartRound = RuleForCurRound == null ? CurrentRound : RuleForCurRound.start_round;
+			result.EndRound = RuleForCurRound == null ? CurrentRound : RuleForCurRound.end_round;
+
+			return result;
 		}
 		#endregion
 	}

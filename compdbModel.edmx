@@ -39,9 +39,8 @@
         <EntityType Name="falsestarts_rules">
           <Key>
             <PropertyRef Name="id_falsestarts_rules" />
-            <PropertyRef Name="Group" />
           </Key>
-          <Property Name="id_falsestarts_rules" Type="uint" Nullable="false" />
+          <Property Name="id_falsestarts_rules" Type="uint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Group" Type="uint" Nullable="false" />
           <Property Name="start_round" Type="utinyint" Nullable="false" />
           <Property Name="end_round" Type="utinyint" Nullable="false" />
@@ -571,7 +570,6 @@
         <EntityType Name="falsestarts_rules">
           <Key>
             <PropertyRef Name="id_falsestarts_rules" />
-            <PropertyRef Name="Group" />
           </Key>
           <Property Name="id_falsestarts_rules" Type="Int64" Nullable="false" />
           <Property Name="Group" Type="Int64" Nullable="false" />

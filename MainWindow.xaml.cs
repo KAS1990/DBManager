@@ -35,6 +35,7 @@ using DBManager.Excel.Exporting;
 using DBManager.FTP;
 using DBManager.FTP.SheetGenerators;
 using DBManager.RightPanels;
+using DBManager.DAL;
 
 namespace DBManager
 {
@@ -297,6 +298,7 @@ namespace DBManager
 		{
 			OnPropertyChanged(SettingsEnabledPropertyName);
 			OnPropertyChanged(LogWindowEnabledPropertyName);
+			OnPropertyChanged(FalsestartRuleEnabledPropertyName);
 			OnPropertyChanged(RefreshEnabledPropertyName);
 			OnPropertyChanged(AutoupdatingAvailablePropertyName);
 			OnPropertyChanged(SyncDBWithFilesEnabledPropertyName);
@@ -423,6 +425,49 @@ namespace DBManager
 			get
 			{
 				return !m_RestartingThreads;
+			}
+		}
+
+
+		/// <summary>
+		/// Открытие правил фальстартов
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void FalsestartRulesCmdExecuted(object sender, RoutedEventArgs e)
+		{
+			FalsestartRules wnd = new FalsestartRules(CurrentGroups.SelectedKey, CurrentGroups.SelectedItem.Value.AgeGroup)
+			{
+				Owner = this,
+			};
+						
+			try
+			{
+				bool? res = wnd.ShowDialog();
+				if (res.HasValue && res.Value)
+				{	// Правила изменились
+					if (CurrentRounds.SelectedItem != null)
+						CurrentRounds.SelectedItem.Command.DoExecute();
+					else
+						CurrentGroups.SelectedItem.Command.DoExecute();
+				}
+			}
+			catch (Exception ex)
+			{
+				DumpMaker.HandleExceptionAndClose(ex, Title);
+				return;
+			}
+		}
+
+		private static readonly string FalsestartRuleEnabledPropertyName = GlobalDefines.GetPropertyName<MainWindow>(m => m.FalsestartRulesEnabled);
+		public bool FalsestartRulesEnabled
+		{
+			get
+			{
+				return m_DirScanner != null &&
+					!m_RestartingThreads &&
+					m_DirScanner.CompId != GlobalDefines.DEFAULT_XML_INT_VAL &&
+					CurrentGroups.SelectedItem != null;
 			}
 		}
 		/*----------------------------------------------------------*/
@@ -2099,21 +2144,17 @@ namespace DBManager
 					}
 				}
 
-				falsestarts_rules RuleForCurRound = (from rule in DBManagerApp.m_Entities.falsestarts_rules
-													 where rule.Group == CurrentGroups.SelectedKey
-															 && rule.start_round <= CurrentRounds.SelectedKey
-															 && CurrentRounds.SelectedKey <= rule.end_round
-													 select rule).FirstOrDefault();
-				byte StartRoundForFalsestarts = RuleForCurRound == null ? CurrentRounds.SelectedKey : RuleForCurRound.start_round;
-				byte EndRoundForFalsestarts = RuleForCurRound == null ? CurrentRounds.SelectedKey : RuleForCurRound.end_round;
+				FalstartsRulesRange Range = GlobalDefines.GetFalstartsRulesRange(CurrentGroups.SelectedKey,
+																					CurrentRounds.SelectedKey);
 
 				List<members> MembersWithFalsestarts = (from member in DBManagerApp.m_Entities.members
 														join part in DBManagerApp.m_Entities.participations on member.id_member equals part.member
 														join result in DBManagerApp.m_Entities.results_speed on part.id_participation equals result.participation
-														where result.round >= StartRoundForFalsestarts
-																 && result.round <= EndRoundForFalsestarts
-																 && part.Group == CurrentGroups.SelectedKey
-																 && ((result.event_1.HasValue && ((result.event_1.Value & (long)enAdditionalEventTypes.Falsestart) != 0))
+														where result.round <= CurrentRounds.SelectedKey
+																&& result.round >= Range.StartRound
+																&& result.round <= Range.EndRound
+																&& part.Group == CurrentGroups.SelectedKey
+																&& ((result.event_1.HasValue && ((result.event_1.Value & (long)enAdditionalEventTypes.Falsestart) != 0))
 																	 || (result.event_2.HasValue && ((result.event_2.Value & (long)enAdditionalEventTypes.Falsestart) != 0)))
 														select member).ToList();
 
