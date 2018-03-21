@@ -52,7 +52,7 @@ namespace DBManager.Scanning.XMLDataClasses
 
 
 		#region Time
-		private static readonly string InTimePropertyName = GlobalDefines.GetPropertyName<CResult>(m => m.Time);
+		public static readonly string TimePropertyName = GlobalDefines.GetPropertyName<CResult>(m => m.Time);
 
 		private TimeSpan? m_Time = null;
 		/// Результат участника на трассе в виде времени.
@@ -70,7 +70,7 @@ namespace DBManager.Scanning.XMLDataClasses
 
 					ResultForShow = RouteResultsMarkupConverter.Convert(this);
 
-					OnPropertyChanged(InTimePropertyName);
+					OnPropertyChanged(TimePropertyName);
 				}
 			}
 		}
@@ -266,8 +266,8 @@ namespace DBManager.Scanning.XMLDataClasses
 			if (string.IsNullOrWhiteSpace(ExcelCondFormating))
 			{
 				if (AdditionalEventTypes != null)
-				{   // Удаляем все флаги кроме "неявка"
-					AdditionalEventTypes = AdditionalEventTypes.Value & enAdditionalEventTypes.DontAppear;
+				{   // Удаляем все флаги кроме "неявка" и "снят"
+					AdditionalEventTypes = AdditionalEventTypes.Value & (enAdditionalEventTypes.DontAppear | enAdditionalEventTypes.Disqualif);
 				}
 				CondFormating = null;
 			}
@@ -287,15 +287,15 @@ namespace DBManager.Scanning.XMLDataClasses
 					if (Enum.IsDefined(typeof(enAdditionalEventTypes), EventTypes))
 					{
 						if (AdditionalEventTypes.HasValue)
-							AdditionalEventTypes = (AdditionalEventTypes.Value & enAdditionalEventTypes.DontAppear) | EventTypes;
+							AdditionalEventTypes = (AdditionalEventTypes.Value & (enAdditionalEventTypes.DontAppear | enAdditionalEventTypes.Disqualif)) | EventTypes;
 						else
 							AdditionalEventTypes = EventTypes;
 					}
 					else
 					{
 						if (AdditionalEventTypes != null)
-						{   // Удаляем все флаги кроме "неявка"
-							AdditionalEventTypes = AdditionalEventTypes.Value & enAdditionalEventTypes.DontAppear;
+						{   // Удаляем все флаги кроме "неявка" и "снят"
+							AdditionalEventTypes = AdditionalEventTypes.Value & (enAdditionalEventTypes.DontAppear | enAdditionalEventTypes.Disqualif);
 						}
 					}
 				}
@@ -312,14 +312,14 @@ namespace DBManager.Scanning.XMLDataClasses
 			if (EventType != enAdditionalEventTypes.None)
 			{
 				if (AdditionalEventTypes.HasValue)
-					AdditionalEventTypes = (AdditionalEventTypes & ~enAdditionalEventTypes.DontAppear) | EventType;
+					AdditionalEventTypes = (AdditionalEventTypes & ~(enAdditionalEventTypes.DontAppear | enAdditionalEventTypes.Disqualif)) | EventType;
 				else
 					AdditionalEventTypes = EventType;
 			}
 			else
 			{
 				if (AdditionalEventTypes.HasValue)
-					AdditionalEventTypes = AdditionalEventTypes & ~enAdditionalEventTypes.DontAppear;
+					AdditionalEventTypes = AdditionalEventTypes & ~(enAdditionalEventTypes.DontAppear | enAdditionalEventTypes.Disqualif);
 			}
 		}
 
@@ -329,7 +329,7 @@ namespace DBManager.Scanning.XMLDataClasses
 			Time = null;
 			if (AdditionalEventTypes.HasValue)
 			{
-				AdditionalEventTypes = AdditionalEventTypes & ~enAdditionalEventTypes.DontAppear;
+				AdditionalEventTypes = AdditionalEventTypes & ~(enAdditionalEventTypes.DontAppear | enAdditionalEventTypes.Disqualif);
 			}
 		}
 

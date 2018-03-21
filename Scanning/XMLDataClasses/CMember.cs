@@ -298,7 +298,25 @@ namespace DBManager.Scanning.XMLDataClasses
 					if (string.IsNullOrWhiteSpace(m_Sum))
 						SumExt.ClearTime();
 					else
+					{
 						SumExt.SetTime(ref m_Sum);
+						if (SumExt.AdditionalEventTypes.HasValue
+							&& SumExt.AdditionalEventTypes.Value.HasFlag(enAdditionalEventTypes.Disqualif))
+						{
+							if (Route1Ext != null
+								&& (!Route1Ext.AdditionalEventTypes.HasValue
+									|| !Route1Ext.AdditionalEventTypes.Value.HasFlag(enAdditionalEventTypes.Disqualif)))
+							{
+								SumExt.Time = GlobalDefines.DISQUALIF_TIME_SPAN_VAL - new TimeSpan(5, 00, 0) + Route1Ext.Time;
+							}
+							else if (Route2Ext != null
+								&& (!Route2Ext.AdditionalEventTypes.HasValue
+									|| !Route2Ext.AdditionalEventTypes.Value.HasFlag(enAdditionalEventTypes.Disqualif)))
+							{
+								SumExt.Time = GlobalDefines.DISQUALIF_TIME_SPAN_VAL - new TimeSpan(5, 00, 0) + Route2Ext.Time;
+							}
+						}
+					}
 				}
 			}
 		}
@@ -546,7 +564,7 @@ namespace DBManager.Scanning.XMLDataClasses
 
 		public CMember()
 		{
-			CXMLSerializerBase.SetDefaultValsForAllProps(this);
+			SetDefaultValsForAllProps(this);
 		}
 
 

@@ -1,7 +1,9 @@
-﻿using System;
+﻿using DBManager.Global;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Windows.Input;
 
 namespace DBManager.Commands
@@ -15,7 +17,6 @@ namespace DBManager.Commands
 		protected Action<object> m_parameterizedAction = null;
 
 		protected Func<bool> m_CanExecuteFunc = null;
-
 
 		#region Свойство CanExecute
 		/// <summary>
@@ -37,8 +38,12 @@ namespace DBManager.Commands
 				if (m_canExecute != value)
 				{
 					m_canExecute = value;
-					CanExecuteChanged?.Invoke(this, EventArgs.Empty);
-					CommandManager.InvalidateRequerySuggested();
+					ThreadManager.Instance.InvokeUI((arg) =>
+						{
+							CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+							CommandManager.InvalidateRequerySuggested();
+						},
+						EventArgs.Empty);
 				}
 			}
 		}
@@ -168,29 +173,45 @@ namespace DBManager.Commands
 
 		protected void InvokeAction(object param)
 		{
-			if (m_action != null)
-				m_action();
-			else
-				m_parameterizedAction?.Invoke(param);
+			ThreadManager.Instance.InvokeUI((arg) =>
+				{
+					if (m_action != null)
+						m_action();
+					else
+						m_parameterizedAction?.Invoke(arg);
+				},
+				param);
 		}
 
 		protected void InvokeExecuted(CommandEventArgs args)
 		{
 			//  Вызвать все события
-			Executed?.Invoke(this, args);
+			ThreadManager.Instance.InvokeUI((arg) =>
+				{
+					Executed?.Invoke(this, arg as CommandEventArgs);
+				},
+				args);
 		}
 
 		protected void InvokeExecuting(CancelCommandEventArgs args)
 		{
 			//  Call the executed event.
-			Executing?.Invoke(this, args);
+			ThreadManager.Instance.InvokeUI((arg) =>
+				{
+					Executing?.Invoke(this, arg as CancelCommandEventArgs);
+				},
+				args);
 		}
 		#endregion
 
 
 		public void RefreshCanExecute()
 		{
-			CanExecute = m_CanExecuteFunc();
+			ThreadManager.Instance.InvokeUI((arg) =>
+				{
+					CanExecute = m_CanExecuteFunc();
+				},
+				null);
 		}
 	}
 

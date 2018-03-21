@@ -351,5 +351,9 @@ namespace DBManager.Global
 		/// вк
 		/// </summary>
 		BeyondQualif = 1 << 2,
+		/// <summary>
+		/// снят
+		/// </summary>
+		Disqualif = 1 << 3,
 	}
 }

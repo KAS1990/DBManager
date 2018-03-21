@@ -1127,17 +1127,11 @@ namespace DBManager
 			{
 				DBManagerApp.MainWnd = this;
 
+				ThreadManager.Instance.UISynchronizationContext = SynchronizationContext.Current;
+
 				collectionCurrentRoundMembers = new ObservableCollectionEx<CDBAdditionalClassBase>();
 				collectionCurrentRoundMembers2 = new ObservableCollectionEx<CDBAdditionalClassBase>();
 
-				//dgrdRoundMembers.ItemContainerGenerator.StatusChanged += (s, e) =>
-				//{
-				//    if (dgrdRoundMembers.ItemContainerGenerator.Status == GeneratorStatus.ContainersGenerated)
-				//    {
-				//        System.Diagnostics.Debug.WriteLine(GlobalDefines.m_swchGlobal.Elapsed.TotalSeconds);
-				//    }
-				//};
-								
 				CTaskBarIconTuning.ResetProgressValue(); // Чтобы объект создался в основном потоке
 								
 				#region Настройка пунктов стандартного меню Ribbon
@@ -1895,7 +1889,7 @@ namespace DBManager
 
 			bool GroupChanged = CurrentGroups.SelectedKey != sender.Key;
 			CurrentGroups.SelectedKey = sender.Key;
-			
+									
 			SecondColName = sender.Value.SecondColName;
 									
 			rmbtnGroup.Label = sender.Value.AgeGroup.FullGroupName;
@@ -1973,6 +1967,8 @@ namespace DBManager
 			}
 			else
 				RightPanel.ClearTemplate();
+
+			RefreshCommandEnable();
 		}
 
 

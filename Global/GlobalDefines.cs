@@ -53,7 +53,8 @@ namespace DBManager.Global
 		public static readonly DateTime DEFAULT_XML_DATE_TIME_VAL = DateTime.MinValue;
 		
 		public static readonly TimeSpan FALL_TIME_SPAN_VAL = new TimeSpan(20, 00, 0);
-		public static readonly TimeSpan DONT_APPEAR_TIME_SPAN_VAL = new TimeSpan(30, 00, 0);
+		public static readonly TimeSpan DISQUALIF_TIME_SPAN_VAL = new TimeSpan(30, 00, 0);
+		public static readonly TimeSpan DONT_APPEAR_TIME_SPAN_VAL = new TimeSpan(40, 00, 0);
 		/// <summary>
 		/// Время суммы будет больше этого времени, если участник сорвался на второй трассе
 		/// </summary>
@@ -1092,7 +1093,12 @@ namespace DBManager.Global
 				AdditionalEventType = enAdditionalEventTypes.DontAppear;
 				return DONT_APPEAR_TIME_SPAN_VAL;
 			}
-			
+			else if (ResInStr == ADDITIONAL_EVENT_NAMES[enAdditionalEventTypes.Disqualif].name_in_xml)
+			{
+				AdditionalEventType = enAdditionalEventTypes.Disqualif;
+				return DISQUALIF_TIME_SPAN_VAL;
+			}			
+
 			double ResInDbl;
 			if (!double.TryParse(ResInStr, out ResInDbl))
 			{

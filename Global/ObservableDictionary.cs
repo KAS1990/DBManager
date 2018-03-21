@@ -83,11 +83,6 @@ namespace DBManager.Global
 		#endregion
 
 
-		/// <summary>
-		/// Поле, позволяющее выполнять операции с коллекцией не только из того потока, в котором она была создана
-		/// </summary>
-		private SynchronizationContext m_SyncContext = SynchronizationContext.Current;
-
 		#region Constructors
 		public ObservableDictionary()
 		{
@@ -451,17 +446,17 @@ namespace DBManager.Global
 
 		protected virtual void OnPropertyChanged(string propertyName)
 		{
-			if (SynchronizationContext.Current == m_SyncContext)
-				RaisePropertyChanged(propertyName);
-			else
-				m_SyncContext.Send(RaisePropertyChanged, propertyName);
+			ThreadManager.Instance.InvokeUI((arg) =>
+				{
+					RaisePropertyChanged(arg as string);
+				},
+				propertyName);
 		}
 
 
 		private void RaisePropertyChanged(object param)
 		{
-			if (PropertyChanged != null)
-				PropertyChanged(this, new PropertyChangedEventArgs(param.ToString()));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(param.ToString()));
 		}
 		#endregion
 
@@ -472,16 +467,11 @@ namespace DBManager.Global
 			OnPropertyChanged();
 			if (CollectionChanged != null)
 			{
-				if (SynchronizationContext.Current == m_SyncContext)
-					CollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
-				else
-				{
-					m_SyncContext.Send((arg) =>
-										{
-											CollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
-										},
-										null);
-				}
+				ThreadManager.Instance.InvokeUI((arg) =>
+					{
+						CollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+					},
+					null);
 			}
 		}
 		
@@ -490,16 +480,11 @@ namespace DBManager.Global
 			OnPropertyChanged();
 			if (CollectionChanged != null)
 			{
-				if (SynchronizationContext.Current == m_SyncContext)
-					CollectionChanged(this, new NotifyCollectionChangedEventArgs(action, changedItem));
-				else
-				{
-					m_SyncContext.Send((arg) =>
-										{
-											CollectionChanged(this, new NotifyCollectionChangedEventArgs(action, changedItem));
-										},
-										null);
-				}
+				ThreadManager.Instance.InvokeUI((arg) =>
+					{
+						CollectionChanged(this, new NotifyCollectionChangedEventArgs(action, changedItem));
+					},
+					null);
 			}
 		}
 		
@@ -508,16 +493,11 @@ namespace DBManager.Global
 			OnPropertyChanged();
 			if (CollectionChanged != null)
 			{
-				if (SynchronizationContext.Current == m_SyncContext)
-					CollectionChanged(this, new NotifyCollectionChangedEventArgs(action, newItem, oldItem));
-				else
-				{
-					m_SyncContext.Send((arg) =>
-										{
-											CollectionChanged(this, new NotifyCollectionChangedEventArgs(action, newItem, oldItem));
-										},
-										null);
-				}
+				ThreadManager.Instance.InvokeUI((arg) =>
+					{
+						CollectionChanged(this, new NotifyCollectionChangedEventArgs(action, newItem, oldItem));
+					},
+					null);
 			}
 		}
 		
@@ -526,16 +506,11 @@ namespace DBManager.Global
 			OnPropertyChanged();
 			if (CollectionChanged != null)
 			{
-				if (SynchronizationContext.Current == m_SyncContext)
-					CollectionChanged(this, new NotifyCollectionChangedEventArgs(action, newItems));
-				else
-				{
-					m_SyncContext.Send((arg) =>
-										{
-											CollectionChanged(this, new NotifyCollectionChangedEventArgs(action, newItems));
-										},
-										null);
-				}
+				ThreadManager.Instance.InvokeUI((arg) =>
+					{
+						CollectionChanged(this, new NotifyCollectionChangedEventArgs(action, newItems));
+					},
+					null);
 			}
 		}
 		#endregion

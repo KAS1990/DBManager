@@ -240,9 +240,6 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
-.vs/DBManager/v14/.suo
-.vs/DBManager/v14/.suo
 *.baml
 *.lref
-.vs/DBManager/v14/.suo
-bin/Debug/DBManager.exe
+

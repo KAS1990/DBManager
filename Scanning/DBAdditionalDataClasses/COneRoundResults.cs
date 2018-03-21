@@ -29,12 +29,16 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 				if (m_Route1 != value)
 				{
 					if (m_Route1 != null)
+					{
 						m_Route1.StyleChanged -= Result_StyleChanged;
+					}
 
 					m_Route1 = value;
 
 					if (m_Route1 != null)
+					{
 						m_Route1.StyleChanged += Result_StyleChanged;
+					}
 
 					OnPropertyChanged(Route1PropertyName);
 				}
@@ -56,12 +60,16 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 				if (m_Route2 != value)
 				{
 					if (m_Route2 != null)
+					{
 						m_Route2.StyleChanged -= Result_StyleChanged;
+					}
 
 					m_Route2 = value;
 
 					if (m_Route2 != null)
+					{
 						m_Route2.StyleChanged += Result_StyleChanged;
+					}
 
 					OnPropertyChanged(Route2PropertyName);
 				}
@@ -83,12 +91,16 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 				if (m_Sum != value)
 				{
 					if (m_Sum != null)
+					{
 						m_Sum.StyleChanged -= Result_StyleChanged;
+					}
 
 					m_Sum = value;
 
 					if (m_Sum != null)
+					{
 						m_Sum.StyleChanged += Result_StyleChanged;
+					}
 
 					OnPropertyChanged(SumPropertyName);
 				}

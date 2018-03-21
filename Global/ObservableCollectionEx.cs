@@ -23,13 +23,8 @@ namespace DBManager.Global
 		/// если данные в нем меняются не по-одному а диапазоном
 		/// </summary>
 		private bool m_IsInProcessRange = false;
-		
-		/// <summary>
-		/// Поле, позволяющее выполнять операции с коллекцией не только из того потока, в котором она была создана
-		/// </summary>
-		private SynchronizationContext m_SyncContext = SynchronizationContext.Current;
 
-		
+
 		protected enum ProcessRangeAction
 		{
 			Add,
@@ -55,10 +50,11 @@ namespace DBManager.Global
 
 		protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
 		{
-			if (SynchronizationContext.Current == m_SyncContext)
-				RaiseCollectionChanged(e);
-			else
-				m_SyncContext.Send(RaiseCollectionChanged, e);
+			ThreadManager.Instance.InvokeUI((arg) =>
+				{
+					RaiseCollectionChanged(arg);
+				},
+				e);
 		}
 
 
@@ -71,10 +67,11 @@ namespace DBManager.Global
 
 		protected override void OnPropertyChanged(PropertyChangedEventArgs e)
 		{
-			if (SynchronizationContext.Current == m_SyncContext)
-				RaisePropertyChanged(e);
-			else
-				m_SyncContext.Send(RaisePropertyChanged, e);
+			ThreadManager.Instance.InvokeUI((arg) =>
+				{
+					RaisePropertyChanged(arg);
+				},
+				e);
 		}
 
 		private void RaisePropertyChanged(object param)

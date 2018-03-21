@@ -20,6 +20,8 @@ namespace DBManager.RoundMembers.Converters
 			{
 				if (result.AdditionalEventTypes.Value.HasFlag(enAdditionalEventTypes.DontAppear))
 					return GlobalDefines.ADDITIONAL_EVENT_NAMES[enAdditionalEventTypes.DontAppear].short_name;
+				else if (result.AdditionalEventTypes.Value.HasFlag(enAdditionalEventTypes.Disqualif))
+					return GlobalDefines.ADDITIONAL_EVENT_NAMES[enAdditionalEventTypes.Disqualif].short_name;
 			}
 			
 			if (result.Time == GlobalDefines.FALL_TIME_SPAN_VAL)

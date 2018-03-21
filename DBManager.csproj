@@ -109,6 +109,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>compdbModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="DAL\FalstartsRulesRange.cs" />
     <Compile Include="DAL\members.cs" />
     <Compile Include="DAL\participations.cs" />
     <Compile Include="DAL\results_speed.cs" />
@@ -141,6 +142,7 @@
     <Compile Include="FTP\SheetGenerators\CMiddleSheetsGenerator.cs" />
     <Compile Include="FTP\SheetGenerators\CQualifGenerator.cs" />
     <Compile Include="FTP\SheetGenerators\CTotalGenerator.cs" />
+    <Compile Include="Global\ThreadManager.cs" />
     <Compile Include="InterfaceElements\CMessageBoxEx.xaml.cs">
       <DependentUpon>CMessageBoxEx.xaml</DependentUpon>
     </Compile>
@@ -218,6 +220,8 @@
     <Compile Include="Scanning\DBAdditionalDataClasses\COneRoundResultsForShow.cs" />
     <Compile Include="Scanning\DBAdditionalDataClasses\OneCellInterior.cs" />
     <Compile Include="Scanning\DBAdditionalDataClasses\CRoundAndDate.cs" />
+    <Compile Include="Scanning\DBAdditionalDataClasses\StyleChangedEvent.cs" />
+    <Compile Include="Scanning\IShowedClass.cs" />
     <Compile Include="Scanning\XMLDataClasses\CAgeGroup.cs" />
     <Compile Include="Scanning\XMLDataClasses\CAllExcelData.cs" />
     <Compile Include="Scanning\XMLDataClasses\CCompDate.cs" />
@@ -233,6 +237,9 @@
     <Compile Include="Scanning\XMLDataClasses\CXMLSerializerBase.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="SettingWnds\CustomSettingsWnd.cs" />
+    <Compile Include="SettingWnds\FalsestartRules.xaml.cs">
+      <DependentUpon>FalsestartRules.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SettingWriter\AppSettings.cs" />
     <Compile Include="SettingWriter\XMLSettingsWriter.cs" />
     <Compile Include="SettingWnds\CSettingsWnd.xaml.cs">
@@ -326,6 +333,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Excel\Exporting\CExportToExcelWnd.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingWnds\FalsestartRules.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

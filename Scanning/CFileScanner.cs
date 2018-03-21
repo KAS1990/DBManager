@@ -587,7 +587,13 @@ namespace DBManager.Scanning
 					for (int i = 0; i < DatesToDelete.Count; i++)
 						DBManagerApp.m_Entities.round_dates.DeleteObject(DatesToDelete[i]);
 					DBManagerApp.m_Entities.SaveChanges();
-					
+
+					//Теперь из falsestarts_rules
+					List<falsestarts_rules> RulesToDelete = DBManagerApp.m_Entities.falsestarts_rules.Where(arg => arg.Group == Group.id_group).ToList();
+					for (int i = 0; i < RulesToDelete.Count; i++)
+						DBManagerApp.m_Entities.falsestarts_rules.DeleteObject(RulesToDelete[i]);
+					DBManagerApp.m_Entities.SaveChanges();
+
 					DBManagerApp.m_Entities.groups.DeleteObject(Group);
 					DBManagerApp.m_Entities.SaveChanges();
 

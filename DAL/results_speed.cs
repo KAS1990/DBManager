@@ -34,9 +34,10 @@ namespace DBManager
 				if (EventInDB != (long?)ResultInXML.AdditionalEventTypes)
 				{
 					if (EventInDB.HasValue)
-						EventInDB = (EventInDB.Value & ~(long)(enAdditionalEventTypes.DontAppear | enAdditionalEventTypes.BeyondQualif)) | ((long?)ResultInXML.AdditionalEventTypes ?? 0);
+						EventInDB = (EventInDB.Value & ~(long)(enAdditionalEventTypes.DontAppear | enAdditionalEventTypes.Disqualif | enAdditionalEventTypes.BeyondQualif)) | ((long?)ResultInXML.AdditionalEventTypes ?? 0);
 					else
 						EventInDB = (long?)ResultInXML.AdditionalEventTypes;
+
 					result |= ChangedResults[2];
 				}
 			}
@@ -52,16 +53,19 @@ namespace DBManager
 					CondFormatingInDB = null;
 					result |= ChangedResults[1];
 				}
-				if (EventInDB != null)
+
+				if (EventInDB.HasValue)
 				{
-					if (EventInDB.HasValue)
-					{
-						EventInDB = EventInDB.Value & ~(long)(enAdditionalEventTypes.DontAppear | enAdditionalEventTypes.BeyondQualif);
-						if (EventInDB == 0)
-							EventInDB = null;
-					}
+					EventInDB = EventInDB.Value & ~(long)(enAdditionalEventTypes.DontAppear | enAdditionalEventTypes.Disqualif | enAdditionalEventTypes.BeyondQualif);
+					
 					result |= ChangedResults[2];
 				}
+			}
+
+			if (EventInDB.HasValue && EventInDB == 0)
+			{
+				EventInDB = null;
+				result |= ChangedResults[2];
 			}
 
 			return result;
