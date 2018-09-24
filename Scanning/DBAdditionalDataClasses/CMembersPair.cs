@@ -10,7 +10,7 @@ using System.Globalization;
 
 namespace DBManager.Scanning.DBAdditionalDataClasses
 {
-	public class CMembersPair : CDBAdditionalClassBase
+	public class CMembersPair : CDBAdditionalClassBase, ICanRefreshFrom
 	{
 		#region PairNumber
 		private static readonly string PairNumberPropertyName = GlobalDefines.GetPropertyName<CMembersPair>(m => m.PairNumber);
@@ -138,7 +138,7 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 		}
 		#endregion
 		#endregion
-
+		
 
 		void Member_PropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
@@ -170,6 +170,48 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 
 			if (Second != null)
 				Second.RefreshColors(!WinnerIsFirst ?? false);
+		}
+
+
+		public override void RefreshFrom(ICanRefreshFrom rhs,
+										bool SkipNullsForObjects,
+										bool SkipNullsForNullables)
+		{
+			base.RefreshFrom(rhs, SkipNullsForObjects, SkipNullsForNullables);
+
+			CMembersPair rhsMembersPair = rhs as CMembersPair;
+
+			if (rhsMembersPair == null)
+				return;
+
+			if (First == null)
+				First = rhsMembersPair.First;
+			else if (rhsMembersPair.First == null)
+			{
+				if (!SkipNullsForObjects)
+					First = null;
+			}
+			else
+				First.RefreshFrom(rhsMembersPair.First, SkipNullsForObjects, SkipNullsForNullables);
+
+			if (Second == null)
+				Second = rhsMembersPair.Second;
+			else if (rhsMembersPair.Second == null)
+			{
+				if (!SkipNullsForObjects)
+					Second = null;
+			}
+			else
+				Second.RefreshFrom(rhsMembersPair.Second, SkipNullsForObjects, SkipNullsForNullables);
+
+			
+			PairNumber = rhsMembersPair.PairNumber;
+
+			if (!SkipNullsForObjects || rhsMembersPair.BackgroundForShow != null)
+				BackgroundForShow = rhsMembersPair.BackgroundForShow;
+
+			if (!SkipNullsForObjects || rhsMembersPair.ForegroundForShow != null)
+				ForegroundForShow = rhsMembersPair.ForegroundForShow;
 		}
 	}
 }

@@ -6,7 +6,7 @@ using DBManager.Global;
 
 namespace DBManager.Scanning.DBAdditionalDataClasses
 {
-	public class CRoundAndDate : CDBAdditionalClassBase
+	public class CRoundAndDate : CDBAdditionalClassBase, ICanRefreshFrom
 	{
 		#region Date
 		private string m_Date = GlobalDefines.DEFAULT_XML_STRING_VAL;
@@ -41,6 +41,21 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 			}
 		}
 		#endregion
-				
+
+
+		public override void RefreshFrom(ICanRefreshFrom rhs,
+										bool SkipNullsForObjects,
+										bool SkipNullsForNullables)
+		{
+			base.RefreshFrom(rhs, SkipNullsForObjects, SkipNullsForNullables);
+
+			CRoundAndDate rhsRoundAndDate = rhs as CRoundAndDate;
+
+			if (rhsRoundAndDate == null)
+				return;
+
+			Date = rhsRoundAndDate.Date;
+			Name = rhsRoundAndDate.Name;
+		}
 	}
 }

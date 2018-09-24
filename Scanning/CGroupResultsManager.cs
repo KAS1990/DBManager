@@ -254,7 +254,7 @@ namespace DBManager.Scanning
 						else
 						{
 							member = result;
-							DBManagerApp.m_Entities.AddTomembers(member);
+							DBManagerApp.m_Entities.members.Add(member);
 						}
 						AddedMembers.Add(result.SurnameAndName,
 											new CMemberAndPart() { Member = member });
@@ -268,7 +268,7 @@ namespace DBManager.Scanning
 						MemberAndPart.Participation = result.ToParticipation(MemberAndPart.Member.id_member,
 																			m_DBGroup.id_group,
 																			CompSettings.SecondColNameType);
-						DBManagerApp.m_Entities.AddToparticipations(MemberAndPart.Participation);
+						DBManagerApp.m_Entities.participations.Add(MemberAndPart.Participation);
 						
 					}
 					DBManagerApp.m_Entities.SaveChanges(); // заполняем их поля id_participation
@@ -289,7 +289,7 @@ namespace DBManager.Scanning
 					// Добавляем результаты участников
 					foreach (CMember result in roundResults.Results)
 					{
-						DBManagerApp.m_Entities.AddToresults_speed(result.ToResults_Speed(MembersIds[result.SurnameAndName].Participation.id_participation,
+						DBManagerApp.m_Entities.results_speed.Add(result.ToResults_Speed(MembersIds[result.SurnameAndName].Participation.id_participation,
 																						RoundId));
 					}
 					DBManagerApp.m_Entities.SaveChanges();
@@ -339,7 +339,7 @@ namespace DBManager.Scanning
 							switch (MemberResultInDB.Count())
 							{
 								case 0: // У этого участника ещё нет результатов в данном раунде => добавляем их в БД
-									DBManagerApp.m_Entities.AddToresults_speed(result.ToResults_Speed(keys.Participation.id_participation,
+									DBManagerApp.m_Entities.results_speed.Add(result.ToResults_Speed(keys.Participation.id_participation,
 																				RoundId));
 									HasChanges = true;
 									SumChanged |= result.SumExt != null && result.SumExt.Time != null;
@@ -377,7 +377,7 @@ namespace DBManager.Scanning
 					{
 						ChangingType = enDataChangesTypes.QualifSorted,
 						ChangedObjects = enDataChangedObjects.Members,
-						Argument = roundResults.ChangeReason,
+						ChangeReason = roundResults.ChangeReason,
 						ID = RoundId,
 						GroupID = m_DBGroup.id_group
 					});
@@ -402,7 +402,7 @@ namespace DBManager.Scanning
 							switch (MemberResultInDB.Count())
 							{
 								case 0:	// У этого участника ещё нет результатов в данном раунде => добавляем их в БД
-									DBManagerApp.m_Entities.AddToresults_speed(result.ToResults_Speed(keys.Participation.id_participation,
+									DBManagerApp.m_Entities.results_speed.Add(result.ToResults_Speed(keys.Participation.id_participation,
 																				RoundId));
 									HasChanges = true;
 									SumChanged |= result.SumExt != null && result.SumExt.Time != null;
@@ -455,7 +455,7 @@ namespace DBManager.Scanning
 							{
 								ChangingType = enDataChangesTypes.Changing,
 								ChangedObjects = enDataChangedObjects.Results,
-								Argument = roundResults.ChangeReason,
+								ChangeReason = roundResults.ChangeReason,
 								ID = RoundId,
 								GroupID = m_DBGroup.id_group
 							});
@@ -777,7 +777,7 @@ namespace DBManager.Scanning
 						{
 							ChangingType = enDataChangesTypes.RoundFinished,
 							ChangedObjects = enDataChangedObjects.Results,
-							Argument = roundResults.ChangeReason,
+							ChangeReason = roundResults.ChangeReason,
 							ID = RoundId,
 							CurVal = NextRound,
 							GroupID = m_DBGroup.id_group
@@ -807,7 +807,7 @@ namespace DBManager.Scanning
 						else
 						{
 							keys.Member = InsertedMember;
-							DBManagerApp.m_Entities.AddTomembers(keys.Member);
+							DBManagerApp.m_Entities.members.Add(keys.Member);
 							DBManagerApp.m_Entities.SaveChanges(); // получаем id_member добавленного участника
 						}
 						keys.Participation = InsertedMember.ToParticipation(keys.Member.id_member,
@@ -816,7 +816,7 @@ namespace DBManager.Scanning
 						MembersIds.Add(InsertedMember.SurnameAndName, keys);
 
 						// Добавляем участника в таблицу participation
-						DBManagerApp.m_Entities.AddToparticipations(keys.Participation);
+						DBManagerApp.m_Entities.participations.Add(keys.Participation);
 						DBManagerApp.m_Entities.SaveChanges(); // получаем id_participation добавленного участника
 
 						// Заменяем номера у всех участников, расположенных после добавленного
@@ -829,7 +829,7 @@ namespace DBManager.Scanning
 						}
 								
 						// Добавляем участника в results_speed
-						DBManagerApp.m_Entities.AddToresults_speed(InsertedMember.ToResults_Speed(keys.Participation.id_participation,
+						DBManagerApp.m_Entities.results_speed.Add(InsertedMember.ToResults_Speed(keys.Participation.id_participation,
 																									RoundId));
 
 						if (InsertedMember.SumExt != null && InsertedMember.SumExt.Time != null)
@@ -845,7 +845,8 @@ namespace DBManager.Scanning
 						{
 							ChangingType = enDataChangesTypes.Add,
 							ChangedObjects = enDataChangedObjects.Members | enDataChangedObjects.Results,
-							Argument = roundResults.ChangeReason,
+							ChangeReason = roundResults.ChangeReason,
+							Argument = InsertAfter,
 							ID = keys.Participation.id_participation,
 							GroupID = m_DBGroup.id_group
 						});
@@ -908,7 +909,8 @@ namespace DBManager.Scanning
 							{
 								ChangingType = enDataChangesTypes.Changing,
 								ChangedObjects = enDataChangedObjects.Members | enDataChangedObjects.Results,
-								Argument = roundResults.ChangeReason,
+								ChangeReason = roundResults.ChangeReason,
+								Argument = ChangedRow,
 								ID = keys.Participation.id_participation,
 								GroupID = m_DBGroup.id_group
 							});
@@ -938,7 +940,8 @@ namespace DBManager.Scanning
 						{
 							ChangingType = enDataChangesTypes.Delete,
 							ChangedObjects = enDataChangedObjects.Members | enDataChangedObjects.Results,
-							Argument = roundResults.ChangeReason,
+							ChangeReason = roundResults.ChangeReason,
+							Argument = DeletedRow,
 							ID = keys.Participation.id_participation,
 							GroupID = m_DBGroup.id_group
 						});
@@ -1015,7 +1018,7 @@ namespace DBManager.Scanning
 																						CompSettings.SecondColNameType);
 
 											HasChanges = true;
-											DBManagerApp.m_Entities.AddToparticipations(keys.Participation);
+											DBManagerApp.m_Entities.participations.Add(keys.Participation);
 											DBManagerApp.m_Entities.SaveChanges(); // получаем id_participation
 										}
 										else
@@ -1035,7 +1038,7 @@ namespace DBManager.Scanning
 										{
 											if (ResultsSpeedInDB == null)
 											{	// Результатов не было а теперь они появились
-												DBManagerApp.m_Entities.AddToresults_speed(result.ToResults_Speed(keys.Participation.id_participation,
+												DBManagerApp.m_Entities.results_speed.Add(result.ToResults_Speed(keys.Participation.id_participation,
 																							RoundId));
 												HasChanges = true;
 												SumChanged |= result.SumExt != null && result.SumExt.Time != null;
@@ -1115,7 +1118,7 @@ namespace DBManager.Scanning
 											}
 											else
 											{	// Участника нет в квалификации => его нужно туда обязательно добавить
-												DBManagerApp.m_Entities.AddToresults_speed(result.ToResults_Speed(keys.Participation.id_participation,
+												DBManagerApp.m_Entities.results_speed.Add(result.ToResults_Speed(keys.Participation.id_participation,
 																							RoundId));
 												HasChanges = true;
 											}
@@ -1127,7 +1130,7 @@ namespace DBManager.Scanning
 										{
 											Member = result,
 										};
-										DBManagerApp.m_Entities.AddTomembers(keys.Member);
+										DBManagerApp.m_Entities.members.Add(keys.Member);
 										DBManagerApp.m_Entities.SaveChanges(); // получаем id_member
 
 										keys.Participation = result.ToParticipation(keys.Member.id_member,
@@ -1135,10 +1138,10 @@ namespace DBManager.Scanning
 																					CompSettings.SecondColNameType);
 										MembersIds.Add(result.SurnameAndName, keys);
 
-										DBManagerApp.m_Entities.AddToparticipations(keys.Participation);
+										DBManagerApp.m_Entities.participations.Add(keys.Participation);
 										DBManagerApp.m_Entities.SaveChanges(); // получаем id_participation
 
-										DBManagerApp.m_Entities.AddToresults_speed(result.ToResults_Speed(keys.Participation.id_participation,
+										DBManagerApp.m_Entities.results_speed.Add(result.ToResults_Speed(keys.Participation.id_participation,
 																					RoundId));
 
 										HasChanges = true;
@@ -1171,25 +1174,15 @@ namespace DBManager.Scanning
 								GlobalDefines.DeleteUnusedTeams();
 
 								if (SumChanged)
-								{	// Нужно пересчитать места
-									switch (roundResults.RoundInEnum)
-									{
-										case enRounds.Qualif:
-										case enRounds.Qualif2:	// Нужно выполнить пересчёт мест
-											IEnumerable<results_speed> MemberResultInDB = RoundResults(RoundId, CSpeedResultsComparer.enCompareProperty.Sum);
-											// Удаляем места у всех, у кого нет результатов
-											foreach (results_speed result in MemberResultInDB.Where(arg => arg.sum == null))
-												result.place = null;
+								{   // Нужно пересчитать места
+									IEnumerable<results_speed> MemberResultInDB = RoundResults(RoundId, CSpeedResultsComparer.enCompareProperty.Sum);
+									// Удаляем места у всех, у кого нет результатов
+									foreach (results_speed result in MemberResultInDB.Where(arg => arg.sum == null))
+										result.place = null;
 
-											// Расставляем места
-											if (!StdDefinePlaces(MemberResultInDB.Where(arg => arg.sum.HasValue)))
-												return false;
-											break;
-
-										case enRounds.Final:
-											DefinePlacesInFinal(RoundResults((int)enRounds.Final, CSpeedResultsComparer.enCompareProperty.Number).ToList());
-											break;
-									}
+									// Расставляем места
+									if (!StdDefinePlaces(MemberResultInDB.Where(arg => arg.sum.HasValue)))
+										return false;
 								}
 
 								if (HasChanges)
@@ -1198,13 +1191,155 @@ namespace DBManager.Scanning
 									{
 										ChangingType = enDataChangesTypes.AddManyPcs,
 										ChangedObjects = enDataChangedObjects.Members | enDataChangedObjects.Results,
-										Argument = roundResults.ChangeReason,
+										ChangeReason = roundResults.ChangeReason,
 										ID = RoundId,
 										GroupID = m_DBGroup.id_group
 									});
 								}
 								break;
 						}
+					}
+					break;
+				#endregion
+
+				#region crOnlySomeRowsChanged
+				case enChangeReason.crOnlySomeRowsChanged:   // Обновились только результаты у части участников =>
+															 // обновляем только их
+					byte Argument;
+					enOnlySomeRowsChangedReason OnlySomeRowsChangedReason = enOnlySomeRowsChangedReason.srcrNone;
+
+					if (!IsNewGroup
+						&& byte.TryParse(roundResults.Argument, out Argument)
+						&& Enum.IsDefined(typeof(enOnlySomeRowsChangedReason), Argument)
+						&& (enOnlySomeRowsChangedReason)Argument != enOnlySomeRowsChangedReason.srcrNone
+						&& roundResults.ChangedRows != null)
+					{   // Если IsNewGroup == true, то мы уже занесли все результаты ранее
+						OnlySomeRowsChangedReason = (enOnlySomeRowsChangedReason)Argument;
+						switch (OnlySomeRowsChangedReason)
+						{
+							case enOnlySomeRowsChangedReason.srcrSetStartupPosition:
+								switch (roundResults.RoundInEnum)
+								{
+									case enRounds.Qualif:
+									case enRounds.Qualif2:
+									case enRounds.OneEighthFinal:
+									case enRounds.QuaterFinal:
+									case enRounds.SemiFinal:
+									case enRounds.Final:
+										foreach (CMember result in roundResults.Results)
+										{
+											CMemberKeys keys;
+											if (result.SurnameAndName == null
+												|| !MembersIds.TryGetValue(result.SurnameAndName, out keys))
+											{   // Неизвестный участник => просто пропускаем его
+												continue;
+											}
+
+											IEnumerable<results_speed> MemberResultInDB = from results in keys.Participation.results_speed
+																						  where results.round == RoundId
+																						  select results;
+											switch (MemberResultInDB.Count())
+											{
+												case 0: // У этого участника ещё нет результатов в данном раунде => добавляем их в БД
+													DBManagerApp.m_Entities.results_speed.Add(result.ToResults_Speed(keys.Participation.id_participation,
+																								RoundId));
+													HasChanges = true;
+													break;
+
+												case 1: // Меняем результаты в БД, если они изменились
+													enChangedResult Changes = MemberResultInDB.First().UpdateResults(result);
+													HasChanges |= Changes != enChangedResult.None;
+													break;
+
+												default:    // у участника не может быть больше одного результата в одном раунде
+													throw new InvalidOperationException(string.Format("There are more then 1 result for member \"{0}\" for round \"{1}\"",
+																										result.SurnameAndName,
+																										roundResults.NodeName));
+											}
+										}
+										break;
+								}
+								break;
+
+							case enOnlySomeRowsChangedReason.srcrGotAutoscanResults:
+								foreach (int row in roundResults.ChangedRows)
+								{
+									CMember result = roundResults.Results.FirstOrDefault(arg => arg.Number == row);
+									CMemberKeys keys;
+									if (result == null || result.SurnameAndName == null || !MembersIds.TryGetValue(result.SurnameAndName, out keys))
+									{   // Неизвестный участник => просто пропускаем его
+										continue;
+									}
+
+									IEnumerable<results_speed> MemberResultInDB = from results in keys.Participation.results_speed
+																				  where results.round == RoundId
+																				  select results;
+									switch (MemberResultInDB.Count())
+									{
+										case 0: // У этого участника ещё нет результатов в данном раунде => добавляем их в БД
+											DBManagerApp.m_Entities.results_speed.Add(result.ToResults_Speed(keys.Participation.id_participation,
+																						RoundId));
+											HasChanges = true;
+											SumChanged |= result.SumExt != null && result.SumExt.Time != null;
+											break;
+
+										case 1: // Меняем результаты в БД, если они изменились
+											enChangedResult Changes = MemberResultInDB.First().UpdateResults(result);
+											HasChanges |= Changes != enChangedResult.None;
+											SumChanged |= Changes.HasFlag(enChangedResult.SumTime);
+											break;
+
+										default:    // у участника не может быть больше одного результата в одном раунде
+											throw new InvalidOperationException(string.Format("There are more then 1 result for member \"{0}\" for round \"{1}\"",
+																								result.SurnameAndName,
+																								roundResults.NodeName));
+									}
+								}
+
+								if (SumChanged)
+								{
+									switch (roundResults.RoundInEnum)
+									{
+										case enRounds.Qualif:
+										case enRounds.Qualif2:  // Нужно выполнить пересчёт мест
+											{
+												DBManagerApp.m_Entities.SaveChanges(); // Чтобы сделанные изменения применились
+
+												IEnumerable<results_speed> MemberResultInDB = RoundResults(RoundId, CSpeedResultsComparer.enCompareProperty.Sum);
+												// Удаляем места у всех, у кого нет результатов
+												foreach (results_speed result in MemberResultInDB.Where(arg => arg.sum == null))
+													result.place = null;
+
+												// Расставляем места
+												if (!StdDefinePlaces(MemberResultInDB.Where(arg => arg.sum.HasValue)))
+													return false;
+												break;
+											}
+
+										case enRounds.Final: // В Финале нужно расставлять места по мере появления результатов
+											DBManagerApp.m_Entities.SaveChanges(); // Чтобы сделанные изменения применились
+
+											DefinePlacesInFinal(RoundResults((int)enRounds.Final, CSpeedResultsComparer.enCompareProperty.Number).ToList());
+											break;
+									}
+								}
+								break;
+						}
+
+						if (HasChanges)
+						{   // Что-то поменялось
+							MadeChanges.Add(new CDataChangedInfo(m_ParentScanner)
+							{
+								ChangingType = enDataChangesTypes.OnlySomeRowsChanged,
+								ChangedObjects = enDataChangedObjects.Results,
+								ChangeReason = roundResults.ChangeReason,
+								Argument = OnlySomeRowsChangedReason,
+								ID = RoundId,
+								GroupID = m_DBGroup.id_group,
+								ListArguments = roundResults.ChangedRows.Cast<object>().ToList()
+							});
+						}
+
 					}
 					break;
 				#endregion
@@ -1415,7 +1550,7 @@ namespace DBManager.Scanning
 				resultInDB.route1 = resultInDB.route2 = resultInDB.sum = null;
 			}
 			else
-				DBManagerApp.m_Entities.AddToresults_speed(NewResult);
+				DBManagerApp.m_Entities.results_speed.Add(NewResult);
 		}
 
 
@@ -1471,14 +1606,14 @@ namespace DBManager.Scanning
 			if (MemberPartsInOtherGroups.Count() > 0)
 			{	// Спортсмен принимал участие ещё в каких-то соревнованиях
 				// Удалять спортсмена нужно именно с помощью запроса, т.к. через DeleteObject может произойти ошибка
-				DBManagerApp.m_Entities.ExecuteStoreCommand("DELETE FROM `participations` WHERE `id_participation`='" +
+				DBManagerApp.m_Entities.Database.ExecuteSqlCommand("DELETE FROM `participations` WHERE `id_participation`='" +
 															MemberToDeleteKeys.Participation.id_participation.ToString() +
 															"';");
 			}
 			else
 			{	// Спортсмен принимал участие только в текущих соревнованиях => просто удаляем его из БД
 				// Удалять спортсмена нужно именно с помощью запроса, т.к. через DeleteObject может произойти ошибка
-				DBManagerApp.m_Entities.ExecuteStoreCommand("DELETE FROM `members` WHERE `id_member`='" +
+				DBManagerApp.m_Entities.Database.ExecuteSqlCommand("DELETE FROM `members` WHERE `id_member`='" +
 															MemberToDeleteKeys.Member.id_member.ToString() +
 															"';");
 			}

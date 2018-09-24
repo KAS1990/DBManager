@@ -12,7 +12,7 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 	/// <summary>
 	/// Результаты участника в одном раунде
 	/// </summary>
-	public class COneRoundResults : CDBAdditionalClassBase
+	public class COneRoundResults : CDBAdditionalClassBase, ICanRefreshFrom
 	{
 		public enRounds m_Round = enRounds.None;
 
@@ -182,7 +182,7 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 			{
 				return Route1?.ResultInDB ?? Route2?.ResultInDB ?? Sum?.ResultInDB;
 			}
-		} 
+		}
 
 
 		void Result_StyleChanged(object sender, StyleChangedEventArgs e)
@@ -209,6 +209,53 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 				result += "(" + Properties.Resources.resSum.ToLower() + ") " + Sum.Time.Value.ToString(@"mm\:ss\,ff") + " ";
 
 			return result.Trim();
+		}
+
+
+		public override void RefreshFrom(ICanRefreshFrom rhs,
+										bool SkipNullsForObjects,
+										bool SkipNullsForNullables)
+		{
+			base.RefreshFrom(rhs, SkipNullsForObjects, SkipNullsForNullables);
+
+			COneRoundResults rhsOneRoundResults = rhs as COneRoundResults;
+
+			if (rhsOneRoundResults == null)
+				return;
+
+			if (Route1 == null)
+				Route1 = rhsOneRoundResults.Route1;
+			else if (rhsOneRoundResults.Route1 == null)
+			{
+				if (!SkipNullsForObjects)
+					Route1 = null;
+			}
+			else
+				Route1.RefreshFrom(rhsOneRoundResults.Route1, SkipNullsForObjects, SkipNullsForNullables);
+
+			if (Route2 == null)
+				Route2 = rhsOneRoundResults.Route2;
+			else if (rhsOneRoundResults.Route2 == null)
+			{
+				if (!SkipNullsForObjects)
+					Route2 = null;
+			}
+			else
+				Route2.RefreshFrom(rhsOneRoundResults.Route2, SkipNullsForObjects, SkipNullsForNullables);
+
+			if (Sum == null)
+				Sum = rhsOneRoundResults.Sum;
+			else if (rhsOneRoundResults.Sum == null)
+			{
+				if (!SkipNullsForObjects)
+					Sum = null;
+			}
+			else
+				Sum.RefreshFrom(rhsOneRoundResults.Sum, SkipNullsForObjects, SkipNullsForNullables);
+
+			m_Round = rhsOneRoundResults.m_Round;
+			IsLastMember = rhsOneRoundResults.IsLastMember;
+			IsLooser = rhsOneRoundResults.IsLooser;
 		}
 	}
 }

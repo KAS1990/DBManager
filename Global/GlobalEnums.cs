@@ -40,7 +40,42 @@ namespace DBManager.Global
 		/// Раунд завершён. Название раунда понятно из узла, в котором произошли изменения. Название следующего раунда указано в аргументе
 		/// </summary>
 		crRoundFinished = 7,
+		/// <summary>
+		/// Изменилось всего несколько строк, поэтому можно быстрее отобразить изменения на экране
+		/// </summary>
+		crOnlySomeRowsChanged = 8
 	}
+
+
+	/// <summary>
+	/// Причина по которой установлена crOnlySomeRowsChanged.
+	/// Пишется в атрибут Arguments
+	/// </summary>
+	public enum enOnlySomeRowsChangedReason
+	{
+		srcrNone = 0,
+		/// <summary>
+		/// Задали начальную позицию для считывания
+		/// </summary>
+		srcrSetStartupPosition = 1,
+		/// <summary>
+		/// Пришли данные от приложения-считывателя
+		/// </summary>
+		srcrGotAutoscanResults = 2,
+		/// <summary>
+		/// Добавлена строка
+		/// </summary>
+		srcrRowAdded = 3,
+		/// <summary>
+		/// Изменены данные об участнике
+		/// </summary>
+		srcrRowChanged = 4,
+		/// <summary>
+		/// Удалена строка
+		/// </summary>
+		srcrRowDeleted = 5,
+	}
+
 
 
 	public enum enScanningThreadState

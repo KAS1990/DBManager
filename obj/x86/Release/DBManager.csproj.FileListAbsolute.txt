@@ -56,3 +56,5 @@ D:\Саша\Документы\Эксель\Для соревнований\Ск
 D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\Скорость Last Edition\DBManager\bin\Release\MySql.Data.dll
 D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\Скорость Last Edition\DBManager\bin\Release\MySql.Data.xml
 D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\Скорость Last Edition\DBManager\obj\x86\Release\DBManager.csprojResolveAssemblyReference.cache
+D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\Скорость Last Edition\DBManager\obj\x86\Release\SettingWnds\FalsestartRules.g.cs
+D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\Скорость Last Edition\DBManager\obj\x86\Release\SettingWnds\FalsestartRules.baml

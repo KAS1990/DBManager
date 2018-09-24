@@ -119,8 +119,15 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 
 		public void RefreshFields(COneRoundResults RouteResults, CMemberAndResults Parent = null, CFontStyleSettings RowFontStyle = null)
 		{
-			m_Parent = Parent = m_Parent ?? Parent;
-			m_RowFontStyle = RowFontStyle = m_RowFontStyle ?? RowFontStyle;
+			if (m_Parent == null || Parent != null)
+				m_Parent = Parent;
+			else
+				Parent = m_Parent;
+
+			if (m_RowFontStyle == null || RowFontStyle != null)
+				m_RowFontStyle = RowFontStyle;
+			else
+				RowFontStyle = m_RowFontStyle;
 
 			bool PlainStyleSetted = false;
 						

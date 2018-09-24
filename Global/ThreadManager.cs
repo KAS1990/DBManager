@@ -37,25 +37,66 @@ namespace DBManager.Global
 		/// Process code in UI thread synchronously and block calling thread
 		/// </summary>
 		/// <param name="action"></param>
-		public void InvokeUI(Action<object> action, object param)
+		public void InvokeUI(Action action)
 		{
 			if (_uiSynchronizationContext == null)
 			{
 				throw new InvalidOperationException("You must specify UISynchronizationContext before using this method.");
 			}
 
+			//
+
 			if (_uiSynchronizationContext != SynchronizationContext.Current)
-				_uiSynchronizationContext.Send(new SendOrPostCallback(o => action(o)), param);
+				_uiSynchronizationContext.Send(new SendOrPostCallback(o => action()), null);
 			else
-				action(param);
+				action();
 		}
-		
-		
+
+		/// <summary>
+		/// Process code in UI thread synchronously and block calling thread
+		/// </summary>
+		/// <param name="action"></param>
+		public void InvokeUI<TParam>(Action<TParam> action, TParam args)
+		{
+			if (_uiSynchronizationContext == null)
+			{
+				throw new InvalidOperationException("You must specify UISynchronizationContext before using this method.");
+			}
+
+			//
+
+			if (_uiSynchronizationContext != SynchronizationContext.Current)
+				_uiSynchronizationContext.Send(new SendOrPostCallback(o => action((TParam)o)), args);
+			else
+				action(args);
+		}
+
+
+		/// <summary>
+		/// Process code in UI thread synchronously and block calling thread
+		/// </summary>
+		/// <param name="action"></param>
+		public void InvokeUI<TParam1, TParam2>(Action<TParam1, TParam2> action, TParam1 arg1, TParam2 arg2)
+		{
+			if (_uiSynchronizationContext == null)
+			{
+				throw new InvalidOperationException("You must specify UISynchronizationContext before using this method.");
+			}
+
+			//
+
+			if (_uiSynchronizationContext != SynchronizationContext.Current)
+				_uiSynchronizationContext.Send(new SendOrPostCallback(o => action(arg1, arg2)), null);
+			else
+				action(arg1, arg2);
+		}
+
+
 		/// <summary>
 		/// Process code in UI thread asynchronously
 		/// </summary>
 		/// <param name="action"></param>
-		public void InvokeUIAsync(Action<object> action, object param)
+		public void InvokeUIAsync<TParam>(Action<TParam> action, TParam args)
 		{
 			if (_uiSynchronizationContext == null)
 			{
@@ -63,9 +104,9 @@ namespace DBManager.Global
 			}
 
 			if (_uiSynchronizationContext != SynchronizationContext.Current)
-				_uiSynchronizationContext.Post(new SendOrPostCallback(o => action(o)), param);
+				_uiSynchronizationContext.Post(new SendOrPostCallback(o => action((TParam)o)), args);
 			else
-				action(param);
+				action(args);
 		}
 	}
 }

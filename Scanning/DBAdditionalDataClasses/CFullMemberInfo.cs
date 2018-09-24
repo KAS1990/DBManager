@@ -10,7 +10,7 @@ using DBManager.RoundMembers.Converters;
 
 namespace DBManager.Scanning.DBAdditionalDataClasses
 {
-	public class CFullMemberInfo : CDBAdditionalClassBase
+	public class CFullMemberInfo : CDBAdditionalClassBase, ICanRefreshFrom
 	{
 		static YearOfBirthMarkupConverter m_convYearOfBirth = new YearOfBirthMarkupConverter();
 		static GradeMarkupConverter m_convGrade = new GradeMarkupConverter();
@@ -224,6 +224,37 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 		}
 		#endregion
 		#endregion
+
+
+		public override void RefreshFrom(ICanRefreshFrom rhs,
+										bool SkipNullsForObjects,
+										bool SkipNullsForNullables)
+		{
+			base.RefreshFrom(rhs, SkipNullsForObjects, SkipNullsForNullables);
+
+			CFullMemberInfo rhsFullMemberInfo = rhs as CFullMemberInfo;
+
+			if (rhsFullMemberInfo == null)
+				return;
+
+			IDMember = rhsFullMemberInfo.IDMember;
+			Name = rhsFullMemberInfo.Name;
+			Surname = rhsFullMemberInfo.Surname;
+
+			if (!SkipNullsForNullables || rhsFullMemberInfo.YearOfBirth.HasValue)
+				YearOfBirth = rhsFullMemberInfo.YearOfBirth;
+
+			if (!SkipNullsForNullables || rhsFullMemberInfo.Coach.HasValue)
+				Coach = rhsFullMemberInfo.Coach;
+
+			if (!SkipNullsForNullables || rhsFullMemberInfo.Team.HasValue)
+				Team = rhsFullMemberInfo.Team;
+
+			if (!SkipNullsForNullables || rhsFullMemberInfo.InitGrade.HasValue)
+				InitGrade = rhsFullMemberInfo.InitGrade;
+
+			SecondCol = rhsFullMemberInfo.SecondCol;
+		}
 
 
 		public override bool Equals(object o)

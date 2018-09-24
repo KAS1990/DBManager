@@ -1,4 +1,305 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Schema xmlns="http://schemas.microsoft.com/ado/2008/09/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="Model1" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
-  <EntityContainer Name="Model1Container" annotation:LazyLoadingEnabled="true" />
+<Schema Namespace="compdbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="additional_events_types">
+    <Key>
+      <PropertyRef Name="flag" />
+    </Key>
+    <Property Name="flag" Type="Int64" Nullable="false" />
+    <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="short_name" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="name_in_xml" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+  </EntityType>
+  <EntityType Name="balls">
+    <Key>
+      <PropertyRef Name="place" />
+    </Key>
+    <Property Name="place" Type="Byte" Nullable="false" />
+    <Property Name="value" Type="Byte" Nullable="false" />
+  </EntityType>
+  <EntityType Name="coaches">
+    <Key>
+      <PropertyRef Name="id_coach" />
+    </Key>
+    <Property Name="id_coach" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="participations" Relationship="Self.fk_participation_coaches" FromRole="coaches" ToRole="participations" />
+  </EntityType>
+  <EntityType Name="descriptions">
+    <Key>
+      <PropertyRef Name="id_desc" />
+    </Key>
+    <Property Name="id_desc" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="dir" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="groups" Relationship="Self.fk_groups_description" FromRole="descriptions" ToRole="groups" />
+  </EntityType>
+  <EntityType Name="falsestarts_rules">
+    <Key>
+      <PropertyRef Name="id_falsestarts_rules" />
+    </Key>
+    <Property Name="id_falsestarts_rules" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Group" Type="Int64" Nullable="false" />
+    <Property Name="start_round" Type="Byte" Nullable="false" />
+    <Property Name="end_round" Type="Byte" Nullable="false" />
+    <NavigationProperty Name="groups" Relationship="Self.fk_falsestarts_rules_groups1" FromRole="falsestarts_rules" ToRole="groups" />
+  </EntityType>
+  <EntityType Name="grades">
+    <Key>
+      <PropertyRef Name="id_grade" />
+    </Key>
+    <Property Name="id_grade" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
+  </EntityType>
+  <EntityType Name="groups">
+    <Key>
+      <PropertyRef Name="id_group" />
+    </Key>
+    <Property Name="id_group" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="start_year" Type="Int32" />
+    <Property Name="end_year" Type="Int16" />
+    <Property Name="desc" Type="Int64" Nullable="false" />
+    <Property Name="second_col_name" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="from_1_qualif" Type="Byte" />
+    <Property Name="from_2_qualif" Type="Byte" />
+    <Property Name="round_after_qualif" Type="Byte" />
+    <Property Name="main_judge" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="main_secretary" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="row6" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="xml_file_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="sex" Type="Byte" Nullable="false" />
+    <Property Name="comp_start_date" Type="DateTime" Nullable="false" />
+    <Property Name="comp_end_date" Type="DateTime" />
+    <Property Name="round_finished_flags" Type="Int32" />
+    <NavigationProperty Name="descriptions" Relationship="Self.fk_groups_description" FromRole="groups" ToRole="descriptions" />
+    <NavigationProperty Name="falsestarts_rules" Relationship="Self.fk_falsestarts_rules_groups1" FromRole="groups" ToRole="falsestarts_rules" />
+    <NavigationProperty Name="participations" Relationship="Self.fk_participation_groups" FromRole="groups" ToRole="participations" />
+    <NavigationProperty Name="round_dates" Relationship="Self.fk_round_dates_groups1" FromRole="groups" ToRole="round_dates" />
+  </EntityType>
+  <EntityType Name="members">
+    <Key>
+      <PropertyRef Name="id_member" />
+    </Key>
+    <Property Name="id_member" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="surname" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="year_of_birth" Type="Int16" />
+    <Property Name="sex" Type="Byte" Nullable="false" />
+    <NavigationProperty Name="participations" Relationship="Self.fk_participation_members" FromRole="members" ToRole="participations" />
+  </EntityType>
+  <EntityType Name="participations">
+    <Key>
+      <PropertyRef Name="id_participation" />
+    </Key>
+    <Property Name="id_participation" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="member" Type="Int64" Nullable="false" />
+    <Property Name="Group" Type="Int64" Nullable="false" />
+    <Property Name="coach" Type="Int64" />
+    <Property Name="team" Type="Int64" />
+    <Property Name="init_grade" Type="Byte" />
+    <Property Name="result_grade" Type="Byte" />
+    <Property Name="result_place" Type="Byte" />
+    <NavigationProperty Name="coaches" Relationship="Self.fk_participation_coaches" FromRole="participations" ToRole="coaches" />
+    <NavigationProperty Name="groups" Relationship="Self.fk_participation_groups" FromRole="participations" ToRole="groups" />
+    <NavigationProperty Name="members" Relationship="Self.fk_participation_members" FromRole="participations" ToRole="members" />
+    <NavigationProperty Name="teams" Relationship="Self.fk_participation_teams" FromRole="participations" ToRole="teams" />
+    <NavigationProperty Name="results_speed" Relationship="Self.fk_results_speed_participation" FromRole="participations" ToRole="results_speed" />
+  </EntityType>
+  <EntityType Name="results_speed">
+    <Key>
+      <PropertyRef Name="id_result" />
+    </Key>
+    <Property Name="id_result" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="participation" Type="Int64" Nullable="false" />
+    <Property Name="number" Type="Byte" />
+    <Property Name="round" Type="Byte" Nullable="false" />
+    <Property Name="route1" Type="Time" />
+    <Property Name="route2" Type="Time" />
+    <Property Name="sum" Type="Time" />
+    <Property Name="balls" Type="Single" />
+    <Property Name="place" Type="Byte" />
+    <Property Name="cond_formating_1" Type="Byte" />
+    <Property Name="cond_formating_2" Type="Byte" />
+    <Property Name="cond_formating_sum" Type="Byte" />
+    <Property Name="event_1" Type="Int64" />
+    <Property Name="event_2" Type="Int64" />
+    <Property Name="event_sum" Type="Int64" />
+    <NavigationProperty Name="participations" Relationship="Self.fk_results_speed_participation" FromRole="results_speed" ToRole="participations" />
+  </EntityType>
+  <EntityType Name="round_dates">
+    <Key>
+      <PropertyRef Name="id_round_dates" />
+    </Key>
+    <Property Name="id_round_dates" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="round" Type="Byte" Nullable="false" />
+    <Property Name="date" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Group" Type="Int64" Nullable="false" />
+    <NavigationProperty Name="groups" Relationship="Self.fk_round_dates_groups1" FromRole="round_dates" ToRole="groups" />
+  </EntityType>
+  <EntityType Name="rounds">
+    <Key>
+      <PropertyRef Name="id_round" />
+    </Key>
+    <Property Name="id_round" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+  </EntityType>
+  <EntityType Name="teams">
+    <Key>
+      <PropertyRef Name="id_team" />
+    </Key>
+    <Property Name="id_team" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="participations" Relationship="Self.fk_participation_teams" FromRole="teams" ToRole="participations" />
+  </EntityType>
+  <Association Name="fk_participation_coaches">
+    <End Role="coaches" Type="Self.coaches" Multiplicity="0..1" />
+    <End Role="participations" Type="Self.participations" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="coaches">
+        <PropertyRef Name="id_coach" />
+      </Principal>
+      <Dependent Role="participations">
+        <PropertyRef Name="coach" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_groups_description">
+    <End Role="descriptions" Type="Self.descriptions" Multiplicity="1" />
+    <End Role="groups" Type="Self.groups" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="descriptions">
+        <PropertyRef Name="id_desc" />
+      </Principal>
+      <Dependent Role="groups">
+        <PropertyRef Name="desc" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_falsestarts_rules_groups1">
+    <End Role="groups" Type="Self.groups" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="falsestarts_rules" Type="Self.falsestarts_rules" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="groups">
+        <PropertyRef Name="id_group" />
+      </Principal>
+      <Dependent Role="falsestarts_rules">
+        <PropertyRef Name="Group" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_participation_groups">
+    <End Role="groups" Type="Self.groups" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="participations" Type="Self.participations" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="groups">
+        <PropertyRef Name="id_group" />
+      </Principal>
+      <Dependent Role="participations">
+        <PropertyRef Name="Group" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_round_dates_groups1">
+    <End Role="groups" Type="Self.groups" Multiplicity="1" />
+    <End Role="round_dates" Type="Self.round_dates" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="groups">
+        <PropertyRef Name="id_group" />
+      </Principal>
+      <Dependent Role="round_dates">
+        <PropertyRef Name="Group" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_participation_members">
+    <End Role="members" Type="Self.members" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="participations" Type="Self.participations" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="members">
+        <PropertyRef Name="id_member" />
+      </Principal>
+      <Dependent Role="participations">
+        <PropertyRef Name="member" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_participation_teams">
+    <End Role="teams" Type="Self.teams" Multiplicity="0..1" />
+    <End Role="participations" Type="Self.participations" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="teams">
+        <PropertyRef Name="id_team" />
+      </Principal>
+      <Dependent Role="participations">
+        <PropertyRef Name="team" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_results_speed_participation">
+    <End Role="participations" Type="Self.participations" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="results_speed" Type="Self.results_speed" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="participations">
+        <PropertyRef Name="id_participation" />
+      </Principal>
+      <Dependent Role="results_speed">
+        <PropertyRef Name="participation" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="compdbEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="additional_events_types" EntityType="Self.additional_events_types" />
+    <EntitySet Name="balls" EntityType="Self.balls" />
+    <EntitySet Name="coaches" EntityType="Self.coaches" />
+    <EntitySet Name="descriptions" EntityType="Self.descriptions" />
+    <EntitySet Name="falsestarts_rules" EntityType="Self.falsestarts_rules" />
+    <EntitySet Name="grades" EntityType="Self.grades" />
+    <EntitySet Name="groups" EntityType="Self.groups" />
+    <EntitySet Name="members" EntityType="Self.members" />
+    <EntitySet Name="participations" EntityType="Self.participations" />
+    <EntitySet Name="results_speed" EntityType="Self.results_speed" />
+    <EntitySet Name="round_dates" EntityType="Self.round_dates" />
+    <EntitySet Name="rounds" EntityType="Self.rounds" />
+    <EntitySet Name="teams" EntityType="Self.teams" />
+    <AssociationSet Name="fk_participation_coaches" Association="Self.fk_participation_coaches">
+      <End Role="coaches" EntitySet="coaches" />
+      <End Role="participations" EntitySet="participations" />
+    </AssociationSet>
+    <AssociationSet Name="fk_groups_description" Association="Self.fk_groups_description">
+      <End Role="descriptions" EntitySet="descriptions" />
+      <End Role="groups" EntitySet="groups" />
+    </AssociationSet>
+    <AssociationSet Name="fk_falsestarts_rules_groups1" Association="Self.fk_falsestarts_rules_groups1">
+      <End Role="groups" EntitySet="groups" />
+      <End Role="falsestarts_rules" EntitySet="falsestarts_rules" />
+    </AssociationSet>
+    <AssociationSet Name="fk_participation_groups" Association="Self.fk_participation_groups">
+      <End Role="groups" EntitySet="groups" />
+      <End Role="participations" EntitySet="participations" />
+    </AssociationSet>
+    <AssociationSet Name="fk_round_dates_groups1" Association="Self.fk_round_dates_groups1">
+      <End Role="groups" EntitySet="groups" />
+      <End Role="round_dates" EntitySet="round_dates" />
+    </AssociationSet>
+    <AssociationSet Name="fk_participation_members" Association="Self.fk_participation_members">
+      <End Role="members" EntitySet="members" />
+      <End Role="participations" EntitySet="participations" />
+    </AssociationSet>
+    <AssociationSet Name="fk_participation_teams" Association="Self.fk_participation_teams">
+      <End Role="teams" EntitySet="teams" />
+      <End Role="participations" EntitySet="participations" />
+    </AssociationSet>
+    <AssociationSet Name="fk_results_speed_participation" Association="Self.fk_results_speed_participation">
+      <End Role="participations" EntitySet="participations" />
+      <End Role="results_speed" EntitySet="results_speed" />
+    </AssociationSet>
+  </EntityContainer>
 </Schema>

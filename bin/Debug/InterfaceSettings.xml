@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Settings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <IsRestarting>false</IsRestarting>
-  <CompDir>D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\24-25.02.2018</CompDir>
+  <CompDir>D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\Скорость Last Edition</CompDir>
   <DefaultCompSettings>
     <MenInGroup>3</MenInGroup>
     <WomenInGroup>3</WomenInGroup>
@@ -169,21 +169,35 @@
       </Color>
     </ForeColor>
   </JustRecievedResultFontStyle>
+  <FalsestartFontStyle FontWeight="400" FontStyle="Normal">
+    <BackgroundColor>
+      <Color>
+        <A>255</A>
+        <R>128</R>
+        <G>128</G>
+        <B>128</B>
+        <ScA>1</ScA>
+        <ScR>0.2158605</ScR>
+        <ScG>0.2158605</ScG>
+        <ScB>0.2158605</ScB>
+      </Color>
+    </BackgroundColor>
+    <ForeColor>
+      <Color>
+        <A>255</A>
+        <R>255</R>
+        <G>255</G>
+        <B>255</B>
+        <ScA>1</ScA>
+        <ScR>1</ScR>
+        <ScG>1</ScG>
+        <ScB>1</ScB>
+      </Color>
+    </ForeColor>
+  </FalsestartFontStyle>
   <FileScannerSettings>
-    <item key="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\24-25.02.2018\Подростки Мальчики.xml">
-      <CFileScannerSettings FullFilePath="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\24-25.02.2018\Подростки Мальчики.xml" GroupId="22" />
-    </item>
-    <item key="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\24-25.02.2018\Подростки Девочки.xml">
-      <CFileScannerSettings FullFilePath="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\24-25.02.2018\Подростки Девочки.xml" GroupId="13" />
-    </item>
-    <item key="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\24-25.02.2018\Младшие Юноши.xml">
-      <CFileScannerSettings FullFilePath="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\24-25.02.2018\Младшие Юноши.xml" GroupId="12" />
-    </item>
-    <item key="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\24-25.02.2018\Младшие Девушки.xml">
-      <CFileScannerSettings FullFilePath="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\24-25.02.2018\Младшие Девушки.xml" GroupId="11" />
-    </item>
     <item key="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\Скорость Last Edition\Таблица Скорость Новая.xml">
-      <CFileScannerSettings FullFilePath="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\Скорость Last Edition\Таблица Скорость Новая.xml" GroupId="23" />
+      <CFileScannerSettings FullFilePath="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\Скорость Last Edition\Таблица Скорость Новая.xml" GroupId="38" />
     </item>
   </FileScannerSettings>
   <CompSettings>
@@ -221,26 +235,6 @@
             <CFTPGroupItemInSets>
               <GroupId>4</GroupId>
               <FTPWbkPath>test\m_old.xls</FTPWbkPath>
-            </CFTPGroupItemInSets>
-          </item>
-        </GroupsForAutosendToFTP>
-      </CCompSpecificSets>
-    </item>
-    <item key="10">
-      <CCompSpecificSets>
-        <CompId>10</CompId>
-        <TeamsForTeamReport />
-        <PlaceColumnIndex>1</PlaceColumnIndex>
-        <PersonalDataColumnIndex>2</PersonalDataColumnIndex>
-        <YearOfBirthColumnIndex>4</YearOfBirthColumnIndex>
-        <TeamColumnIndex>3</TeamColumnIndex>
-        <GroupsLeadSheetsInfos />
-        <GroupsForAutosendToFTP>
-          <item key="14">
-            <CFTPGroupItemInSets>
-              <GroupId>14</GroupId>
-              <IsSelected>true</IsSelected>
-              <FTPWbkPath>main\spee\test.xls</FTPWbkPath>
             </CFTPGroupItemInSets>
           </item>
         </GroupsForAutosendToFTP>
@@ -452,26 +446,6 @@
               <GroupId>19</GroupId>
               <IsSelected>true</IsSelected>
               <FTPWbkPath>speed\m_young.xls</FTPWbkPath>
-            </CFTPGroupItemInSets>
-          </item>
-        </GroupsForAutosendToFTP>
-      </CCompSpecificSets>
-    </item>
-    <item key="7">
-      <CCompSpecificSets>
-        <CompId>7</CompId>
-        <TeamsForTeamReport />
-        <PlaceColumnIndex>1</PlaceColumnIndex>
-        <PersonalDataColumnIndex>2</PersonalDataColumnIndex>
-        <YearOfBirthColumnIndex>4</YearOfBirthColumnIndex>
-        <TeamColumnIndex>3</TeamColumnIndex>
-        <GroupsLeadSheetsInfos />
-        <GroupsForAutosendToFTP>
-          <item key="23">
-            <CFTPGroupItemInSets>
-              <GroupId>23</GroupId>
-              <IsSelected>true</IsSelected>
-              <FTPWbkPath>speed\test.xls</FTPWbkPath>
             </CFTPGroupItemInSets>
           </item>
         </GroupsForAutosendToFTP>

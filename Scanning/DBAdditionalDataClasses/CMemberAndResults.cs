@@ -14,7 +14,7 @@ using DBManager.DAL;
 
 namespace DBManager.Scanning.DBAdditionalDataClasses
 {
-	public class CMemberAndResults : CDBAdditionalClassBase
+	public class CMemberAndResults : CDBAdditionalClassBase, ICanRefreshFrom
 	{
 		#region MemberInfo
 		private static readonly string MemberInfoPropertyName = GlobalDefines.GetPropertyName<CMemberAndResults>(m => m.MemberInfo);
@@ -232,7 +232,7 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 		/// </summary>
 		public long id_part = 0;
 
-
+				
 		/// <summary>
 		/// Для вывода в бегущую строку
 		/// </summary>
@@ -292,6 +292,56 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 
 			if (Results != null)
 				Results.ResultsForShow.RefreshFields(Results, this, RowFontStyle);
+		}
+
+
+		public override void RefreshFrom(ICanRefreshFrom rhs,
+										bool SkipNullsForObjects,
+										bool SkipNullsForNullables)
+		{
+			base.RefreshFrom(rhs, SkipNullsForObjects, SkipNullsForNullables);
+
+			CMemberAndResults rhsMemberAndResults = rhs as CMemberAndResults;
+
+			if (rhsMemberAndResults == null)
+				return;
+
+			if (MemberInfo == null)
+				MemberInfo = rhsMemberAndResults.MemberInfo;
+			else if (rhsMemberAndResults.MemberInfo == null)
+			{
+				if (!SkipNullsForObjects)
+					MemberInfo = null;
+			}
+			else
+				MemberInfo.RefreshFrom(rhsMemberAndResults.MemberInfo, SkipNullsForObjects, SkipNullsForNullables);
+
+			if (Results == null)
+				Results = rhsMemberAndResults.Results;
+			else if (rhsMemberAndResults.Results == null)
+			{
+				if (!SkipNullsForObjects)
+					Results = null;
+			}
+			else
+				Results.RefreshFrom(rhsMemberAndResults.Results, SkipNullsForObjects, SkipNullsForNullables);
+
+			if (!SkipNullsForNullables || rhsMemberAndResults.StartNumber.HasValue)
+				StartNumber = rhsMemberAndResults.StartNumber;
+			if (!SkipNullsForNullables || rhsMemberAndResults.PrevNumber.HasValue)
+				PrevNumber = rhsMemberAndResults.PrevNumber;
+
+			VisibilityInMainTable = rhsMemberAndResults.VisibilityInMainTable;
+			HasFalsestart = rhsMemberAndResults.HasFalsestart;
+
+			if (!SkipNullsForObjects || rhsMemberAndResults.BackgroundForShow != null)
+				BackgroundForShow = rhsMemberAndResults.BackgroundForShow;
+
+			if (!SkipNullsForObjects || rhsMemberAndResults.ForegroundForShow != null)
+				ForegroundForShow = rhsMemberAndResults.ForegroundForShow;
+
+			FontWeightForShow = rhsMemberAndResults.FontWeightForShow;
+			FontStyleForShow = rhsMemberAndResults.FontStyleForShow;
 		}
 
 

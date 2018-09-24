@@ -8,6 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("ribbonicons/server-from-client.png")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("compdbentities.context.tt")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("compdbentities.tt")]
 
 

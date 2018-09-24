@@ -100,9 +100,30 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="balls">
+      <EntityTypeMapping TypeName="compdbModel.balls">
+        <MappingFragment StoreEntitySet="balls">
+          <ScalarProperty Name="value" ColumnName="value" />
+          <ScalarProperty Name="place" ColumnName="place" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="additional_events_types">
+      <EntityTypeMapping TypeName="compdbModel.additional_events_types">
+        <MappingFragment StoreEntitySet="additional_events_types">
+          <ScalarProperty Name="name_in_xml" ColumnName="name_in_xml" />
+          <ScalarProperty Name="short_name" ColumnName="short_name" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="flag" ColumnName="flag" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="results_speed">
       <EntityTypeMapping TypeName="compdbModel.results_speed">
         <MappingFragment StoreEntitySet="results_speed">
+          <ScalarProperty Name="event_sum" ColumnName="event_sum" />
+          <ScalarProperty Name="event_2" ColumnName="event_2" />
+          <ScalarProperty Name="event_1" ColumnName="event_1" />
           <ScalarProperty Name="cond_formating_sum" ColumnName="cond_formating_sum" />
           <ScalarProperty Name="cond_formating_2" ColumnName="cond_formating_2" />
           <ScalarProperty Name="cond_formating_1" ColumnName="cond_formating_1" />
@@ -118,11 +139,13 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="balls">
-      <EntityTypeMapping TypeName="compdbModel.balls">
-        <MappingFragment StoreEntitySet="balls">
-          <ScalarProperty Name="value" ColumnName="value" />
-          <ScalarProperty Name="place" ColumnName="place" />
+    <EntitySetMapping Name="falsestarts_rules">
+      <EntityTypeMapping TypeName="compdbModel.falsestarts_rules">
+        <MappingFragment StoreEntitySet="falsestarts_rules">
+          <ScalarProperty Name="end_round" ColumnName="end_round" />
+          <ScalarProperty Name="start_round" ColumnName="start_round" />
+          <ScalarProperty Name="Group" ColumnName="Group" />
+          <ScalarProperty Name="id_falsestarts_rules" ColumnName="id_falsestarts_rules" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

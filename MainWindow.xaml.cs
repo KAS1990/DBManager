@@ -96,7 +96,7 @@ namespace DBManager
 		/// <summary>
 		/// Результаты запроса на получения списка участников текущего раунда
 		/// </summary>
-		IEnumerable<CDBAdditionalClassBase> m_CurrentRoundMembers = null;
+		IList<CDBAdditionalClassBase> m_CurrentRoundMembers = null;
 		/// <summary>
 		/// Source для vsrcCurrentRoundMembers
 		/// </summary>
@@ -1136,7 +1136,7 @@ namespace DBManager
 								
 				#region Настройка пунктов стандартного меню Ribbon
 				FieldInfo fi;
-				/* Меняем названия пунктов в стандпртном меню Ribbon */
+				/* Меняем названия пунктов в стандартном меню Ribbon */
 				fi = typeof(RibbonContextMenu).GetField("AddToQATText", (BindingFlags.NonPublic | BindingFlags.Static));
 				fi.SetValue(null, Properties.Resources.RibbonContext_AddToQATText);
 				fi = typeof(RibbonContextMenu).GetField("RemoveFromQATText", (BindingFlags.NonPublic | BindingFlags.Static));
@@ -1388,7 +1388,7 @@ namespace DBManager
 
 		private void SetFilterFunc(Predicate<object> Func, bool Refresh)
 		{
-			Dispatcher.Invoke(new Action(delegate ()
+			ThreadManager.Instance.InvokeUI(new Action(() =>
 			{
 				if (vsrcCurrentRoundMembers.View != null)
 				{
@@ -1539,8 +1539,8 @@ namespace DBManager
 					if (Changing.ChangedObjects.HasFlag(enDataChangedObjects.CompSettings))
 					{	// Что-то поменялось в настройках какой-то группы/соревнования или была добавлена группа/соревнование
 						if (Changing.GroupID == GlobalDefines.DEFAULT_XML_INT_VAL)
-						{	// Добавлено/изменено соревнование
-							Dispatcher.Invoke(new Action<descriptions>(SetDesc), Changing.Argument as descriptions);
+						{   // Добавлено/изменено соревнование
+							ThreadManager.Instance.InvokeUI(SetDesc, Changing.Argument as descriptions);
 						}
 						else
 						{	// Добавлена/изменена группа
@@ -1558,8 +1558,8 @@ namespace DBManager
 																											GroupCommamdHandler)))
 									{
 										if (CurrentCount == 0)
-										{	// Выбираем первую группу
-											Dispatcher.Invoke(new Action(delegate()
+										{   // Выбираем первую группу
+											ThreadManager.Instance.InvokeUI(new Action(() =>
 											{
 												CurrentGroups[CurrentGroups.Keys.First()].Command.DoExecute();
 											}));
@@ -1601,8 +1601,8 @@ namespace DBManager
 																											GroupCommamdHandler)))
 									{
 										if (CurrentCount == 0)
-										{	// Выбираем первую группу
-											Dispatcher.Invoke(new Action(delegate()
+										{   // Выбираем первую группу
+											ThreadManager.Instance.InvokeUI(new Action(() =>
 											{
 												CurrentGroups[CurrentGroups.Keys.First()].Command.DoExecute();
 											}));
@@ -1638,7 +1638,7 @@ namespace DBManager
 										CurrentRounds.Clear();
 										if (CurrentGroups.Count > 0)
 										{
-											Dispatcher.Invoke(new Action(delegate ()
+											ThreadManager.Instance.InvokeUI(new Action(() =>
 											{
 												CurrentGroups[CurrentGroups.Keys.First()].Command.DoExecute();
 											}));
@@ -1662,30 +1662,77 @@ namespace DBManager
 						if (CurrentGroups.SelectedItem != null && Changing.GroupID == CurrentGroups.SelectedKey)
 						{
 							if (CurrentRounds.SelectedItem == null)
-							{	// Раунд не выбран, но скорее всего он появился
-								Dispatcher.Invoke(new Action<CKeyValuePairEx<long, CCompSettings>>(GroupCommamdHandler),
-													CurrentGroups.SelectedItem);
+							{   // Раунд не выбран, но скорее всего он появился
+								ThreadManager.Instance.InvokeUI(GroupCommamdHandler, CurrentGroups.SelectedItem);
 							}
 							else
-							{	// Сейчас выбран какой-то раунд
-								if (Changing.Argument is enChangeReason || Changing.ID == CurrentRounds.SelectedKey)
-								{	// Выбран именно тот раунд, результаты в котором изменились
-									Dispatcher.Invoke(new Action<CKeyValuePairEx<byte, CRoundAndDate>>(RoundCommamdHandler), CurrentRounds.SelectedItem);
-									if (Changing.Argument is enChangeReason)
-									{	// Нужно обновить общее число участников
-										Dispatcher.Invoke(new Action(delegate()
+							{   // Сейчас выбран какой-то раунд
+								if (Changing.ChangingType == enDataChangesTypes.RoundFinished
+									|| !CurrentRounds.ContainsKey((byte)enRounds.Qualif))
+								{   // В соревнования добавился новый раунд или пока ещё не добавлена квалификация
+									// => нужно изменить список в выпадающем меню
+									ThreadManager.Instance.InvokeUI(new Action(() =>
 										{
-											RightPanel.WholeMembersQ = (from part in DBManagerApp.m_Entities.participations
-																		where part.Group == CurrentGroups.SelectedKey
-																		select part.id_participation).Count();
+											CurrentGroups.SelectedItem.Command.DoExecute();
 										}));
-									}
 								}
+								else
+								{
+									if (Changing.ID == CurrentRounds.SelectedKey)
+									{   // Выбран именно тот раунд, результаты в котором изменились
+										List < int > ChangedRows = new List<int>();
+										switch (Changing.ChangeReason)
+										{
+											case enChangeReason.crOnlySomeRowsChanged:
+												ThreadManager.Instance.InvokeUI(RefreshRoundResults,
+																				Changing.ListArguments.Cast<int>().ToList(),
+																				(enOnlySomeRowsChangedReason)Changing.Argument);
+												break;
 
-								if (Changing.ChangingType == enDataChangesTypes.RoundFinished || !CurrentRounds.ContainsKey((byte)enRounds.Qualif))
-								{	// В соревнования добавился новый раунд или пока ещё не добавлена квалификация => нужно изменить список в выпадающем меню
-									Dispatcher.Invoke(new Action<CKeyValuePairEx<long, CCompSettings>>(GroupCommamdHandler),
-														CurrentGroups.SelectedItem);
+											case enChangeReason.crRowAdded:
+												ChangedRows.Add((byte)Changing.Argument);
+												ThreadManager.Instance.InvokeUI(RefreshRoundResults,
+																				ChangedRows,
+																				enOnlySomeRowsChangedReason.srcrRowAdded);
+												break;
+
+											case enChangeReason.crRowChanged:
+												ChangedRows.Add((byte)Changing.Argument);
+												ThreadManager.Instance.InvokeUI(RefreshRoundResults,
+																				ChangedRows,
+																				enOnlySomeRowsChangedReason.srcrRowChanged);
+												break;
+
+											case enChangeReason.crRowDeleted:
+												ChangedRows.Add((byte)Changing.Argument);
+												ThreadManager.Instance.InvokeUI(RefreshRoundResults,
+																				ChangedRows,
+																				enOnlySomeRowsChangedReason.srcrRowDeleted);
+												break;
+
+											case enChangeReason.crNone:
+												break;
+
+											default:
+												ThreadManager.Instance.InvokeUI(new Action(() =>
+												{
+													CurrentRounds.SelectedItem.Command.DoExecute();
+												}));
+												break;
+
+										}
+										
+										if (Changing.ChangeReason != enChangeReason.crNone
+											&& Changing.ChangeReason != enChangeReason.crOnlySomeRowsChanged)
+										{   // Нужно обновить общее число участников
+											ThreadManager.Instance.InvokeUI(new Action(() =>
+											{
+												RightPanel.WholeMembersQ = (from part in DBManagerApp.m_Entities.participations
+																			where part.Group == CurrentGroups.SelectedKey
+																			select part.id_participation).Count();
+											}));
+										}
+									}
 								}
 							}
 						}
@@ -1750,9 +1797,9 @@ namespace DBManager
 					}
 
 					if (Changing.ChangedObjects.HasFlag(enDataChangedObjects.Exception))
-					{	// В лог было что-то добавлено =>
+					{   // В лог было что-то добавлено =>
 						// меняем фон кнопки открытия лога или обновляем лог
-						Dispatcher.Invoke(new Action(delegate()
+						ThreadManager.Instance.InvokeUI(new Action(() =>
 						{
 							if (m_wndLog != null)
 								m_wndLog.RefreshItems();
@@ -1807,8 +1854,8 @@ namespace DBManager
 			{
 				CKeyValuePairEx<long, CCompSettings> ChangedGroupSettings = sender as CKeyValuePairEx<long, CCompSettings>;
 				if (CurrentGroups.SelectedKey == ChangedGroupSettings.Key)
-				{	// Изменилась выбранная сейчас группа => нужно отобразить изменения
-					Dispatcher.Invoke(new Action<CKeyValuePairEx<long, CCompSettings>>(GroupCommamdHandler), ChangedGroupSettings);
+				{   // Изменилась выбранная сейчас группа => нужно отобразить изменения
+					ThreadManager.Instance.InvokeUI(GroupCommamdHandler, ChangedGroupSettings);
 				}
 			}
 		}
@@ -1922,11 +1969,15 @@ namespace DBManager
 				
 				CRoundAndDate RoundAndDate = new CRoundAndDate()
 				{
-					Name = RoundInfo.RoundName.Replace('_', ' ')
+					Name = RoundInfo.RoundName.Replace('_', ' '),
+					Date = ""
 				};
 
 				if (RoundDates == null)
-					RoundAndDate.Date = sender.Value.StartDate.Date.ToLongDateString();
+				{
+					if (sender.Value.StartDate != null)
+						RoundAndDate.Date = sender.Value.StartDate.Date.ToLongDateString();
+				}
 				else
 					RoundAndDate.Date = RoundDates.First(arg => arg.Key == RoundInfo.RoundName).Value;
 				GroupRounds.Add(RoundID, new CKeyValuePairEx<byte, CRoundAndDate>(RoundID, RoundAndDate, RoundCommamdHandler));
@@ -1941,7 +1992,7 @@ namespace DBManager
 				{
 					Name = GlobalDefines.TOTAL_NODE_NAME.Replace('_', ' '),
 				};
-				RoundAndDate.Date = GlobalDefines.CreateCompDate(sender.Value.StartDate,
+				RoundAndDate.Date = GlobalDefines.CreateCompDate(sender.Value.StartDate ?? (DateTime?)null,
 																	sender.Value.EndDate == null ? (DateTime?)null : sender.Value.EndDate.Date);
 				GroupRounds.Add((byte)enRounds.Total,
 								new CKeyValuePairEx<byte, CRoundAndDate>((byte)enRounds.Total, RoundAndDate, RoundCommamdHandler));
@@ -2045,7 +2096,7 @@ namespace DBManager
 											 TotalGrade = part.result_grade,
 											 Place = part.result_place,
 											 id_part = part.id_participation,
-										 }).ToList();
+										 }).ToList<CDBAdditionalClassBase>();
 
 				// Перебираем всех участников соревнования
 				foreach (CMemberInTotal MemberInTotal in m_CurrentRoundMembers)
@@ -2204,7 +2255,7 @@ namespace DBManager
 											 StartNumber = result.number,
 											 Place = result.place,
 											 id_part = result.participation
-										 }).ToList();
+										 }).ToList<CDBAdditionalClassBase>();
 
 				IEnumerable<results_speed> PrevRoundResults = null;
 				if (PrevRound != enRounds.None)
@@ -2214,7 +2265,41 @@ namespace DBManager
 									   where part.Group == CurrentGroups.SelectedKey && result.round == (byte)PrevRound
 									   select result;
 				}
-				
+
+				RightPanel.InvitedToStartMember = RightPanel.PreparingMember = null;
+				switch (SelectedRound)
+				{
+					case enRounds.None:
+						break;
+
+					case enRounds.Qualif:
+						QualifFinished = GlobalDefines.IsRoundFinished(DBManagerApp.m_Entities.groups.First(arg => arg.id_group == CurrentGroups.SelectedKey).round_finished_flags,
+																		enRounds.Qualif);
+						if (CurrentGroups[CurrentGroups.SelectedKey].Value.MembersFrom1stQualif != GlobalDefines.DEFAULT_XML_BYTE_VAL)
+							MembersFromQualif = RightPanel.NextRoundMembersQ = CurrentGroups[CurrentGroups.SelectedKey].Value.MembersFrom1stQualif;
+						else
+							MembersFromQualif = RightPanel.NextRoundMembersQ = 0;
+						break;
+
+					case enRounds.Qualif2:
+						QualifFinished = GlobalDefines.IsRoundFinished(DBManagerApp.m_Entities.groups.First(arg => arg.id_group == CurrentGroups.SelectedKey).round_finished_flags,
+																		enRounds.Qualif2);
+						if (CurrentGroups[CurrentGroups.SelectedKey].Value.MembersFrom2ndQualif != GlobalDefines.DEFAULT_XML_BYTE_VAL)
+							MembersFromQualif = RightPanel.NextRoundMembersQ = CurrentGroups[CurrentGroups.SelectedKey].Value.MembersFrom2ndQualif;
+						else
+							MembersFromQualif = RightPanel.NextRoundMembersQ = 0;
+						break;
+
+					case enRounds.OneEighthFinal:
+					case enRounds.QuaterFinal:
+					case enRounds.SemiFinal:
+					case enRounds.Final:
+						break;
+
+					case enRounds.Total:
+						break;
+				}
+
 				// В основном запросе заполнить эти поля почему-то не получилось
 				foreach (CMemberAndResults item in m_CurrentRoundMembers)
 				{
@@ -2240,6 +2325,40 @@ namespace DBManager
 #endif
 
 					item.HasFalsestart = MembersWithFalsestarts.Exists(arg => arg.id_member == item.MemberInfo.IDMember);
+
+					switch (SelectedRound)
+					{
+						case enRounds.Qualif:
+						case enRounds.Qualif2:
+							if (!QualifFinished && item.Results.Route1 != null && item.Results.Route1.CondFormating.HasValue)
+							{
+								if (item.Results.Route1.CondFormating.Value == enCondFormating.StayOnStart)
+								{
+									RightPanel.InvitedToStartMember = string.Format("{0}. {1} {2} {3}",
+																					item.StartNumber.HasValue ? item.StartNumber.Value.ToString() : "",
+																					item.MemberInfo.SurnameAndName,
+																					item.MemberInfo.YearOfBirthForShow,
+																					item.MemberInfo.SecondCol);
+								}
+
+								if (item.Results.Route1.CondFormating.Value == enCondFormating.Preparing)
+								{
+									RightPanel.PreparingMember = string.Format("{0}. {1} {2} {3}",
+																					item.StartNumber.HasValue ? item.StartNumber.Value.ToString() : "",
+																					item.MemberInfo.SurnameAndName,
+																					item.MemberInfo.YearOfBirthForShow,
+																					item.MemberInfo.SecondCol);
+								}
+							}
+							item.RefreshColors();
+							break;
+
+						case enRounds.OneEighthFinal:
+						case enRounds.QuaterFinal:
+						case enRounds.SemiFinal:
+						case enRounds.Final:
+							break;
+					}
 				}
 
 				switch (SelectedRound)
@@ -2263,16 +2382,18 @@ namespace DBManager
 																		   orderby RoundMembers.StartNumber
 																		   select RoundMembers).ToList();
 						// Пары
-						List<CMembersPair> lstPairs = new List<CMembersPair>(lstFirstMembersInPairs.Count / 2);
+						List<CDBAdditionalClassBase> lstPairs = new List<CDBAdditionalClassBase>(lstFirstMembersInPairs.Count / 2);
 
 						// Разбиваем участников на пары
 						for (int i = 0; i < lstFirstMembersInPairs.Count; i++)
 						{
-							lstPairs.Add(new CMembersPair()
+							CMembersPair pair = new CMembersPair()
 							{
 								First = lstFirstMembersInPairs[i],
 								Second = lstSecondMembersInPairs[i]
-							});
+							};
+							pair.RefreshColors();
+							lstPairs.Add(pair);
 						}
 
 						m_CurrentRoundMembers = lstPairs;
@@ -2297,18 +2418,14 @@ namespace DBManager
 					break;
 				
 				case enRounds.Qualif:
-					QualifFinished = GlobalDefines.IsRoundFinished(DBManagerApp.m_Entities.groups.First(arg => arg.id_group == CurrentGroups.SelectedKey).round_finished_flags,
-																	enRounds.Qualif);
-					if ((int)CurrentGroups[CurrentGroups.SelectedKey].Value.MembersFrom1stQualif != GlobalDefines.DEFAULT_XML_BYTE_VAL)
-						MembersFromQualif = RightPanel.NextRoundMembersQ = CurrentGroups[CurrentGroups.SelectedKey].Value.MembersFrom1stQualif;
-					else
-						MembersFromQualif = RightPanel.NextRoundMembersQ = 0;
 					RightPanel.Template = m_RightPanelTemplates["QualifRightPanel"] as ControlTemplate;
 					if (QualifFinished)
 					{
 						Comparer1.CompareProperty = CMemberAndResultsComparer.enCompareProperty.Place;
-						m_CurrentRoundMembers = m_CurrentRoundMembers.OfType<CMemberAndResults>().OrderBy(n => n, Comparer1);
-						RightPanel.InvitedToStartMember = RightPanel.PreparingMember = null;
+						m_CurrentRoundMembers = m_CurrentRoundMembers
+													.OfType<CMemberAndResults>()
+													.OrderBy(n => n, Comparer1)
+													.ToList<CDBAdditionalClassBase>();
 					}
 					else
 					{
@@ -2316,46 +2433,14 @@ namespace DBManager
 						// у кого результата нет => по возрастанию номеров, чтобы вначале отображались те, у кого уже есть результат
 						Comparer1.CompareProperty = CMemberAndResultsComparer.enCompareProperty.Sum;
 						Comparer2.CompareProperty = CMemberAndResultsComparer.enCompareProperty.StartNumber;
-						m_CurrentRoundMembers = m_CurrentRoundMembers.OfType<CMemberAndResults>().OrderBy(m => m, Comparer1).ThenBy(n => n, Comparer2);
-
-						IEnumerable<CMemberAndResults> MembersToHighlight = from member in m_CurrentRoundMembers.OfType<CMemberAndResults>()
-																			where member.Results.Route1.CondFormating != null &&
-																					(member.Results.Route1.CondFormating.Value == enCondFormating.StayOnStart ||
-																					member.Results.Route1.CondFormating.Value == enCondFormating.Preparing)
-																			select member;
-						CMemberAndResults Member = MembersToHighlight.FirstOrDefault(arg => arg.Results.Route1.CondFormating.Value == enCondFormating.StayOnStart);
-						if (Member != null)
-						{
-							RightPanel.InvitedToStartMember = string.Format("{0}. {1} {2} {3}",
-																			Member.StartNumber.HasValue ?  Member.StartNumber.Value.ToString() : "",
-																			Member.MemberInfo.SurnameAndName,
-																			Member.MemberInfo.YearOfBirthForShow,
-																			Member.MemberInfo.SecondCol);
-						}
-						else
-						{
-							RightPanel.InvitedToStartMember = null;
-						}
-								
-						Member = MembersToHighlight.FirstOrDefault(arg => arg.Results.Route1.CondFormating.Value == enCondFormating.Preparing);
-						if (Member != null)
-						{
-							RightPanel.PreparingMember = string.Format("{0}. {1} {2} {3}",
-																			Member.StartNumber.HasValue ? Member.StartNumber.Value.ToString() : "",
-																			Member.MemberInfo.SurnameAndName,
-																			Member.MemberInfo.YearOfBirthForShow,
-																			Member.MemberInfo.SecondCol);
-						}
-						else
-						{
-							RightPanel.PreparingMember = null;
-						}
+						m_CurrentRoundMembers = m_CurrentRoundMembers
+													.OfType<CMemberAndResults>()
+													.OrderBy(m => m, Comparer1)
+													.ThenBy(n => n, Comparer2)
+													.ToList<CDBAdditionalClassBase>(); ;
 					}
 										
 					RightPanel.RoundMembersQ = m_CurrentRoundMembers.Count();	// Число участников в раунде
-
-					foreach (CMemberAndResults item in m_CurrentRoundMembers)
-						item.RefreshColors();
 
 					if (CurrentRounds.PrevSelectedKey != CurrentRounds.SelectedKey)
 					{
@@ -2371,18 +2456,14 @@ namespace DBManager
 					break;
 				
 				case enRounds.Qualif2:
-					QualifFinished = GlobalDefines.IsRoundFinished(DBManagerApp.m_Entities.groups.First(arg => arg.id_group == CurrentGroups.SelectedKey).round_finished_flags,
-																	enRounds.Qualif2);
-					if (CurrentGroups[CurrentGroups.SelectedKey].Value.MembersFrom2ndQualif != GlobalDefines.DEFAULT_XML_BYTE_VAL)
-						MembersFromQualif = RightPanel.NextRoundMembersQ = CurrentGroups[CurrentGroups.SelectedKey].Value.MembersFrom2ndQualif;
-					else
-						MembersFromQualif = RightPanel.NextRoundMembersQ = 0;
 					RightPanel.Template = m_RightPanelTemplates["QualifRightPanel"] as ControlTemplate;
 					if (QualifFinished)
 					{
 						Comparer1.CompareProperty = CMemberAndResultsComparer.enCompareProperty.Place;
-						m_CurrentRoundMembers = m_CurrentRoundMembers.OfType<CMemberAndResults>().OrderBy(n => n, Comparer1);
-						RightPanel.InvitedToStartMember = RightPanel.PreparingMember = null;
+						m_CurrentRoundMembers = m_CurrentRoundMembers
+													.OfType<CMemberAndResults>()
+													.OrderBy(n => n, Comparer1)
+													.ToList<CDBAdditionalClassBase>();
 					}
 					else
 					{
@@ -2390,42 +2471,14 @@ namespace DBManager
 						// у кого результата нет => по возрастанию номеров, чтобы вначале отображались те, у кого уже есть результат
 						Comparer1.CompareProperty = CMemberAndResultsComparer.enCompareProperty.Sum;
 						Comparer2.CompareProperty = CMemberAndResultsComparer.enCompareProperty.StartNumber;
-						m_CurrentRoundMembers = m_CurrentRoundMembers.OfType<CMemberAndResults>().OrderBy(m => m, Comparer1).ThenBy(n => n, Comparer2);
-
-						IEnumerable<CMemberAndResults> MembersToHighlight = from member in m_CurrentRoundMembers.OfType<CMemberAndResults>()
-																			where member.Results.Route1.CondFormating != null &&
-																					(member.Results.Route1.CondFormating.Value == enCondFormating.StayOnStart ||
-																					member.Results.Route1.CondFormating.Value == enCondFormating.Preparing)
-																			select member;
-						CMemberAndResults Member = MembersToHighlight.FirstOrDefault(arg => arg.Results.Route1.CondFormating.Value == enCondFormating.StayOnStart);
-						if (Member != null)
-						{
-							RightPanel.InvitedToStartMember = string.Format("{0}. {1} {2} {3}",
-																			Member.StartNumber.HasValue ? Member.StartNumber.Value.ToString() : "",
-																			Member.MemberInfo.SurnameAndName,
-																			Member.MemberInfo.YearOfBirthForShow,
-																			Member.MemberInfo.SecondCol);
-						}
-						else
-							RightPanel.InvitedToStartMember = null;
-
-						Member = MembersToHighlight.FirstOrDefault(arg => arg.Results.Route1.CondFormating.Value == enCondFormating.Preparing);
-						if (Member != null)
-						{
-							RightPanel.PreparingMember = string.Format("{0}. {1} {2} {3}",
-																			Member.StartNumber.HasValue ? Member.StartNumber.Value.ToString() : "",
-																			Member.MemberInfo.SurnameAndName,
-																			Member.MemberInfo.YearOfBirthForShow,
-																			Member.MemberInfo.SecondCol);
-						}
-						else
-							RightPanel.PreparingMember = null;
+						m_CurrentRoundMembers = m_CurrentRoundMembers
+													.OfType<CMemberAndResults>()
+													.OrderBy(m => m, Comparer1)
+													.ThenBy(n => n, Comparer2)
+													.ToList<CDBAdditionalClassBase>();
 					}
 
 					RightPanel.RoundMembersQ = m_CurrentRoundMembers.Count();	// Число участников в раунде
-
-					foreach (CMemberAndResults item in m_CurrentRoundMembers)
-						item.RefreshColors();
 
 					if (CurrentRounds.PrevSelectedKey != CurrentRounds.SelectedKey)
 					{
@@ -2443,13 +2496,9 @@ namespace DBManager
 				case enRounds.OneEighthFinal:
 					RightPanel.NextRoundMembersQ = 8;
 					RightPanel.Template = m_RightPanelTemplates["MiddleRoundsRightPanel"] as ControlTemplate;
-					RightPanel.InvitedToStartMember = RightPanel.PreparingMember = null;
 					// Пары уже отсортированы при добавлении их в m_CurrentRoundMembers
 
 					RightPanel.RoundMembersQ = m_CurrentRoundMembers.Count() * 2;	// Число участников в раунде
-
-					foreach (CMembersPair item in m_CurrentRoundMembers)
-						item.RefreshColors();
 
 					if (CurrentRounds.PrevSelectedKey != CurrentRounds.SelectedKey)
 					{
@@ -2465,13 +2514,9 @@ namespace DBManager
 				case enRounds.QuaterFinal:
 					RightPanel.NextRoundMembersQ = 4;
 					RightPanel.Template = m_RightPanelTemplates["MiddleRoundsRightPanel"] as ControlTemplate;
-					RightPanel.InvitedToStartMember = RightPanel.PreparingMember = null;
 					// Пары уже отсортированы при добавлении их в m_CurrentRoundMembers
 
 					RightPanel.RoundMembersQ = m_CurrentRoundMembers.Count() * 2;	// Число участников в раунде
-
-					foreach (CMembersPair item in m_CurrentRoundMembers)
-						item.RefreshColors();
 
 					if (CurrentRounds.PrevSelectedKey != CurrentRounds.SelectedKey)
 					{
@@ -2487,13 +2532,9 @@ namespace DBManager
 				case enRounds.SemiFinal:
 					RightPanel.NextRoundMembersQ = 4;
 					RightPanel.Template = m_RightPanelTemplates["MiddleRoundsRightPanel"] as ControlTemplate;
-					RightPanel.InvitedToStartMember = RightPanel.PreparingMember = null;
 					// Пары уже отсортированы при добавлении их в m_CurrentRoundMembers
 
 					RightPanel.RoundMembersQ = m_CurrentRoundMembers.Count() * 2;	// Число участников в раунде
-
-					foreach (CMembersPair item in m_CurrentRoundMembers)
-						item.RefreshColors();
 
 					if (CurrentRounds.PrevSelectedKey != CurrentRounds.SelectedKey)
 					{
@@ -2509,13 +2550,9 @@ namespace DBManager
 				case enRounds.Final:
 					RightPanel.NextRoundMembersQ = 0;
 					RightPanel.Template = m_RightPanelTemplates["FinalRightPanel"] as ControlTemplate;
-					RightPanel.InvitedToStartMember = RightPanel.PreparingMember = null;
 					// Пары уже отсортированы при добавлении их в m_CurrentRoundMembers
 
 					RightPanel.RoundMembersQ = m_CurrentRoundMembers.Count() * 2;	// Число участников в раунде
-
-					foreach (CMembersPair item in m_CurrentRoundMembers)
-						item.RefreshColors();
 
 					if (CurrentRounds.PrevSelectedKey != CurrentRounds.SelectedKey)
 					{
@@ -2538,7 +2575,6 @@ namespace DBManager
 
 							RightPanel.NextRoundMembersQ = 0;
 							RightPanel.Template = m_RightPanelTemplates["TotalRightPanel"] as ControlTemplate;
-							RightPanel.InvitedToStartMember = RightPanel.PreparingMember = null;
 							// Участники уже были отсортированы при их добавлении в m_CurrentRoundMembers
 
 							ShowRightDataGrid(false);
@@ -2805,6 +2841,639 @@ namespace DBManager
 		}
 
 
+		void RefreshRoundResults(List<int> ChangedRows, enOnlySomeRowsChangedReason OnlySomeRowsChangedReason)
+		{
+			if (CurrentRounds.SelectedItem == null || IsTotal)
+				return;
+
+			ResetFilters(); // Очищаем все фильтры при переходе к новому раунду
+
+			enRounds SelectedRound = (enRounds)CurrentRounds.SelectedKey;
+			CMemberAndResults MemberResults = null;
+
+#if TICKER
+			tckrMembersOnStart.Visibility = Visibility.Visible;
+			string TickerText = "";
+#endif
+
+			CMemberAndResultsComparer Comparer1 = new CMemberAndResultsComparer();
+			CMemberAndResultsComparer Comparer2 = new CMemberAndResultsComparer();
+			CMemberAndResultsComparer[] Comparers = null;
+			switch (SelectedRound)
+			{
+				case enRounds.None:
+					break;
+
+				case enRounds.Qualif:
+				case enRounds.Qualif2:
+					if (QualifFinished)
+					{
+						Comparer1.CompareProperty = CMemberAndResultsComparer.enCompareProperty.Place;
+						Comparers = new CMemberAndResultsComparer[] { Comparer1 };
+					}
+					else
+					{
+						// В квалификации нужно отсортировать сначала по возрастанию времён, а для тех,
+						// у кого результата нет => по возрастанию номеров, чтобы вначале отображались те, у кого уже есть результат
+						Comparer1.CompareProperty = CMemberAndResultsComparer.enCompareProperty.Sum;
+						Comparer2.CompareProperty = CMemberAndResultsComparer.enCompareProperty.StartNumber;
+						Comparers = new CMemberAndResultsComparer[] { Comparer1, Comparer2 };
+					}
+					break;
+
+				case enRounds.OneEighthFinal:
+				case enRounds.QuaterFinal:
+				case enRounds.SemiFinal:
+				case enRounds.Final:
+					// Пары уже отсортированы при добавлении их в m_CurrentRoundMembers
+					break;
+			}
+
+			switch (OnlySomeRowsChangedReason)
+			{
+				#region srcrSetStartupPosition
+				case enOnlySomeRowsChangedReason.srcrSetStartupPosition:
+					{
+						RightPanel.InvitedToStartMember = RightPanel.PreparingMember = null;
+
+						// Список участников раунда со всей необходимой информацией 
+						List<CMemberAndResults> RoundResultsFromDB = (from member in DBManagerApp.m_Entities.members
+																		join part in DBManagerApp.m_Entities.participations on member.id_member equals part.member
+																		join result in DBManagerApp.m_Entities.results_speed on part.id_participation equals result.participation
+																		where result.round == CurrentRounds.SelectedKey
+																				&& part.Group == CurrentGroups.SelectedKey
+																		select new CMemberAndResults
+																		{
+																			Results = new COneRoundResults()
+																			{
+																				m_Round = (enRounds)result.round,
+																				Route1 = new CResult()
+																				{
+																					ResultInDB = result,
+																					ResultColumnNumber = enResultColumnNumber.Route1,
+																					CondFormating = (enCondFormating?)result.cond_formating_1,
+																					AdditionalEventTypes = (enAdditionalEventTypes?)result.event_1,
+																					Time = result.route1,
+																				},
+																				Route2 = new CResult()
+																				{
+																					ResultInDB = result,
+																					ResultColumnNumber = enResultColumnNumber.Route2,
+																					CondFormating = (enCondFormating?)result.cond_formating_2,
+																					AdditionalEventTypes = (enAdditionalEventTypes?)result.event_2,
+																					Time = result.route2,
+																				},
+																				Sum = new CResult()
+																				{
+																					ResultInDB = result,
+																					ResultColumnNumber = enResultColumnNumber.Sum,
+																					CondFormating = (enCondFormating?)result.cond_formating_sum,
+																					AdditionalEventTypes = (enAdditionalEventTypes?)result.event_sum,
+																					Time = result.sum,
+																				},
+																			},
+
+																			StartNumber = result.number,
+																			Place = result.place,
+																			id_part = result.participation
+																		}).ToList();
+
+						foreach (CMemberAndResults MemberResultsFromDB in RoundResultsFromDB)
+						{
+							CMembersPair pair = null;
+							switch (SelectedRound)
+							{
+								case enRounds.Qualif:
+								case enRounds.Qualif2:
+									MemberResults = m_CurrentRoundMembers
+												.FirstOrDefault(arg => (arg as CMemberAndResults).StartNumber == MemberResultsFromDB.StartNumber) as CMemberAndResults;
+									break;
+
+								case enRounds.OneEighthFinal:
+								case enRounds.QuaterFinal:
+								case enRounds.SemiFinal:
+								case enRounds.Final:
+									{
+										pair = m_CurrentRoundMembers
+													.FirstOrDefault(arg => ((arg as CMembersPair).PairNumber - 1) == (MemberResultsFromDB.StartNumber - 1) / 2) as CMembersPair;
+
+										if (pair != null)
+											MemberResults = (pair.First.StartNumber == MemberResultsFromDB.StartNumber) ? pair.First : pair.Second;
+										break;
+									}
+							}
+
+							if (MemberResults == null)
+								continue;
+																					
+							// Нужно восстановить старые значения VisibilityInMainTable
+							Visibility PrevVisibilityInMainTable = MemberResults.VisibilityInMainTable;
+
+							MemberResults.RefreshFrom(MemberResultsFromDB, true, true);
+
+							MemberResults.VisibilityInMainTable = PrevVisibilityInMainTable;
+
+#if TICKER
+							if ((MemberResults.Results.Route1.CondFormating.HasValue && MemberResults.Results.Route1.CondFormating.Value == enCondFormating.JustRecievedResult) ||
+								(MemberResults.Results.Route2.CondFormating.HasValue && MemberResults.Results.Route2.CondFormating.Value == enCondFormating.JustRecievedResult) ||
+								(MemberResults.Results.Sum.CondFormating.HasValue && MemberResults.Results.Sum.CondFormating.Value == enCondFormating.JustRecievedResult))
+							{
+								TickerText += MemberResults.StringForTicker() + "\t";
+							}
+#endif
+							switch (SelectedRound)
+							{
+								case enRounds.None:
+									break;
+
+								case enRounds.Qualif:
+								case enRounds.Qualif2:
+									if (!QualifFinished && MemberResults.Results.Route1 != null && MemberResults.Results.Route1.CondFormating.HasValue)
+									{
+										if (MemberResults.Results.Route1.CondFormating.Value == enCondFormating.StayOnStart)
+										{
+											RightPanel.InvitedToStartMember = string.Format("{0}. {1} {2} {3}",
+																							MemberResults.StartNumber.HasValue ? MemberResults.StartNumber.Value.ToString() : "",
+																							MemberResults.MemberInfo.SurnameAndName,
+																							MemberResults.MemberInfo.YearOfBirthForShow,
+																							MemberResults.MemberInfo.SecondCol);
+										}
+
+										if (MemberResults.Results.Route1.CondFormating.Value == enCondFormating.Preparing)
+										{
+											RightPanel.PreparingMember = string.Format("{0}. {1} {2} {3}",
+																							MemberResults.StartNumber.HasValue ? MemberResults.StartNumber.Value.ToString() : "",
+																							MemberResults.MemberInfo.SurnameAndName,
+																							MemberResults.MemberInfo.YearOfBirthForShow,
+																							MemberResults.MemberInfo.SecondCol);
+										}
+									}
+
+									MemberResults.RefreshColors();
+									break;
+
+								case enRounds.OneEighthFinal:
+								case enRounds.QuaterFinal:
+								case enRounds.SemiFinal:
+								case enRounds.Final:
+									pair.RefreshColors();
+									break;
+							}
+						}
+					}
+					break;
+				#endregion
+
+				#region srcrGotAutoscanResults
+				case enOnlySomeRowsChangedReason.srcrGotAutoscanResults:
+					{
+						FalstartsRulesRange Range = GlobalDefines.GetFalstartsRulesRange(CurrentGroups.SelectedKey,
+																				CurrentRounds.SelectedKey);
+
+						List<members> MembersWithFalsestarts = (from member in DBManagerApp.m_Entities.members
+																join part in DBManagerApp.m_Entities.participations on member.id_member equals part.member
+																join result in DBManagerApp.m_Entities.results_speed on part.id_participation equals result.participation
+																where result.round <= CurrentRounds.SelectedKey
+																		&& result.round >= Range.StartRound
+																		&& result.round <= Range.EndRound
+																		&& part.Group == CurrentGroups.SelectedKey
+																		&& ((result.event_1.HasValue && ((result.event_1.Value & (long)enAdditionalEventTypes.Falsestart) != 0))
+																				|| (result.event_2.HasValue && ((result.event_2.Value & (long)enAdditionalEventTypes.Falsestart) != 0)))
+																select member).ToList();
+
+						RightPanel.InvitedToStartMember = RightPanel.PreparingMember = null;
+
+						foreach (int row in ChangedRows)
+						{
+							CMembersPair pair = null;
+							switch (SelectedRound)
+							{
+								case enRounds.Qualif:
+								case enRounds.Qualif2:
+									MemberResults = m_CurrentRoundMembers
+												.FirstOrDefault(arg => (arg as CMemberAndResults).StartNumber == row) as CMemberAndResults;
+									break;
+
+								case enRounds.OneEighthFinal:
+								case enRounds.QuaterFinal:
+								case enRounds.SemiFinal:
+								case enRounds.Final:
+									{
+										pair = m_CurrentRoundMembers
+													.FirstOrDefault(arg => ((arg as CMembersPair).PairNumber - 1) == (row - 1) / 2) as CMembersPair;
+
+										if (pair != null)
+											MemberResults = (pair.First.StartNumber == row) ? pair.First : pair.Second;
+										break;
+									}
+							}
+
+							if (MemberResults == null)
+								continue;
+
+							// Список участников раунда со всей необходимой информацией 
+							CMemberAndResults MemberResultsFromDB = (from member in DBManagerApp.m_Entities.members
+																	 join part in DBManagerApp.m_Entities.participations on member.id_member equals part.member
+																	 join result in DBManagerApp.m_Entities.results_speed on part.id_participation equals result.participation
+																	 where result.round == CurrentRounds.SelectedKey
+																		 && part.Group == CurrentGroups.SelectedKey
+																		 && member.id_member == MemberResults.MemberInfo.IDMember
+																	 select new CMemberAndResults
+																	 {
+																		 Results = new COneRoundResults()
+																		 {
+																			 m_Round = (enRounds)result.round,
+																			 Route1 = new CResult()
+																			 {
+																				 ResultInDB = result,
+																				 ResultColumnNumber = enResultColumnNumber.Route1,
+																				 CondFormating = (enCondFormating?)result.cond_formating_1,
+																				 AdditionalEventTypes = (enAdditionalEventTypes?)result.event_1,
+																				 Time = result.route1,
+																			 },
+																			 Route2 = new CResult()
+																			 {
+																				 ResultInDB = result,
+																				 ResultColumnNumber = enResultColumnNumber.Route2,
+																				 CondFormating = (enCondFormating?)result.cond_formating_2,
+																				 AdditionalEventTypes = (enAdditionalEventTypes?)result.event_2,
+																				 Time = result.route2,
+																			 },
+																			 Sum = new CResult()
+																			 {
+																				 ResultInDB = result,
+																				 ResultColumnNumber = enResultColumnNumber.Sum,
+																				 CondFormating = (enCondFormating?)result.cond_formating_sum,
+																				 AdditionalEventTypes = (enAdditionalEventTypes?)result.event_sum,
+																				 Time = result.sum,
+																			 },
+																		 },
+
+																		 Place = result.place,
+																		 id_part = result.participation
+																	 }).FirstOrDefault();
+							if (MemberResultsFromDB == null)
+								continue;
+
+							// Нужно восстановить старые значения VisibilityInMainTable
+							Visibility PrevVisibilityInMainTable = MemberResults.VisibilityInMainTable;
+
+							MemberResults.RefreshFrom(MemberResultsFromDB, true, true);
+
+							MemberResults.VisibilityInMainTable = PrevVisibilityInMainTable;
+
+#if TICKER
+							if ((MemberResults.Results.Route1.CondFormating.HasValue && MemberResults.Results.Route1.CondFormating.Value == enCondFormating.JustRecievedResult) ||
+								(MemberResults.Results.Route2.CondFormating.HasValue && MemberResults.Results.Route2.CondFormating.Value == enCondFormating.JustRecievedResult) ||
+								(MemberResults.Results.Sum.CondFormating.HasValue && MemberResults.Results.Sum.CondFormating.Value == enCondFormating.JustRecievedResult))
+							{
+								TickerText += MemberResults.StringForTicker() + "\t";
+							}
+#endif
+							MemberResults.HasFalsestart = MembersWithFalsestarts.Exists(arg => arg.id_member == MemberResults.MemberInfo.IDMember);
+
+							switch (SelectedRound)
+							{
+								case enRounds.None:
+									break;
+
+								case enRounds.Qualif:
+								case enRounds.Qualif2:
+									if (!QualifFinished && MemberResults.Results.Route1 != null && MemberResults.Results.Route1.CondFormating.HasValue)
+									{
+										if (MemberResults.Results.Route1.CondFormating.Value == enCondFormating.StayOnStart)
+										{
+											RightPanel.InvitedToStartMember = string.Format("{0}. {1} {2} {3}",
+																							MemberResults.StartNumber.HasValue ? MemberResults.StartNumber.Value.ToString() : "",
+																							MemberResults.MemberInfo.SurnameAndName,
+																							MemberResults.MemberInfo.YearOfBirthForShow,
+																							MemberResults.MemberInfo.SecondCol);
+										}
+
+										if (MemberResults.Results.Route1.CondFormating.Value == enCondFormating.Preparing)
+										{
+											RightPanel.PreparingMember = string.Format("{0}. {1} {2} {3}",
+																							MemberResults.StartNumber.HasValue ? MemberResults.StartNumber.Value.ToString() : "",
+																							MemberResults.MemberInfo.SurnameAndName,
+																							MemberResults.MemberInfo.YearOfBirthForShow,
+																							MemberResults.MemberInfo.SecondCol);
+										}
+									}
+
+									MemberResults.RefreshColors();
+									break;
+
+								case enRounds.OneEighthFinal:
+								case enRounds.QuaterFinal:
+								case enRounds.SemiFinal:
+								case enRounds.Final:
+									pair.RefreshColors();
+									break;
+							}
+						}
+
+						switch (Comparers.Length)
+						{
+							case 1:
+								m_CurrentRoundMembers = m_CurrentRoundMembers
+															.OfType<CMemberAndResults>()
+															.OrderBy(n => n, Comparers[0])
+															.ToList<CDBAdditionalClassBase>();
+								break;
+
+							case 2:
+								m_CurrentRoundMembers = m_CurrentRoundMembers
+															.OfType<CMemberAndResults>()
+															.OrderBy(n => n, Comparer1)
+															.ThenBy(m => m, Comparers[1])
+															.ToList<CDBAdditionalClassBase>();
+								break;
+						}
+						collectionCurrentRoundMembers.Sort(Comparers);
+
+						RefreshVisibilityInMainTable(Comparers);
+					}
+					break;
+				#endregion
+
+				#region srcrRowAdded
+				case enOnlySomeRowsChangedReason.srcrRowAdded:
+					{
+						foreach (CMemberAndResults item in m_CurrentRoundMembers.Where(arg => (arg as CMemberAndResults).StartNumber > ChangedRows[0]))
+						{
+							item.StartNumber++;
+						}
+
+						CMemberAndResults NewMemberResultsFromDB = (from member in DBManagerApp.m_Entities.members
+																	join part in DBManagerApp.m_Entities.participations on member.id_member equals part.member
+																	join result in DBManagerApp.m_Entities.results_speed on part.id_participation equals result.participation
+																	where result.round == CurrentRounds.SelectedKey
+																		&& part.Group == CurrentGroups.SelectedKey
+																		&& member.id_member == MemberResults.MemberInfo.IDMember
+																	select new CMemberAndResults
+																	{
+																		MemberInfo = new CFullMemberInfo()
+																		{
+																			IDMember = member.id_member,
+																			Surname = member.surname,
+																			Name = member.name,
+																			YearOfBirth = member.year_of_birth,
+																			Coach = part.coach,
+																			Team = part.team,
+																			InitGrade = part.init_grade,
+																		},
+
+																		Results = new COneRoundResults()
+																		{
+																			m_Round = (enRounds)result.round,
+																			Route1 = new CResult()
+																			{
+																				ResultInDB = result,
+																				ResultColumnNumber = enResultColumnNumber.Route1,
+																				CondFormating = (enCondFormating?)result.cond_formating_1,
+																				AdditionalEventTypes = (enAdditionalEventTypes?)result.event_1,
+																				Time = result.route1,
+																			},
+																			Route2 = new CResult()
+																			{
+																				ResultInDB = result,
+																				ResultColumnNumber = enResultColumnNumber.Route2,
+																				CondFormating = (enCondFormating?)result.cond_formating_2,
+																				AdditionalEventTypes = (enAdditionalEventTypes?)result.event_2,
+																				Time = result.route2,
+																			},
+																			Sum = new CResult()
+																			{
+																				ResultInDB = result,
+																				ResultColumnNumber = enResultColumnNumber.Sum,
+																				CondFormating = (enCondFormating?)result.cond_formating_sum,
+																				AdditionalEventTypes = (enAdditionalEventTypes?)result.event_sum,
+																				Time = result.sum,
+																			},
+																		},
+
+																		StartNumber = result.number,
+																		Place = result.place,
+																		id_part = result.participation
+																	}).FirstOrDefault();
+
+						if (NewMemberResultsFromDB != null)
+						{
+							if (CurrentGroups.SelectedItem.Value.SecondColNameType == enSecondColNameType.Coach)
+								NewMemberResultsFromDB.MemberInfo.SecondCol = DBManagerApp.m_Entities.coaches.First(arg => arg.id_coach == NewMemberResultsFromDB.MemberInfo.Coach).name;
+							else
+								NewMemberResultsFromDB.MemberInfo.SecondCol = DBManagerApp.m_Entities.teams.First(arg => arg.id_team == NewMemberResultsFromDB.MemberInfo.Team).name;
+
+							m_CurrentRoundMembers.Insert(0, NewMemberResultsFromDB);
+							collectionCurrentRoundMembers.Insert(0, NewMemberResultsFromDB);
+
+							NewMemberResultsFromDB.RefreshColors();
+
+							if (!QualifFinished)
+							{
+								MemberResults = m_CurrentRoundMembers
+									.FirstOrDefault(arg =>
+									{
+										return (arg as CMemberAndResults).Results.Route1 != null
+											&& (arg as CMemberAndResults).Results.Route1.CondFormating.HasValue
+											&& (arg as CMemberAndResults).Results.Route1.CondFormating.Value == enCondFormating.StayOnStart;
+									}) as CMemberAndResults;
+								if (MemberResults != null)
+								{
+									RightPanel.InvitedToStartMember = string.Format("{0}. {1} {2} {3}",
+																					MemberResults.StartNumber.HasValue ? MemberResults.StartNumber.Value.ToString() : "",
+																					MemberResults.MemberInfo.SurnameAndName,
+																					MemberResults.MemberInfo.YearOfBirthForShow,
+																					MemberResults.MemberInfo.SecondCol);
+								}
+
+								MemberResults = m_CurrentRoundMembers
+									.FirstOrDefault(arg =>
+									{
+										return (arg as CMemberAndResults).Results.Route1 != null
+											&& (arg as CMemberAndResults).Results.Route1.CondFormating.HasValue
+											&& (arg as CMemberAndResults).Results.Route1.CondFormating.Value == enCondFormating.Preparing;
+									}) as CMemberAndResults;
+								if (MemberResults != null)
+								{
+									RightPanel.PreparingMember = string.Format("{0}. {1} {2} {3}",
+																					MemberResults.StartNumber.HasValue ? MemberResults.StartNumber.Value.ToString() : "",
+																					MemberResults.MemberInfo.SurnameAndName,
+																					MemberResults.MemberInfo.YearOfBirthForShow,
+																					MemberResults.MemberInfo.SecondCol);
+								}
+							}
+							else
+								RightPanel.InvitedToStartMember = RightPanel.PreparingMember = null;
+							
+							switch (Comparers.Length)
+							{
+								case 1:
+									m_CurrentRoundMembers = m_CurrentRoundMembers
+																.OfType<CMemberAndResults>()
+																.OrderBy(n => n, Comparers[0])
+																.ToList<CDBAdditionalClassBase>();
+									break;
+
+								case 2:
+									m_CurrentRoundMembers = m_CurrentRoundMembers
+																.OfType<CMemberAndResults>()
+																.OrderBy(n => n, Comparer1)
+																.ThenBy(m => m, Comparers[1])
+																.ToList<CDBAdditionalClassBase>();
+									break;
+							}
+							collectionCurrentRoundMembers.Sort(Comparers);
+
+							RefreshVisibilityInMainTable(Comparers);
+
+							RightPanel.RoundMembersQ++;   // Число участников в раунде
+						}
+					}
+					break;
+				#endregion
+
+				#region srcrRowChanged
+				case enOnlySomeRowsChangedReason.srcrRowChanged: // Изменились только сведения об участнике, но не результаты
+					{
+						MemberResults = m_CurrentRoundMembers
+									.FirstOrDefault(arg => (arg as CMemberAndResults).StartNumber == ChangedRows[0]) as CMemberAndResults;
+						if (MemberResults != null)
+						{
+							CFullMemberInfo NewMemberInfo = (from member in DBManagerApp.m_Entities.members
+																	 join part in DBManagerApp.m_Entities.participations on member.id_member equals part.member
+																	 where member.id_member == MemberResults.MemberInfo.IDMember
+																	 select new CFullMemberInfo()
+																	 {
+																		 IDMember = member.id_member,
+																		 Surname = member.surname,
+																		 Name = member.name,
+																		 YearOfBirth = member.year_of_birth,
+																		 Coach = part.coach,
+																		 Team = part.team,
+																		 InitGrade = part.init_grade,
+																	 }).FirstOrDefault();
+							if (NewMemberInfo != null)
+							{
+								MemberResults.MemberInfo.RefreshFrom(NewMemberInfo, false, false);
+
+								if (CurrentGroups.SelectedItem.Value.SecondColNameType == enSecondColNameType.Coach)
+									MemberResults.MemberInfo.SecondCol = DBManagerApp.m_Entities.coaches.First(arg => arg.id_coach == MemberResults.MemberInfo.Coach).name;
+								else
+									MemberResults.MemberInfo.SecondCol = DBManagerApp.m_Entities.teams.First(arg => arg.id_team == MemberResults.MemberInfo.Team).name;
+
+								if (!QualifFinished && MemberResults.Results.Route1 != null && MemberResults.Results.Route1.CondFormating.HasValue)
+								{
+									if (MemberResults.Results.Route1.CondFormating.Value == enCondFormating.StayOnStart)
+									{
+										RightPanel.InvitedToStartMember = string.Format("{0}. {1} {2} {3}",
+																						MemberResults.StartNumber.HasValue ? MemberResults.StartNumber.Value.ToString() : "",
+																						MemberResults.MemberInfo.SurnameAndName,
+																						MemberResults.MemberInfo.YearOfBirthForShow,
+																						MemberResults.MemberInfo.SecondCol);
+									}
+
+									if (MemberResults.Results.Route1.CondFormating.Value == enCondFormating.Preparing)
+									{
+										RightPanel.PreparingMember = string.Format("{0}. {1} {2} {3}",
+																						MemberResults.StartNumber.HasValue ? MemberResults.StartNumber.Value.ToString() : "",
+																						MemberResults.MemberInfo.SurnameAndName,
+																						MemberResults.MemberInfo.YearOfBirthForShow,
+																						MemberResults.MemberInfo.SecondCol);
+									}
+								}
+
+#if TICKER
+							if ((MemberResults.Results.Route1.CondFormating.HasValue && MemberResults.Results.Route1.CondFormating.Value == enCondFormating.JustRecievedResult) ||
+								(MemberResults.Results.Route2.CondFormating.HasValue && MemberResults.Results.Route2.CondFormating.Value == enCondFormating.JustRecievedResult) ||
+								(MemberResults.Results.Sum.CondFormating.HasValue && MemberResults.Results.Sum.CondFormating.Value == enCondFormating.JustRecievedResult))
+							{
+								TickerText = "";
+							}
+#endif
+							}
+						}
+					}
+					break;
+				#endregion
+
+				#region srcrRowDeleted
+				case enOnlySomeRowsChangedReason.srcrRowDeleted:
+					{
+						MemberResults = m_CurrentRoundMembers
+									.FirstOrDefault(arg => (arg as CMemberAndResults).StartNumber == ChangedRows[0]) as CMemberAndResults;
+						if (MemberResults != null)
+						{
+							int Index = m_CurrentRoundMembers.IndexOf(MemberResults);
+							m_CurrentRoundMembers.RemoveAt(Index);
+							collectionCurrentRoundMembers.RemoveAt(Index);
+
+							if (!QualifFinished)
+							{
+								MemberResults = m_CurrentRoundMembers
+									.FirstOrDefault(arg =>
+									{
+										return (arg as CMemberAndResults).Results.Route1 != null
+											&& (arg as CMemberAndResults).Results.Route1.CondFormating.HasValue
+											&& (arg as CMemberAndResults).Results.Route1.CondFormating.Value == enCondFormating.StayOnStart;
+									}) as CMemberAndResults;
+								if (MemberResults != null)
+								{
+									RightPanel.InvitedToStartMember = string.Format("{0}. {1} {2} {3}",
+																					MemberResults.StartNumber.HasValue ? MemberResults.StartNumber.Value.ToString() : "",
+																					MemberResults.MemberInfo.SurnameAndName,
+																					MemberResults.MemberInfo.YearOfBirthForShow,
+																					MemberResults.MemberInfo.SecondCol);
+								}
+
+								MemberResults = m_CurrentRoundMembers
+									.FirstOrDefault(arg =>
+									{
+										return (arg as CMemberAndResults).Results.Route1 != null
+											&& (arg as CMemberAndResults).Results.Route1.CondFormating.HasValue
+											&& (arg as CMemberAndResults).Results.Route1.CondFormating.Value == enCondFormating.Preparing;
+									}) as CMemberAndResults;
+								if (MemberResults != null)
+								{
+									RightPanel.PreparingMember = string.Format("{0}. {1} {2} {3}",
+																					MemberResults.StartNumber.HasValue ? MemberResults.StartNumber.Value.ToString() : "",
+																					MemberResults.MemberInfo.SurnameAndName,
+																					MemberResults.MemberInfo.YearOfBirthForShow,
+																					MemberResults.MemberInfo.SecondCol);
+								}
+							}
+							else
+								RightPanel.InvitedToStartMember = RightPanel.PreparingMember = null;
+
+#if TICKER
+							if ((MemberResults.Results.Route1.CondFormating.HasValue && MemberResults.Results.Route1.CondFormating.Value == enCondFormating.JustRecievedResult) ||
+								(MemberResults.Results.Route2.CondFormating.HasValue && MemberResults.Results.Route2.CondFormating.Value == enCondFormating.JustRecievedResult) ||
+								(MemberResults.Results.Sum.CondFormating.HasValue && MemberResults.Results.Sum.CondFormating.Value == enCondFormating.JustRecievedResult))
+							{
+								TickerText = "";
+							}
+#endif
+
+							RefreshVisibilityInMainTable(Comparers);
+
+							RightPanel.RoundMembersQ--;   // Число участников в раунде
+						}
+					}
+					break;
+				#endregion
+
+				default:
+					break;
+			}
+								
+#if TICKER
+			tckrMembersOnStart.TickerText = string.IsNullOrWhiteSpace(TickerText) ? null : TickerText.Left(TickerText.Length - 1);
+#endif
+
+			
+		}
+
+
 		void HighlightGradeTypeCommamdHandler(CKeyValuePairEx<enHighlightGradesType, string> sender)
 		{
 			mbtnHighlightGrades.Label = sender.Value;
@@ -2937,11 +3606,11 @@ namespace DBManager
 				else
 				{
 					if (MembersInLeftGrid >= 0 && MembersInLeftGrid <= 3)
-						MembersInLeftGrid = 3;	// Чтобы в левом Grid всегда было хотябы трое призёров
+						MembersInLeftGrid = 3;  // Чтобы в левом Grid всегда было хотябы трое призёров
 
 					RightGridShown = MembersInLeftGrid > 0 && MembersInLeftGrid < m_CurrentRoundMembers.Count();
 				}
-								
+
 				if (m_MembersInLeftGrid == MembersInLeftGrid)
 					return;
 
@@ -2949,28 +3618,80 @@ namespace DBManager
 
 				ShowRightDataGrid(RightGridShown);
 
-				if (m_CurrentRoundMembers != null)
+				for (int i = 0; i < m_CurrentRoundMembers.Count(); i++)
 				{
-					for (int i = 0; i < m_CurrentRoundMembers.Count(); i++)
+					CMemberAndResults item = m_CurrentRoundMembers.ElementAt(i) as CMemberAndResults;
+					if (i < m_MembersInLeftGrid || m_MembersInLeftGrid < 0)
 					{
-						CMemberAndResults item = m_CurrentRoundMembers.ElementAt(i) as CMemberAndResults;
-						if (i < m_MembersInLeftGrid || m_MembersInLeftGrid < 0)
-						{
-							item.VisibilityInMainTable = Visibility.Visible;
-						}
-						else
-						{
-							item.VisibilityInMainTable = Visibility.Collapsed;
-							CurrentRoundMembers2.Add(item);
-						}
+						item.VisibilityInMainTable = Visibility.Visible;
 					}
-
-					if (RightGridShown)
-						collectionCurrentRoundMembers2.ReplaceRange(CurrentRoundMembers2);
 					else
-						collectionCurrentRoundMembers2.Clear();
+					{
+						item.VisibilityInMainTable = Visibility.Collapsed;
+						CurrentRoundMembers2.Add(item);
+					}
+				}
+
+				if (RightGridShown)
+					collectionCurrentRoundMembers2.ReplaceRange(CurrentRoundMembers2);
+				else
+					collectionCurrentRoundMembers2.Clear();
+			}
+		}
+
+
+		private void RefreshVisibilityInMainTable(CMemberAndResultsComparer[] ComparersForSort )
+		{
+			if (m_CurrentRoundMembers == null)
+				return;
+
+			bool RightGridShown = false;
+
+			// Делаем так, чтобы в левом поле не было вертикальной полосы прогрутки
+			int MembersInLeftGrid = (int)Math.Floor((GlobalDefines.GetActualControlHeight(grdRoundMembersHost) - dgrdRoundMembers.ColumnHeaderHeight - 5.0) /
+													dgrdRoundMembers.RowHeight);
+			if (MembersInLeftGrid < 0)
+			{
+				MembersInLeftGrid = 0;
+				RightGridShown = false;
+			}
+			else
+			{
+				if (MembersInLeftGrid >= 0 && MembersInLeftGrid <= 3)
+					MembersInLeftGrid = 3;  // Чтобы в левом Grid всегда было хотябы трое призёров
+
+				RightGridShown = MembersInLeftGrid > 0 && MembersInLeftGrid < m_CurrentRoundMembers.Count();
+			}
+
+			if (m_MembersInLeftGrid == MembersInLeftGrid)
+				return;
+
+			m_MembersInLeftGrid = MembersInLeftGrid;
+
+			ShowRightDataGrid(RightGridShown);
+
+			for (int i = 0; i < m_CurrentRoundMembers.Count(); i++)
+			{
+				CMemberAndResults item = m_CurrentRoundMembers.ElementAt(i) as CMemberAndResults;
+				if (i < m_MembersInLeftGrid || m_MembersInLeftGrid < 0)
+				{
+					if (item.VisibilityInMainTable != Visibility.Visible)
+					{   // Раньше этот участник был в правой таблице => преносим его в левую
+						collectionCurrentRoundMembers2.Remove(item);
+						item.VisibilityInMainTable = Visibility.Visible;
+					}
+				}
+				else
+				{
+					if (item.VisibilityInMainTable != Visibility.Collapsed)
+					{   // Раньше этот участник был в левой таблице => преносим его в правую
+						collectionCurrentRoundMembers2.Add(item);
+						item.VisibilityInMainTable = Visibility.Collapsed;
+					}
 				}
 			}
+
+			collectionCurrentRoundMembers2.Sort(ComparersForSort);
 		}
 
 

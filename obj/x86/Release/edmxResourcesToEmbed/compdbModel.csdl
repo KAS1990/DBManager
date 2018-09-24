@@ -34,12 +34,18 @@
       <End Role="coaches" EntitySet="coaches" />
       <End Role="participations" EntitySet="participations" />
     </AssociationSet>
+    <EntitySet Name="balls" EntityType="compdbModel.balls" />
+    <EntitySet Name="additional_events_types" EntityType="compdbModel.additional_events_types" />
     <EntitySet Name="results_speed" EntityType="compdbModel.results_speed" />
     <AssociationSet Name="fk_results_speed_participation" Association="compdbModel.fk_results_speed_participation">
       <End Role="participations" EntitySet="participations" />
       <End Role="results_speed" EntitySet="results_speed" />
     </AssociationSet>
-    <EntitySet Name="balls" EntityType="compdbModel.balls" />
+    <EntitySet Name="falsestarts_rules" EntityType="compdbModel.falsestarts_rules" />
+    <AssociationSet Name="fk_falsestarts_rules_groups1" Association="compdbModel.fk_falsestarts_rules_groups1">
+      <End Role="groups" EntitySet="groups" />
+      <End Role="falsestarts_rules" EntitySet="falsestarts_rules" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="grades">
     <Key>
@@ -159,6 +165,7 @@
     <NavigationProperty Name="participations" Relationship="compdbModel.fk_participation_groups" FromRole="groups" ToRole="participations" />
     <NavigationProperty Name="round_dates" Relationship="compdbModel.fk_round_dates_groups1" FromRole="groups" ToRole="round_dates" />
     <Property Type="Int32" Name="round_finished_flags" />
+    <NavigationProperty Name="falsestarts_rules" Relationship="compdbModel.fk_falsestarts_rules_groups1" FromRole="groups" ToRole="falsestarts_rules" />
   </EntityType>
   <Association Name="fk_groups_description">
     <End Type="compdbModel.descriptions" Role="descriptions" Multiplicity="1" />
@@ -216,26 +223,47 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <EntityType Name="balls">
+    <Key>
+      <PropertyRef Name="place" />
+    </Key>
+    <Property Type="Byte" Name="place" Nullable="false" />
+    <Property Type="Byte" Name="value" Nullable="false" />
+  </EntityType>
+  <EntityType Name="additional_events_types">
+    <Key>
+      <PropertyRef Name="flag" />
+    </Key>
+    <Property Name="flag" Type="Int64" Nullable="false" />
+    <Property Name="name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="short_name" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="name_in_xml" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
+  </EntityType>
   <EntityType Name="results_speed">
     <Key>
       <PropertyRef Name="id_result" />
     </Key>
-    <Property Type="Int64" Name="id_result" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Type="Int64" Name="participation" Nullable="false" />
-    <Property Type="Byte" Name="number" />
-    <Property Type="Byte" Name="round" Nullable="false" />
-    <Property Type="Time" Name="route1" />
-    <Property Type="Time" Name="route2" />
-    <Property Type="Time" Name="sum" />
-    <Property Type="Single" Name="balls" />
-    <Property Type="Byte" Name="place" />
-    <Property Type="Byte" Name="cond_formating_1" />
-    <Property Type="Byte" Name="cond_formating_2" />
-    <Property Type="Byte" Name="cond_formating_sum" />
+    <Property Name="id_result" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="participation" Type="Int64" Nullable="false" />
+    <Property Name="number" Type="Byte" />
+    <Property Name="round" Type="Byte" Nullable="false" />
+    <Property Name="route1" Type="Time" />
+    <Property Name="route2" Type="Time" />
+    <Property Name="sum" Type="Time" />
+    <Property Name="balls" Type="Single" />
+    <Property Name="place" Type="Byte" />
+    <Property Name="cond_formating_1" Type="Byte" />
+    <Property Name="cond_formating_2" Type="Byte" />
+    <Property Name="cond_formating_sum" Type="Byte" />
+    <Property Name="event_1" Type="Int64" />
+    <Property Name="event_2" Type="Int64" />
+    <Property Name="event_sum" Type="Int64" />
     <NavigationProperty Name="participations" Relationship="compdbModel.fk_results_speed_participation" FromRole="results_speed" ToRole="participations" />
   </EntityType>
   <Association Name="fk_results_speed_participation">
-    <End Type="compdbModel.participations" Role="participations" Multiplicity="1" />
+    <End Type="compdbModel.participations" Role="participations" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Type="compdbModel.results_speed" Role="results_speed" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="participations">
@@ -246,11 +274,26 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <EntityType Name="balls">
+  <EntityType Name="falsestarts_rules">
     <Key>
-      <PropertyRef Name="place" />
+      <PropertyRef Name="id_falsestarts_rules" />
     </Key>
-    <Property Type="Byte" Name="place" Nullable="false" />
-    <Property Type="Byte" Name="value" Nullable="false" />
+    <Property Name="id_falsestarts_rules" Type="Int64" Nullable="false" />
+    <Property Name="Group" Type="Int64" Nullable="false" />
+    <Property Name="start_round" Type="Byte" Nullable="false" />
+    <Property Name="end_round" Type="Byte" Nullable="false" />
+    <NavigationProperty Name="groups" Relationship="compdbModel.fk_falsestarts_rules_groups1" FromRole="falsestarts_rules" ToRole="groups" />
   </EntityType>
+  <Association Name="fk_falsestarts_rules_groups1">
+    <End Type="compdbModel.groups" Role="groups" Multiplicity="1" />
+    <End Type="compdbModel.falsestarts_rules" Role="falsestarts_rules" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="groups">
+        <PropertyRef Name="id_group" />
+      </Principal>
+      <Dependent Role="falsestarts_rules">
+        <PropertyRef Name="Group" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>

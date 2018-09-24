@@ -94,7 +94,7 @@ namespace DBManager.Excel.Exporting.Tabs
 					m_LeadSheetIndex = value;
 					
 					if (m_LeadSheetsCount > 0 && m_LeadSheetIndex == m_LeadSheetsCount - 1)
-						System.Windows.Threading.Dispatcher.CurrentDispatcher.BeginInvoke(new Action(() => { LeadSheetIndex = -1; }));
+						ThreadManager.Instance.InvokeUI(new Action(() => { LeadSheetIndex = -1; }));
 					else
 						OnPropertyChanged(LeadSheetIndexPropertyName);
 				}

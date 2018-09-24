@@ -188,7 +188,7 @@ namespace DBManager.Commands
 			//  Вызвать все события
 			ThreadManager.Instance.InvokeUI((arg) =>
 				{
-					Executed?.Invoke(this, arg as CommandEventArgs);
+					Executed?.Invoke(this, arg);
 				},
 				args);
 		}
@@ -198,7 +198,7 @@ namespace DBManager.Commands
 			//  Call the executed event.
 			ThreadManager.Instance.InvokeUI((arg) =>
 				{
-					Executing?.Invoke(this, arg as CancelCommandEventArgs);
+					Executing?.Invoke(this, arg);
 				},
 				args);
 		}
@@ -207,11 +207,10 @@ namespace DBManager.Commands
 
 		public void RefreshCanExecute()
 		{
-			ThreadManager.Instance.InvokeUI((arg) =>
+			ThreadManager.Instance.InvokeUI(() =>
 				{
 					CanExecute = m_CanExecuteFunc();
-				},
-				null);
+				});
 		}
 	}
 

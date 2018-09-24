@@ -6,10 +6,11 @@ using System.ComponentModel;
 using DBManager.Global;
 using DBManager.RoundMembers.Converters;
 using System.Globalization;
+using System.Reflection;
 
 namespace DBManager.Scanning.DBAdditionalDataClasses
 {
-	public class CDBAdditionalClassBase : INotifyPropertyChanged, IShowedClass
+	public abstract class CDBAdditionalClassBase : INotifyPropertyChanged, IShowedClass, ICanRefreshFrom
 	{	
 		#region Place
 		public static readonly string PlacePropertyName = GlobalDefines.GetPropertyName<CDBAdditionalClassBase>(m => m.Place);
@@ -154,5 +155,22 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 			StyleChanged?.Invoke(this, new StyleChangedEventArgs(e));
 		}
 		#endregion
+
+
+		public virtual void RefreshFrom(ICanRefreshFrom rhs,
+										bool SkipNullsForObjects,
+										bool SkipNullsForNullables)
+		{
+			CDBAdditionalClassBase rhsDBAdditionalClassBase = rhs as CDBAdditionalClassBase;
+
+			if (rhsDBAdditionalClassBase == null)
+				return;
+
+			if (!SkipNullsForNullables || rhsDBAdditionalClassBase.Place.HasValue)
+				Place = rhsDBAdditionalClassBase.Place;
+
+			if (!SkipNullsForNullables || rhsDBAdditionalClassBase.PlaceInFilter.HasValue)
+				PlaceInFilter = rhsDBAdditionalClassBase.PlaceInFilter;
+		}
 	}
 }

@@ -45,6 +45,10 @@ namespace DBManager.Scanning
 		/// При сканировании случилось исключение. Само исключение находится в поле Argument
 		/// </summary>
 		ExceptionInScanner,
+		/// <summary>
+		/// Изменилось всего несколько строк, поэтому можно быстрее отобразить изменения на экране
+		/// </summary>
+		OnlySomeRowsChanged
 	}
 
 
@@ -97,7 +101,9 @@ namespace DBManager.Scanning
 
 		public object PrevVal = null;
 		public object CurVal = null;
+		public enChangeReason ChangeReason = enChangeReason.crNone;
 		public object Argument = null;
+		public List<object> ListArguments = null;
 
 		/// <summary>
 		/// Идентификатор записи в БД

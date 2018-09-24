@@ -36,6 +36,13 @@ namespace DBManager.Scanning.XMLDataClasses
 		}
 
 		/// <summary>
+		/// Строки, данные в которых изменились
+		/// </summary>
+		[XmlArray()]
+		[DefaultValue(null)]
+		public List<int> ChangedRows { get; private set; }
+
+		/// <summary>
 		/// Участники и их результаты
 		/// </summary>
 		[XmlArray()]
@@ -147,6 +154,7 @@ namespace DBManager.Scanning.XMLDataClasses
 				return;
 
 			Results = new List<CMember>();
+			ChangedRows = new List<int>();
 
 			NodeName = reader.Name;
 
@@ -159,6 +167,15 @@ namespace DBManager.Scanning.XMLDataClasses
 
 				if (reader.MoveToNextAttribute() && reader.Name == "Argument" && reader.HasValue)
 					Argument = reader.Value;
+
+				int row = 1;
+				while (reader.Name == $"Changed_Row_{row}" && reader.HasValue)
+				{
+					if (int.TryParse(reader.Value, out val))
+						ChangedRows.Add(val);
+					reader.MoveToNextAttribute();
+					row++;
+				}
 			}
 			reader.Read(); // Переходим к содержимому узла
 			string ElementTypeName = typeof(CMember).Name;
@@ -192,6 +209,14 @@ namespace DBManager.Scanning.XMLDataClasses
 			writer.WriteAttributeString("ChangeReason", ((int)ChangeReason).ToString()); // Пишем значение поля ChangeReason
 			if (ShouldSerializeArgument())
 				writer.WriteAttributeString("Argument", Argument.ToString());
+
+			if (ChangedRows != null)
+			{
+				for (int row = 0; row < ChangedRows.Count; row++)
+				{
+					writer.WriteAttributeString($"Changed_Row_{row + 1}", ChangedRows[row].ToString());
+				}
+			}
 			
 			if (Results != null)
 			{

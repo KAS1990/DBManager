@@ -21,7 +21,7 @@ namespace DBManager.Scanning.XMLDataClasses
 	}
 
 
-	public class CResult : CXMLSerializerBase, IShowedClass
+	public class CResult : CXMLSerializerBase, IShowedClass, ICanRefreshFrom
 	{
 		/// <summary>
 		/// Тип колонки с результатом
@@ -37,13 +37,11 @@ namespace DBManager.Scanning.XMLDataClasses
 			get { return m_ResultInDB; }
 			set
 			{
-				if (m_ResultInDB?.participations?.groups != null)
-					m_ResultInDB.participations.groups.PropertyChanged -= groups_PropertyChanged;
+				DBManagerApp.m_Entities.ChangesSaved -= db_ChangesSaved;
 
 				m_ResultInDB = value;
 
-				if (m_ResultInDB?.participations?.groups != null)
-					m_ResultInDB.participations.groups.PropertyChanged += groups_PropertyChanged;
+				DBManagerApp.m_Entities.ChangesSaved += db_ChangesSaved;
 
 				if (RemoveFalsestart != null)
 					RemoveFalsestart.RefreshCanExecute();
@@ -249,14 +247,45 @@ namespace DBManager.Scanning.XMLDataClasses
 		}
 
 
-		public void groups_PropertyChanged(object sender, PropertyChangedEventArgs e)
+		public void db_ChangesSaved(object sender, SaveChangesEventArgs e)
 		{
-			if (ResultInDB?.participations?.groups != null
-				&& e.PropertyName == nameof(ResultInDB.participations.groups.round_finished_flags))
+			var interestingChanged = e
+				.Changes
+				.Where(arg => arg.Entity.GetType() == typeof(groups)
+							&& arg.PropertiesHasBeenChanged.Count(prop => prop.Key == nameof(ResultInDB.participations.groups.round_finished_flags)) > 0);
+
+			if (ResultInDB?.participations?.groups != null && interestingChanged.Count() > 0)
 			{
 				if (RemoveFalsestart != null)
 					RemoveFalsestart.RefreshCanExecute();
 			}
+		}
+
+
+		public void RefreshFrom(ICanRefreshFrom rhs,
+								bool SkipNullsForObjects,
+								bool SkipNullsForNullables)
+		{
+			CResult rhsResult = rhs as CResult;
+
+			if (rhsResult == null)
+				return;
+
+			ResultColumnNumber = rhsResult.ResultColumnNumber;
+
+			if (!SkipNullsForNullables || rhsResult.ResultInDB != null)
+				ResultInDB = rhsResult.ResultInDB;
+
+			if (!SkipNullsForNullables || rhsResult.Time.HasValue)
+				Time = rhsResult.Time;
+
+			if (!SkipNullsForNullables || rhsResult.CondFormating.HasValue)
+				CondFormating = rhsResult.CondFormating;
+
+			if (!SkipNullsForNullables || rhsResult.AdditionalEventTypes.HasValue)
+				AdditionalEventTypes = rhsResult.AdditionalEventTypes;
+				
+			ResultPossible = rhsResult.ResultPossible;
 		}
 
 

@@ -8,7 +8,7 @@ using System.Globalization;
 
 namespace DBManager.Scanning.DBAdditionalDataClasses
 {
-	public class CMemberInTotal : CDBAdditionalClassBase
+	public class CMemberInTotal : CDBAdditionalClassBase, ICanRefreshFrom
 	{
 		static GradeMarkupConverter m_convGrade = new GradeMarkupConverter();
 
@@ -258,6 +258,7 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 		#endregion
 
 
+		#region Конструкторы
 		static CMemberInTotal()
 		{
 			PropertyNames.Add(enRounds.Qualif, QualifResultsPropertyName);
@@ -266,6 +267,99 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 			PropertyNames.Add(enRounds.QuaterFinal, QuaterFinalResultsPropertyName);
 			PropertyNames.Add(enRounds.SemiFinal, SemiFinalResultsPropertyName);
 			PropertyNames.Add(enRounds.Final, FinalResultsPropertyName);
+		}
+		#endregion
+
+
+		public override void RefreshFrom(ICanRefreshFrom rhs,
+										bool SkipNullsForObjects,
+										bool SkipNullsForNullables)
+		{
+			base.RefreshFrom(rhs, SkipNullsForObjects, SkipNullsForNullables);
+
+			CMemberInTotal rhsMemberInTotal = rhs as CMemberInTotal;
+
+			if (rhsMemberInTotal == null)
+				return;
+
+			if (MemberInfo == null)
+				MemberInfo = rhsMemberInTotal.MemberInfo;
+			else if (rhsMemberInTotal.MemberInfo == null)
+			{
+				if (!SkipNullsForObjects)
+					MemberInfo = null;
+			}
+			else
+				MemberInfo.RefreshFrom(rhsMemberInTotal.MemberInfo, SkipNullsForObjects, SkipNullsForNullables);
+
+			if (QualifResults == null)
+				QualifResults = rhsMemberInTotal.QualifResults;
+			else if (rhsMemberInTotal.QualifResults == null)
+			{
+				if (!SkipNullsForObjects)
+					QualifResults = null;
+			}
+			else
+				QualifResults.RefreshFrom(rhsMemberInTotal.QualifResults, SkipNullsForObjects, SkipNullsForNullables);
+
+			if (Qualif2Results == null)
+				Qualif2Results = rhsMemberInTotal.Qualif2Results;
+			else if (rhsMemberInTotal.Qualif2Results == null)
+			{
+				if (!SkipNullsForObjects)
+					Qualif2Results = null;
+			}
+			else
+				Qualif2Results.RefreshFrom(rhsMemberInTotal.Qualif2Results, SkipNullsForObjects, SkipNullsForNullables);
+
+			if (OneEighthFinalResults == null)
+				OneEighthFinalResults = rhsMemberInTotal.OneEighthFinalResults;
+			else if (rhsMemberInTotal.OneEighthFinalResults == null)
+			{
+				if (!SkipNullsForObjects)
+					OneEighthFinalResults = null;
+			}
+			else
+				OneEighthFinalResults.RefreshFrom(rhsMemberInTotal.OneEighthFinalResults, SkipNullsForObjects, SkipNullsForNullables);
+
+			if (QuaterFinalResults == null)
+				QuaterFinalResults = rhsMemberInTotal.QuaterFinalResults;
+			else if (rhsMemberInTotal.QuaterFinalResults == null)
+			{
+				if (!SkipNullsForObjects)
+					QuaterFinalResults = null;
+			}
+			else
+				QuaterFinalResults.RefreshFrom(rhsMemberInTotal.QuaterFinalResults, SkipNullsForObjects, SkipNullsForNullables);
+
+			if (SemiFinalResults == null)
+				SemiFinalResults = rhsMemberInTotal.SemiFinalResults;
+			else if (rhsMemberInTotal.SemiFinalResults == null)
+			{
+				if (!SkipNullsForObjects)
+					SemiFinalResults = null;
+			}
+			else
+				SemiFinalResults.RefreshFrom(rhsMemberInTotal.SemiFinalResults, SkipNullsForObjects, SkipNullsForNullables);
+
+			if (FinalResults == null)
+				FinalResults = rhsMemberInTotal.FinalResults;
+			else if (rhsMemberInTotal.FinalResults == null)
+			{
+				if (!SkipNullsForObjects)
+					FinalResults = null;
+			}
+			else
+				FinalResults.RefreshFrom(rhsMemberInTotal.FinalResults, SkipNullsForObjects, SkipNullsForNullables);
+
+			
+			if (!SkipNullsForNullables || rhsMemberInTotal.TotalGrade.HasValue)
+				TotalGrade = rhsMemberInTotal.TotalGrade;
+
+			if (!SkipNullsForNullables || rhsMemberInTotal.BallsForPlaces.HasValue)
+				BallsForPlaces = rhsMemberInTotal.BallsForPlaces;
+
+			id_part = rhsMemberInTotal.id_part;
 		}
 
 

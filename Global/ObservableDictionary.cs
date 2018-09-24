@@ -467,11 +467,10 @@ namespace DBManager.Global
 			OnPropertyChanged();
 			if (CollectionChanged != null)
 			{
-				ThreadManager.Instance.InvokeUI((arg) =>
+				ThreadManager.Instance.InvokeUI(() =>
 					{
 						CollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
-					},
-					null);
+					});
 			}
 		}
 		
@@ -480,11 +479,10 @@ namespace DBManager.Global
 			OnPropertyChanged();
 			if (CollectionChanged != null)
 			{
-				ThreadManager.Instance.InvokeUI((arg) =>
+				ThreadManager.Instance.InvokeUI(() =>
 					{
 						CollectionChanged(this, new NotifyCollectionChangedEventArgs(action, changedItem));
-					},
-					null);
+					});
 			}
 		}
 		
@@ -493,11 +491,10 @@ namespace DBManager.Global
 			OnPropertyChanged();
 			if (CollectionChanged != null)
 			{
-				ThreadManager.Instance.InvokeUI((arg) =>
+				ThreadManager.Instance.InvokeUI(() =>
 					{
 						CollectionChanged(this, new NotifyCollectionChangedEventArgs(action, newItem, oldItem));
-					},
-					null);
+					});
 			}
 		}
 		
@@ -506,11 +503,10 @@ namespace DBManager.Global
 			OnPropertyChanged();
 			if (CollectionChanged != null)
 			{
-				ThreadManager.Instance.InvokeUI((arg) =>
+				ThreadManager.Instance.InvokeUI(() =>
 					{
 						CollectionChanged(this, new NotifyCollectionChangedEventArgs(action, newItems));
-					},
-					null);
+					});
 			}
 		}
 		#endregion

@@ -81,8 +81,8 @@ namespace DBManager.Stuff
 					m_AllowClose = true;
 					Close();
 
-					if (OwnerWindow != null && DBManagerApp.Current != null && DBManagerApp.Current.Dispatcher != null)
-						DBManagerApp.Current.Dispatcher.Invoke(new Action(delegate()
+					if (OwnerWindow != null && Application.Current != null && DBManagerApp.Current.Dispatcher != null)
+						ThreadManager.Instance.InvokeUI(new Action(() =>
 						{
 							// Этот try...catch обязателен, т.к. без него вылетим в ошибку при перезагрузке программы при смене конфигурации
 							try

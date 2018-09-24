@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Threading;
+using System.Collections;
 
 namespace DBManager.Global
 {
@@ -50,11 +51,7 @@ namespace DBManager.Global
 
 		protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
 		{
-			ThreadManager.Instance.InvokeUI((arg) =>
-				{
-					RaiseCollectionChanged(arg);
-				},
-				e);
+			ThreadManager.Instance.InvokeUI(RaiseCollectionChanged, e);
 		}
 
 
@@ -67,11 +64,7 @@ namespace DBManager.Global
 
 		protected override void OnPropertyChanged(PropertyChangedEventArgs e)
 		{
-			ThreadManager.Instance.InvokeUI((arg) =>
-				{
-					RaisePropertyChanged(arg);
-				},
-				e);
+			ThreadManager.Instance.InvokeUI(RaisePropertyChanged, e);
 		}
 
 		private void RaisePropertyChanged(object param)
@@ -127,6 +120,31 @@ namespace DBManager.Global
 		public void RemoveRange(IEnumerable<T> collection)
 		{
 			this.ProcessRange(collection, ProcessRangeAction.Remove);
+		}
+
+
+		public void Sort<TElement>(IComparer<TElement>[] comparers)
+		{
+			if (comparers?.Count() == 0)
+				return;
+
+			IOrderedEnumerable<TElement> OrderedThis = this.Cast<TElement>().OrderBy(m => m, comparers[0]);
+			for (int i = 1; i < comparers.Length; i++)
+			{
+				OrderedThis = OrderedThis.ThenBy(m => m, comparers[i]);
+			}
+
+			List<T> lstOrderedThis = new List<T>(OrderedThis.Cast<T>());
+			for (int i = 0; i < lstOrderedThis.Count; i++)
+			{
+				var oldIndex = IndexOf(lstOrderedThis[i]);
+				var newIndex = i;
+				if (oldIndex != newIndex)
+				{   // Это условие необходимо, чтобы избежать вот этой ошибки:
+					// https://stackoverflow.com/questions/42204898/why-is-the-combobox-losing-its-selecteditem-when-sorting-the-itemssource/42204899#42204899
+					Move(oldIndex, newIndex);
+				}
+			}
 		}
 	}
 }

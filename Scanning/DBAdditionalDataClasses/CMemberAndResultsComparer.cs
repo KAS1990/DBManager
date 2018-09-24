@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel;
 using System.Reflection;
+using System.Collections;
+using DBManager.Global;
 
 namespace DBManager.Scanning.DBAdditionalDataClasses
 {
-	public class CMemberAndResultsComparer : IComparer<CMemberAndResults>
+	public class CMemberAndResultsComparer : IComparer<CMemberAndResults>, IComparer
 	{
 		/// <summary>
 		/// Поле, по которому осуществляется сравнение
@@ -51,6 +53,16 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 			}
 
 			return SortDir == ListSortDirection.Ascending ? lhs.CompareTo(rhs) : rhs.CompareTo(lhs);
+		}
+
+
+		public int Compare(object x, object y)
+		{
+			if (GlobalDefines.ObjectBaseEquals(x, y) == enObjectBaseEqualsResult.True 
+				|| !((x is CMemberAndResults) && (y is CMemberAndResults)))
+				return 0;
+
+			return Compare(x as CMemberAndResults, y as CMemberAndResults);
 		}
 	}
 }

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="d8b42c11fa814da29be3add3e8a52dbb" Name="Diagram1">
+        <EntityTypeShape EntityType="compdbModel.additional_events_types" Width="1.5" PointX="0.75" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="compdbModel.balls" Width="1.5" PointX="2.75" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="compdbModel.coaches" Width="1.5" PointX="6" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="compdbModel.descriptions" Width="1.5" PointX="0.75" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="compdbModel.falsestarts_rules" Width="1.5" PointX="5.25" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="compdbModel.grades" Width="1.5" PointX="8.75" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="compdbModel.groups" Width="1.5" PointX="3" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="compdbModel.members" Width="1.5" PointX="6" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="compdbModel.participations" Width="1.5" PointX="8.25" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="compdbModel.results_speed" Width="1.5" PointX="10.5" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="compdbModel.round_dates" Width="1.5" PointX="5.25" PointY="11.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="compdbModel.rounds" Width="1.5" PointX="0.75" PointY="9.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="compdbModel.teams" Width="1.5" PointX="6" PointY="15" IsExpanded="true" />
+        <AssociationConnector Association="compdbModel.fk_participation_coaches" ManuallyRouted="false" />
+        <AssociationConnector Association="compdbModel.fk_groups_description" ManuallyRouted="false" />
+        <AssociationConnector Association="compdbModel.fk_falsestarts_rules_groups1" ManuallyRouted="false" />
+        <AssociationConnector Association="compdbModel.fk_participation_groups" ManuallyRouted="false" />
+        <AssociationConnector Association="compdbModel.fk_round_dates_groups1" ManuallyRouted="false" />
+        <AssociationConnector Association="compdbModel.fk_participation_members" ManuallyRouted="false" />
+        <AssociationConnector Association="compdbModel.fk_participation_teams" ManuallyRouted="false" />
+        <AssociationConnector Association="compdbModel.fk_results_speed_participation" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

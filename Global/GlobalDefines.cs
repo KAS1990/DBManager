@@ -1165,7 +1165,7 @@ namespace DBManager.Global
 					{
 						name = CoachName
 					};
-					DBManagerApp.m_Entities.AddTocoaches(NewCoach);
+					DBManagerApp.m_Entities.coaches.Add(NewCoach);
 					DBManagerApp.m_Entities.SaveChanges(); // Получаем id_coach
 					return NewCoach.id_coach;
 				}
@@ -1198,7 +1198,7 @@ namespace DBManager.Global
 					{
 						name = TeamName
 					};
-					DBManagerApp.m_Entities.AddToteams(NewTeam);
+					DBManagerApp.m_Entities.teams.Add(NewTeam);
 					DBManagerApp.m_Entities.SaveChanges(); // Получаем id_team
 					return NewTeam.id_team;
 				}
@@ -1219,7 +1219,7 @@ namespace DBManager.Global
 											  where Part == null
 											  select team).ToList();
 			foreach (teams Team in UnusedTeams)
-				DBManagerApp.m_Entities.teams.DeleteObject(Team);
+				DBManagerApp.m_Entities.teams.Remove(Team);
 
 			try
 			{
@@ -1242,7 +1242,7 @@ namespace DBManager.Global
 												  where Part == null
 												  select coach).ToList();
 			foreach (coaches Coach in UnusedCoaches)
-				DBManagerApp.m_Entities.coaches.DeleteObject(Coach);
+				DBManagerApp.m_Entities.coaches.Remove(Coach);
 
 			try
 			{
@@ -1563,36 +1563,40 @@ namespace DBManager.Global
 		}
 
 
-		public static string CreateCompDate(DateTime StartDate, DateTime? EndDate)
+		public static string CreateCompDate(DateTime? StartDate, DateTime? EndDate)
 		{
 			string CompDate = null;
+
+			if (StartDate == null)
+				return CompDate;
+
 			if (EndDate != null)
 			{
-				if (StartDate.Month == EndDate.Value.Month)
+				if (StartDate.Value.Month == EndDate.Value.Month)
 				{
-					if (StartDate.Day == EndDate.Value.Day)
-						CompDate = StartDate.ToLongDateString();
+					if (StartDate.Value.Day == EndDate.Value.Day)
+						CompDate = StartDate.Value.ToLongDateString();
 					else
 					{
 						CompDate = string.Format(Properties.Resources.resfmtCompDateOneMonth,
-													StartDate.Day,
+													StartDate.Value.Day,
 													EndDate.Value.Day,
-													GlobalDefines.MONTHS_IN_GENITIVE[StartDate.Month - 1],
+													GlobalDefines.MONTHS_IN_GENITIVE[StartDate.Value.Month - 1],
 													EndDate.Value.Year);
 					}
 				}
 				else
 				{
 					CompDate = string.Format(Properties.Resources.resfmtCompDateTwoMonths,
-												StartDate.Day,
+												StartDate.Value.Day,
 												GlobalDefines.MONTHS_IN_GENITIVE[EndDate.Value.Month - 1],
 												EndDate.Value.Day,
-												GlobalDefines.MONTHS_IN_GENITIVE[StartDate.Month - 1],
+												GlobalDefines.MONTHS_IN_GENITIVE[StartDate.Value.Month - 1],
 												EndDate.Value.Year);
 				}
 			}
 			else
-				CompDate = StartDate.ToLongDateString();
+				CompDate = StartDate.Value.ToLongDateString();
 
 			return CompDate;
 		}

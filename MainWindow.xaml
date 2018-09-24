@@ -179,11 +179,11 @@
 										 IsEnabled="{Binding LogWindowEnabled}"
 										 Click="LogWindowCmdExecuted" />
 
-                    <ribbon:RibbonButton Name="rbtnFalsestartRules" 
+					<ribbon:RibbonButton Name="rbtnFalsestartRules" 
 										 Label="{Loc resFalsestartRules}"
 										 IsEnabled="{Binding FalsestartRulesEnabled}"
 										 Click="FalsestartRulesCmdExecuted" />
-                </ribbon:RibbonGroup> 
+				</ribbon:RibbonGroup> 
 				
 				<ribbon:RibbonGroup Header="{Loc resGrades}" IsEnabled="{Binding CalcGradesEnabled}">
 					<ribbon:RibbonButton Label="{Loc resCalcGrades}"

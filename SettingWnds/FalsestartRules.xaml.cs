@@ -1,5 +1,6 @@
 ﻿using DBManager.Global;
 using DBManager.Scanning.XMLDataClasses;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -7,8 +8,8 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Data;
 using System.Data.Common;
-using System.Data.EntityClient;
-using System.Data.Objects;
+using System.Data.Entity;
+using System.Data.Entity.Core.EntityClient;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -382,8 +383,7 @@ namespace DBManager.SettingWnds
 					return false;
 
 				// Удаляем все правила для текущей группы, чтобы заменить их новыми
-				EntityConnection entityConnection = (EntityConnection)DBManagerApp.m_Entities.Connection;
-				DbConnection conn = entityConnection.StoreConnection;
+				DbConnection conn = DBManagerApp.m_Entities.Database.Connection;
 
 				ConnectionState initialState = conn.State;
 				try
@@ -412,20 +412,14 @@ namespace DBManager.SettingWnds
 				if (initialState != ConnectionState.Open)
 					conn.Close(); // only close connection if not initially open
 
-				// Get all objects in statemanager with entityKey 
-				// (context.Refresh will throw an exception otherwise) 
-				var refreshableObjects = (from entry in DBManagerApp.m_Entities.ObjectStateManager.GetObjectStateEntries(
-															EntityState.Deleted
-														  | EntityState.Modified
-														  | EntityState.Unchanged)
-										  where entry.EntityKey != null
-										  select entry.Entity);
-
-				DBManagerApp.m_Entities.Refresh(RefreshMode.StoreWins, refreshableObjects);
+				foreach (var entity in DBManagerApp.m_Entities.ChangeTracker.Entries())
+				{
+					entity.Reload();
+				}
 
 				foreach (FalsestartRule rule in Rules)
 				{
-					DBManagerApp.m_Entities.AddTofalsestarts_rules(new falsestarts_rules()
+					DBManagerApp.m_Entities.falsestarts_rules.Add(new falsestarts_rules()
 					{
 						Group = m_GroupId,
 						start_round = (byte)rule.StartRound,

@@ -348,7 +348,7 @@ namespace DBManager.Scanning
 									descriptions Desc = DescFromXml2Entity(Parent.ScanningPath, m_XMLDataSer.Data);
 									if (Desc != null)
 									{
-										DBManagerApp.m_Entities.AddTodescriptions(Desc);
+										DBManagerApp.m_Entities.descriptions.Add(Desc);
 										DBManagerApp.m_Entities.SaveChanges(); // Чтобы получить id_desc
 
 										CompId = Desc.id_desc;
@@ -383,7 +383,7 @@ namespace DBManager.Scanning
 																	  where round_date.Group == Group.id_group
 																	  select round_date).ToList())
 									{
-										DBManagerApp.m_Entities.round_dates.DeleteObject(RoundDate);
+										DBManagerApp.m_Entities.round_dates.Remove(RoundDate);
 									}
 
 									DBManagerApp.m_Entities.SaveChanges(); // Чтобы удаление применилось
@@ -402,7 +402,7 @@ namespace DBManager.Scanning
 								if (Group == null)
 									return null;
 
-								DBManagerApp.m_Entities.AddTogroups(Group);
+								DBManagerApp.m_Entities.groups.Add(Group);
 								DBManagerApp.m_Entities.SaveChanges(); // Чтобы получить id_group
 
 								result.Add(new CDataChangedInfo(this)
@@ -568,7 +568,7 @@ namespace DBManager.Scanning
 					{
 						List<results_speed> ResultsToDelete = PartsToDelete[i].results_speed.ToList();
 						for (int n = 0; n < ResultsToDelete.Count; n++)
-							DBManagerApp.m_Entities.results_speed.DeleteObject(ResultsToDelete[n]);
+							DBManagerApp.m_Entities.results_speed.Remove(ResultsToDelete[n]);
 						try
 						{
 							DBManagerApp.m_Entities.SaveChanges();
@@ -578,34 +578,34 @@ namespace DBManager.Scanning
 							ex.ToString();
 						}
 
-						DBManagerApp.m_Entities.participations.DeleteObject(PartsToDelete[i]);
+						DBManagerApp.m_Entities.participations.Remove(PartsToDelete[i]);
 					}
 					DBManagerApp.m_Entities.SaveChanges();
 
 					// Теперь из round_dates
 					List<round_dates> DatesToDelete = Group.round_dates.ToList();
 					for (int i = 0; i < DatesToDelete.Count; i++)
-						DBManagerApp.m_Entities.round_dates.DeleteObject(DatesToDelete[i]);
+						DBManagerApp.m_Entities.round_dates.Remove(DatesToDelete[i]);
 					DBManagerApp.m_Entities.SaveChanges();
 
 					//Теперь из falsestarts_rules
 					List<falsestarts_rules> RulesToDelete = DBManagerApp.m_Entities.falsestarts_rules.Where(arg => arg.Group == Group.id_group).ToList();
 					for (int i = 0; i < RulesToDelete.Count; i++)
-						DBManagerApp.m_Entities.falsestarts_rules.DeleteObject(RulesToDelete[i]);
+						DBManagerApp.m_Entities.falsestarts_rules.Remove(RulesToDelete[i]);
 					DBManagerApp.m_Entities.SaveChanges();
 
-					DBManagerApp.m_Entities.groups.DeleteObject(Group);
+					DBManagerApp.m_Entities.groups.Remove(Group);
 					DBManagerApp.m_Entities.SaveChanges();
 
 					// Удаляем соревнования, для которых нет групп
 					List<descriptions> DescsToDelete = DBManagerApp.m_Entities.descriptions.Where(arg => arg.groups.Count == 0).ToList();
 					for (int i = 0; i < DescsToDelete.Count; i++)
-						DBManagerApp.m_Entities.descriptions.DeleteObject(DescsToDelete[i]);
+						DBManagerApp.m_Entities.descriptions.Remove(DescsToDelete[i]);
 
 					// Удаляем спортсменов, которые нигде не участвовали
 					List<members> MembersToDelete = DBManagerApp.m_Entities.members.Where(arg => arg.participations.Count == 0).ToList();
 					for (int i = 0; i < MembersToDelete.Count; i++)
-						DBManagerApp.m_Entities.members.DeleteObject(MembersToDelete[i]);
+						DBManagerApp.m_Entities.members.Remove(MembersToDelete[i]);
 					DBManagerApp.m_Entities.SaveChanges();
 				}
 				catch (Exception ex)
@@ -747,7 +747,7 @@ namespace DBManager.Scanning
 					date = RoundDate.Value,
 					Group = GroupId
 				};
-				DBManagerApp.m_Entities.AddToround_dates(Date);
+				DBManagerApp.m_Entities.round_dates.Add(Date);
 			}
 
 			if (SaveChangesAfterAdd)
@@ -818,7 +818,7 @@ namespace DBManager.Scanning
 					descriptions Desc = DescFromXml2Entity(XMLFileDir, DataFromXml);
 					if (Desc != null)
 					{
-						DBManagerApp.m_Entities.AddTodescriptions(Desc);
+						DBManagerApp.m_Entities.descriptions.Add(Desc);
 						DBManagerApp.m_Entities.SaveChanges(); // Чтобы получить id_desc
 
 						CompId = Desc.id_desc;
@@ -856,7 +856,7 @@ namespace DBManager.Scanning
 						if (Group != null)
 						{
 							GroupAdded = true;
-							DBManagerApp.m_Entities.AddTogroups(Group);
+							DBManagerApp.m_Entities.groups.Add(Group);
 							DBManagerApp.m_Entities.SaveChanges(); // Чтобы получить id_group
 
 							if (DataFromXml.Settings.EndDate != null)
@@ -915,7 +915,7 @@ namespace DBManager.Scanning
 																		   where round_date.Group == Group.id_group
 																		   select round_date).ToList())
 										{
-											DBManagerApp.m_Entities.round_dates.DeleteObject(RoundDate);
+											DBManagerApp.m_Entities.round_dates.Remove(RoundDate);
 										}
 
 										DBManagerApp.m_Entities.SaveChanges(); // Чтобы удаление применилось

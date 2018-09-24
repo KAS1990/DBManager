@@ -13,6 +13,7 @@ using DBManager.TrayNotification;
 using DBManager.Global;
 using System.Diagnostics;
 using System.IO;
+using System.Data.Entity;
 
 namespace DBManager
 {
@@ -75,7 +76,7 @@ namespace DBManager
 
 			try
 			{
-				if (!m_Entities.DatabaseExists())
+				if (!m_Entities.Database.Exists())
 				{
 					throw new InvalidOperationException();
 				}
@@ -110,7 +111,7 @@ namespace DBManager
 					Thread.Sleep(2 * 1000); // Ожидаем запуска MySQL
 					try
 					{
-						if (m_Entities.DatabaseExists())
+						if (m_Entities.Database.Exists())
 							break;
 					}
 					catch
@@ -119,7 +120,7 @@ namespace DBManager
 
 				if (i == 0)
 				{
-					MessageBox.Show(string.Format(DBManager.Properties.Resources.resrmtCantConnectToDB, m_Entities.Connection.ConnectionString),
+					MessageBox.Show(string.Format(DBManager.Properties.Resources.resrmtCantConnectToDB, m_Entities.Database.Connection.ConnectionString),
 									AppAttributes.Title,
 									MessageBoxButton.OK,
 									MessageBoxImage.Error);

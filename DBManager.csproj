@@ -58,6 +58,12 @@
   <PropertyGroup />
   <PropertyGroup />
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>packages\EntityFramework.6.2.0\lib\net40\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>packages\EntityFramework.6.2.0\lib\net40\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Hardcodet.Wpf.TaskbarNotification">
       <HintPath>.\Hardcodet.Wpf.TaskbarNotification.dll</HintPath>
     </Reference>
@@ -67,15 +73,20 @@
     <Reference Include="Microsoft.Windows.Shell">
       <HintPath>.\Microsoft.Windows.Shell.dll</HintPath>
     </Reference>
-    <Reference Include="MySql.Data, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
+    <Reference Include="MySql.Data, Version=6.9.12.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>packages\MySql.Data.6.9.12\lib\net40\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data.Entity.EF6, Version=6.9.12.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>packages\MySql.Data.Entity.6.9.12\lib\net40\MySql.Data.Entity.EF6.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationFramework.Aero" />
     <Reference Include="PresentationFramework.Classic" />
     <Reference Include="RibbonControlsLibrary">
       <HintPath>.\RibbonControlsLibrary.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
@@ -103,16 +114,40 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="additional_events_types.cs">
+      <DependentUpon>compdbEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="AttachedProperties.cs" />
-    <Compile Include="compdbModel.Designer.cs">
+    <Compile Include="balls.cs">
+      <DependentUpon>compdbEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="coaches.cs">
+      <DependentUpon>compdbEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="compdbEntities.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>compdbModel.edmx</DependentUpon>
+      <DependentUpon>compdbEntities.Context.tt</DependentUpon>
     </Compile>
+    <Compile Include="compdbEntities.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>compdbEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="compdbEntities.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>compdbEntities.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\compdbEntities.cs" />
     <Compile Include="DAL\FalstartsRulesRange.cs" />
     <Compile Include="DAL\members.cs" />
     <Compile Include="DAL\participations.cs" />
     <Compile Include="DAL\results_speed.cs" />
+    <Compile Include="DAL\SaveChangesEventArgs.cs" />
+    <Compile Include="descriptions.cs">
+      <DependentUpon>compdbEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="DumpMaker.cs" />
     <Compile Include="Commands\CCommand.cs" />
     <Compile Include="Excel\Exporting\ExportingClasses\CFinalExporter.cs" />
@@ -127,6 +162,9 @@
       <DependentUpon>CLeadReportInfoTab.xaml</DependentUpon>
     </Compile>
     <Compile Include="Excel\Exporting\Tabs\CExportingTabBase.cs" />
+    <Compile Include="falsestarts_rules.cs">
+      <DependentUpon>compdbEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="FTP\CFTPExporter.cs" />
     <Compile Include="FTP\CFTPLogWnd.xaml.cs">
       <DependentUpon>CFTPLogWnd.xaml</DependentUpon>
@@ -143,8 +181,20 @@
     <Compile Include="FTP\SheetGenerators\CQualifGenerator.cs" />
     <Compile Include="FTP\SheetGenerators\CTotalGenerator.cs" />
     <Compile Include="Global\ThreadManager.cs" />
+    <Compile Include="grades.cs">
+      <DependentUpon>compdbEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="groups.cs">
+      <DependentUpon>compdbEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="InterfaceElements\CMessageBoxEx.xaml.cs">
       <DependentUpon>CMessageBoxEx.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="members.cs">
+      <DependentUpon>compdbEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="participations.cs">
+      <DependentUpon>compdbEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="ReportGenerators\CExtraOption.cs" />
     <Compile Include="ReportGenerators\CGroupItem.cs" />
@@ -187,6 +237,9 @@
     <Compile Include="MyWin32Interop.cs" />
     <Compile Include="Global\ObservableCollectionEx.cs" />
     <Compile Include="ReportGenerators\CTeamWithMembersItem.cs" />
+    <Compile Include="results_speed.cs">
+      <DependentUpon>compdbEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="RightPanels\CRightPanelControl.cs" />
     <Compile Include="RightPanels\GradesContentConverter.cs" />
     <Compile Include="RightPanels\GradesVisibilityConverter.cs" />
@@ -205,6 +258,12 @@
     </Compile>
     <Compile Include="RoundResultsControl\FilterControl\FilterPredicate.cs" />
     <Compile Include="RoundResultsControl\FilterControl\FilterPredicateComparer.cs" />
+    <Compile Include="rounds.cs">
+      <DependentUpon>compdbEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="round_dates.cs">
+      <DependentUpon>compdbEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Scanning\CMemberKeys.cs" />
     <Compile Include="Scanning\CGroupResultsManager.cs" />
     <Compile Include="Scanning\CSpeedResultsComparer.cs" />
@@ -221,6 +280,7 @@
     <Compile Include="Scanning\DBAdditionalDataClasses\OneCellInterior.cs" />
     <Compile Include="Scanning\DBAdditionalDataClasses\CRoundAndDate.cs" />
     <Compile Include="Scanning\DBAdditionalDataClasses\StyleChangedEvent.cs" />
+    <Compile Include="Scanning\ICanRefreshFrom.cs" />
     <Compile Include="Scanning\IShowedClass.cs" />
     <Compile Include="Scanning\XMLDataClasses\CAgeGroup.cs" />
     <Compile Include="Scanning\XMLDataClasses\CAllExcelData.cs" />
@@ -257,6 +317,9 @@
     </Compile>
     <Compile Include="Stuff\CWaitingWnd.xaml.cs">
       <DependentUpon>CWaitingWnd.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="teams.cs">
+      <DependentUpon>compdbEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="TrayNotification\CActivateMainWndCommand.cs" />
     <Compile Include="TrayNotification\CTaskBarIconTuning.cs" />
@@ -375,10 +438,14 @@
     <None Include="App.Config">
       <SubType>Designer</SubType>
     </None>
-    <EntityDeploy Include="compdbModel.edmx">
+    <EntityDeploy Include="compdbEntities.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>compdbModel.Designer.cs</LastGenOutput>
+      <LastGenOutput>compdbEntities.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <None Include="compdbEntities.edmx.diagram">
+      <DependentUpon>compdbEntities.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
     <None Include="Properties\DataSources\coaches.datasource" />
     <None Include="Properties\DataSources\compdbEntities.datasource" />
     <None Include="Properties\DataSources\description.datasource" />
@@ -479,6 +546,18 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="compdbEntities.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>compdbEntities.edmx</DependentUpon>
+      <LastGenOutput>compdbEntities.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="compdbEntities.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>compdbEntities.edmx</DependentUpon>
+      <LastGenOutput>compdbEntities.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

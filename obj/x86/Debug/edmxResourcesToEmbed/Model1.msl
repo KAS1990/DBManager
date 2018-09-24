@@ -1,6 +1,153 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Mapping xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs" Space="C-S">
-  <Alias Key="Model" Value="Model1" />
-  <Alias Key="Target" Value="Model1.Store" />
-  <EntityContainerMapping CdmEntityContainer="Model1Container" StorageEntityContainer="Model1TargetContainer" />
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="compdbModelStoreContainer" CdmEntityContainer="compdbEntities">
+    <EntitySetMapping Name="additional_events_types">
+      <EntityTypeMapping TypeName="compdbModel.additional_events_types">
+        <MappingFragment StoreEntitySet="additional_events_types">
+          <ScalarProperty Name="flag" ColumnName="flag" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="short_name" ColumnName="short_name" />
+          <ScalarProperty Name="name_in_xml" ColumnName="name_in_xml" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="balls">
+      <EntityTypeMapping TypeName="compdbModel.balls">
+        <MappingFragment StoreEntitySet="balls">
+          <ScalarProperty Name="place" ColumnName="place" />
+          <ScalarProperty Name="value" ColumnName="value" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="coaches">
+      <EntityTypeMapping TypeName="compdbModel.coaches">
+        <MappingFragment StoreEntitySet="coaches">
+          <ScalarProperty Name="id_coach" ColumnName="id_coach" />
+          <ScalarProperty Name="name" ColumnName="name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="descriptions">
+      <EntityTypeMapping TypeName="compdbModel.descriptions">
+        <MappingFragment StoreEntitySet="descriptions">
+          <ScalarProperty Name="id_desc" ColumnName="id_desc" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="dir" ColumnName="dir" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="falsestarts_rules">
+      <EntityTypeMapping TypeName="compdbModel.falsestarts_rules">
+        <MappingFragment StoreEntitySet="falsestarts_rules">
+          <ScalarProperty Name="id_falsestarts_rules" ColumnName="id_falsestarts_rules" />
+          <ScalarProperty Name="Group" ColumnName="Group" />
+          <ScalarProperty Name="start_round" ColumnName="start_round" />
+          <ScalarProperty Name="end_round" ColumnName="end_round" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="grades">
+      <EntityTypeMapping TypeName="compdbModel.grades">
+        <MappingFragment StoreEntitySet="grades">
+          <ScalarProperty Name="id_grade" ColumnName="id_grade" />
+          <ScalarProperty Name="name" ColumnName="name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="groups">
+      <EntityTypeMapping TypeName="compdbModel.groups">
+        <MappingFragment StoreEntitySet="groups">
+          <ScalarProperty Name="id_group" ColumnName="id_group" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="start_year" ColumnName="start_year" />
+          <ScalarProperty Name="end_year" ColumnName="end_year" />
+          <ScalarProperty Name="desc" ColumnName="desc" />
+          <ScalarProperty Name="second_col_name" ColumnName="second_col_name" />
+          <ScalarProperty Name="from_1_qualif" ColumnName="from_1_qualif" />
+          <ScalarProperty Name="from_2_qualif" ColumnName="from_2_qualif" />
+          <ScalarProperty Name="round_after_qualif" ColumnName="round_after_qualif" />
+          <ScalarProperty Name="main_judge" ColumnName="main_judge" />
+          <ScalarProperty Name="main_secretary" ColumnName="main_secretary" />
+          <ScalarProperty Name="row6" ColumnName="row6" />
+          <ScalarProperty Name="xml_file_name" ColumnName="xml_file_name" />
+          <ScalarProperty Name="sex" ColumnName="sex" />
+          <ScalarProperty Name="comp_start_date" ColumnName="comp_start_date" />
+          <ScalarProperty Name="comp_end_date" ColumnName="comp_end_date" />
+          <ScalarProperty Name="round_finished_flags" ColumnName="round_finished_flags" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="members">
+      <EntityTypeMapping TypeName="compdbModel.members">
+        <MappingFragment StoreEntitySet="members">
+          <ScalarProperty Name="id_member" ColumnName="id_member" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="surname" ColumnName="surname" />
+          <ScalarProperty Name="year_of_birth" ColumnName="year_of_birth" />
+          <ScalarProperty Name="sex" ColumnName="sex" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="participations">
+      <EntityTypeMapping TypeName="compdbModel.participations">
+        <MappingFragment StoreEntitySet="participations">
+          <ScalarProperty Name="id_participation" ColumnName="id_participation" />
+          <ScalarProperty Name="member" ColumnName="member" />
+          <ScalarProperty Name="Group" ColumnName="Group" />
+          <ScalarProperty Name="coach" ColumnName="coach" />
+          <ScalarProperty Name="team" ColumnName="team" />
+          <ScalarProperty Name="init_grade" ColumnName="init_grade" />
+          <ScalarProperty Name="result_grade" ColumnName="result_grade" />
+          <ScalarProperty Name="result_place" ColumnName="result_place" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="results_speed">
+      <EntityTypeMapping TypeName="compdbModel.results_speed">
+        <MappingFragment StoreEntitySet="results_speed">
+          <ScalarProperty Name="id_result" ColumnName="id_result" />
+          <ScalarProperty Name="participation" ColumnName="participation" />
+          <ScalarProperty Name="number" ColumnName="number" />
+          <ScalarProperty Name="round" ColumnName="round" />
+          <ScalarProperty Name="route1" ColumnName="route1" />
+          <ScalarProperty Name="route2" ColumnName="route2" />
+          <ScalarProperty Name="sum" ColumnName="sum" />
+          <ScalarProperty Name="balls" ColumnName="balls" />
+          <ScalarProperty Name="place" ColumnName="place" />
+          <ScalarProperty Name="cond_formating_1" ColumnName="cond_formating_1" />
+          <ScalarProperty Name="cond_formating_2" ColumnName="cond_formating_2" />
+          <ScalarProperty Name="cond_formating_sum" ColumnName="cond_formating_sum" />
+          <ScalarProperty Name="event_1" ColumnName="event_1" />
+          <ScalarProperty Name="event_2" ColumnName="event_2" />
+          <ScalarProperty Name="event_sum" ColumnName="event_sum" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="round_dates">
+      <EntityTypeMapping TypeName="compdbModel.round_dates">
+        <MappingFragment StoreEntitySet="round_dates">
+          <ScalarProperty Name="id_round_dates" ColumnName="id_round_dates" />
+          <ScalarProperty Name="round" ColumnName="round" />
+          <ScalarProperty Name="date" ColumnName="date" />
+          <ScalarProperty Name="Group" ColumnName="Group" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="rounds">
+      <EntityTypeMapping TypeName="compdbModel.rounds">
+        <MappingFragment StoreEntitySet="rounds">
+          <ScalarProperty Name="id_round" ColumnName="id_round" />
+          <ScalarProperty Name="name" ColumnName="name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="teams">
+      <EntityTypeMapping TypeName="compdbModel.teams">
+        <MappingFragment StoreEntitySet="teams">
+          <ScalarProperty Name="id_team" ColumnName="id_team" />
+          <ScalarProperty Name="name" ColumnName="name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
 </Mapping>

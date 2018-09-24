@@ -43,8 +43,6 @@ namespace DBManager.ReportGenerators
 		#region Show
 		private static readonly string ShowPropertyName = GlobalDefines.GetPropertyName<CExtraOption>(m => m.Show);
 
-		private bool m_Show = false;
-
 		public bool Show
 		{
 			get

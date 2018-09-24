@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using DBManager.Scanning.XMLDataClasses;
-using System.Data.Objects;
 using System.Reflection;
-using System.Data.EntityClient;
 using System.Data.Common;
 using System.Collections;
 using System.Drawing;
+using System.Data.Entity.Core.EntityClient;
+using System.Data.Entity.Core.Objects;
+using MySql.Data.MySqlClient;
 
 namespace DBManager.Global
 {
@@ -205,81 +205,82 @@ namespace DBManager.Global
 
 		public static string ToTraceString(this ObjectContext ctx)
 		{
-			Assembly entityAssemly = Assembly.Load(entityAssemblyName);
+			return "";
+			//Assembly entityAssemly = Assembly.Load(entityAssemblyName);
 
-			Type updateTranslatorType = entityAssemly.GetType(
-				"System.Data.Mapping.Update.Internal.UpdateTranslator");
+			//Type updateTranslatorType = entityAssemly.GetType(
+			//	"System.Data.Mapping.Update.Internal.UpdateTranslator");
 
-			Type functionUpdateCommandType = entityAssemly.GetType(
-				"System.Data.Mapping.Update.Internal.FunctionUpdateCommand");
+			//Type functionUpdateCommandType = entityAssemly.GetType(
+			//	"System.Data.Mapping.Update.Internal.FunctionUpdateCommand");
 
-			Type dynamicUpdateCommandType = entityAssemly.GetType(
-				"System.Data.Mapping.Update.Internal.DynamicUpdateCommand");
+			//Type dynamicUpdateCommandType = entityAssemly.GetType(
+			//	"System.Data.Mapping.Update.Internal.DynamicUpdateCommand");
 
-			object[] ctorParams = new object[]
-						{
-							ctx.ObjectStateManager,
-							((EntityConnection)ctx.Connection).GetMetadataWorkspace(),
-							(EntityConnection)ctx.Connection,
-							ctx.CommandTimeout
-						};
+			//object[] ctorParams = new object[]
+			//			{
+			//				ctx.ObjectStateManager,
+			//				ctx.Connection.GetMetadataWorkspace(),
+			//				ctx.Connection,
+			//				ctx.CommandTimeout
+			//			};
 
-			object updateTranslator = Activator.CreateInstance(updateTranslatorType,
-				BindingFlags.NonPublic | BindingFlags.Instance, null, ctorParams, null);
+			//object updateTranslator = Activator.CreateInstance(updateTranslatorType,
+			//	BindingFlags.NonPublic | BindingFlags.Instance, null, ctorParams, null);
 
-			MethodInfo produceCommandsMethod = updateTranslatorType
-				.GetMethod("ProduceCommands", BindingFlags.Instance | BindingFlags.NonPublic);
-			object updateCommands = produceCommandsMethod.Invoke(updateTranslator, null);
+			//MethodInfo produceCommandsMethod = updateTranslatorType
+			//	.GetMethod("ProduceCommands", BindingFlags.Instance | BindingFlags.NonPublic);
+			//object updateCommands = produceCommandsMethod.Invoke(updateTranslator, null);
 
-			List<DbCommand> dbCommands = new List<DbCommand>();
+			//List<DbCommand> dbCommands = new List<DbCommand>();
 
-			foreach (object o in (IEnumerable)updateCommands)
-			{
-				if (functionUpdateCommandType.IsInstanceOfType(o))
-				{
-					FieldInfo m_dbCommandField = functionUpdateCommandType.GetField(
-						"m_dbCommand", BindingFlags.Instance | BindingFlags.NonPublic);
+			//foreach (object o in (IEnumerable)updateCommands)
+			//{
+			//	if (functionUpdateCommandType.IsInstanceOfType(o))
+			//	{
+			//		FieldInfo m_dbCommandField = functionUpdateCommandType.GetField(
+			//			"m_dbCommand", BindingFlags.Instance | BindingFlags.NonPublic);
 
-					dbCommands.Add((DbCommand)m_dbCommandField.GetValue(o));
-				}
-				else if (dynamicUpdateCommandType.IsInstanceOfType(o))
-				{
-					MethodInfo createCommandMethod = dynamicUpdateCommandType.GetMethod(
-						"CreateCommand", BindingFlags.Instance | BindingFlags.NonPublic);
+			//		dbCommands.Add((DbCommand)m_dbCommandField.GetValue(o));
+			//	}
+			//	else if (dynamicUpdateCommandType.IsInstanceOfType(o))
+			//	{
+			//		MethodInfo createCommandMethod = dynamicUpdateCommandType.GetMethod(
+			//			"CreateCommand", BindingFlags.Instance | BindingFlags.NonPublic);
 
-					object[] methodParams = new object[]
-					{
-						updateTranslator,
-						new Dictionary<int, object>()
-					};
+			//		object[] methodParams = new object[]
+			//		{
+			//			updateTranslator,
+			//			new Dictionary<int, object>()
+			//		};
 
-					dbCommands.Add((DbCommand)createCommandMethod.Invoke(o, methodParams));
-				}
-				else
-				{
-					throw new NotSupportedException("Unknown UpdateCommand Kind");
-				}
-			}
+			//		dbCommands.Add((DbCommand)createCommandMethod.Invoke(o, methodParams));
+			//	}
+			//	else
+			//	{
+			//		throw new NotSupportedException("Unknown UpdateCommand Kind");
+			//	}
+			//}
 
 
-			StringBuilder traceString = new StringBuilder();
-			foreach (DbCommand command in dbCommands)
-			{
-				traceString.AppendLine("=============== BEGIN COMMAND ===============");
-				traceString.AppendLine();
+			//StringBuilder traceString = new StringBuilder();
+			//foreach (DbCommand command in dbCommands)
+			//{
+			//	traceString.AppendLine("=============== BEGIN COMMAND ===============");
+			//	traceString.AppendLine();
 
-				traceString.AppendLine(command.CommandText);
-				foreach (DbParameter param in command.Parameters)
-				{
-					traceString.AppendFormat("{0} = {1}", param.ParameterName, param.Value);
-					traceString.AppendLine();
-				}
+			//	traceString.AppendLine(command.CommandText);
+			//	foreach (DbParameter param in command.Parameters)
+			//	{
+			//		traceString.AppendFormat("{0} = {1}", param.ParameterName, param.Value);
+			//		traceString.AppendLine();
+			//	}
 
-				traceString.AppendLine();
-				traceString.AppendLine("=============== END COMMAND ===============");
-			}
+			//	traceString.AppendLine();
+			//	traceString.AppendLine("=============== END COMMAND ===============");
+			//}
 
-			return traceString.ToString();
+			//return traceString.ToString();
 		}
 
 
