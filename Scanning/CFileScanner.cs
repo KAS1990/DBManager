@@ -334,36 +334,37 @@ namespace DBManager.Scanning
 					try
 					{
 						if (!m_XMLDataSer.Data.Settings.Equals(DataFromXml.Settings))
-						{	/* Настройки соревнований изменились */
+						{   /* Настройки соревнований изменились */
 							if (!m_XMLDataSer.Data.Settings.DescriptionPropsEquals(DataFromXml.Settings))
 							{	// Меняем данные в таблице descriptions
 								IEnumerable<descriptions> DescsWithCompId = DBManagerApp.m_Entities.descriptions.Where(arg => arg.id_desc == CompId);
+								descriptions Desc = null;
 								if (DescsWithCompId.Count() > 0)
 								{
-									descriptions Desc = DescsWithCompId.First();
+									Desc = DescsWithCompId.First();
 									CopyXmlToDescEntity(Desc, m_XMLDataSer.Data, Parent.ScanningPath);
 								}
 								else
 								{	// Нужно добавить соревнование
-									descriptions Desc = DescFromXml2Entity(Parent.ScanningPath, m_XMLDataSer.Data);
+									Desc = DescFromXml2Entity(Parent.ScanningPath, m_XMLDataSer.Data);
 									if (Desc != null)
 									{
 										DBManagerApp.m_Entities.descriptions.Add(Desc);
 										DBManagerApp.m_Entities.SaveChanges(); // Чтобы получить id_desc
 
 										CompId = Desc.id_desc;
-
-										result.Add(new CDataChangedInfo(this)
-										{
-											ChangingType = enDataChangesTypes.Add,
-											ChangedObjects = enDataChangedObjects.CompSettings,
-											ID = CompId,
-											Argument = Desc,
-										});
 									}
 									else
 										return null;
 								}
+
+								result.Add(new CDataChangedInfo(this)
+								{
+									ChangingType = DescsWithCompId.Count() > 0 ? enDataChangesTypes.Changing : enDataChangesTypes.Add,
+									ChangedObjects = enDataChangedObjects.CompSettings,
+									ID = CompId,
+									Argument = Desc,
+								});
 							}
 
 							if (DataFromXml.Settings.EndDate != m_XMLDataSer.Data.Settings.EndDate ||

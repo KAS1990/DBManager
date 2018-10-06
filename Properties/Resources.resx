@@ -962,7 +962,7 @@
     <value>Разряды вычисляются только по 75% участников</value>
   </data>
   <data name="resResultsOnSite" xml:space="preserve">
-    <value>РЕЗУЛЬТАТЫ так же НА САЙТЕ</value>
+    <value>РЕЗУЛЬТАТЫ также НА САЙТЕ</value>
   </data>
   <data name="resSmolclimbSite" xml:space="preserve">
     <value>http://smolclimb.ru/online/</value>
