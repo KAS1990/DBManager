@@ -13,7 +13,7 @@
 
 	<DockPanel LastChildFill="True">
 		<DockPanel DockPanel.Dock="Bottom">
-            <localctrls:CancelButton DockPanel.Dock="Right"
+			<localctrls:CancelButton DockPanel.Dock="Right"
 									  x:Name="btnCancel"
 									  Content="{Loc resCancel}"
 									  Margin="5"
@@ -142,7 +142,7 @@
 
 			<Label Grid.Row="5" Grid.Column="0" Content="{Loc resResultGradesSetFromAge}" Margin="0,0,0,5" />
 			<StackPanel Grid.Row="5" Grid.Column="1" Orientation="Horizontal">
-                <localctrls:TextBoxEx x:Name="txtMinAgeToCalcResultGrade"
+				<localctrls:TextBoxEx x:Name="txtMinAgeToCalcResultGrade"
 								   Width="50"
 								   MaxLength="2"
 								   Margin="0,0,0,5"
@@ -154,7 +154,7 @@
 			</StackPanel>
 			
 			<Label Grid.Row="6" Grid.Column="0" Content="{Loc resFontSize}" Margin="0,0,0,5" />
-            <localctrls:TextBoxEx Grid.Row="6"
+			<localctrls:TextBoxEx Grid.Row="6"
 								   Grid.Column="1"
 								   x:Name="txtFontSize"
 								   Width="50"
@@ -170,7 +170,9 @@
 					Grid.Column="0"
 					Content="{Loc resFontFamily}"
 					Margin="0,0,0,5"
-					Click="btnFontFamily_Click"/>
+					Click="btnFontFamily_Click"
+					Height="23"
+					VerticalAlignment="Bottom"/>
 			<Label Grid.Row="7"
 				   Grid.Column="1"
 				   Margin="0,0,0,5"

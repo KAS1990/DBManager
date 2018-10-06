@@ -12,7 +12,7 @@
 	<SolidColorBrush x:Key="JustRecievedResultBrush" Color="Blue" />
 	<SolidColorBrush x:Key="StayOnStartBrush" Color="#FFFAC090" />
 	<SolidColorBrush x:Key="FalsestartBrush" Color="Gray" />
-	<SolidColorBrush x:Key="DataGridLinesBrush" Color="Gray" />
+	<SolidColorBrush x:Key="DataGridLinesBrush" Color="Black" />
 
 	<SolidColorBrush x:Key="PlainResultsForeBrush" Color="Black" />
 	<SolidColorBrush x:Key="NextRoundMembersCountForeBrush" Color="Black" />

@@ -15,7 +15,8 @@ using System.IO;
 using DBManager.SettingsWriter;
 using DBManager.Global;
 using System.ComponentModel;
-
+using System.Drawing.Text;
+using System.Drawing;
 
 namespace DBManager.SettingWnds
 {
@@ -251,6 +252,8 @@ namespace DBManager.SettingWnds
 		/// Ключ - директория
 		/// </summary>
 		Dictionary<string, CCompItem> m_dictCompItems = new Dictionary<string, CCompItem>();
+
+		Font m_lastSelectedFont = null;
 		
 
 		#region Команды
@@ -403,6 +406,11 @@ namespace DBManager.SettingWnds
 					fntstlPlainResults.FontFamilyName =
 					fntstlFalsestart.FontFamilyName = DBManagerApp.m_AppSettings.m_Settings.FontFamilyName;
 
+				InstalledFontCollection installedFontCollection = new InstalledFontCollection();
+				var family = installedFontCollection.Families.FirstOrDefault(arg => arg.Name == DBManagerApp.m_AppSettings.m_Settings.FontFamilyName)
+									?? new System.Drawing.FontFamily(m_GlobalResources["DefaultFontFamilyName"].ToString());
+				m_lastSelectedFont = new Font(family, 16, System.Drawing.FontStyle.Regular, GraphicsUnit.Pixel);
+
 				fntstlInvatedToStart.Modified =
 					fntstlJustRecievedResult.Modified =
 					fntstlNextRoundMembersCount.Modified =
@@ -525,7 +533,12 @@ namespace DBManager.SettingWnds
 
 		private void btnFontFamily_Click(object sender, RoutedEventArgs e)
 		{
-			System.Windows.Forms.FontDialog fd = new System.Windows.Forms.FontDialog();
+			System.Windows.Forms.FontDialog fd = new System.Windows.Forms.FontDialog()
+			{
+				ShowColor = false,
+				ShowEffects = false,
+				Font = m_lastSelectedFont
+			};
 			System.Windows.Forms.DialogResult dr = fd.ShowDialog();
 			if (dr != System.Windows.Forms.DialogResult.Cancel)
 			{
@@ -537,6 +550,10 @@ namespace DBManager.SettingWnds
 					fntstlStayOnStart.FontFamilyName =
 					fntstlPlainResults.FontFamilyName =
 					fntstlFalsestart.FontFamilyName = fd.Font.Name;
+
+				m_lastSelectedFont = fd.Font;
+
+				Modified = true;
 			}
 		}
 		
@@ -618,6 +635,7 @@ namespace DBManager.SettingWnds
 						
 			return true;
 		}
+
 
 		private void btnToDefault_Click(object sender, RoutedEventArgs e)
 		{
