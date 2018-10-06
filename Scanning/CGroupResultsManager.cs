@@ -1205,11 +1205,11 @@ namespace DBManager.Scanning
 				#region crOnlySomeRowsChanged
 				case enChangeReason.crOnlySomeRowsChanged:   // Обновились только результаты у части участников =>
 															 // обновляем только их
-					byte Argument;
+					int Argument;
 					enOnlySomeRowsChangedReason OnlySomeRowsChangedReason = enOnlySomeRowsChangedReason.srcrNone;
 
 					if (!IsNewGroup
-						&& byte.TryParse(roundResults.Argument, out Argument)
+						&& int.TryParse(roundResults.Argument, out Argument)
 						&& Enum.IsDefined(typeof(enOnlySomeRowsChangedReason), Argument)
 						&& (enOnlySomeRowsChangedReason)Argument != enOnlySomeRowsChangedReason.srcrNone
 						&& roundResults.ChangedRows != null)

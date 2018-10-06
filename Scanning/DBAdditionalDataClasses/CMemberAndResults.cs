@@ -345,6 +345,14 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 		}
 
 
+		public void RefreshCondFormattigs(CMemberAndResults rhs)
+		{
+			Results.Route1.CondFormating = rhs.Results.Route1.CondFormating;
+			Results.Route2.CondFormating = rhs.Results.Route2.CondFormating;
+			Results.Sum.CondFormating = rhs.Results.Sum.CondFormating;
+		}
+
+
 		void Results_StyleChanged(object sender, StyleChangedEventArgs e)
 		{
 			OnStyleChanged(e);

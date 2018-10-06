@@ -300,8 +300,8 @@
     <Compile Include="SettingWnds\FalsestartRules.xaml.cs">
       <DependentUpon>FalsestartRules.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SettingWriter\AppSettings.cs" />
-    <Compile Include="SettingWriter\XMLSettingsWriter.cs" />
+    <Compile Include="Themes\SettingWriter\AppSettings.cs" />
+    <Compile Include="Themes\SettingWriter\XMLSettingsWriter.cs" />
     <Compile Include="SettingWnds\CSettingsWnd.xaml.cs">
       <DependentUpon>CSettingsWnd.xaml</DependentUpon>
     </Compile>

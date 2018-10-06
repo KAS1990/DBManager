@@ -23,16 +23,28 @@ namespace DBManager.RoundMembers.Converters
 				else if (result.AdditionalEventTypes.Value.HasFlag(enAdditionalEventTypes.Disqualif))
 					return GlobalDefines.ADDITIONAL_EVENT_NAMES[enAdditionalEventTypes.Disqualif].short_name;
 			}
-			
+
 			if (result.Time == GlobalDefines.FALL_TIME_SPAN_VAL)
 				return Properties.Resources.resFall;
-			else if (result.Time > GlobalDefines.FALL_ON_ROUTE_2_TIME_SPAN_VAL)
-			{	/* Участник сорвался на второй трассе =>
-				 * мы конвертируем результат суммы двух трасс, т.к. время больше GlobalDefines.FALL_ON_ROUTE_2_TIME_SPAN_VAL */
-				return result.Time.Value.ToString(@"mm\:ss\,ff\*");
-			}
 			else
-				return result.Time.Value.ToString(@"mm\:ss\,ff");
+			{
+				// Иногда милисекунды приходят в формате 250, а иногда 25. А должно быть 250
+				TimeSpan timeToConvert = new TimeSpan(0,
+													result.Time.Value.Hours,
+													result.Time.Value.Minutes,
+													result.Time.Value.Seconds,
+													result.Time.Value.Milliseconds % 10 != 0
+														? result.Time.Value.Milliseconds * 10 :
+														result.Time.Value.Milliseconds);
+
+				if (result.Time > GlobalDefines.FALL_ON_ROUTE_2_TIME_SPAN_VAL)
+				{   /* Участник сорвался на второй трассе =>
+				 * мы конвертируем результат суммы двух трасс, т.к. время больше GlobalDefines.FALL_ON_ROUTE_2_TIME_SPAN_VAL */
+					return timeToConvert.ToString(@"mm\:ss\,ff\*");
+				}
+				else
+					return timeToConvert.ToString(@"mm\:ss\,ff");
+			}
 		}
 	}
 }

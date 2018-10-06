@@ -166,7 +166,10 @@ namespace DBManager.Scanning.XMLDataClasses
 					ChangeReason = (enChangeReason)val;
 
 				if (reader.MoveToNextAttribute() && reader.Name == "Argument" && reader.HasValue)
+				{
 					Argument = reader.Value;
+					reader.MoveToNextAttribute();
+				}
 
 				int row = 1;
 				while (reader.Name == $"Changed_Row_{row}" && reader.HasValue)

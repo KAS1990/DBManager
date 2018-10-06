@@ -2970,6 +2970,7 @@ namespace DBManager
 							Visibility PrevVisibilityInMainTable = MemberResults.VisibilityInMainTable;
 
 							MemberResults.RefreshFrom(MemberResultsFromDB, true, true);
+							MemberResults.RefreshCondFormattigs(MemberResultsFromDB);
 
 							MemberResults.VisibilityInMainTable = PrevVisibilityInMainTable;
 
@@ -3116,11 +3117,8 @@ namespace DBManager
 								continue;
 
 							// Нужно восстановить старые значения VisibilityInMainTable
-							Visibility PrevVisibilityInMainTable = MemberResults.VisibilityInMainTable;
-
 							MemberResults.RefreshFrom(MemberResultsFromDB, true, true);
-
-							MemberResults.VisibilityInMainTable = PrevVisibilityInMainTable;
+							MemberResults.RefreshCondFormattigs(MemberResultsFromDB);
 
 #if TICKER
 							if ((MemberResults.Results.Route1.CondFormating.HasValue && MemberResults.Results.Route1.CondFormating.Value == enCondFormating.JustRecievedResult) ||
@@ -3172,26 +3170,60 @@ namespace DBManager
 							}
 						}
 
-						switch (Comparers.Length)
+						switch (SelectedRound)
 						{
-							case 1:
-								m_CurrentRoundMembers = m_CurrentRoundMembers
-															.OfType<CMemberAndResults>()
-															.OrderBy(n => n, Comparers[0])
-															.ToList<CDBAdditionalClassBase>();
+							case enRounds.None:
 								break;
 
-							case 2:
-								m_CurrentRoundMembers = m_CurrentRoundMembers
-															.OfType<CMemberAndResults>()
-															.OrderBy(n => n, Comparer1)
-															.ThenBy(m => m, Comparers[1])
-															.ToList<CDBAdditionalClassBase>();
+							case enRounds.Qualif:
+							case enRounds.Qualif2:
+								// Пересчитываем места у всех участников, т.к. места могли измениться
+								foreach (var memberInDB in from member in DBManagerApp.m_Entities.members
+														   join part in DBManagerApp.m_Entities.participations on member.id_member equals part.member
+														   join result in DBManagerApp.m_Entities.results_speed on part.id_participation equals result.participation
+														   where result.round == CurrentRounds.SelectedKey && part.Group == CurrentGroups.SelectedKey
+														   select new
+														   {
+															   member.id_member,
+															   result.place
+														   })
+								{
+									m_CurrentRoundMembers
+										.FirstOrDefault(arg => (arg as CMemberAndResults).MemberInfo.IDMember == memberInDB.id_member)
+										.Place = memberInDB.place;
+								}
+								break;
+
+							case enRounds.OneEighthFinal:
+							case enRounds.QuaterFinal:
+							case enRounds.SemiFinal:
+							case enRounds.Final:
 								break;
 						}
-						collectionCurrentRoundMembers.Sort(Comparers);
 
-						RefreshVisibilityInMainTable(Comparers);
+						if (Comparers != null)
+						{
+							switch (Comparers.Length)
+							{
+								case 1:
+									m_CurrentRoundMembers = m_CurrentRoundMembers
+																.OfType<CMemberAndResults>()
+																.OrderBy(n => n, Comparers[0])
+																.ToList<CDBAdditionalClassBase>();
+									break;
+
+								case 2:
+									m_CurrentRoundMembers = m_CurrentRoundMembers
+																.OfType<CMemberAndResults>()
+																.OrderBy(n => n, Comparers[0])
+																.ThenBy(m => m, Comparers[1])
+																.ToList<CDBAdditionalClassBase>();
+									break;
+							}
+							collectionCurrentRoundMembers.Sort(Comparers);
+
+							RefreshVisibilityInMainTable(Comparers);
+						}
 					}
 					break;
 				#endregion
@@ -3318,7 +3350,7 @@ namespace DBManager
 								case 2:
 									m_CurrentRoundMembers = m_CurrentRoundMembers
 																.OfType<CMemberAndResults>()
-																.OrderBy(n => n, Comparer1)
+																.OrderBy(n => n, Comparers[0])
 																.ThenBy(m => m, Comparers[1])
 																.ToList<CDBAdditionalClassBase>();
 									break;
@@ -3663,8 +3695,14 @@ namespace DBManager
 				RightGridShown = MembersInLeftGrid > 0 && MembersInLeftGrid < m_CurrentRoundMembers.Count();
 			}
 
-			if (m_MembersInLeftGrid == MembersInLeftGrid)
+			if (m_MembersInLeftGrid == MembersInLeftGrid
+				&& !m_CurrentRoundMembers.Any(arg => (m_CurrentRoundMembers.IndexOf(arg) < m_MembersInLeftGrid
+														&& (arg as CMemberAndResults).VisibilityInMainTable != Visibility.Visible)
+													|| (m_CurrentRoundMembers.IndexOf(arg) >= m_MembersInLeftGrid
+														&& (arg as CMemberAndResults).VisibilityInMainTable == Visibility.Visible)))
+			{
 				return;
+			}
 
 			m_MembersInLeftGrid = MembersInLeftGrid;
 

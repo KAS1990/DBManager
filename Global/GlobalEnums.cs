@@ -206,10 +206,10 @@ namespace DBManager.Global
 		Route2CondFormatting = 1 << 4,
 		SumCondFormatting = 1 << 5,
 
-        Route1AdditionalEvent = 1 << 6,
-        Route2AdditionalEvent = 1 << 7,
-        SumAdditionalEvent = 1 << 8,
-    }
+		Route1AdditionalEvent = 1 << 6,
+		Route2AdditionalEvent = 1 << 7,
+		SumAdditionalEvent = 1 << 8,
+	}
 
 
 	/// <summary>
