@@ -887,7 +887,7 @@
     <value>Взрослые разряды</value>
   </data>
   <data name="resCalcGrades" xml:space="preserve">
-    <value>Подсчёт</value>
+    <value>Подсчёт разрядов</value>
   </data>
   <data name="resCalcGradesBtnContent" xml:space="preserve">
     <value>Присвоить разряды</value>
@@ -1016,5 +1016,11 @@
   </data>
   <data name="resStartFalsestartRound" xml:space="preserve">
     <value>Начальный раунд</value>
+  </data>
+  <data name="resRemoteControlWndTitle" xml:space="preserve">
+    <value>Удалённое управление</value>
+  </data>
+  <data name="resShowRemoteControlWnd" xml:space="preserve">
+    <value>Удалённое управление</value>
   </data>
 </root>

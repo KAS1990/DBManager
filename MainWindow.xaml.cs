@@ -168,9 +168,9 @@ namespace DBManager
 		}
 		#endregion
 
-		
+
 		#region CurHighlightGradesType
-		private static readonly string CurHighlightGradesTypePropertyName = GlobalDefines.GetPropertyName<MainWindow>(m => m.CurHighlightGradesType);
+		public static readonly string CurHighlightGradesTypePropertyName = GlobalDefines.GetPropertyName<MainWindow>(m => m.CurHighlightGradesType);
 
 		private enHighlightGradesType m_CurHighlightGradesType = enHighlightGradesType.None;
 
@@ -187,9 +187,9 @@ namespace DBManager
 			}
 		}
 		#endregion
-				
 
-		
+
+		#region CFontStyleSettings
 
 		public CFontStyleSettings PlainResultsFontStyle
 		{
@@ -216,6 +216,7 @@ namespace DBManager
 			get { return RightPanel.StayOnStartFontStyle; }
 		}
 
+		#endregion
 
 		private ScrollViewer m_svwrDataGrid = null;
 		private ScrollViewer m_svwrDataGrid2 = null;
@@ -259,21 +260,19 @@ namespace DBManager
 		/// Все активные сейчас фильтры
 		/// </summary>
 		Dictionary<enFilterTarget, List<FilterPredicate>> m_dictFilters = new Dictionary<enFilterTarget, List<FilterPredicate>>();
-				
-
+		
 		/// <summary>
 		/// Результаты фильтрации.
 		/// Они не используются для вывода данных на экран
 		/// </summary>
 		List<CDBAdditionalClassBase> m_lstFilteredMembers = null;
-
-
+		
 		CLogWnd m_wndLog = null;
 
+		CRemoteControlWnd m_remoteControlWnd = null;
 
 		CFTPExporter m_FTPExporter = new CFTPExporter();
-
-
+		
 		#region hsActiveFilters
 		private static readonly string ActiveFiltersPropertyName = GlobalDefines.GetPropertyName<MainWindow>(m => m.ActiveFilters);
 
@@ -286,8 +285,7 @@ namespace DBManager
 			get { return m_ActiveFilters; }
 		}
 		#endregion
-
-
+		
 		#region Типо команды
 
 		/// <summary>
@@ -317,7 +315,7 @@ namespace DBManager
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void SettingsCmdExecuted(object sender, RoutedEventArgs e)
+		public void SettingsCmdExecuted(object sender, RoutedEventArgs e)
 		{
 			CSettingsWnd wnd = new CSettingsWnd()
 			{
@@ -382,7 +380,7 @@ namespace DBManager
 			}
 		}
 
-		private static readonly string SettingsEnabledPropertyName = GlobalDefines.GetPropertyName<MainWindow>(m => m.SettingsEnabled);
+		public static readonly string SettingsEnabledPropertyName = GlobalDefines.GetPropertyName<MainWindow>(m => m.SettingsEnabled);
 		public bool SettingsEnabled
 		{
 			get
@@ -397,7 +395,7 @@ namespace DBManager
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void LogWindowCmdExecuted(object sender, RoutedEventArgs e)
+		public void LogWindowCmdExecuted(object sender, RoutedEventArgs e)
 		{
 			m_wndLog = new CLogWnd()
 			{
@@ -419,7 +417,7 @@ namespace DBManager
 			m_wndLog = null;
 		}
 
-		private static readonly string LogWindowEnabledPropertyName = GlobalDefines.GetPropertyName<MainWindow>(m => m.LogWindowEnabled);
+		public static readonly string LogWindowEnabledPropertyName = GlobalDefines.GetPropertyName<MainWindow>(m => m.LogWindowEnabled);
 		public bool LogWindowEnabled
 		{
 			get
@@ -434,7 +432,7 @@ namespace DBManager
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void FalsestartRulesCmdExecuted(object sender, RoutedEventArgs e)
+		public void FalsestartRulesCmdExecuted(object sender, RoutedEventArgs e)
 		{
 			FalsestartRules wnd = new FalsestartRules(CurrentGroups.SelectedKey, CurrentGroups.SelectedItem.Value.AgeGroup)
 			{
@@ -459,7 +457,7 @@ namespace DBManager
 			}
 		}
 
-		private static readonly string FalsestartRuleEnabledPropertyName = GlobalDefines.GetPropertyName<MainWindow>(m => m.FalsestartRulesEnabled);
+		public static readonly string FalsestartRuleEnabledPropertyName = GlobalDefines.GetPropertyName<MainWindow>(m => m.FalsestartRulesEnabled);
 		public bool FalsestartRulesEnabled
 		{
 			get
@@ -478,7 +476,7 @@ namespace DBManager
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void RefreshCmdExecuted(object sender, RoutedEventArgs e)
+		public void RefreshCmdExecuted(object sender, RoutedEventArgs e)
 		{
 			m_RestartingThreads = true;
 			RefreshCommandEnable();
@@ -500,7 +498,7 @@ namespace DBManager
 			RefreshCommandEnable();
 		}
 
-		private static readonly string RefreshEnabledPropertyName = GlobalDefines.GetPropertyName<MainWindow>(m => m.RefreshEnabled);
+		public static readonly string RefreshEnabledPropertyName = GlobalDefines.GetPropertyName<MainWindow>(m => m.RefreshEnabled);
 		public bool RefreshEnabled
 		{
 			get
@@ -516,7 +514,7 @@ namespace DBManager
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void StartCmdExecuted(object sender, RoutedEventArgs e)
+		public void StartCmdExecuted(object sender, RoutedEventArgs e)
 		{
 			if (!Directory.Exists(DBManagerApp.m_AppSettings.m_Settings.CompDir))
 			{
@@ -540,13 +538,13 @@ namespace DBManager
 			m_RestartingThreads = false;
 			RefreshCommandEnable();
 		}
-				
+
 		/// <summary>
 		/// Остановить автообновление списка
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void StopCmdExecuted(object sender, RoutedEventArgs e)
+		public void StopCmdExecuted(object sender, RoutedEventArgs e)
 		{
 			ToStartStyle();
 
@@ -560,7 +558,7 @@ namespace DBManager
 			RefreshCommandEnable();
 		}
 
-		private static readonly string AutoupdatingAvailablePropertyName = GlobalDefines.GetPropertyName<MainWindow>(m => m.AutoupdatingAvailable);
+		public static readonly string AutoupdatingAvailablePropertyName = GlobalDefines.GetPropertyName<MainWindow>(m => m.AutoupdatingAvailable);
 		public bool AutoupdatingAvailable
 		{
 			get
@@ -569,14 +567,14 @@ namespace DBManager
 			}
 		}
 		/*----------------------------------------------------------*/
-		
+
 
 		/// <summary>
 		/// Переписать данные из файлов в БД
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void SyncDBWithFilesCmdExecuted(object sender, RoutedEventArgs e)
+		public void SyncDBWithFilesCmdExecuted(object sender, RoutedEventArgs e)
 		{
 			lock (DBManagerApp.m_AppSettings.m_SettigsSyncObj)
 			{
@@ -614,7 +612,7 @@ namespace DBManager
 			}
 		}
 
-		private static readonly string SyncDBWithFilesEnabledPropertyName = GlobalDefines.GetPropertyName<MainWindow>(m => m.SyncDBWithFilesEnabled);
+		public static readonly string SyncDBWithFilesEnabledPropertyName = GlobalDefines.GetPropertyName<MainWindow>(m => m.SyncDBWithFilesEnabled);
 		public bool SyncDBWithFilesEnabled
 		{
 			get
@@ -629,7 +627,7 @@ namespace DBManager
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void DBToGridCmdExecuted(object sender, RoutedEventArgs e)
+		public void DBToGridCmdExecuted(object sender, RoutedEventArgs e)
 		{
 			lock (DBManagerApp.m_AppSettings.m_SettigsSyncObj)
 			{
@@ -656,7 +654,7 @@ namespace DBManager
 			}
 		}
 
-		private static readonly string DBToGridEnabledPropertyName = GlobalDefines.GetPropertyName<MainWindow>(m => m.DBToGridEnabled);
+		public static readonly string DBToGridEnabledPropertyName = GlobalDefines.GetPropertyName<MainWindow>(m => m.DBToGridEnabled);
 		public bool DBToGridEnabled
 		{
 			get
@@ -671,7 +669,7 @@ namespace DBManager
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void ExportToXlsCmdExecuted(object sender, RoutedEventArgs e)
+		public void ExportToXlsCmdExecuted(object sender, RoutedEventArgs e)
 		{
 			CExportToExcelWnd wnd = new CExportToExcelWnd(m_DirScanner.CompId, CurrentGroups)
 			{
@@ -689,7 +687,7 @@ namespace DBManager
 			}
 		}
 
-		private static readonly string ExportToXlsEnabledPropertyName = GlobalDefines.GetPropertyName<MainWindow>(m => m.ExportToXlsEnabled);
+		public static readonly string ExportToXlsEnabledPropertyName = GlobalDefines.GetPropertyName<MainWindow>(m => m.ExportToXlsEnabled);
 		public bool ExportToXlsEnabled
 		{
 			get
@@ -701,8 +699,7 @@ namespace DBManager
 			}
 		}
 		/*----------------------------------------------------------*/
-
-
+		
 		
 		#region ExportingToFTPNow
 		private static readonly string ExportingToFTPNowPropertyName = GlobalDefines.GetPropertyName<MainWindow>(m => m.ExportingToFTPNow);
@@ -723,9 +720,9 @@ namespace DBManager
 			}
 		}
 		#endregion
-				
-		
-		private static readonly string FTPEnabledPropertyName = GlobalDefines.GetPropertyName<MainWindow>(m => m.FTPEnabled);
+
+
+		public static readonly string FTPEnabledPropertyName = GlobalDefines.GetPropertyName<MainWindow>(m => m.FTPEnabled);
 		public bool FTPEnabled
 		{
 			get
@@ -744,7 +741,7 @@ namespace DBManager
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void FTPSettingsCmdExecuted(object sender, RoutedEventArgs e)
+		public void FTPSettingsCmdExecuted(object sender, RoutedEventArgs e)
 		{
 			CFTPSettingsWnd wnd = new CFTPSettingsWnd(m_DirScanner.CompId, CurrentGroups)
 			{
@@ -761,13 +758,13 @@ namespace DBManager
 				return;
 			}
 		}
-		
+
 		/// <summary>
 		/// Принудительная отправка данных на FTP
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void SendToFTPCmdExecuted(object sender, RoutedEventArgs e)
+		public void SendToFTPCmdExecuted(object sender, RoutedEventArgs e)
 		{
 			if (!SendRoundToFTP(false,
 								m_DirScanner.CompId,
@@ -793,13 +790,13 @@ namespace DBManager
 									MessageBoxImage.Information);
 			}
 		}
-		
+
 		/// <summary>
 		/// Открытие окна лога FTP
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void FTPLogCmdExecuted(object sender, RoutedEventArgs e)
+		public void FTPLogCmdExecuted(object sender, RoutedEventArgs e)
 		{
 			CFTPLogWnd wnd = new CFTPLogWnd()
 			{
@@ -820,7 +817,21 @@ namespace DBManager
 		/*----------------------------------------------------------*/
 
 
-		private static readonly string CalcGradesEnabledPropertyName = GlobalDefines.GetPropertyName<MainWindow>(m => m.CalcGradesEnabled);
+		private void ShowRemoteControlWndCmdExecuted(object sender, RoutedEventArgs e)
+		{
+			if (m_remoteControlWnd == null)
+			{
+				m_remoteControlWnd = new CRemoteControlWnd(this);
+				m_remoteControlWnd.Closed += m_remoteControlWnd_Closed;
+			}
+
+			m_remoteControlWnd.Show();
+			m_remoteControlWnd.Activate();
+		}
+		/*----------------------------------------------------------*/
+
+
+		public static readonly string CalcGradesEnabledPropertyName = GlobalDefines.GetPropertyName<MainWindow>(m => m.CalcGradesEnabled);
 		public bool CalcGradesEnabled
 		{
 			get
@@ -1116,9 +1127,9 @@ namespace DBManager
 		{
 			e.CanExecute = true;
 		}
+		
 		#endregion
-
-
+		
 		public MainWindow()
 		{
 			InitializeComponent();
@@ -1227,15 +1238,15 @@ namespace DBManager
 			}
 		}
 
-
 		#region Перехват cообщений Windows
+
 		private IntPtr HwndMessageHook(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam, ref bool bHandled)
 		{
 			return IntPtr.Zero;
 		}
+		
 		#endregion
-
-
+		
 		protected override void OnClosing(CancelEventArgs e)
 		{
 			if (!m_ShowMsgBeforeClose ||
@@ -1247,6 +1258,9 @@ namespace DBManager
 			{
 				e.Cancel = false;
 
+				if (m_remoteControlWnd != null)
+					m_remoteControlWnd.Close();
+
 				if (m_FTPExporter != null)
 					(m_FTPExporter as IDisposable).Dispose();
 			}
@@ -1255,9 +1269,9 @@ namespace DBManager
 			
 			base.OnClosing(e);
 		}
-
-
+		
 		#region Фильтрация
+
 		void pppFilter_Closed(object sender, EventArgs e)
 		{
 			Popup pppFilter = sender as Popup;
@@ -1282,8 +1296,7 @@ namespace DBManager
 				}
 			}
 		}
-
-
+		
 		/// <summary>
 		/// Фильтруем
 		/// </summary>
@@ -1368,8 +1381,7 @@ namespace DBManager
 
 			sender.ParentPopup.IsOpen = false;
 		}
-
-
+		
 		private void ResetFilters()
 		{
 			m_dictFilters.Clear();
@@ -1384,8 +1396,7 @@ namespace DBManager
 				grdRoundMembersHost_SizeChanged(grdRoundMembersHost, null);
 			}
 		}
-
-
+		
 		private void SetFilterFunc(Predicate<object> Func, bool Refresh)
 		{
 			ThreadManager.Instance.InvokeUI(new Action(() =>
@@ -1398,8 +1409,7 @@ namespace DBManager
 				}
 			}));
 		}
-
-
+		
 		private bool FilterFunc(object item)
 		{
 			CFullMemberInfo CheckingMember = null;
@@ -1444,8 +1454,7 @@ namespace DBManager
 
 			return true;
 		}
-
-
+		
 		/// <summary>
 		/// Не нужно ничего фильтровать => просто закрываем popup
 		/// </summary>
@@ -1455,9 +1464,9 @@ namespace DBManager
 			RightPanel.FilteredMembersQ = null;
 			sender.ParentPopup.IsOpen = false;
 		}
+
 		#endregion
-
-
+		
 		#region Управление стилями кнопки Старт/Стоп
 		void ToStopStyle()
 		{
@@ -1500,8 +1509,7 @@ namespace DBManager
 			}
 		}
 		#endregion
-
-
+		
 		void OnFontStyliesChanged()
 		{
 			dgrdRoundMembers2.FontFamily =
@@ -1528,8 +1536,7 @@ namespace DBManager
 			OnPropertyChanged(CRightPanelControl.StayOnStartFontStylePropertyName);
 			OnPropertyChanged(CRightPanelControl.FalsestartFontStylePropertyName);
 		}
-
-
+		
 		void DirScaner_DataChanged(CScannerBase sender, DataChangedEventArgs e)
 		{
 			if (e != null)
@@ -1678,60 +1685,63 @@ namespace DBManager
 								}
 								else
 								{
-									if (Changing.ID == CurrentRounds.SelectedKey)
-									{   // Выбран именно тот раунд, результаты в котором изменились
-										List < int > ChangedRows = new List<int>();
-										switch (Changing.ChangeReason)
-										{
-											case enChangeReason.crOnlySomeRowsChanged:
+									List < int > ChangedRows = new List<int>();
+									switch (Changing.ChangeReason)
+									{
+										case enChangeReason.crOnlySomeRowsChanged:
+											if (Changing.ID == CurrentRounds.SelectedKey)
+											{   // Выбран именно тот раунд, результаты в котором изменились
 												ThreadManager.Instance.InvokeUI(RefreshRoundResults,
 																				Changing.ListArguments.Cast<int>().ToList(),
 																				(enOnlySomeRowsChangedReason)Changing.Argument);
-												break;
+											}
+											break;
 
-											case enChangeReason.crRowAdded:
-												ChangedRows.Add((byte)Changing.Argument);
-												ThreadManager.Instance.InvokeUI(RefreshRoundResults,
-																				ChangedRows,
-																				enOnlySomeRowsChangedReason.srcrRowAdded);
-												break;
+										case enChangeReason.crRowAdded:
+											ChangedRows.Add((byte)Changing.Argument);
+											ThreadManager.Instance.InvokeUI(RefreshRoundResults,
+																			ChangedRows,
+																			enOnlySomeRowsChangedReason.srcrRowAdded);
+											break;
 
-											case enChangeReason.crRowChanged:
-												ChangedRows.Add((byte)Changing.Argument);
-												ThreadManager.Instance.InvokeUI(RefreshRoundResults,
-																				ChangedRows,
-																				enOnlySomeRowsChangedReason.srcrRowChanged);
-												break;
+										case enChangeReason.crRowChanged:
+											ChangedRows.Add((byte)Changing.Argument);
+											ThreadManager.Instance.InvokeUI(RefreshRoundResults,
+																			ChangedRows,
+																			enOnlySomeRowsChangedReason.srcrRowChanged);
+											break;
 
-											case enChangeReason.crRowDeleted:
-												ChangedRows.Add((byte)Changing.Argument);
-												ThreadManager.Instance.InvokeUI(RefreshRoundResults,
-																				ChangedRows,
-																				enOnlySomeRowsChangedReason.srcrRowDeleted);
-												break;
+										case enChangeReason.crRowDeleted:
+											ChangedRows.Add((byte)Changing.Argument);
+											ThreadManager.Instance.InvokeUI(RefreshRoundResults,
+																			ChangedRows,
+																			enOnlySomeRowsChangedReason.srcrRowDeleted);
+											break;
 
-											case enChangeReason.crNone:
-												break;
+										case enChangeReason.crNone:
+											break;
 
-											default:
+										default:
+											if (Changing.ID == CurrentRounds.SelectedKey)
+											{   // Выбран именно тот раунд, результаты в котором изменились
 												ThreadManager.Instance.InvokeUI(new Action(() =>
 												{
 													CurrentRounds.SelectedItem.Command.DoExecute();
 												}));
-												break;
+											}
+											break;
 
-										}
+									}
 										
-										if (Changing.ChangeReason != enChangeReason.crNone
-											&& Changing.ChangeReason != enChangeReason.crOnlySomeRowsChanged)
-										{   // Нужно обновить общее число участников
-											ThreadManager.Instance.InvokeUI(new Action(() =>
-											{
-												RightPanel.WholeMembersQ = (from part in DBManagerApp.m_Entities.participations
-																			where part.Group == CurrentGroups.SelectedKey
-																			select part.id_participation).Count();
-											}));
-										}
+									if (Changing.ChangeReason != enChangeReason.crNone
+										&& Changing.ChangeReason != enChangeReason.crOnlySomeRowsChanged)
+									{   // Нужно обновить общее число участников
+										ThreadManager.Instance.InvokeUI(new Action(() =>
+										{
+											RightPanel.WholeMembersQ = (from part in DBManagerApp.m_Entities.participations
+																		where part.Group == CurrentGroups.SelectedKey
+																		select part.id_participation).Count();
+										}));
 									}
 								}
 							}
@@ -1813,8 +1823,7 @@ namespace DBManager
 				}
 			}
 		}
-
-
+		
 		void CurrentGroups_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
 		{
 			if (CurrentGroups.Count == 0)
@@ -1826,7 +1835,6 @@ namespace DBManager
 			OnPropertyChanged(FTPEnabledPropertyName);
 			OnPropertyChanged(CalcGradesEnabledPropertyName);
 		}
-
 
 		void CurrentRounds_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
 		{
@@ -1846,8 +1854,7 @@ namespace DBManager
 			OnPropertyChanged(FTPEnabledPropertyName);
 			OnPropertyChanged(CalcGradesEnabledPropertyName);
 		}
-
-
+		
 		void CurrentGroupSettings_PropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName == CKeyValuePairEx<long, CCompSettings>.ValuePropertyName)
@@ -1859,8 +1866,7 @@ namespace DBManager
 				}
 			}
 		}
-
-
+		
 		void SetDesc(descriptions Desc)
 		{
 			if (Desc == null)
@@ -1880,7 +1886,6 @@ namespace DBManager
 				lblCompName.Content = Desc.name;
 			}
 		}
-
 
 		void DBToGrid()
 		{
@@ -1928,8 +1933,7 @@ namespace DBManager
 				}
 			}
 		}
-
-
+		
 		void GroupCommamdHandler(CKeyValuePairEx<long, CCompSettings> sender)
 		{
 			ResetFilters(); // Очищаем все фильтры при переходе к новой группе
@@ -2021,8 +2025,7 @@ namespace DBManager
 
 			RefreshCommandEnable();
 		}
-
-
+		
 		void RoundCommamdHandler(CKeyValuePairEx<byte, CRoundAndDate> sender)
 		{
 			//GlobalDefines.m_swchGlobal.Restart();
@@ -2839,8 +2842,7 @@ namespace DBManager
 			//GlobalDefines.m_swchGlobal.Stop();
 			//System.Diagnostics.Debug.WriteLine(GlobalDefines.m_swchGlobal.Elapsed.TotalSeconds);
 		}
-
-
+		
 		void RefreshRoundResults(List<int> ChangedRows, enOnlySomeRowsChangedReason OnlySomeRowsChangedReason)
 		{
 			if (CurrentRounds.SelectedItem == null || IsTotal)
@@ -3044,7 +3046,7 @@ namespace DBManager
 
 						RightPanel.InvitedToStartMember = RightPanel.PreparingMember = null;
 
-						foreach (int row in ChangedRows)
+						foreach (int row in ChangedRows.Distinct())
 						{
 							CMembersPair pair = null;
 							switch (SelectedRound)
@@ -3116,9 +3118,13 @@ namespace DBManager
 							if (MemberResultsFromDB == null)
 								continue;
 
-							// Нужно восстановить старые значения VisibilityInMainTable
+							var curVisibilityInMainTable = MemberResults.VisibilityInMainTable;
+
 							MemberResults.RefreshFrom(MemberResultsFromDB, true, true);
 							MemberResults.RefreshCondFormattigs(MemberResultsFromDB);
+
+							// Нужно восстановить старые значения VisibilityInMainTable
+							MemberResults.VisibilityInMainTable = curVisibilityInMainTable;
 
 #if TICKER
 							if ((MemberResults.Results.Route1.CondFormating.HasValue && MemberResults.Results.Route1.CondFormating.Value == enCondFormating.JustRecievedResult) ||
@@ -3222,7 +3228,7 @@ namespace DBManager
 							}
 							collectionCurrentRoundMembers.Sort(Comparers);
 
-							RefreshVisibilityInMainTable(Comparers);
+							RefreshVisibilityInMainTable(Comparers, false);
 						}
 					}
 					break;
@@ -3231,17 +3237,19 @@ namespace DBManager
 				#region srcrRowAdded
 				case enOnlySomeRowsChangedReason.srcrRowAdded:
 					{
-						foreach (CMemberAndResults item in m_CurrentRoundMembers.Where(arg => (arg as CMemberAndResults).StartNumber > ChangedRows[0]))
+						int insertedRowNumber = ChangedRows[0];
+						foreach (CMemberAndResults item in m_CurrentRoundMembers.Where(arg => (arg as CMemberAndResults).StartNumber > insertedRowNumber))
 						{
 							item.StartNumber++;
 						}
 
+						insertedRowNumber++;
 						CMemberAndResults NewMemberResultsFromDB = (from member in DBManagerApp.m_Entities.members
 																	join part in DBManagerApp.m_Entities.participations on member.id_member equals part.member
 																	join result in DBManagerApp.m_Entities.results_speed on part.id_participation equals result.participation
 																	where result.round == CurrentRounds.SelectedKey
 																		&& part.Group == CurrentGroups.SelectedKey
-																		&& member.id_member == MemberResults.MemberInfo.IDMember
+																		&& result.number == insertedRowNumber
 																	select new CMemberAndResults
 																	{
 																		MemberInfo = new CFullMemberInfo()
@@ -3357,7 +3365,7 @@ namespace DBManager
 							}
 							collectionCurrentRoundMembers.Sort(Comparers);
 
-							RefreshVisibilityInMainTable(Comparers);
+							RefreshVisibilityInMainTable(Comparers, false);
 
 							RightPanel.RoundMembersQ++;   // Число участников в раунде
 						}
@@ -3440,6 +3448,11 @@ namespace DBManager
 							m_CurrentRoundMembers.RemoveAt(Index);
 							collectionCurrentRoundMembers.RemoveAt(Index);
 
+							foreach (CMemberAndResults item in m_CurrentRoundMembers.Where(arg => (arg as CMemberAndResults).StartNumber > Index))
+							{
+								item.StartNumber--;
+							}
+
 							if (!QualifFinished)
 							{
 								MemberResults = m_CurrentRoundMembers
@@ -3486,7 +3499,7 @@ namespace DBManager
 							}
 #endif
 
-							RefreshVisibilityInMainTable(Comparers);
+							RefreshVisibilityInMainTable(Comparers, true);
 
 							RightPanel.RoundMembersQ--;   // Число участников в раунде
 						}
@@ -3504,15 +3517,13 @@ namespace DBManager
 
 			
 		}
-
-
+		
 		void HighlightGradeTypeCommamdHandler(CKeyValuePairEx<enHighlightGradesType, string> sender)
 		{
 			mbtnHighlightGrades.Label = sender.Value;
 			CurHighlightGradesType = sender.Key;
 		}
-		
-								
+										
 		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
 			CTaskBarIconTuning.hWnd = (new WindowInteropHelper(this)).Handle;
@@ -3539,7 +3550,11 @@ namespace DBManager
 			RefreshScrollingOffsets();
 		}
 
-		
+		private void m_remoteControlWnd_Closed(object sender, EventArgs e)
+		{
+			m_remoteControlWnd = null;
+		}
+
 		private void rsmiAbout_Click(object sender, RoutedEventArgs e)
 		{
 			if (e.Source is RibbonSplitButton)
@@ -3561,14 +3576,13 @@ namespace DBManager
 				//}
 			}
 		}
-
-		
+				
 		/// <summary>
 		/// Показывать шапку листа
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void rchkShowGroupHead_Click(object sender, RoutedEventArgs e)
+		public void rchkShowGroupHead_Click(object sender, RoutedEventArgs e)
 		{
 			for (int row = 0; row < grdGroupHead.RowDefinitions.Count; row++)
 			{
@@ -3583,15 +3597,13 @@ namespace DBManager
 					grdGroupHead.RowDefinitions[row].Height = new GridLength(0, GridUnitType.Pixel);
 			}
 		}
-
-
+		
 		private void dgrdRoundMembers_ScrollChanged(object sender, ScrollChangedEventArgs e)
 		{
 			if (scrlvwrAdditionalDataGridHeader.Visibility == Visibility.Visible)
 				scrlvwrAdditionalDataGridHeader.ScrollToHorizontalOffset(e.HorizontalOffset);
 		}
-
-
+		
 		private void ShowRightDataGrid(bool Show)
 		{
 			if (Show)
@@ -3614,8 +3626,7 @@ namespace DBManager
 				}
 			}
 		}
-
-
+		
 		private void grdRoundMembersHost_SizeChanged(object sender, SizeChangedEventArgs e)
 		{
 			if (m_CurrentRoundMembers == null)
@@ -3670,9 +3681,8 @@ namespace DBManager
 					collectionCurrentRoundMembers2.Clear();
 			}
 		}
-
-
-		private void RefreshVisibilityInMainTable(CMemberAndResultsComparer[] ComparersForSort )
+		
+		private void RefreshVisibilityInMainTable(CMemberAndResultsComparer[] ComparersForSort, bool refreshingRequired)
 		{
 			if (m_CurrentRoundMembers == null)
 				return;
@@ -3695,7 +3705,8 @@ namespace DBManager
 				RightGridShown = MembersInLeftGrid > 0 && MembersInLeftGrid < m_CurrentRoundMembers.Count();
 			}
 
-			if (m_MembersInLeftGrid == MembersInLeftGrid
+			if (!refreshingRequired
+				&& m_MembersInLeftGrid == MembersInLeftGrid
 				&& !m_CurrentRoundMembers.Any(arg => (m_CurrentRoundMembers.IndexOf(arg) < m_MembersInLeftGrid
 														&& (arg as CMemberAndResults).VisibilityInMainTable != Visibility.Visible)
 													|| (m_CurrentRoundMembers.IndexOf(arg) >= m_MembersInLeftGrid
@@ -3729,9 +3740,11 @@ namespace DBManager
 				}
 			}
 
+			foreach (var deletedMemeber in collectionCurrentRoundMembers2.Where(arg => !m_CurrentRoundMembers.Contains(arg)).ToList())
+				collectionCurrentRoundMembers2.Remove(deletedMemeber);
+
 			collectionCurrentRoundMembers2.Sort(ComparersForSort);
 		}
-
 
 		#region Автопрокрутка списка участников
 		private void dgrdRoundMembers_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -3794,7 +3807,7 @@ namespace DBManager
 		}
 
 		
-		private void rchkAutoscrollEnabled_CheckedUnchecked(object sender, RoutedEventArgs e)
+		public void rchkAutoscrollEnabled_CheckedUnchecked(object sender, RoutedEventArgs e)
 		{
 			m_tmrAutoscroll.IsEnabled = rchkAutoscrollEnabled.IsChecked.Value;
 			RefreshScrollingOffsets();
@@ -3815,18 +3828,17 @@ namespace DBManager
 			}
 		}
 		#endregion
-
-
+		
 		#region Отправка данных на FTP
-		private void rchkAutoSendToFTP_Click(object sender, RoutedEventArgs e)
+
+		public void rchkAutoSendToFTP_Click(object sender, RoutedEventArgs e)
 		{
 			if (rchkAutoSendToFTP.IsChecked.Value)
 				m_FTPExporter.Start();
 			else
 				m_FTPExporter.Stop();
 		}
-
-
+		
 		/// <summary>
 		/// 
 		/// </summary>
@@ -4122,6 +4134,7 @@ namespace DBManager
 
 			return DeferredExport ? m_FTPExporter.HandleItem(Item) : m_FTPExporter.AddItemToQueue(Item);
 		}
+
 		#endregion
 	}
 

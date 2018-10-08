@@ -52,6 +52,9 @@ namespace DBManager.SettingsWriter
 				catch (Exception ex)
 				{	/* Произошла какая-то ошибка при записи данных в файл или файл недоступен для записи */
 					writer.Close();
+
+					ex.ToString(); // make compiler happy
+
 					return false;
 				}
 			}
@@ -76,6 +79,8 @@ namespace DBManager.SettingsWriter
 				{	/* Произошла какая-то ошибка при записи данных в файл или файл недоступен для записи */
 					if (writer != null)
 						writer.Close();
+
+					ex.ToString(); // make compiler happy
 				}
 			}
 		}
@@ -91,17 +96,18 @@ namespace DBManager.SettingsWriter
 					 * почему это так, написано здесь:
 					 * http://stackoverflow.com/questions/1606349/does-a-streamreader-lock-a-text-file-whilst-it-is-in-use-can-i-prevent-this/1606370#1606370 */
 					using (FileStream fs = new FileStream(m_FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-						using (StreamReader reader = new StreamReader(fs))
+					using (StreamReader reader = new StreamReader(fs))
+					{
+						try
 						{
-							try
-							{
-								XmlSerializer ser = new XmlSerializer(typeof(AppSettings));
-								m_Settings = ser.Deserialize(reader) as AppSettings;
-							}
-							catch (Exception ex)
-							{
-							}
+							XmlSerializer ser = new XmlSerializer(typeof(AppSettings));
+							m_Settings = ser.Deserialize(reader) as AppSettings;
 						}
+						catch (Exception ex)
+						{
+							ex.ToString(); // make compiler happy
+						}
+					}
 				}
 
 				if (m_Settings == null)

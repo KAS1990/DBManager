@@ -122,7 +122,8 @@
 					</ribbon:RibbonMenuButton>
 
 					<ribbon:RibbonMenuButton Name="rmbtnRound"
-											  Label="{Loc resSelectRound}" IsEnabled="{Binding CurrentRounds.Count, Converter={local:CollectionsCountToBoolMarkupConverter}}"
+											  Label="{Loc resSelectRound}"
+											 IsEnabled="{Binding CurrentRounds.Count, Converter={local:CollectionsCountToBoolMarkupConverter}}"
 											  ItemsSource="{Binding CurrentRounds}">
 						<ribbon:RibbonMenuButton.Resources>
 							<Style TargetType="{x:Type ribbon:RibbonMenuItem}">
@@ -183,6 +184,10 @@
 										 Label="{Loc resFalsestartRules}"
 										 IsEnabled="{Binding FalsestartRulesEnabled}"
 										 Click="FalsestartRulesCmdExecuted" />
+
+					<ribbon:RibbonButton Name="rbtnShowRemoteControlWnd" 
+										 Label="{Loc resShowRemoteControlWnd}"
+										 Click="ShowRemoteControlWndCmdExecuted" />
 				</ribbon:RibbonGroup> 
 				
 				<ribbon:RibbonGroup Header="{Loc resGrades}" IsEnabled="{Binding CalcGradesEnabled}">
@@ -328,7 +333,7 @@
 				
 			<Grid Grid.Row="3" Name="grdRoundMembersHost" SizeChanged="grdRoundMembersHost_SizeChanged">
 				<Grid.ColumnDefinitions>
-					<ColumnDefinition MinWidth="400"/>
+					<ColumnDefinition MinWidth="100"/>
 					<ColumnDefinition Width="auto"/>
 					<ColumnDefinition />
 				</Grid.ColumnDefinitions>

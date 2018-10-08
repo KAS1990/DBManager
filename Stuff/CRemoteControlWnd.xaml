@@ -1,0 +1,139 @@
+﻿<glob:CNotifyPropertyChangedWnd x:Class="DBManager.Stuff.CRemoteControlWnd"
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:glob="clr-namespace:DBManager.Global"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:local="clr-namespace:DBManager.Stuff"
+		xmlns:localctrls="clr-namespace:DBManager.InterfaceElements"
+		Title="{Loc resRemoteControlWndTitle}"
+		ShowInTaskbar="True"
+		SizeToContent="WidthAndHeight"
+		ResizeMode="NoResize"
+		Icon="/DBManager;component/Icons/AppIcon_tune.ico">
+
+	<glob:CNotifyPropertyChangedWnd.Resources>
+
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="..\Global\GlobalResources.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+
+			<Style TargetType="GroupBox">
+				<Setter Property="Margin" Value="5,5,5,0" />
+				<Setter Property="Padding" Value="0,0,5,5" />
+			</Style>
+
+			 <!--Cтиль для кнопок с картинками--> 
+			<Style TargetType="{x:Type localctrls:ButtonWithPicture}">
+				<Setter Property="ContentTemplate" >
+					<Setter.Value>
+						<DataTemplate>
+							<DockPanel LastChildFill="True">
+								<TextBlock DockPanel.Dock="Bottom"
+										   Text="{Binding ButtonText, RelativeSource={RelativeSource FindAncestor, AncestorType=localctrls:ButtonWithPicture}}"
+										   TextWrapping="Wrap"
+										   Padding="0,5,0,0"
+										   MaxWidth="150" />
+								<Image Source="{Binding ButtonImage, RelativeSource={RelativeSource FindAncestor, AncestorType=localctrls:ButtonWithPicture}}"
+									   RenderOptions.BitmapScalingMode="Fant"
+									   Height="42"
+									   Width="42" />
+							</DockPanel>
+						</DataTemplate>
+					</Setter.Value>
+				</Setter>
+
+				<Setter Property="VerticalContentAlignment" Value="Top" />
+				<Setter Property="Margin" Value="5,5,0,0" />
+				<Setter Property="Padding" Value="5,5,5,5" />
+			</Style>
+		</ResourceDictionary>
+	</glob:CNotifyPropertyChangedWnd.Resources>
+	
+	<StackPanel Orientation="Vertical" Margin="0,0,0,5">
+		<GroupBox Header="{Loc resTableUpdating}" >
+			<StackPanel Orientation="Horizontal">
+				<localctrls:ButtonWithPicture ButtonText="{Loc resAutoupdating}"
+											  ButtonImage="../RibbonIcons/START.png"
+											  Click="btnAutoupdating_Click"/>
+				<localctrls:ButtonWithPicture ButtonText="{Loc resRefresh}"
+											  ButtonImage="../RibbonIcons/Refresh.png"
+											  IsEnabled="{Binding RefreshEnabled}"
+											  ToolTip="{Loc resRefreshToolTip}"
+											  Click="btnRefresh_Click" />
+				<localctrls:ButtonWithPicture ButtonText="{Loc resSyncDBWithFiles}"
+											  ButtonImage="../RibbonIcons/SyncDBWithFiles.png"
+											  IsEnabled="{Binding SyncDBWithFilesEnabled}"
+											  ToolTip="{Loc resSyncDBWithFilesToolTip}"
+											  Click="btnSyncDBWithFiles_Click" />
+				<localctrls:ButtonWithPicture ButtonText="{Loc resDBToGrid}"
+											  ButtonImage="../RibbonIcons/SyncDBWithFiles.png"
+											  IsEnabled="{Binding DBToGridEnabled}"
+											  ToolTip="{Loc resDBToGridToolTip}"
+											  Click="btnDBToGrid_Click" />
+			</StackPanel>
+		</GroupBox>
+
+		<GroupBox Header="{Loc resTableContent}" >
+			<Grid>
+				<Grid.RowDefinitions>
+					<RowDefinition />
+					<RowDefinition />
+				</Grid.RowDefinitions>
+
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="auto" />
+					<ColumnDefinition Width="auto" />
+				</Grid.ColumnDefinitions>
+
+				<ComboBox Grid.Column="0"
+						  Grid.Row="0"
+						  Name="cmbGroups"
+						  Margin="0,5,5,0"
+						  IsEnabled="{Binding GroupSelectionEnabled}"
+						  SelectionChanged="cmbGroups_SelectionChanged"/>
+				<ComboBox Grid.Column="0"
+						  Grid.Row="1"
+						  Name="cmbRounds"
+						  Margin="0,5,5,0"
+						  IsEnabled="{Binding RoundSelectionEnabled}"
+						  SelectionChanged="cmbRounds_SelectionChanged"/>
+
+				<CheckBox Grid.Column="1"
+						  Grid.Row="0"
+						  Name="chkShowGroupHead"
+						  Content="{Loc resShowGroupHead}"
+						  Margin="0,5,5,0"
+						  VerticalAlignment="Center"
+						  Click="chkShowGroupHead_Click"/>
+				<CheckBox Grid.Column="1"
+						  Grid.Row="1"
+						  Name="chkAutoscrollEnabled"
+						  Content="{Loc resAutoscrollEnabled}"
+						  Margin="0,5,5,0"
+						  VerticalAlignment="Center"
+						  Click="chkAutoscrollEnabled_Click"/>
+			</Grid>
+		</GroupBox>
+
+		<GroupBox Header="{Loc resFTP}" >
+			<StackPanel Orientation="Horizontal">
+				<localctrls:ButtonWithPicture ButtonText="{Loc resFTPSettings}"
+											  ButtonImage="../RibbonIcons/FTPIcon.ico"
+											  Click="btnFTPSettings_Click"/>
+				<localctrls:ButtonWithPicture ButtonText="{Loc resSendToFTP}"
+											  ButtonImage="../RibbonIcons/server-from-client.png"
+											  Click="btnSendToFTP_Click" />
+				<localctrls:ButtonWithPicture ButtonText="{Loc resFTPLog}"
+											  ButtonImage="../RibbonIcons/CreateReport.png" 
+											  Click="btnFTPLog_Click" />
+
+				<CheckBox Name="chkAutoSendToFTP"
+						  Content="{Loc resAutoSendToFTP}"
+						  Margin="5,5,0,0"
+						  VerticalAlignment="Center"
+						  Click="chkAutoSendToFTP_Click" />
+			</StackPanel>
+		</GroupBox>
+	</StackPanel>
+</glob:CNotifyPropertyChangedWnd>

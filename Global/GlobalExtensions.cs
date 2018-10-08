@@ -190,8 +190,8 @@ namespace DBManager.Global
 		}
 
 
-		private static readonly string entityAssemblyName =
-			"system.data.entity, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089";
+		//private static readonly string entityAssemblyName =
+		//	"system.data.entity, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089";
 
 		public static string ToTraceString(this IQueryable query)
 		{

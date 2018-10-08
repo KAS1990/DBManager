@@ -21,7 +21,7 @@ namespace DBManager
 			{
 				ResultInXML.ResultInDB = this;
 
-				if (RouteInDB != ResultInXML)
+				if (RouteInDB != ResultInXML && RouteInDB != ResultInXML.Time)
 				{
 					RouteInDB = ResultInXML.Time;
 					result |= ChangedResults[0];

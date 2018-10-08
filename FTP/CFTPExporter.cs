@@ -376,6 +376,9 @@ namespace DBManager.FTP
 					m_excellApp.ScreenUpdating = true;
 					ClearExcelFields();
 					DBManagerApp.MainWnd.ExportingToFTPNow = false;
+
+					ex.ToString(); // make compiler happy
+
 					return false;
 				}
 			}
@@ -392,6 +395,9 @@ namespace DBManager.FTP
 					m_excellApp.ScreenUpdating = true;
 					ClearExcelFields();
 					DBManagerApp.MainWnd.ExportingToFTPNow = false;
+
+					ex.ToString(); // make compiler happy
+
 					return false;
 				}
 			}
@@ -506,8 +512,8 @@ namespace DBManager.FTP
 					return false;
 			}
 			catch (Exception ex)
-			{	// Файла нет
-				
+			{   // Файла нет
+				ex.ToString(); // make compiler happy
 			}
 
 			// Теперь пишем файл
@@ -559,12 +565,15 @@ namespace DBManager.FTP
 					}
 					catch (Exception ex)
 					{
+						ex.ToString(); // make compiler happy
 					}
 				}
 				catch (WebException ex)
 				{
 					if (ex.Status == WebExceptionStatus.Timeout)
 						return false;
+
+					ex.ToString(); // make compiler happy
 				}
 				catch (Exception ex)
 				{	// Не удалось записать файл => добавляем запись в лог
@@ -665,7 +674,10 @@ namespace DBManager.FTP
 								using (response = (FtpWebResponse)request.GetResponse());
 							}
 							catch (WebException exSub)
-							{	// не удалось создать папку
+							{   // не удалось создать папку
+
+								exSub.ToString(); // make compiler happy
+
 								return false;
 							}
 						}
@@ -700,6 +712,7 @@ namespace DBManager.FTP
 			}
 			catch (Exception ex)
 			{
+				ex.ToString(); // make compiler happy
 			}
 		}
 

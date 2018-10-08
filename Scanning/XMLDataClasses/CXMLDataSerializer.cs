@@ -93,6 +93,8 @@ namespace DBManager.Scanning.XMLDataClasses
 					if (writer != null)
 						writer.Close();
 
+					ex.ToString(); // make compiler happy
+
 					return false;
 				}
 			}

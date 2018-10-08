@@ -187,6 +187,7 @@
     <Compile Include="groups.cs">
       <DependentUpon>compdbEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="InterfaceElements\ButtonWithPicture.cs" />
     <Compile Include="InterfaceElements\CMessageBoxEx.xaml.cs">
       <DependentUpon>CMessageBoxEx.xaml</DependentUpon>
     </Compile>
@@ -299,6 +300,9 @@
     <Compile Include="SettingWnds\CustomSettingsWnd.cs" />
     <Compile Include="SettingWnds\FalsestartRules.xaml.cs">
       <DependentUpon>FalsestartRules.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Stuff\CRemoteControlWnd.xaml.cs">
+      <DependentUpon>CRemoteControlWnd.xaml</DependentUpon>
     </Compile>
     <Compile Include="Themes\SettingWriter\AppSettings.cs" />
     <Compile Include="Themes\SettingWriter\XMLSettingsWriter.cs" />
@@ -490,6 +494,10 @@
     <Resource Include="RibbonIcons\SyncDBWithFiles.png" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Stuff\CRemoteControlWnd.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

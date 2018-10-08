@@ -187,7 +187,7 @@ namespace DBManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Подсчёт.
+        ///   Looks up a localized string similar to Подсчёт разрядов.
         /// </summary>
         internal static string resCalcGrades {
             get {
@@ -1954,6 +1954,15 @@ namespace DBManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Удалённое управление.
+        /// </summary>
+        internal static string resRemoteControlWndTitle {
+            get {
+                return ResourceManager.GetString("resRemoteControlWndTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Убрать фальстарт.
         /// </summary>
         internal static string resRemoveFalsestart {
@@ -2166,6 +2175,15 @@ namespace DBManager.Properties {
         internal static string resShowGroupHead {
             get {
                 return ResourceManager.GetString("resShowGroupHead", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Удалённое управление.
+        /// </summary>
+        internal static string resShowRemoteControlWnd {
+            get {
+                return ResourceManager.GetString("resShowRemoteControlWnd", resourceCulture);
             }
         }
         
