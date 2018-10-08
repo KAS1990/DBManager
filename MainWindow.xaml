@@ -135,7 +135,13 @@
 						</ribbon:RibbonMenuButton.Resources>
 					</ribbon:RibbonMenuButton>
 					
-					<ribbon:RibbonCheckBox Name="rchkForWrapping" Visibility="Hidden" />
+					<ribbon:RibbonButton Name="rbtnOpenWorkbook"
+										 SmallImageSource="/RibbonIcons/Open.png"
+										 Label="{Loc resOpenWorkbook}"
+										 IsEnabled="{Binding IsEnabled, ElementName=rmbtnRound}"
+										 ToolTip="{Loc resOpenWorkbookToolTip}"
+										 Click="OpenWorkbookCmdExecuted"/>
+					
 					<ribbon:RibbonCheckBox Name="rchkShowGroupHead"
 										   Label="{Loc resShowGroupHead}"
 										   IsChecked="True"

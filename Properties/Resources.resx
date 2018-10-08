@@ -1023,4 +1023,10 @@
   <data name="resShowRemoteControlWnd" xml:space="preserve">
     <value>Удалённое управление</value>
   </data>
+  <data name="resOpenWorkbook" xml:space="preserve">
+    <value>Показать лист</value>
+  </data>
+  <data name="resOpenWorkbookToolTip" xml:space="preserve">
+    <value>Показать выбранный раунд в книге Excel</value>
+  </data>
 </root>

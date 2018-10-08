@@ -566,6 +566,7 @@
       <DependentUpon>compdbEntities.edmx</DependentUpon>
       <LastGenOutput>compdbEntities.cs</LastGenOutput>
     </Content>
+    <Resource Include="RibbonIcons\Open.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

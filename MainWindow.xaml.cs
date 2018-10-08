@@ -36,6 +36,7 @@ using DBManager.FTP;
 using DBManager.FTP.SheetGenerators;
 using DBManager.RightPanels;
 using DBManager.DAL;
+using MSExcel = Microsoft.Office.Interop.Excel;
 
 namespace DBManager
 {
@@ -127,9 +128,9 @@ namespace DBManager
 			}
 		}
 		#endregion
-
-
+		
 		#region QualifFinished
+
 		private static readonly string QualifFinishedPropertyName = GlobalDefines.GetPropertyName<MainWindow>(m => m.QualifFinished);
 
 		private bool m_QualifFinished = false;
@@ -146,10 +147,11 @@ namespace DBManager
 				}
 			}
 		}
+		
 		#endregion
-
-
+		
 		#region MembersFromQualif
+
 		private static readonly string MembersFromQualifPropertyName = GlobalDefines.GetPropertyName<MainWindow>(m => m.MembersFromQualif);
 
 		private int m_MembersFromQualif = 0;
@@ -166,10 +168,11 @@ namespace DBManager
 				}
 			}
 		}
+		
 		#endregion
 
-
 		#region CurHighlightGradesType
+
 		public static readonly string CurHighlightGradesTypePropertyName = GlobalDefines.GetPropertyName<MainWindow>(m => m.CurHighlightGradesType);
 
 		private enHighlightGradesType m_CurHighlightGradesType = enHighlightGradesType.None;
@@ -186,9 +189,9 @@ namespace DBManager
 				}
 			}
 		}
+		
 		#endregion
-
-
+		
 		#region CFontStyleSettings
 
 		public CFontStyleSettings PlainResultsFontStyle
@@ -220,26 +223,22 @@ namespace DBManager
 
 		private ScrollViewer m_svwrDataGrid = null;
 		private ScrollViewer m_svwrDataGrid2 = null;
-
-
+		
 		private CollectionViewSource vsrcCurrentRoundMembers
 		{
 			get { return Resources["vsrcCurrentRoundMembers"] as CollectionViewSource; }
 		}
-
-
+		
 		private CollectionViewSource vsrcCurrentRoundMembers2
 		{
 			get { return Resources["vsrcCurrentRoundMembers2"] as CollectionViewSource; }
 		}
 		
-
 		private bool IsTotal
 		{
 			get { return (enRounds)CurrentRounds.SelectedKey == enRounds.Total; }
 		}
-
-
+		
 		/// <summary>
 		/// Смещения, на которые нужно выполнять прокрутку
 		/// </summary>
@@ -328,6 +327,9 @@ namespace DBManager
 				bool? res = wnd.ShowDialog();
 				if (res.HasValue && res.Value)
 				{
+					long selectedGroupId = CurrentGroups.SelectedKey;
+					byte selectedRound = CurrentRounds.SelectedKey;
+
 					m_RestartingThreads = true;
 					RefreshCommandEnable();
 
@@ -358,16 +360,18 @@ namespace DBManager
 					}
 					m_DirScanner.Restart(SyncParam.m_Dir, SyncParam);
 					// Выводим информацию на форму
-					DBToGrid();
+					DBToGrid(selectedGroupId);
 					SyncStartStopBtnWithThState();
 					
 					m_RestartingThreads = false;
 					RefreshCommandEnable();
 
-					if (CurrentRounds.SelectedItem != null)
-					{	// Применяем новые цвета
-						CurrentRounds.SelectedItem.Command.DoExecute();
-					}
+					// Применяем новые цвета
+					CurrentRounds.SelectedKey = GetRountIdForSelect(selectedRound, false);
+					if (CurrentRounds.ContainsKey(CurrentRounds.SelectedKey))
+						CurrentRounds[CurrentRounds.SelectedKey].Command.DoExecute();
+					else
+						RightPanel.ClearTemplate();
 
 					if (hFinishedSearchEvent != null)
 						hFinishedSearchEvent.Set();
@@ -644,7 +648,7 @@ namespace DBManager
 				}
 
 				m_DirScanner.Stop(false);
-				DBToGrid();
+				DBToGrid(-1);
 
 				MessageBox.Show(this,
 								string.Format(Properties.Resources.resfmtDBToGridCopiedSuccessfully, settings.CompDir),
@@ -660,6 +664,93 @@ namespace DBManager
 			get
 			{
 				return m_DirScanner != null && !m_RestartingThreads && m_DirScanner.State != enScanningThreadState.Worked;
+			}
+		}
+
+
+		public void OpenWorkbookCmdExecuted(object sender, RoutedEventArgs e)
+		{
+			var selGroupInDB = DBManagerApp.m_Entities.groups.FirstOrDefault(arg => arg.id_group == CurrentGroups.SelectedKey);
+			if (selGroupInDB == null || CurrentRounds.SelectedItem == null)
+				return;
+
+			string wbkFullPath = "";
+			if (CurrentRounds.ContainsKey((byte)enRounds.Qualif2) && CurrentRounds.SelectedKey > (byte)enRounds.Qualif)
+				wbkFullPath = Path.Combine(Path.GetDirectoryName(selGroupInDB.xml_file_name), Path.GetFileNameWithoutExtension(selGroupInDB.xml_file_name))
+								+ "_1"
+								+ GlobalDefines.XLS_EXTENSION;
+			else
+				wbkFullPath = Path.ChangeExtension(selGroupInDB.xml_file_name, GlobalDefines.MAIN_WBK_EXTENSION);
+
+			bool NewAppCreated;
+			MSExcel.Application excelApp = GlobalDefines.StartExcel(out NewAppCreated);
+
+			if (excelApp != null)
+			{
+				MSExcel.Workbook wbk = null;
+				
+				try
+				{
+					foreach (MSExcel.Workbook book in excelApp.Workbooks)
+					{
+						if (book.FullName == wbkFullPath)
+						{   // Книга уже открыта => используем её
+							wbk = book;
+							break;
+						}
+					}
+					if (wbk == null)
+						wbk = excelApp.Workbooks.Open(wbkFullPath);
+
+					if (wbk != null)
+					{
+						excelApp.Visible = true;
+						excelApp.WindowState = MSExcel.XlWindowState.xlMaximized;
+						wbk.Activate();
+
+						switch ((enRounds)CurrentRounds.SelectedKey)
+						{
+							case enRounds.Qualif:
+							case enRounds.Qualif2:
+								wbk.Worksheets[2].Select();
+								break;
+
+							case enRounds.OneEighthFinal:
+							case enRounds.QuaterFinal:
+							case enRounds.SemiFinal:
+							case enRounds.Final:
+								wbk.Worksheets[CurrentRounds.SelectedKey - 2].Select();
+								break;
+
+							case enRounds.Total:
+								wbk.Worksheets[wbk.Worksheets.Count - 1].Select();
+								break;
+						}
+					}
+			
+					return;
+				}
+				catch (Exception ex)
+				{
+					MessageBox.Show(this,
+									string.Format(Properties.Resources.resfmtErrorDurExcelOperation, ex.Message),
+									AppAttributes.Title,
+									MessageBoxButton.OK,
+									MessageBoxImage.Error);
+				}
+				finally
+				{
+					wbk = null;
+					excelApp = null;
+				}
+			}
+			else
+			{
+				MessageBox.Show(this,
+								Properties.Resources.resCantCreateExcelApp,
+								AppAttributes.Title,
+								MessageBoxButton.OK,
+								MessageBoxImage.Error);
 			}
 		}
 
@@ -1216,7 +1307,7 @@ namespace DBManager
 					m_DirScanner.State == enScanningThreadState.Worked ||
 					!DBManagerApp.m_AppSettings.m_Settings.AutodetectOnStart)
 				{
-					DBToGrid();
+					DBToGrid(-1);
 				}
 
 				OnFontStyliesChanged();
@@ -1887,7 +1978,7 @@ namespace DBManager
 			}
 		}
 
-		void DBToGrid()
+		void DBToGrid(long initialGroupId)
 		{
 			if (m_DirScanner == null)
 				return;
@@ -1928,8 +2019,11 @@ namespace DBManager
 				}
 
 				if (CurrentGroups.Count > 0)
-				{	// Выбираем первую группу
-					CurrentGroups[CurrentGroups.Keys.First()].Command.DoExecute();
+				{   // Выбираем группу initialGroupId или первую группу
+					if (CurrentGroups.ContainsKey(initialGroupId))
+						CurrentGroups[initialGroupId].Command.DoExecute();
+					else
+						CurrentGroups[CurrentGroups.Keys.First()].Command.DoExecute();
 				}
 			}
 		}
@@ -1952,6 +2046,7 @@ namespace DBManager
 			ObservableDictionary<byte, CKeyValuePairEx<byte, CRoundAndDate>> GroupRounds = new ObservableDictionary<byte, CKeyValuePairEx<byte, CRoundAndDate>>();
 
 			List<KeyValuePair<string, string>> RoundDates = sender.Value.RoundDates;
+			CRoundAndDate RoundAndDate = null;
 			foreach (dynamic RoundInfo in from result in DBManagerApp.m_Entities.results_speed
 										  join part in DBManagerApp.m_Entities.participations on result.participation equals part.id_participation
 										  where part.Group == sender.Key
@@ -1971,7 +2066,7 @@ namespace DBManager
 
 				byte RoundID = RoundInfo.RoundID;
 				
-				CRoundAndDate RoundAndDate = new CRoundAndDate()
+				RoundAndDate = new CRoundAndDate()
 				{
 					Name = RoundInfo.RoundName.Replace('_', ' '),
 					Date = ""
@@ -1990,28 +2085,22 @@ namespace DBManager
 			// Проверяем, расставлены ли итоговые места у всех участников
 			int? RoundFinishedFlags = DBManagerApp.m_Entities.groups.First(arg => arg.id_group == sender.Key).round_finished_flags;
 
-			//if (RoundFinishedFlags.HasValue && GlobalDefines.IsRoundFinished(RoundFinishedFlags.Value, enRounds.Final))
-			{	// Итоговый протокол сформирован => добавляем его в список
-				CRoundAndDate RoundAndDate = new CRoundAndDate()
-				{
-					Name = GlobalDefines.TOTAL_NODE_NAME.Replace('_', ' '),
-				};
-				RoundAndDate.Date = GlobalDefines.CreateCompDate(sender.Value.StartDate ?? (DateTime?)null,
-																	sender.Value.EndDate == null ? (DateTime?)null : sender.Value.EndDate.Date);
-				GroupRounds.Add((byte)enRounds.Total,
-								new CKeyValuePairEx<byte, CRoundAndDate>((byte)enRounds.Total, RoundAndDate, RoundCommamdHandler));
-			}
+			RoundAndDate = new CRoundAndDate()
+			{
+				Name = GlobalDefines.TOTAL_NODE_NAME.Replace('_', ' '),
+			};
+			RoundAndDate.Date = GlobalDefines.CreateCompDate(sender.Value.StartDate ?? (DateTime?)null,
+																sender.Value.EndDate == null ? (DateTime?)null : sender.Value.EndDate.Date);
+			GroupRounds.Add((byte)enRounds.Total,
+							new CKeyValuePairEx<byte, CRoundAndDate>((byte)enRounds.Total, RoundAndDate, RoundCommamdHandler));
 			
 			byte CurSelectedRound = CurrentRounds.SelectedKey;
 			CurrentRounds.Clear();
 			CurrentRounds.AddRange(GroupRounds);
 
 			if (CurrentRounds.Count > 0)
-			{	// Выбираем первый раунд
-				if (!GroupChanged && CurrentRounds.ContainsKey(CurSelectedRound))
-					CurrentRounds.SelectedKey = CurSelectedRound;
-				else
-					CurrentRounds.SelectedKey = CurrentRounds.Keys.First();
+			{   // Выбираем текущий или последний заполненный раунд
+				CurrentRounds.SelectedKey = GetRountIdForSelect(CurSelectedRound, GroupChanged);
 
 				// Общее число участников
 				RightPanel.WholeMembersQ = (from part in DBManagerApp.m_Entities.participations
@@ -2841,6 +2930,36 @@ namespace DBManager
 
 			//GlobalDefines.m_swchGlobal.Stop();
 			//System.Diagnostics.Debug.WriteLine(GlobalDefines.m_swchGlobal.Elapsed.TotalSeconds);
+		}
+
+		byte GetRountIdForSelect(byte curSelectedRound, bool groupChanged)
+		{
+			if (!groupChanged && CurrentRounds.ContainsKey(curSelectedRound))
+				return curSelectedRound;
+			else
+			{
+				var exceptTotal = CurrentRounds.Where(arg => (enRounds)arg.Key != enRounds.Total);
+				if (exceptTotal.Count() > 0)
+				{
+					var lastRound = exceptTotal.Last();
+					if (lastRound.Key == (byte)enRounds.Final)
+					{
+						if (GlobalDefines.IsRoundFinished(DBManagerApp.m_Entities.groups.First(arg => arg.id_group == CurrentGroups.SelectedKey).round_finished_flags,
+															enRounds.Final))
+						{   // Финал завершён => выбираем Итоговый протокол
+							return (byte)enRounds.Total;
+						}
+						else
+							return lastRound.Key;
+					}
+					else
+						return lastRound.Key;
+				}
+				else if (CurrentRounds.Count > 0)
+					return CurrentRounds.Keys.First();
+				else
+					return 255;
+			}
 		}
 		
 		void RefreshRoundResults(List<int> ChangedRows, enOnlySomeRowsChangedReason OnlySomeRowsChangedReason)

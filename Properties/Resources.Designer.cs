@@ -1783,6 +1783,24 @@ namespace DBManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Показать лист.
+        /// </summary>
+        internal static string resOpenWorkbook {
+            get {
+                return ResourceManager.GetString("resOpenWorkbook", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Показать выбранный раунд в книге Excel.
+        /// </summary>
+        internal static string resOpenWorkbookToolTip {
+            get {
+                return ResourceManager.GetString("resOpenWorkbookToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Забег.
         /// </summary>
         internal static string resPair {

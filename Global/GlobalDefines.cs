@@ -128,6 +128,7 @@ namespace DBManager.Global
 		
 		public const string XLSX_EXTENSION = ".xlsx";
 		public const string XLS_EXTENSION = ".xls";
+		public const string MAIN_WBK_EXTENSION = ".xlsm";
 		public static string EXCEL_DEFAULT_SHEET_SIGNATURE = "ТебеНетДелаДоДругих";
 		public static string EXCEL_REPORT_NAME_TEXT_TO_REPLACE = "<Название группы>";
 
