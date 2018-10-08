@@ -2503,6 +2503,15 @@ namespace DBManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Поверх остальных окон.
+        /// </summary>
+        internal static string resTopMost {
+            get {
+                return ResourceManager.GetString("resTopMost", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Выполненный разряд.
         /// </summary>
         internal static string resTotalGrade {

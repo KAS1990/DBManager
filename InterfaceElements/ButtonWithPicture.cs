@@ -44,7 +44,33 @@ namespace DBManager.InterfaceElements
 		/// </summary>
 		public static readonly DependencyProperty ButtonImageProperty =
 			DependencyProperty.Register("ButtonImage", typeof(ImageSource), typeof(ButtonWithPicture), new FrameworkPropertyMetadata(null));
-		
+
 		#endregion
+
+		#region ImageLocation
+
+		/// <summary>
+		/// Позиция картинки
+		/// </summary>
+		public ButtonImageLocation ImageLocation
+		{
+			get { return (ButtonImageLocation)GetValue(ImageLocationProperty); }
+			set { SetValue(ImageLocationProperty, value); }
+		}
+
+		/// <summary>
+		/// Позиция картинки
+		/// </summary>
+		public static readonly DependencyProperty ImageLocationProperty =
+			DependencyProperty.Register("ImageLocation", typeof(ButtonImageLocation), typeof(ButtonWithPicture), new FrameworkPropertyMetadata(ButtonImageLocation.Top));
+
+		#endregion
+	}
+
+
+	public enum ButtonImageLocation
+	{
+		Left,
+		Top
 	}
 }

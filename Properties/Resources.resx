@@ -1029,4 +1029,7 @@
   <data name="resOpenWorkbookToolTip" xml:space="preserve">
     <value>Показать выбранный раунд в книге Excel</value>
   </data>
+  <data name="resTopMost" xml:space="preserve">
+    <value>Поверх остальных окон</value>
+  </data>
 </root>

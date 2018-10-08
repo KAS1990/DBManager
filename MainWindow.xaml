@@ -186,14 +186,16 @@
 										 IsEnabled="{Binding LogWindowEnabled}"
 										 Click="LogWindowCmdExecuted" />
 
+					<ribbon:RibbonButton Name="rbtnShowRemoteControlWnd" 
+										 Label="{Loc resShowRemoteControlWnd}"
+										 LargeImageSource="RibbonIcons/if_teamviewer_100417.png"
+										 Template="{StaticResource RibbonButtonWithGoodImgScalingTemplate}"
+										 Click="ShowRemoteControlWndCmdExecuted" />
+
 					<ribbon:RibbonButton Name="rbtnFalsestartRules" 
 										 Label="{Loc resFalsestartRules}"
 										 IsEnabled="{Binding FalsestartRulesEnabled}"
 										 Click="FalsestartRulesCmdExecuted" />
-
-					<ribbon:RibbonButton Name="rbtnShowRemoteControlWnd" 
-										 Label="{Loc resShowRemoteControlWnd}"
-										 Click="ShowRemoteControlWndCmdExecuted" />
 				</ribbon:RibbonGroup> 
 				
 				<ribbon:RibbonGroup Header="{Loc resGrades}" IsEnabled="{Binding CalcGradesEnabled}">

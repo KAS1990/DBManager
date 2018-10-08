@@ -56,8 +56,9 @@ namespace DBManager
 		};
 
 		bool m_RestartingThreads = false;
-				
+
 		#region CurrentGroups
+
 		private ObservableDictionary<long, CKeyValuePairEx<long, CCompSettings>> m_CurrentGroups = new ObservableDictionary<long, CKeyValuePairEx<long, CCompSettings>>();
 		/// <summary>
 		/// Словарь, содержащий все группы
@@ -66,10 +67,11 @@ namespace DBManager
 		{
 			get { return m_CurrentGroups; }
 		}
+		
 		#endregion
 
-
 		#region CurrentRounds
+
 		private ObservableDictionary<byte, CKeyValuePairEx<byte, CRoundAndDate>> m_CurrentRounds = new ObservableDictionary<byte, CKeyValuePairEx<byte, CRoundAndDate>>();
 		/// <summary>
 		/// Словарь, содержащий все раунды текущей группы
@@ -78,8 +80,8 @@ namespace DBManager
 		{
 			get { return m_CurrentRounds; }
 		}
+		
 		#endregion
-
 
 		#region HighlightTypes
 		private ObservableCollectionEx<CKeyValuePairEx<enHighlightGradesType, string>> m_HighlightTypes = new ObservableCollectionEx<CKeyValuePairEx<enHighlightGradesType, string>>();
@@ -92,8 +94,8 @@ namespace DBManager
 		}
 		#endregion
 
-
 		#region СurrentRoundMembers
+
 		/// <summary>
 		/// Результаты запроса на получения списка участников текущего раунда
 		/// </summary>
@@ -107,10 +109,12 @@ namespace DBManager
 		/// Source для vsrcCurrentRoundMembers2
 		/// </summary>
 		ObservableCollectionEx<CDBAdditionalClassBase> collectionCurrentRoundMembers2 { get; set; }
+
 		#endregion
-						
-		
+
+
 		#region SecondColName
+
 		private static readonly string SecondColNamePropertyName = GlobalDefines.GetPropertyName<MainWindow>(m => m.SecondColName);
 
 		private string m_SecondColName = null;
@@ -127,6 +131,7 @@ namespace DBManager
 				}
 			}
 		}
+		
 		#endregion
 		
 		#region QualifFinished
@@ -295,7 +300,7 @@ namespace DBManager
 		{
 			OnPropertyChanged(SettingsEnabledPropertyName);
 			OnPropertyChanged(LogWindowEnabledPropertyName);
-			OnPropertyChanged(FalsestartRuleEnabledPropertyName);
+			OnPropertyChanged(FalsestartRulesEnabledPropertyName);
 			OnPropertyChanged(RefreshEnabledPropertyName);
 			OnPropertyChanged(AutoupdatingAvailablePropertyName);
 			OnPropertyChanged(SyncDBWithFilesEnabledPropertyName);
@@ -461,7 +466,7 @@ namespace DBManager
 			}
 		}
 
-		public static readonly string FalsestartRuleEnabledPropertyName = GlobalDefines.GetPropertyName<MainWindow>(m => m.FalsestartRulesEnabled);
+		public static readonly string FalsestartRulesEnabledPropertyName = GlobalDefines.GetPropertyName<MainWindow>(m => m.FalsestartRulesEnabled);
 		public bool FalsestartRulesEnabled
 		{
 			get
@@ -790,9 +795,10 @@ namespace DBManager
 			}
 		}
 		/*----------------------------------------------------------*/
-		
-		
+
+
 		#region ExportingToFTPNow
+
 		private static readonly string ExportingToFTPNowPropertyName = GlobalDefines.GetPropertyName<MainWindow>(m => m.ExportingToFTPNow);
 
 		private bool m_ExportingToFTPNow = false;
@@ -810,6 +816,7 @@ namespace DBManager
 				}
 			}
 		}
+		
 		#endregion
 
 
@@ -936,7 +943,7 @@ namespace DBManager
 			}
 		}
 
-		protected void CalcGradesCmdExecuted(object sender, RoutedEventArgs ee)
+		public void CalcGradesCmdExecuted(object sender, RoutedEventArgs ee)
 		{
 			CCalcGradesWnd wnd = new CCalcGradesWnd(CurrentGroups.SelectedKey, m_CurrentRoundMembers.OfType<CMemberInTotal>().ToList())
 			{
@@ -1557,8 +1564,26 @@ namespace DBManager
 		}
 
 		#endregion
-		
+
 		#region Управление стилями кнопки Старт/Стоп
+
+		public static readonly string ScannerStoppedPropertyName = GlobalDefines.GetPropertyName<MainWindow>(m => m.ScannerStopped);
+
+		private bool m_ScannerStopped = true;
+
+		public bool ScannerStopped
+		{
+			get { return m_ScannerStopped; }
+			set
+			{
+				if (m_ScannerStopped != value)
+				{
+					m_ScannerStopped = value;
+					OnPropertyChanged(ScannerStoppedPropertyName);
+				}
+			}
+		}
+
 		void ToStopStyle()
 		{
 			rbtnStartStop.Tag = "StopStyle";
@@ -1569,6 +1594,7 @@ namespace DBManager
 #if TICKER
 			tckrMembersOnStart.RunAnimation = true;
 #endif
+			ScannerStopped = false;
 		}
 
 
@@ -1583,6 +1609,7 @@ namespace DBManager
 			tckrMembersOnStart.RunAnimation = false;
 			tckrMembersOnStart.TickerText = "";
 #endif
+			ScannerStopped = true;
 		}
 
 

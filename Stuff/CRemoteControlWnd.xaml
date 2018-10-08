@@ -8,7 +8,6 @@
 		Title="{Loc resRemoteControlWndTitle}"
 		ShowInTaskbar="True"
 		SizeToContent="WidthAndHeight"
-		ResizeMode="NoResize"
 		Icon="/DBManager;component/Icons/AppIcon_tune.ico">
 
 	<glob:CNotifyPropertyChangedWnd.Resources>
@@ -19,7 +18,7 @@
 			</ResourceDictionary.MergedDictionaries>
 
 			<Style TargetType="GroupBox">
-				<Setter Property="Margin" Value="5,5,5,0" />
+				<Setter Property="Margin" Value="5,5,5,5" />
 				<Setter Property="Padding" Value="0,0,5,5" />
 			</Style>
 
@@ -32,8 +31,9 @@
 								<TextBlock DockPanel.Dock="Bottom"
 										   Text="{Binding ButtonText, RelativeSource={RelativeSource FindAncestor, AncestorType=localctrls:ButtonWithPicture}}"
 										   TextWrapping="Wrap"
-										   Padding="0,5,0,0"
-										   MaxWidth="150" />
+										   Padding="0,2,0,0"
+										   MaxWidth="75"
+										   TextAlignment="Center"/>
 								<Image Source="{Binding ButtonImage, RelativeSource={RelativeSource FindAncestor, AncestorType=localctrls:ButtonWithPicture}}"
 									   RenderOptions.BitmapScalingMode="Fant"
 									   Height="42"
@@ -46,94 +46,201 @@
 				<Setter Property="VerticalContentAlignment" Value="Top" />
 				<Setter Property="Margin" Value="5,5,0,0" />
 				<Setter Property="Padding" Value="5,5,5,5" />
+
+				<Style.Triggers>
+					<Trigger Property="ImageLocation" Value="Left">
+						<Setter Property="ContentTemplate" >
+							<Setter.Value>
+								<DataTemplate>
+									<StackPanel Orientation="Horizontal">
+										<Image Source="{Binding ButtonImage, RelativeSource={RelativeSource FindAncestor, AncestorType=localctrls:ButtonWithPicture}}"
+											   RenderOptions.BitmapScalingMode="Fant"
+											   Height="15"
+											   Width="15" />
+										<TextBlock Text="{Binding ButtonText, RelativeSource={RelativeSource FindAncestor, AncestorType=localctrls:ButtonWithPicture}}"
+												   VerticalAlignment="Center"
+												   TextWrapping="Wrap"
+												   Padding="5,0,0,0"
+												   MaxWidth="150" />										
+									</StackPanel>
+								</DataTemplate>
+							</Setter.Value>
+						</Setter>
+
+						<Setter Property="VerticalContentAlignment" Value="Center" />
+						<Setter Property="Margin" Value="5,5,5,0" />
+						<Setter Property="HorizontalContentAlignment" Value="Left" />
+					</Trigger>
+				</Style.Triggers>
+			</Style>
+
+			<Style x:Key="StartStopButtonStyle"
+				   TargetType="localctrls:ButtonWithPicture"
+				   BasedOn="{StaticResource ResourceKey={x:Type localctrls:ButtonWithPicture}}">
+				<Setter Property="ButtonText" Value="{Loc resAutoupdating}" />
+				<Setter Property="ButtonImage" Value="../RibbonIcons/START.png" />
+				<Setter Property="ToolTip" Value="{Loc resStartTestToolTip}" />
+
+				<Style.Triggers>
+					<DataTrigger Binding="{Binding ScannerStopped, RelativeSource={RelativeSource FindAncestor, AncestorType=local:CRemoteControlWnd}}"
+								 Value="false">
+						<Setter Property="ButtonImage" Value="../RibbonIcons/STOP.png" />
+						<Setter Property="ToolTip" Value="{Loc resStopTestToolTip}" />
+					</DataTrigger>
+				</Style.Triggers>
 			</Style>
 		</ResourceDictionary>
 	</glob:CNotifyPropertyChangedWnd.Resources>
 	
 	<StackPanel Orientation="Vertical" Margin="0,0,0,5">
-		<GroupBox Header="{Loc resTableUpdating}" >
-			<StackPanel Orientation="Horizontal">
-				<localctrls:ButtonWithPicture ButtonText="{Loc resAutoupdating}"
-											  ButtonImage="../RibbonIcons/START.png"
-											  Click="btnAutoupdating_Click"/>
-				<localctrls:ButtonWithPicture ButtonText="{Loc resRefresh}"
-											  ButtonImage="../RibbonIcons/Refresh.png"
-											  IsEnabled="{Binding RefreshEnabled}"
-											  ToolTip="{Loc resRefreshToolTip}"
-											  Click="btnRefresh_Click" />
-				<localctrls:ButtonWithPicture ButtonText="{Loc resSyncDBWithFiles}"
-											  ButtonImage="../RibbonIcons/SyncDBWithFiles.png"
-											  IsEnabled="{Binding SyncDBWithFilesEnabled}"
-											  ToolTip="{Loc resSyncDBWithFilesToolTip}"
-											  Click="btnSyncDBWithFiles_Click" />
-				<localctrls:ButtonWithPicture ButtonText="{Loc resDBToGrid}"
-											  ButtonImage="../RibbonIcons/SyncDBWithFiles.png"
-											  IsEnabled="{Binding DBToGridEnabled}"
-											  ToolTip="{Loc resDBToGridToolTip}"
-											  Click="btnDBToGrid_Click" />
-			</StackPanel>
-		</GroupBox>
+		<CheckBox Name="chkTopMost" Content="{Loc resTopMost}" Margin="5,5,0,0" Click="chkTopMost_Click" IsChecked="True" />
 
-		<GroupBox Header="{Loc resTableContent}" >
-			<Grid>
-				<Grid.RowDefinitions>
-					<RowDefinition />
-					<RowDefinition />
-				</Grid.RowDefinitions>
+		<TabControl Margin="5,5,5,0">
+			<TabItem Header="{Loc resMain}">
+				<WrapPanel>
+					<GroupBox Header="{Loc resTableUpdating}" >
+						<StackPanel Orientation="Horizontal">
+							<localctrls:ButtonWithPicture Style="{StaticResource StartStopButtonStyle}"
+												  Click="btnAutoupdating_Click"/>
+							<localctrls:ButtonWithPicture ButtonText="{Loc resRefresh}"
+												  ButtonImage="../RibbonIcons/Refresh.png"
+												  IsEnabled="{Binding RefreshEnabled}"
+												  ToolTip="{Loc resRefreshToolTip}"
+												  Click="btnRefresh_Click" />
+							<localctrls:ButtonWithPicture ButtonText="{Loc resSyncDBWithFiles}"
+												  ButtonImage="../RibbonIcons/SyncDBWithFiles.png"
+												  IsEnabled="{Binding SyncDBWithFilesEnabled}"
+												  ToolTip="{Loc resSyncDBWithFilesToolTip}"
+												  Click="btnSyncDBWithFiles_Click" />
+							<localctrls:ButtonWithPicture ButtonText="{Loc resDBToGrid}"
+												  ButtonImage="../RibbonIcons/SyncDBWithFiles.png"
+												  IsEnabled="{Binding DBToGridEnabled}"
+												  ToolTip="{Loc resDBToGridToolTip}"
+												  Click="btnDBToGrid_Click" />
+						</StackPanel>
+					</GroupBox>
 
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="auto" />
-					<ColumnDefinition Width="auto" />
-				</Grid.ColumnDefinitions>
+					<GroupBox Header="{Loc resTableContent}" >
+						<Grid>
+							<Grid.RowDefinitions>
+								<RowDefinition />
+								<RowDefinition />
+								<RowDefinition />
+							</Grid.RowDefinitions>
 
-				<ComboBox Grid.Column="0"
-						  Grid.Row="0"
-						  Name="cmbGroups"
-						  Margin="0,5,5,0"
-						  IsEnabled="{Binding GroupSelectionEnabled}"
-						  SelectionChanged="cmbGroups_SelectionChanged"/>
-				<ComboBox Grid.Column="0"
-						  Grid.Row="1"
-						  Name="cmbRounds"
-						  Margin="0,5,5,0"
-						  IsEnabled="{Binding RoundSelectionEnabled}"
-						  SelectionChanged="cmbRounds_SelectionChanged"/>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="auto" />
+								<ColumnDefinition Width="auto" />
+							</Grid.ColumnDefinitions>
 
-				<CheckBox Grid.Column="1"
-						  Grid.Row="0"
-						  Name="chkShowGroupHead"
-						  Content="{Loc resShowGroupHead}"
-						  Margin="0,5,5,0"
-						  VerticalAlignment="Center"
-						  Click="chkShowGroupHead_Click"/>
-				<CheckBox Grid.Column="1"
-						  Grid.Row="1"
-						  Name="chkAutoscrollEnabled"
-						  Content="{Loc resAutoscrollEnabled}"
-						  Margin="0,5,5,0"
-						  VerticalAlignment="Center"
-						  Click="chkAutoscrollEnabled_Click"/>
-			</Grid>
-		</GroupBox>
+							<ComboBox Grid.Column="0"
+							  Grid.Row="0"
+							  Name="cmbGroups"
+							  Margin="5,5,5,0"
+							  IsEnabled="{Binding GroupSelectionEnabled}"
+							  SelectionChanged="cmbGroups_SelectionChanged"/>
+							<ComboBox Grid.Column="0"
+							  Grid.Row="1"
+							  Name="cmbRounds"
+							  Margin="5,5,5,0"
+							  IsEnabled="{Binding RoundSelectionEnabled}"
+							  SelectionChanged="cmbRounds_SelectionChanged"/>
 
-		<GroupBox Header="{Loc resFTP}" >
-			<StackPanel Orientation="Horizontal">
-				<localctrls:ButtonWithPicture ButtonText="{Loc resFTPSettings}"
-											  ButtonImage="../RibbonIcons/FTPIcon.ico"
-											  Click="btnFTPSettings_Click"/>
-				<localctrls:ButtonWithPicture ButtonText="{Loc resSendToFTP}"
-											  ButtonImage="../RibbonIcons/server-from-client.png"
-											  Click="btnSendToFTP_Click" />
-				<localctrls:ButtonWithPicture ButtonText="{Loc resFTPLog}"
-											  ButtonImage="../RibbonIcons/CreateReport.png" 
-											  Click="btnFTPLog_Click" />
+							<localctrls:ButtonWithPicture Grid.Column="0"
+												  Grid.Row="2"
+												  ButtonText="{Loc resOpenWorkbook}"
+												  ButtonImage="../RibbonIcons/Open.png"
+												  ImageLocation="Left"
+												  HorizontalAlignment="Left"
+												  IsEnabled="{Binding RoundSelectionEnabled}"
+												  ToolTip="{Loc resOpenWorkbookToolTip}"
+												  Click="btnOpenWorkbook_Click" />
 
-				<CheckBox Name="chkAutoSendToFTP"
-						  Content="{Loc resAutoSendToFTP}"
-						  Margin="5,5,0,0"
-						  VerticalAlignment="Center"
-						  Click="chkAutoSendToFTP_Click" />
-			</StackPanel>
-		</GroupBox>
+							<CheckBox Grid.Column="1"
+							  Grid.Row="0"
+							  Name="chkShowGroupHead"
+							  Content="{Loc resShowGroupHead}"
+							  Margin="0,5,5,0"
+							  VerticalAlignment="Center"
+							  Click="chkShowGroupHead_Click"/>
+							<CheckBox Grid.Column="1"
+							  Grid.Row="1"
+							  Name="chkAutoscrollEnabled"
+							  Content="{Loc resAutoscrollEnabled}"
+							  Margin="0,5,5,0"
+							  VerticalAlignment="Center"
+							  Click="chkAutoscrollEnabled_Click"/>
+						</Grid>
+					</GroupBox>
+
+					<GroupBox Header="{Loc resFTP}" IsEnabled="{Binding FTPEnabled}">
+						<StackPanel Orientation="Vertical">
+							<StackPanel Orientation="Horizontal">
+								<localctrls:ButtonWithPicture ButtonText="{Loc resFTPSettings}"
+												  ButtonImage="../RibbonIcons/FTPIcon.ico"
+												  Click="btnFTPSettings_Click"/>
+								<localctrls:ButtonWithPicture ButtonText="{Loc resSendToFTP}"
+												  ButtonImage="../RibbonIcons/server-from-client.png"
+												  Click="btnSendToFTP_Click" />
+								<localctrls:ButtonWithPicture ButtonText="{Loc resFTPLog}"
+												  ButtonImage="../RibbonIcons/CreateReport.png" 
+												  Click="btnFTPLog_Click" />
+							</StackPanel>
+
+							<CheckBox Name="chkAutoSendToFTP"
+							  Content="{Loc resAutoSendToFTP}"
+							  Margin="5,5,0,0"
+							  VerticalAlignment="Center"
+							  VerticalContentAlignment="Center"
+							  Click="chkAutoSendToFTP_Click" />
+						</StackPanel>
+					</GroupBox>
+				</WrapPanel>
+			</TabItem>
+
+			<TabItem Header="{Loc resConfig}">
+				<WrapPanel>
+					<GroupBox Header="" Style="{StaticResource GroupBoxWithOutHeader}" Margin="5,5,5,5" Padding="0,5,5,5" >
+						<StackPanel Orientation="Horizontal">
+							<localctrls:ButtonWithPicture ButtonText="{Loc resSettings}"
+										 ButtonImage="../RibbonIcons/settings.png"
+										 IsEnabled="{Binding SettingsEnabled}"
+										 Click="btnSettings_Click" />
+
+							<localctrls:ButtonWithPicture ButtonText="{Loc resLogWindow}"
+										 ButtonImage="../RibbonIcons/CreateReport.png"
+										 IsEnabled="{Binding LogWindowEnabled}"
+										 Click="btnLogWindow_Click" />
+
+							<Button Content="{Loc resFalsestartRules}"
+									IsEnabled="{Binding FalsestartRulesEnabled}"
+									Margin="5,5,0,0"
+									Padding="5"
+									Click="btnFalsestartRules_Click" />
+						</StackPanel>
+					</GroupBox>
+
+					<GroupBox Header="{Loc resGrades}" IsEnabled="{Binding CalcGradesEnabled}" >
+						<StackPanel Orientation="Vertical">
+							<Button Content="{Loc resCalcGrades}"
+									Margin="5,5,0,0"
+									Click="btnCalcGrades_Click" />
+
+							<ComboBox Name="cmbHighlightTypes"
+									  Margin="5,5,0,0"
+									  DisplayMemberPath="Value"
+									  SelectedValuePath="Key"
+									  SelectionChanged="cmbHighlightTypes_SelectionChanged"/>
+						</StackPanel>
+					</GroupBox>
+
+					<localctrls:ButtonWithPicture ButtonText="{Loc resExportToXls}"
+												  ButtonImage="/DBManager;component/Icons/KEY_EXPORT_XLS.png"
+												  IsEnabled="{Binding ExportToXlsEnabled}"
+												  Margin="5,5,5,5"
+												  Click="btnExportToXls_Click" />
+				</WrapPanel>
+			</TabItem>
+		</TabControl>
 	</StackPanel>
 </glob:CNotifyPropertyChangedWnd>
