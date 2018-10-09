@@ -1035,6 +1035,9 @@
   <data name="resAgeGroup" xml:space="preserve">
     <value>Возрастная группа</value>
   </data>
+  <data name="resGodsMode" xml:space="preserve">
+    <value>Режим Бога</value>
+  </data>
   <data name="resGradesRemoved" xml:space="preserve">
     <value>Разряды удалены</value>
   </data>

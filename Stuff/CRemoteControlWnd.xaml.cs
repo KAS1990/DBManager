@@ -81,6 +81,7 @@ namespace DBManager.Stuff
 			OnPropertyChanged(MainWindow.SettingsEnabledPropertyName);
 			OnPropertyChanged(MainWindow.LogWindowEnabledPropertyName);
 			OnPropertyChanged(MainWindow.FalsestartRulesEnabledPropertyName);
+			OnPropertyChanged(MainWindow.GodsModePropertyName);
 
 			OnPropertyChanged(MainWindow.CalcGradesEnabledPropertyName);
 
@@ -413,6 +414,20 @@ namespace DBManager.Stuff
 		}
 
 		public bool FalsestartRulesEnabled => m_mainWnd?.FalsestartRulesEnabled ?? false;
+
+		#endregion
+
+		#region GodsMode
+
+		public bool GodsMode
+		{
+			get {  return m_mainWnd?.GodsMode ?? false; }
+			set
+			{
+				if (m_mainWnd != null)
+					m_mainWnd.GodsMode = value;
+			}
+		}
 
 		#endregion
 

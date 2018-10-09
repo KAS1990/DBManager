@@ -306,7 +306,8 @@ namespace DBManager.Scanning
 			else
 				IsNewGroup = false;
 
-			if (GlobalDefines.IsRoundFinished(m_DBGroup.round_finished_flags, enRounds.Final) ||
+			if (!DBManagerApp.m_AppSettings.m_Settings.GodsMode &&
+				GlobalDefines.IsRoundFinished(m_DBGroup.round_finished_flags, enRounds.Final) ||
 				((roundResults.ChangeReason != enChangeReason.crWholeContent) &&
 				GlobalDefines.IsRoundFinished(m_DBGroup.round_finished_flags, roundResults.RoundInEnum)))
 			{	// Соревнование уже завершено или раунд уже ранее был завершён => менять результаты в нём что-либо нельзя
@@ -861,27 +862,43 @@ namespace DBManager.Scanning
 					if (!IsNewGroup && byte.TryParse(roundResults.Argument, out ChangedRow) && roundResults.RoundInEnum == enRounds.Qualif)
 					{
 						CMember ChangedMember = roundResults.Results.FirstOrDefault(arg => arg.Number == ChangedRow);
-						IEnumerable<CFullMemberInfo> ChangedMembersInDB = from results in DBManagerApp.m_Entities.results_speed
-																			join part in DBManagerApp.m_Entities.participations on results.participation equals part.id_participation
-																			join member in DBManagerApp.m_Entities.members on part.member equals member.id_member
-																			where results.number == ChangedRow && results.round == RoundId && part.Group == m_DBGroup.id_group
-																			select new CFullMemberInfo
-																			{
-																				IDMember = member.id_member,
-																				Name = member.name,
-																				Surname = member.surname,
-																				YearOfBirth = member.year_of_birth,
-																				InitGrade = part.init_grade,
-																				Team = part.team,
-																				Coach = part.coach,
-																			};
-						CFullMemberInfo MemberForChangeInDB = ChangedMembersInDB.First(); // Информация об изменённом участнике в БД
+
+						// Информация об изменённом участнике в БД
+						var MemberForChangeInDB = (from results in DBManagerApp.m_Entities.results_speed
+													join part in DBManagerApp.m_Entities.participations on results.participation equals part.id_participation
+													join member in DBManagerApp.m_Entities.members on part.member equals member.id_member
+													where results.number == ChangedRow && results.round == RoundId && part.Group == m_DBGroup.id_group
+													select new CFullMemberInfo
+													{
+														IDMember = member.id_member,
+														Name = member.name,
+														Surname = member.surname,
+														YearOfBirth = member.year_of_birth,
+														InitGrade = part.init_grade,
+														Team = part.team,
+														Coach = part.coach,
+													}).First();
 						if (MemberForChangeInDB != ChangedMember)
-						{	// Что-то поменялось => меняем в БД и MembersIds
+						{   // Что-то поменялось => меняем в БД и MembersIds
 							CMemberKeys keys = MembersIds[MemberForChangeInDB.SurnameAndName];
+
+							var ChangedMembersInDB = from member in DBManagerApp.m_Entities.members
+														where member.surname == ChangedMember.Surname && member.name == ChangedMember.Name
+														select member;
+
+							if (ChangedMembersInDB.Count() > 0)
+							{   // Такой спортсмен уже есть в БД => используем его
+								keys.Name = ChangedMember.Name;
+								keys.Surname = ChangedMember.Surname;
+								keys.Member = ChangedMembersInDB.First();
+								keys.Participation.member = keys.Member.id_member;
+							}
+							else
+							{
+								keys.Name = keys.Member.name = ChangedMember.Name;
+								keys.Surname = keys.Member.surname = ChangedMember.Surname;
+							}
 							
-							keys.Name = keys.Member.name = ChangedMember.Name;
-							keys.Surname = keys.Member.surname = ChangedMember.Surname;
 							keys.Member.year_of_birth = ChangedMember.YearOfBirthInShort < 0 ? (short)0 : ChangedMember.YearOfBirthInShort;
 							keys.Participation.init_grade = ChangedMember.GradeInEnum == enGrade.None ? null : (byte?)ChangedMember.GradeInEnum;
 							if (CompSettings.SecondColNameType == enSecondColNameType.Coach)

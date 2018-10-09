@@ -648,6 +648,10 @@ namespace DBManager.SettingsWriter
 
 
 		[XmlIgnore]
+		public bool GodsMode = false;
+
+
+		[XmlIgnore]
 		public ResourceDictionary m_GlobalResources = new ResourceDictionary()
 		{
 			Source = new Uri("\\Global\\GlobalResources.xaml", UriKind.RelativeOrAbsolute)
@@ -729,6 +733,8 @@ namespace DBManager.SettingsWriter
 
 			Only75PercentForCalcGrades = false;
 			MinAgeToCalcResultGrade = 10;
+
+			GodsMode = false;
 		}
 
 

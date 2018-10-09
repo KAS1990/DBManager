@@ -58,6 +58,10 @@
 
 			<ribbon:Ribbon.HelpPaneContent>
 				<StackPanel Orientation="Horizontal">
+					<TextBlock Text="{Loc resGodsMode}"
+							   Padding="5,1,5,1"
+							   Background="Red"
+							   Visibility="{Binding GodsMode, Converter={gconvs:BoolToVisibilityMarkupConverter UnvisibleValue=Hidden}}"/>
 					<TextBlock Name="txtblkErrLogItemChanged"
 							   Text="{Loc resErrLogItemChanged}"
 							   Padding="5,1,5,1"
@@ -196,6 +200,9 @@
 										 Label="{Loc resFalsestartRules}"
 										 IsEnabled="{Binding FalsestartRulesEnabled}"
 										 Click="FalsestartRulesCmdExecuted" />
+
+					<ribbon:RibbonCheckBox Label="{Loc resGodsMode}"
+										   IsChecked="{Binding GodsMode}"/>
 				</ribbon:RibbonGroup> 
 				
 				<ribbon:RibbonGroup Header="{Loc resGrades}" IsEnabled="{Binding CalcGradesEnabled}">

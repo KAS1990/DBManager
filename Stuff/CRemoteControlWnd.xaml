@@ -217,6 +217,11 @@
 									Margin="5,5,0,0"
 									Padding="5"
 									Click="btnFalsestartRules_Click" />
+
+							<CheckBox Content="{Loc resGodsMode}"
+									  IsChecked="{Binding GodsMode}"
+									  Margin="5,5,0,0"
+									  VerticalAlignment="Center"/>
 						</StackPanel>
 					</GroupBox>
 

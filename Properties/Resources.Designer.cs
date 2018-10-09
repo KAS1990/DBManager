@@ -1233,6 +1233,15 @@ namespace DBManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Режим Бога.
+        /// </summary>
+        internal static string resGodsMode {
+            get {
+                return ResourceManager.GetString("resGodsMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Разряд.
         /// </summary>
         internal static string resGrade {

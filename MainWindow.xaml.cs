@@ -480,6 +480,27 @@ namespace DBManager
 		/*----------------------------------------------------------*/
 
 
+		public static readonly string GodsModePropertyName = GlobalDefines.GetPropertyName<MainWindow>(m => m.GodsMode);
+
+		bool m_GodsMode = false;
+		/// <summary>
+		/// Режим Бога
+		/// </summary>
+		public bool GodsMode
+		{
+			get { return m_GodsMode; }
+			set
+			{
+				if (m_GodsMode != value)
+				{
+					m_GodsMode = value;
+					DBManagerApp.m_AppSettings.m_Settings.GodsMode = m_GodsMode;
+					OnPropertyChanged(GodsModePropertyName);
+				}
+			}
+		}
+		/*----------------------------------------------------------*/
+
 		/// <summary>
 		/// Обновить список
 		/// </summary>
@@ -1810,6 +1831,7 @@ namespace DBManager
 											if (Changing.ID == CurrentRounds.SelectedKey)
 											{   // Выбран именно тот раунд, результаты в котором изменились
 												ThreadManager.Instance.InvokeUI(RefreshRoundResults,
+																				Changing,
 																				Changing.ListArguments.Cast<int>().ToList(),
 																				(enOnlySomeRowsChangedReason)Changing.Argument);
 											}
@@ -1818,6 +1840,7 @@ namespace DBManager
 										case enChangeReason.crRowAdded:
 											ChangedRows.Add((byte)Changing.Argument);
 											ThreadManager.Instance.InvokeUI(RefreshRoundResults,
+																			Changing,
 																			ChangedRows,
 																			enOnlySomeRowsChangedReason.srcrRowAdded);
 											break;
@@ -1825,6 +1848,7 @@ namespace DBManager
 										case enChangeReason.crRowChanged:
 											ChangedRows.Add((byte)Changing.Argument);
 											ThreadManager.Instance.InvokeUI(RefreshRoundResults,
+																			Changing,
 																			ChangedRows,
 																			enOnlySomeRowsChangedReason.srcrRowChanged);
 											break;
@@ -1832,6 +1856,7 @@ namespace DBManager
 										case enChangeReason.crRowDeleted:
 											ChangedRows.Add((byte)Changing.Argument);
 											ThreadManager.Instance.InvokeUI(RefreshRoundResults,
+																			Changing,
 																			ChangedRows,
 																			enOnlySomeRowsChangedReason.srcrRowDeleted);
 											break;
@@ -2989,7 +3014,7 @@ namespace DBManager
 			}
 		}
 		
-		void RefreshRoundResults(List<int> ChangedRows, enOnlySomeRowsChangedReason OnlySomeRowsChangedReason)
+		void RefreshRoundResults(CDataChangedInfo Changing, List<int> ChangedRows, enOnlySomeRowsChangedReason OnlySomeRowsChangedReason)
 		{
 			if (CurrentRounds.SelectedItem == null || IsTotal)
 				return;
@@ -3527,18 +3552,18 @@ namespace DBManager
 						if (MemberResults != null)
 						{
 							CFullMemberInfo NewMemberInfo = (from member in DBManagerApp.m_Entities.members
-																	 join part in DBManagerApp.m_Entities.participations on member.id_member equals part.member
-																	 where member.id_member == MemberResults.MemberInfo.IDMember
-																	 select new CFullMemberInfo()
-																	 {
-																		 IDMember = member.id_member,
-																		 Surname = member.surname,
-																		 Name = member.name,
-																		 YearOfBirth = member.year_of_birth,
-																		 Coach = part.coach,
-																		 Team = part.team,
-																		 InitGrade = part.init_grade,
-																	 }).FirstOrDefault();
+															 join part in DBManagerApp.m_Entities.participations on member.id_member equals part.member
+															 where part.id_participation == Changing.ID
+															 select new CFullMemberInfo()
+															 {
+																IDMember = member.id_member,
+																Surname = member.surname,
+																Name = member.name,
+																YearOfBirth = member.year_of_birth,
+																Coach = part.coach,
+																Team = part.team,
+																InitGrade = part.init_grade,
+															 }).FirstOrDefault();
 							if (NewMemberInfo != null)
 							{
 								MemberResults.MemberInfo.RefreshFrom(NewMemberInfo, false, false);

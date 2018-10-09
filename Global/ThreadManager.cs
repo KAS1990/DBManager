@@ -91,6 +91,25 @@ namespace DBManager.Global
 				action(arg1, arg2);
 		}
 
+		/// <summary>
+		/// Process code in UI thread synchronously and block calling thread
+		/// </summary>
+		/// <param name="action"></param>
+		public void InvokeUI<TParam1, TParam2, TParam3>(Action<TParam1, TParam2, TParam3> action, TParam1 arg1, TParam2 arg2, TParam3 arg3)
+		{
+			if (_uiSynchronizationContext == null)
+			{
+				throw new InvalidOperationException("You must specify UISynchronizationContext before using this method.");
+			}
+
+			//
+
+			if (_uiSynchronizationContext != SynchronizationContext.Current)
+				_uiSynchronizationContext.Send(new SendOrPostCallback(o => action(arg1, arg2, arg3)), null);
+			else
+				action(arg1, arg2, arg3);
+		}
+
 
 		/// <summary>
 		/// Process code in UI thread asynchronously
