@@ -98,6 +98,9 @@ namespace DBManager.Scanning
 			// т.е. ВЕСЬ паровоз, выходящий за эту границу в расчет не принимается
 			int MembersToCalcCount = (Members.Count * 3) / 4;
 
+			if (MembersToCalcCount < 1)
+				return;
+
 			// Последнее место участника в той части, где рассчитываем баллы
 			byte LastPlace = Members[MembersToCalcCount - 1].result_place.Value;
 			int AfterLastBalls = 0; // Число баллов, даваемых за место, следующее после LastPlace
@@ -307,9 +310,9 @@ namespace DBManager.Scanning
 				IsNewGroup = false;
 
 			if (!DBManagerApp.m_AppSettings.m_Settings.GodsMode &&
-				GlobalDefines.IsRoundFinished(m_DBGroup.round_finished_flags, enRounds.Final) ||
+				(GlobalDefines.IsRoundFinished(m_DBGroup.round_finished_flags, enRounds.Final) ||
 				((roundResults.ChangeReason != enChangeReason.crWholeContent) &&
-				GlobalDefines.IsRoundFinished(m_DBGroup.round_finished_flags, roundResults.RoundInEnum)))
+				GlobalDefines.IsRoundFinished(m_DBGroup.round_finished_flags, roundResults.RoundInEnum))))
 			{	// Соревнование уже завершено или раунд уже ранее был завершён => менять результаты в нём что-либо нельзя
 				return true;
 			}
@@ -765,6 +768,10 @@ namespace DBManager.Scanning
 									}
 
 									// Расстановка баллов
+									Members = (from member in DBManagerApp.m_Entities.members
+											   join part in DBManagerApp.m_Entities.participations on member.id_member equals part.member
+											   where part.Group == m_DBGroup.id_group
+											   select part).ToList();
 									MakeBallsForPlaces(Members);
 									break;
 								}
