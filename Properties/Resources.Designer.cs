@@ -79,6 +79,15 @@ namespace DBManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Возрастная группа.
+        /// </summary>
+        internal static string resAgeGroup {
+            get {
+                return ResourceManager.GetString("resAgeGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Перенести команды &quot;по одной&quot;.
         /// </summary>
         internal static string resAllByOne {
@@ -583,6 +592,15 @@ namespace DBManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Правила для фальстартов.
+        /// </summary>
+        internal static string resFalsestartRulesWndTitle {
+            get {
+                return ResourceManager.GetString("resFalsestartRulesWndTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Файл.
         /// </summary>
         internal static string resFileName {
@@ -750,15 +768,6 @@ namespace DBManager.Properties {
         internal static string resfmtFalsestartRulesAreIntersected {
             get {
                 return ResourceManager.GetString("resfmtFalsestartRulesAreIntersected", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Правила для фальстартов. Группа &quot;{0}&quot;.
-        /// </summary>
-        internal static string resfmtFalsestartRulesWndTitle {
-            get {
-                return ResourceManager.GetString("resfmtFalsestartRulesWndTitle", resourceCulture);
             }
         }
         
@@ -1238,6 +1247,15 @@ namespace DBManager.Properties {
         internal static string resGrades {
             get {
                 return ResourceManager.GetString("resGrades", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Разряды удалены.
+        /// </summary>
+        internal static string resGradesRemoved {
+            get {
+                return ResourceManager.GetString("resGradesRemoved", resourceCulture);
             }
         }
         
@@ -1986,6 +2004,15 @@ namespace DBManager.Properties {
         internal static string resRemoveFalsestart {
             get {
                 return ResourceManager.GetString("resRemoveFalsestart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Удалить разряды.
+        /// </summary>
+        internal static string resRemoveGradesBtnContent {
+            get {
+                return ResourceManager.GetString("resRemoveGradesBtnContent", resourceCulture);
             }
         }
         

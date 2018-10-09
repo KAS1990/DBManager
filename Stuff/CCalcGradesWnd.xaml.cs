@@ -331,5 +331,34 @@ namespace DBManager.Stuff
 				MessageBox.Show(this, Properties.Resources.resCantSetGrades, Title, MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 		}
+
+		private void btnRemoveGrades_Click(object sender, RoutedEventArgs e)
+		{
+			if (GlobalDefines.IsRoundFinished(DBManagerApp.m_Entities.groups.First(arg => arg.id_group == m_GroupId).round_finished_flags, enRounds.Final))
+			{   // Можно расставить разряды, т.к. соревы закончились
+				List<participations> Members = (from member in DBManagerApp.m_Entities.members
+												join part in DBManagerApp.m_Entities.participations on member.id_member equals part.member
+												where part.Group == m_GroupId
+												orderby part.result_place
+												select part).ToList();
+				
+				foreach (participations part in Members)
+					part.result_grade = null;
+
+				DBManagerApp.m_Entities.SaveChanges();
+
+				MessageBox.Show(this,
+					Properties.Resources.resGradesRemoved,
+					Title,
+					MessageBoxButton.OK,
+					MessageBoxImage.Information);
+
+				GradesChangedFromOpen = true;
+			}
+			else
+			{
+				MessageBox.Show(this, Properties.Resources.resCantSetGrades, Title, MessageBoxButton.OK, MessageBoxImage.Error);
+			}
+		}
 	}
 }

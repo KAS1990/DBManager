@@ -110,16 +110,18 @@ namespace DBManager.SettingWnds
 			}
 		}
 
-		readonly long m_GroupId = -1;
-
 		public List<KeyValuePair<byte, string>> Rounds { get; private set; }
 
+		public List<KeyValuePair<long, string>> Groups { get; private set; } = new List<KeyValuePair<long, string>>();
+
 		#region Rules
+
 		ObservableCollection<FalsestartRule> m_Rules = new ObservableCollection<FalsestartRule>();
 		public ObservableCollection<FalsestartRule> Rules
 		{
 			get { return m_Rules; }
 		}
+		
 		#endregion
 
 
@@ -240,38 +242,23 @@ namespace DBManager.SettingWnds
 		}
 
 
-		public FalsestartRules(long GroupId, CAgeGroup Group)
+		public FalsestartRules(ObservableDictionary<long, CKeyValuePairEx<long, CCompSettings>> currentGroups)
 		{
 			InitializeComponent();
 
 			Rounds = GlobalDefines.ROUND_NAMES.ToList();
 			Rounds.RemoveAt(Rounds.Count - 1); // Удаляем итоговый протокол
 
-			m_GroupId = GroupId;
-
-			Title = string.Format(Properties.Resources.resfmtFalsestartRulesWndTitle, Group.FullGroupName);
+			Title = Properties.Resources.resFalsestartRulesWndTitle;
 
 			HasUnsavedChanges += () => { return Modified; };
 
-			// Заполняем список уже имеющимися правилами
-			int i = 1;
-			foreach (falsestarts_rules rule in (from rule in DBManagerApp.m_Entities.falsestarts_rules
-												where rule.Group == m_GroupId
-												select rule).ToList())
-			{
-				FalsestartRule Rule = new FalsestartRule(i)
-				{
-					StartRound = rule.start_round,
-					EndRound = rule.end_round,
-				};
-				Rule.PropertyChanged += RuleCopy_PropertyChanged;
-				Rules.Add(Rule);
-
-				i++;
-			}
-									
-			Rules.CollectionChanged += Rules_CollectionChanged;
-
+			// Заполняем список уже имеющимися группами
+			foreach (var groupDesc in currentGroups)
+				Groups.Add(new KeyValuePair<long, string>(groupDesc.Key, groupDesc.Value.Value.AgeGroup.FullGroupName));
+			cmbGroups.SelectedIndex = 0;
+			ShowRules((KeyValuePair<long, string>?)cmbGroups.SelectedItem);
+						
 
 			CommandBinding cmdb = new CommandBinding()
 			{
@@ -392,7 +379,7 @@ namespace DBManager.SettingWnds
 						conn.Open();  // open connection if not already open
 					using (DbCommand cmd = conn.CreateCommand())
 					{
-						cmd.CommandText = $"DELETE FROM falsestarts_rules WHERE falsestarts_rules.Group = {m_GroupId}";
+						cmd.CommandText = $"DELETE FROM falsestarts_rules WHERE falsestarts_rules.Group = {cmbGroups.SelectedValue}";
 						cmd.ExecuteNonQuery();
 					}
 				}
@@ -421,7 +408,7 @@ namespace DBManager.SettingWnds
 				{
 					DBManagerApp.m_Entities.falsestarts_rules.Add(new falsestarts_rules()
 					{
-						Group = m_GroupId,
+						Group = (long)cmbGroups.SelectedValue,
 						start_round = (byte)rule.StartRound,
 						end_round = (byte)rule.EndRound,
 					});
@@ -451,6 +438,86 @@ namespace DBManager.SettingWnds
 		private void lstvRules_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			CommandManager.InvalidateRequerySuggested();
+		}
+
+		void ShowRules(KeyValuePair<long, string>? group)
+		{
+			Rules.CollectionChanged -= Rules_CollectionChanged;
+			Rules.Clear();
+
+			if (group != null)
+			{
+				// Заполняем список уже имеющимися правилами
+				int i = 1;
+				long groupId = group.Value.Key;
+				foreach (falsestarts_rules rule in (from rule in DBManagerApp.m_Entities.falsestarts_rules
+													where rule.Group == groupId
+													select rule).ToList())
+				{
+					FalsestartRule Rule = new FalsestartRule(i)
+					{
+						StartRound = rule.start_round,
+						EndRound = rule.end_round,
+					};
+					Rule.PropertyChanged += RuleCopy_PropertyChanged;
+					Rules.Add(Rule);
+
+					i++;
+				}
+			}
+
+			Rules.CollectionChanged += Rules_CollectionChanged;
+		}
+
+		private void cmbGroups_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			if (Modified)
+			{
+				cmbGroups.SelectionChanged -= cmbGroups_SelectionChanged;
+
+				int curSelIndex = cmbGroups.SelectedIndex;
+
+				switch (MessageBox.Show(this,
+					Properties.Resources.resFalsestartRuleChanged,
+					Title,
+					MessageBoxButton.YesNoCancel,
+					MessageBoxImage.Question,
+					MessageBoxResult.Yes))
+				{
+					case MessageBoxResult.Yes:
+						// Нужно вернуть старый индекс для сохранения настроек
+						cmbGroups.SelectedIndex = e.RemovedItems.Count > 0 && e.RemovedItems[0] == null
+								? -1
+								: Groups.IndexOf((KeyValuePair<long, string>)e.RemovedItems[0]);
+
+						if (SaveSettings())
+						{
+							cmbGroups.SelectedIndex = curSelIndex;
+							ShowRules(cmbGroups.SelectedItem == null
+										? null
+										: (KeyValuePair<long, string>?)cmbGroups.SelectedItem);
+						}
+						break;
+
+					case MessageBoxResult.No:
+						Modified = false;
+						break;
+
+					case MessageBoxResult.Cancel:
+						cmbGroups.SelectedIndex = e.RemovedItems.Count > 0 && e.RemovedItems[0] == null
+							? -1
+							: Groups.IndexOf((KeyValuePair<long, string>)e.RemovedItems[0]);
+						break;
+				}
+
+				cmbGroups.SelectionChanged += cmbGroups_SelectionChanged;
+			}
+			else
+			{
+				ShowRules(cmbGroups.SelectedItem == null
+							? null
+							: (KeyValuePair<long, string>?)cmbGroups.SelectedItem);
+			}
 		}
 	}
 }

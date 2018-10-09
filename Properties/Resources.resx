@@ -982,8 +982,8 @@
   <data name="resFalsestartRuleChanged" xml:space="preserve">
     <value>Настройки действия фальстартов изменились. Сохранить?</value>
   </data>
-  <data name="resfmtFalsestartRulesWndTitle" xml:space="preserve">
-    <value>Правила для фальстартов. Группа "{0}"</value>
+  <data name="resFalsestartRulesWndTitle" xml:space="preserve">
+    <value>Правила для фальстартов</value>
   </data>
   <data name="resfmtInvalidFalsestartRule" xml:space="preserve">
     <value>В строке №{0} присутствует правило с неверными настройками</value>
@@ -1031,5 +1031,14 @@
   </data>
   <data name="resTopMost" xml:space="preserve">
     <value>Поверх остальных окон</value>
+  </data>
+  <data name="resAgeGroup" xml:space="preserve">
+    <value>Возрастная группа</value>
+  </data>
+  <data name="resGradesRemoved" xml:space="preserve">
+    <value>Разряды удалены</value>
+  </data>
+  <data name="resRemoveGradesBtnContent" xml:space="preserve">
+    <value>Удалить разряды</value>
   </data>
 </root>

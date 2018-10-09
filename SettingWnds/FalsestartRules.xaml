@@ -13,6 +13,16 @@
 		ResMsgOnCloseIfModified="resFalsestartRuleChanged">
 
 	<DockPanel LastChildFill="True">
+		<DockPanel DockPanel.Dock="Top" LastChildFill="True" Margin="5,5,5,5">
+			<Label DockPanel.Dock="Left" Content="{Loc resAgeGroup}" Margin="0,0,5,0"/>
+			<ComboBox Name="cmbGroups"
+					  Margin="0,0,0,0"
+					  ItemsSource="{Binding Groups}"
+					  DisplayMemberPath="Value"
+					  SelectedValuePath="Key"
+					  SelectionChanged="cmbGroups_SelectionChanged"/>
+		</DockPanel>
+		
 		<DockPanel DockPanel.Dock="Bottom">
 			<localctrls:CancelButton DockPanel.Dock="Right"
 									  x:Name="btnCancel"

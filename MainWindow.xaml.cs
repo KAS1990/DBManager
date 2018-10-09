@@ -443,7 +443,7 @@ namespace DBManager
 		/// <param name="e"></param>
 		public void FalsestartRulesCmdExecuted(object sender, RoutedEventArgs e)
 		{
-			FalsestartRules wnd = new FalsestartRules(CurrentGroups.SelectedKey, CurrentGroups.SelectedItem.Value.AgeGroup)
+			FalsestartRules wnd = new FalsestartRules(CurrentGroups)
 			{
 				Owner = this,
 			};
