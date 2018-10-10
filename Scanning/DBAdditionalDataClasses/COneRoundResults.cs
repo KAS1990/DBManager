@@ -45,8 +45,7 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 			}
 		}
 		#endregion
-
-
+		
 		#region Route2
 		private static readonly string Route2PropertyName = GlobalDefines.GetPropertyName<COneRoundResults>(m => m.Route2);
 
@@ -76,7 +75,6 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 			}
 		}
 		#endregion
-
 
 		#region Sum
 		private static readonly string SumPropertyName = GlobalDefines.GetPropertyName<COneRoundResults>(m => m.Sum);
@@ -108,7 +106,6 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 		}
 		#endregion
 
-
 		#region IsLastMember
 		private static readonly string IsLastMemberPropertyName = GlobalDefines.GetPropertyName<COneRoundResults>(m => m.IsLastMember);
 
@@ -131,7 +128,6 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 		}
 		#endregion
 
-
 		#region IsLooser
 		private static readonly string IsLooserPropertyName = GlobalDefines.GetPropertyName<COneRoundResults>(m => m.IsLooser);
 
@@ -152,7 +148,6 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 			}
 		}
 		#endregion
-
 
 		#region Вместо конвертеров
 		#region ResultsForShow
@@ -175,7 +170,6 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 		#endregion
 		#endregion
 
-
 		results_speed ResultInDB
 		{
 			get
@@ -184,12 +178,10 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 			}
 		}
 
-
 		void Result_StyleChanged(object sender, StyleChangedEventArgs e)
 		{
 			OnStyleChanged(e);
 		}
-
 
 		/// <summary>
 		/// Для вывода в бегущую строку
@@ -210,7 +202,6 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 
 			return result.Trim();
 		}
-
 
 		public override void RefreshFrom(ICanRefreshFrom rhs,
 										bool SkipNullsForObjects,

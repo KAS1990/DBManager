@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using DBManager.Global;
 
 namespace DBManager
 {
@@ -18,6 +19,11 @@ namespace DBManager
 					surname == rhs.surname &&
 					year_of_birth == rhs.year_of_birth &&
 					sex == rhs.sex;
+		}
+
+		public string ToInfoString()
+		{
+			return $"{surname.ToUpper(0)} {name.ToUpper(0)} {year_of_birth}";
 		}
 	}
 }

@@ -1035,13 +1035,46 @@
   <data name="resAgeGroup" xml:space="preserve">
     <value>Возрастная группа</value>
   </data>
+  <data name="resEditMemberCaption" xml:space="preserve">
+    <value>Введите или измените данные об участнике</value>
+  </data>
+  <data name="resEditMemberWndTitle" xml:space="preserve">
+    <value>Редактирование спортсмена</value>
+  </data>
   <data name="resGodsMode" xml:space="preserve">
     <value>Режим Бога</value>
   </data>
   <data name="resGradesRemoved" xml:space="preserve">
     <value>Разряды удалены</value>
   </data>
+  <data name="resMemberChanged" xml:space="preserve">
+    <value>Данные изменились.
+Сохранить?</value>
+  </data>
+  <data name="resName" xml:space="preserve">
+    <value>Имя</value>
+  </data>
   <data name="resRemoveGradesBtnContent" xml:space="preserve">
     <value>Удалить разряды</value>
+  </data>
+  <data name="resSurname" xml:space="preserve">
+    <value>Фамилия</value>
+  </data>
+  <data name="resYearOfBirth" xml:space="preserve">
+    <value>Год рождения</value>
+  </data>
+  <data name="resEditMember" xml:space="preserve">
+    <value>Редактировать</value>
+  </data>
+  <data name="resExceptionDuringSaveMember" xml:space="preserve">
+    <value>Ошибка при сохранении спортсмена</value>
+  </data>
+  <data name="resfmtChangeMemberQuestion" xml:space="preserve">
+    <value>Заменить спортсмена
+{0}
+на {1}?</value>
+  </data>
+  <data name="resRequiredFieldsAreEmpty" xml:space="preserve">
+    <value>Обязательные поля не заполнены</value>
   </data>
 </root>

@@ -28,8 +28,7 @@ namespace DBManager.Scanning.XMLDataClasses
 		/// </summary>
 		[XmlIgnore]
 		public enResultColumnNumber ResultColumnNumber { get; set; }
-
-
+		
 		private results_speed m_ResultInDB = null;
 		[XmlIgnore]
 		public results_speed ResultInDB
@@ -47,8 +46,7 @@ namespace DBManager.Scanning.XMLDataClasses
 					RemoveFalsestart.RefreshCanExecute();
 			}
 		}
-
-
+		
 		#region Time
 		public static readonly string TimePropertyName = GlobalDefines.GetPropertyName<CResult>(m => m.Time);
 
@@ -73,8 +71,7 @@ namespace DBManager.Scanning.XMLDataClasses
 			}
 		}
 		#endregion
-
-
+		
 		#region CondFormating
 		private static readonly string CondFormatingRoutePropertyName = GlobalDefines.GetPropertyName<CResult>(m => m.CondFormating);
 
@@ -96,8 +93,7 @@ namespace DBManager.Scanning.XMLDataClasses
 			}
 		}
 		#endregion
-
-
+		
 		#region AdditionalEventTypes
 		public static readonly string AdditionalEventTypesPropertyName = GlobalDefines.GetPropertyName<CResult>(m => m.AdditionalEventTypes);
 
@@ -123,7 +119,6 @@ namespace DBManager.Scanning.XMLDataClasses
 		}
 		#endregion
 
-
 		#region ResultPossible
 		private static readonly string ResultPossiblePropertyName = GlobalDefines.GetPropertyName<CResult>(m => m.ResultPossible);
 
@@ -143,8 +138,8 @@ namespace DBManager.Scanning.XMLDataClasses
 		}
 		#endregion
 
-
 		#region RemoveFalsestart
+
 		private CCommand m_RemoveFalsestart = null;
 		[XmlIgnore]
 		public CCommand RemoveFalsestart
@@ -157,10 +152,7 @@ namespace DBManager.Scanning.XMLDataClasses
 			}
 		}
 
-
-
 		#endregion
-
 
 		#region Вместо конвертеров
 		#region ResultForShow

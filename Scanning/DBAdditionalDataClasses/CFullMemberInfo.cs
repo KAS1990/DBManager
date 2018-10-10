@@ -7,6 +7,8 @@ using DBManager.Global;
 using System.ComponentModel;
 using System.Globalization;
 using DBManager.RoundMembers.Converters;
+using DBManager.Commands;
+using DBManager.Stuff;
 
 namespace DBManager.Scanning.DBAdditionalDataClasses
 {
@@ -15,7 +17,6 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 		static YearOfBirthMarkupConverter m_convYearOfBirth = new YearOfBirthMarkupConverter();
 		static GradeMarkupConverter m_convGrade = new GradeMarkupConverter();
 		
-
 		#region IDMember
 		private static readonly string IDMemberPropertyName = GlobalDefines.GetPropertyName<CFullMemberInfo>(m => m.IDMember);
 
@@ -155,15 +156,13 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 			}
 		}
 		#endregion
-
-				
+								
 		private static readonly string SurnameAndNamePropertyName = GlobalDefines.GetPropertyName<CFullMemberInfo>(m => m.SurnameAndName);
 		public string SurnameAndName
 		{
 			get { return GlobalDefines.CreateSurnameAndName(Surname, Name); }
 		}
-
-
+		
 		#region SecondCol
 		private static readonly string SecondColPropertyName = GlobalDefines.GetPropertyName<CFullMemberInfo>(m => m.SecondCol);
 
@@ -183,6 +182,20 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 		}
 		#endregion
 
+		#region EditMember
+
+		private CCommand m_EditMember = null;
+		public CCommand EditMember
+		{
+			get { return m_EditMember; }
+			private set
+			{
+				if (m_EditMember != value)
+					m_EditMember = value;
+			}
+		}
+
+		#endregion
 
 		#region Вместо конвертеров
 		#region YearOfBirthForShow
@@ -225,6 +238,38 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 		#endregion
 		#endregion
 
+		public CFullMemberInfo()
+		{
+			EditMember = new CCommand(EditMember_Executed);
+		}
+
+		private void EditMember_Executed()
+		{
+			var viewModel = new EditMemberViewModel(this,
+				DBManagerApp.MainWnd.CurrentGroups.SelectedKey,
+				DBManagerApp.MainWnd.CurrentGroups.SelectedItem.Value);
+
+			var wnd = new CEditMemberWnd(viewModel,
+				DBManagerApp.MainWnd.CurrentGroups.SelectedKey,
+				DBManagerApp.MainWnd.CurrentGroups.SelectedItem.Value)
+			{
+				Owner = DBManagerApp.MainWnd
+			};
+
+			if (wnd.ShowDialog() == true)
+			{
+				IDMember = wnd.MemberData.MemberInDB.id_member;
+				Name = wnd.MemberData.Name;
+				Surname = wnd.MemberData.Surname;
+
+				SecondCol = wnd.MemberData.SecondColumn;
+				Coach = wnd.MemberData.PartInDB.coach;
+				Team = wnd.MemberData.PartInDB.team;
+
+				YearOfBirth = wnd.MemberData.YearOfBirth;
+				InitGrade = (byte?)wnd.MemberData.Grade;
+			}
+		}
 
 		public override void RefreshFrom(ICanRefreshFrom rhs,
 										bool SkipNullsForObjects,

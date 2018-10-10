@@ -301,9 +301,13 @@
     <Compile Include="SettingWnds\FalsestartRules.xaml.cs">
       <DependentUpon>FalsestartRules.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Stuff\CEditMemberWnd.xaml.cs">
+      <DependentUpon>CEditMemberWnd.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Stuff\CRemoteControlWnd.xaml.cs">
       <DependentUpon>CRemoteControlWnd.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Stuff\EditMemberViewModel.cs" />
     <Compile Include="Themes\SettingWriter\AppSettings.cs" />
     <Compile Include="Themes\SettingWriter\XMLSettingsWriter.cs" />
     <Compile Include="SettingWnds\CSettingsWnd.xaml.cs">
@@ -408,6 +412,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Stuff\CCalcGradesWnd.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Stuff\CEditMemberWnd.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

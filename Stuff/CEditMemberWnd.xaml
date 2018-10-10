@@ -1,0 +1,102 @@
+﻿<baseWnd:СCustomSettingsWnd x:Class="DBManager.Stuff.CEditMemberWnd"
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:local="clr-namespace:DBManager.Stuff"
+		xmlns:baseWnd="clr-namespace:DBManager.SettingWnds"
+		mc:Ignorable="d"
+		Title="{Loc resEditMemberWndTitle}"
+		ShowInTaskbar="False"
+		WindowStyle="ToolWindow"
+		WindowStartupLocation="CenterScreen"
+		SizeToContent="WidthAndHeight"
+		ResizeMode="NoResize"
+		ResMsgOnCloseIfModified="resMemberChanged">
+
+	<StackPanel Orientation="Vertical" Margin="10">
+		<Grid Margin="0,0,0,5">
+			<Grid.RowDefinitions>
+				<RowDefinition/>
+				<RowDefinition/>
+				<RowDefinition/>
+				<RowDefinition/>
+				<RowDefinition/>
+				<RowDefinition/>
+			</Grid.RowDefinitions>
+
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="auto"/>
+				<ColumnDefinition Width="150"/>
+			</Grid.ColumnDefinitions>
+
+			<Label Grid.ColumnSpan="2" Grid.Row="0" Grid.Column="0" Content="{Loc resEditMemberCaption}" Margin="0,0,0,5" />
+
+			<Label Grid.Row="1" Grid.Column="0" Content="{Loc resSurname}" Margin="0,0,5,5" HorizontalAlignment="Left" />
+			<ComboBox Grid.Row="1"
+					  Grid.Column="1"
+					  Margin="0,0,0,5"
+					  ItemsSource="{Binding Surnames, RelativeSource={RelativeSource FindAncestor, AncestorType=local:CEditMemberWnd}}"
+					  IsEditable="True"
+					  Text="{Binding Surname}" />
+
+			<Label Grid.Row="2" Grid.Column="0" Content="{Loc resName}" Margin="0,0,5,5" HorizontalAlignment="Left" />
+			<ComboBox Grid.Row="2"
+					  Grid.Column="1"
+					  Margin="0,0,0,5"
+					  ItemsSource="{Binding Names, RelativeSource={RelativeSource FindAncestor, AncestorType=local:CEditMemberWnd}}"
+					  IsEditable="True"
+					  Text="{Binding Name}" />
+
+			<Label Grid.Row="3" Grid.Column="0" Name="lblSecondColumn" Margin="0,0,5,5" HorizontalAlignment="Left" />
+			<ComboBox Grid.Row="3"
+					  Grid.Column="1"
+					  Margin="0,0,0,5"
+					  ItemsSource="{Binding SecondColumnData, RelativeSource={RelativeSource FindAncestor, AncestorType=local:CEditMemberWnd}}"
+					  IsEditable="True"
+					  SelectedValuePath="Key"
+					  DisplayMemberPath="Value"
+					  Text="{Binding SecondColumn}" />
+
+			<Label Grid.Row="4" Grid.Column="0" Content="{Loc resYearOfBirth}" Margin="0,0,5,5" HorizontalAlignment="Left" />
+			<ComboBox Grid.Row="4"
+					  Grid.Column="1"
+					  Margin="0,0,0,5"
+					  HorizontalAlignment="Left"
+					  Width="100"
+					  ItemsSource="{Binding YearsOfBirth, RelativeSource={RelativeSource FindAncestor, AncestorType=local:CEditMemberWnd}}"
+					  SelectedValue="{Binding YearOfBirth}"/>
+
+			<Label Grid.Row="5" Grid.Column="0" Content="{Loc resGrade}" Margin="0,0,5,5" HorizontalAlignment="Left" />
+			<ComboBox Grid.Row="5"
+					  Grid.Column="1"
+					  Margin="0,0,0,5"
+					  HorizontalAlignment="Left"
+					  Width="100"
+					  ItemsSource="{Binding Grades, RelativeSource={RelativeSource FindAncestor, AncestorType=local:CEditMemberWnd}}"
+					  SelectedValuePath="Key"
+					  DisplayMemberPath="Value"
+					  SelectedValue="{Binding Grade}"/>
+		</Grid>
+
+		<Grid Margin="0,0,0,0">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition/>
+				<ColumnDefinition/>
+			</Grid.ColumnDefinitions>
+
+			<Button Grid.Column="0"
+					Name="btnOK"
+					Content="{Loc resOK}"
+					Margin="5,5,5,5"
+					Width="auto"
+					Command="{x:Static baseWnd:СCustomSettingsWnd.cmdApply}" />
+
+			<Button Grid.Column="1"
+					Content="{Loc resCancel}"
+					Margin="5"
+					Width="auto" />
+		</Grid>
+	</StackPanel>
+	
+</baseWnd:СCustomSettingsWnd>

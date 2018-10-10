@@ -889,15 +889,15 @@ namespace DBManager.Scanning
 						{   // Что-то поменялось => меняем в БД и MembersIds
 							CMemberKeys keys = MembersIds[MemberForChangeInDB.SurnameAndName];
 
-							var ChangedMembersInDB = from member in DBManagerApp.m_Entities.members
+							var ChangedMemberInDB = (from member in DBManagerApp.m_Entities.members
 														where member.surname == ChangedMember.Surname && member.name == ChangedMember.Name
-														select member;
+														select member).FirstOrDefault();
 
-							if (ChangedMembersInDB.Count() > 0)
+							if (ChangedMemberInDB != null && ChangedMemberInDB.id_member != keys.Member.id_member)
 							{   // Такой спортсмен уже есть в БД => используем его
 								keys.Name = ChangedMember.Name;
 								keys.Surname = ChangedMember.Surname;
-								keys.Member = ChangedMembersInDB.First();
+								keys.Member = ChangedMemberInDB;
 								keys.Participation.member = keys.Member.id_member;
 							}
 							else

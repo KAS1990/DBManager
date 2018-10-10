@@ -15,8 +15,7 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 		static Dictionary<enRounds, string> PropertyNames = new Dictionary<enRounds, string>();
 
 		Dictionary<enRounds, COneRoundResults> m_RoundResults = new Dictionary<enRounds, COneRoundResults>();
-				
-
+		
 		#region MemberInfo
 		private static readonly string MemberInfoPropertyName = GlobalDefines.GetPropertyName<CMemberInTotal>(m => m.MemberInfo);
 
@@ -37,7 +36,6 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 			}
 		}
 		#endregion
-
 
 		#region QualifResults
 		private static readonly string QualifResultsPropertyName = GlobalDefines.GetPropertyName<CMemberInTotal>(m => m.QualifResults);
@@ -61,7 +59,6 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 		}
 		#endregion
 
-
 		#region Qualif2Results
 		private static readonly string Qualif2ResultsPropertyName = GlobalDefines.GetPropertyName<CMemberInTotal>(m => m.Qualif2Results);
 
@@ -83,7 +80,6 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 			}
 		}
 		#endregion
-		
 		
 		#region OneEighthFinalResults
 		private static readonly string OneEighthFinalResultsPropertyName = GlobalDefines.GetPropertyName<CMemberInTotal>(m => m.OneEighthFinalResults);
@@ -107,7 +103,6 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 		}
 		#endregion
 
-		
 		#region QuaterFinalResults
 		private static readonly string QuaterFinalResultsPropertyName = GlobalDefines.GetPropertyName<CMemberInTotal>(m => m.QuaterFinalResults);
 
@@ -130,7 +125,6 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 		}
 		#endregion
 		
-		
 		#region SemiFinalResults
 		private static readonly string SemiFinalResultsPropertyName = GlobalDefines.GetPropertyName<CMemberInTotal>(m => m.SemiFinalResults);
 
@@ -152,7 +146,6 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 			}
 		}
 		#endregion
-
 		
 		#region FinalResults
 		private static readonly string FinalResultsPropertyName = GlobalDefines.GetPropertyName<CMemberInTotal>(m => m.FinalResults);
@@ -175,7 +168,6 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 			}
 		}
 		#endregion
-					
 
 		#region TotalGrade
 		private static readonly string TotalGradePropertyName = GlobalDefines.GetPropertyName<CMemberInTotal>(m => m.TotalGrade);
@@ -198,8 +190,7 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 			}
 		}
 		#endregion
-
-		
+				
 		#region BallsForPlaces
 		private static readonly string BallsForPlacesPropertyName = GlobalDefines.GetPropertyName<CMemberInTotal>(m => m.BallsForPlaces);
 
@@ -218,14 +209,12 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 			}
 		}
 		#endregion
-
-
+		
 		/// <summary>
 		/// Вспомогательное поле
 		/// </summary>
 		public long id_part = 0;
-
-
+		
 		#region IsLastMemberInAnyRound
 		private static readonly string IsLastMemberInAnyRoundPropertyName = GlobalDefines.GetPropertyName<CMemberInTotal>(m => m.IsLastMemberInAnyRound);
 
@@ -234,8 +223,7 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 			get { return AllFilledResults.Any(arg => arg.IsLastMember); }
 		}
 		#endregion
-
-
+				
 		#region Вместо конвертеров
 		#region TotalGradeForShow
 		private static readonly string TotalGradeForShowPropertyName = GlobalDefines.GetPropertyName<CMemberInTotal>(m => m.TotalGradeForShow);
@@ -256,9 +244,9 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 		}
 		#endregion
 		#endregion
-
-
+		
 		#region Конструкторы
+
 		static CMemberInTotal()
 		{
 			PropertyNames.Add(enRounds.Qualif, QualifResultsPropertyName);
@@ -268,9 +256,9 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 			PropertyNames.Add(enRounds.SemiFinal, SemiFinalResultsPropertyName);
 			PropertyNames.Add(enRounds.Final, FinalResultsPropertyName);
 		}
+				
 		#endregion
-
-
+		
 		public override void RefreshFrom(ICanRefreshFrom rhs,
 										bool SkipNullsForObjects,
 										bool SkipNullsForNullables)

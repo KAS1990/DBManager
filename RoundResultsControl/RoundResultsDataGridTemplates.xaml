@@ -924,7 +924,7 @@
 						</Border>
 						
 						<Border Grid.Row="1" BorderThickness="0" Style="{StaticResource RndResBorderedBorder2ndStyle}">
-							<Label Content="{Binding Second.Results.Sum.ResultForShow.}" >
+							<Label Content="{Binding Second.Results.Sum.ResultForShow}" >
 								<Label.Style>
 									<Style TargetType="{x:Type Label}" BasedOn="{StaticResource RndResBorderedLabel2ndStyle}">
 										<Setter Property="Background" Value="{Binding Second.Results.ResultsForShow.Sum.Background}" />
@@ -1474,6 +1474,13 @@
 				Value="{Binding DataContext.PlainResultsFontStyle.ForeColor,
 						RelativeSource={RelativeSource AncestorType={x:Type mainwnd:MainWindow}},
 						Converter={gconvs:ColorToSolidBrushMarkupConverter}}" />
+		<Setter Property="ContextMenu">
+			<Setter.Value>
+				<ContextMenu>
+					<MenuItem Header="{Loc resEditMember}" Command="{Binding MemberInfo.EditMember}" />
+				</ContextMenu>
+			</Setter.Value>
+		</Setter>
 	</Style>
 		
 	<DataGridTemplateColumn x:Key="TotalColumnsPlace" Header="{Loc resPlace}" >

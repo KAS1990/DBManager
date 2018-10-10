@@ -439,6 +439,33 @@ namespace DBManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Редактировать.
+        /// </summary>
+        internal static string resEditMember {
+            get {
+                return ResourceManager.GetString("resEditMember", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Введите или измените данные об участнике.
+        /// </summary>
+        internal static string resEditMemberCaption {
+            get {
+                return ResourceManager.GetString("resEditMemberCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Редактирование спортсмена.
+        /// </summary>
+        internal static string resEditMemberWndTitle {
+            get {
+                return ResourceManager.GetString("resEditMemberWndTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;пусто&gt;.
         /// </summary>
         internal static string resEmpty {
@@ -489,6 +516,15 @@ namespace DBManager.Properties {
         internal static string resError {
             get {
                 return ResourceManager.GetString("resError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ошибка при сохранении спортсмена.
+        /// </summary>
+        internal static string resExceptionDuringSaveMember {
+            get {
+                return ResourceManager.GetString("resExceptionDuringSaveMember", resourceCulture);
             }
         }
         
@@ -654,6 +690,17 @@ namespace DBManager.Properties {
         internal static string resfmtCantUpdateFalsestartRules {
             get {
                 return ResourceManager.GetString("resfmtCantUpdateFalsestartRules", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Заменить спортсмена
+        ///{0}
+        ///на {1}?.
+        /// </summary>
+        internal static string resfmtChangeMemberQuestion {
+            get {
+                return ResourceManager.GetString("resfmtChangeMemberQuestion", resourceCulture);
             }
         }
         
@@ -1576,6 +1623,16 @@ namespace DBManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Данные изменились.
+        ///Сохранить?.
+        /// </summary>
+        internal static string resMemberChanged {
+            get {
+                return ResourceManager.GetString("resMemberChanged", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to участника.
         /// </summary>
         internal static string resMemberGenitive {
@@ -1653,6 +1710,15 @@ namespace DBManager.Properties {
         internal static string resmsgfmtCloseQuestion {
             get {
                 return ResourceManager.GetString("resmsgfmtCloseQuestion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Имя.
+        /// </summary>
+        internal static string resName {
+            get {
+                return ResourceManager.GetString("resName", resourceCulture);
             }
         }
         
@@ -2022,6 +2088,15 @@ namespace DBManager.Properties {
         internal static string resRemoveGradesBtnContent {
             get {
                 return ResourceManager.GetString("resRemoveGradesBtnContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Обязательные поля не заполнены.
+        /// </summary>
+        internal static string resRequiredFieldsAreEmpty {
+            get {
+                return ResourceManager.GetString("resRequiredFieldsAreEmpty", resourceCulture);
             }
         }
         
@@ -2404,6 +2479,15 @@ namespace DBManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Фамилия.
+        /// </summary>
+        internal static string resSurname {
+            get {
+                return ResourceManager.GetString("resSurname", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Фамилия, Имя.
         /// </summary>
         internal static string resSurnameAndName {
@@ -2634,6 +2718,15 @@ namespace DBManager.Properties {
         internal static string resXlsxFilesFilter {
             get {
                 return ResourceManager.GetString("resXlsxFilesFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Год рождения.
+        /// </summary>
+        internal static string resYearOfBirth {
+            get {
+                return ResourceManager.GetString("resYearOfBirth", resourceCulture);
             }
         }
         
