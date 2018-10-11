@@ -65,12 +65,31 @@ namespace DBManager.InterfaceElements
 			DependencyProperty.Register("ImageLocation", typeof(ButtonImageLocation), typeof(ButtonWithPicture), new FrameworkPropertyMetadata(ButtonImageLocation.Top));
 
 		#endregion
+
+		#region MaxTextWidth
+
+		/// <summary>
+		/// Максимальная ширина текста
+		/// </summary>
+		public double MaxTextWidth
+		{
+			get { return (double)GetValue(MaxTextWidthProperty); }
+			set { SetValue(MaxTextWidthProperty, value); }
+		}
+
+		/// <summary>
+		/// Максимальная ширина текста
+		/// </summary>
+		public static readonly DependencyProperty MaxTextWidthProperty =
+			DependencyProperty.Register("MaxTextWidth", typeof(double), typeof(ButtonWithPicture), new FrameworkPropertyMetadata(double.PositiveInfinity));
+
+		#endregion
 	}
 
 
 	public enum ButtonImageLocation
 	{
 		Left,
-		Top
+		Top,
 	}
 }

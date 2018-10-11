@@ -3334,8 +3334,6 @@ namespace DBManager
 																							MemberResults.MemberInfo.SecondCol);
 										}
 									}
-
-									MemberResults.RefreshColors();
 									break;
 
 								case enRounds.OneEighthFinal:
@@ -3346,7 +3344,7 @@ namespace DBManager
 									break;
 							}
 						}
-
+																													
 						switch (SelectedRound)
 						{
 							case enRounds.None:
@@ -3365,9 +3363,13 @@ namespace DBManager
 															   result.place
 														   })
 								{
-									m_CurrentRoundMembers
-										.FirstOrDefault(arg => (arg as CMemberAndResults).MemberInfo.IDMember == memberInDB.id_member)
-										.Place = memberInDB.place;
+									var results = m_CurrentRoundMembers
+										.FirstOrDefault(arg => (arg as CMemberAndResults).MemberInfo.IDMember == memberInDB.id_member) as CMemberAndResults;
+
+									results.Place = memberInDB.place;
+
+									// Нужно обновить цвета у участников
+									results.RefreshColors();
 								}
 								break;
 

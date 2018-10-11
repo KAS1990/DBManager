@@ -1,4 +1,5 @@
 ﻿using DBManager.Global;
+using Microsoft.Windows.Controls.Ribbon;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -53,6 +54,9 @@ namespace DBManager.Stuff
 			m_mainWnd.rchkShowGroupHead.Checked += m_mainWnd_rchkShowGroupHead_CheckedOrUnchecked;
 			m_mainWnd.rchkShowGroupHead.Unchecked += m_mainWnd_rchkShowGroupHead_CheckedOrUnchecked;
 
+			chkShowRibbon.IsChecked = !m_mainWnd.Ribbon.IsMinimized;
+			(m_mainWnd.Ribbon.ContextMenu.Items[0] as RibbonMenuItem).Click += m_mainWnd_Ribbon_ContextMenu_Items_0_Click;
+			
 			chkAutoSendToFTP.IsChecked = m_mainWnd.rchkAutoSendToFTP.IsChecked;
 			m_mainWnd.rchkAutoSendToFTP.Checked += m_mainWnd_rchkAutoSendToFTP_CheckedOrUnchecked;
 			m_mainWnd.rchkAutoSendToFTP.Unchecked += m_mainWnd_rchkAutoSendToFTP_CheckedOrUnchecked;
@@ -67,7 +71,8 @@ namespace DBManager.Stuff
 
 			cmbHighlightTypes.ItemsSource = m_mainWnd.HighlightTypes;
 			cmbHighlightTypes.SelectedValue = m_mainWnd.CurHighlightGradesType;
-			
+			GlobalDefines.TuneComboboxWidth5(cmbHighlightTypes);
+
 			OnPropertyChanged(MainWindow.ScannerStoppedPropertyName);
 			OnPropertyChanged(MainWindow.RefreshEnabledPropertyName);
 			OnPropertyChanged(MainWindow.SyncDBWithFilesEnabledPropertyName);
@@ -86,7 +91,7 @@ namespace DBManager.Stuff
 			OnPropertyChanged(MainWindow.CalcGradesEnabledPropertyName);
 
 			OnPropertyChanged(MainWindow.ExportToXlsEnabledPropertyName);
-			
+						
 			SetTopMost();
 		}
 
@@ -219,6 +224,24 @@ namespace DBManager.Stuff
 
 		#endregion
 
+		#region chkShowRibbon
+
+		private void chkShowRibbon_Click(object sender, RoutedEventArgs e)
+		{
+			m_mainWnd.Ribbon.IsMinimized = !chkShowRibbon.IsChecked.Value;
+		}
+
+		private void m_mainWnd_Ribbon_ContextMenu_Items_0_Click(object sender, RoutedEventArgs e)
+		{
+			chkShowRibbon.Click -= chkShowRibbon_Click;
+
+			chkShowRibbon.IsChecked = m_mainWnd.Ribbon.IsMinimized;
+
+			chkShowRibbon.Click += chkShowRibbon_Click;
+		}
+
+		#endregion
+
 		#region cmbGroups
 
 		private void RefreshGroups()
@@ -243,6 +266,9 @@ namespace DBManager.Stuff
 			}
 
 			OnPropertyChanged(GroupSelectionEnabledPropertyName);
+
+			cmbGroups.Width = double.NaN;
+			GlobalDefines.TuneComboboxWidth2(cmbGroups);
 
 			cmbGroups.SelectionChanged += cmbGroups_SelectionChanged;
 		}
@@ -327,6 +353,9 @@ namespace DBManager.Stuff
 			}
 
 			OnPropertyChanged(RoundSelectionEnabledPropertyName);
+
+			cmbRounds.Width = double.NaN;
+			GlobalDefines.TuneComboboxWidth2(cmbRounds);
 
 			cmbRounds.SelectionChanged += cmbRounds_SelectionChanged;
 		}
@@ -489,8 +518,7 @@ namespace DBManager.Stuff
 		}
 
 
-		#endregion
 
-		
+		#endregion
 	}
 }

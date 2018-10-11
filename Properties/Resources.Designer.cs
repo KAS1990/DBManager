@@ -1452,7 +1452,7 @@ namespace DBManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Приглашается на старт.
+        ///   Looks up a localized string similar to ПРИГЛАШАЕТСЯ НА СТАРТ.
         /// </summary>
         internal static string resInvitedToStart {
             get {
@@ -2011,7 +2011,7 @@ namespace DBManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Готовится.
+        ///   Looks up a localized string similar to ГОТОВИТСЯ.
         /// </summary>
         internal static string resPreparing {
             get {
@@ -2313,6 +2313,15 @@ namespace DBManager.Properties {
         internal static string resShowRemoteControlWnd {
             get {
                 return ResourceManager.GetString("resShowRemoteControlWnd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Показать ленту.
+        /// </summary>
+        internal static string resShowRibbon {
+            get {
+                return ResourceManager.GetString("resShowRibbon", resourceCulture);
             }
         }
         

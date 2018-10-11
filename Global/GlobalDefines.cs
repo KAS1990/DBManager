@@ -18,6 +18,7 @@ using MSExcel = Microsoft.Office.Interop.Excel;
 using System.Runtime.InteropServices;
 using DBManager.SettingsWriter;
 using DBManager.DAL;
+using System.Reflection;
 
 namespace DBManager.Global
 {
@@ -378,9 +379,6 @@ namespace DBManager.Global
 				width = cmb.Width = cmb.DesiredSize.Width;
 			else
 				width = cmb.Width = (UseCmbWidth ? Math.Max(cmb.Width, width) : width);
-
-			/*foreach (ComboBoxItem item in cmbDisplayParam.Items)
-				item.Width = width - 5;*/
 		}
 
 
@@ -412,9 +410,43 @@ namespace DBManager.Global
 			else
 				width = cmb.Width = (UseCmbWidth ? Math.Max(cmb.Width, width) : width);
 		}
+
+		/// <summary>
+		/// Подогнать ширину ComboBox по содержимому.
+		/// Функция считает, что в ComboBox засунуты какие-то элементы. Свойство, которое отображается на экране задано в cmb.DisplayMemberPath.
+		/// Если значение этого свойства получить не удалось, то используется метод ToString()
+		/// </summary>
+		/// <param name="cmb"></param>
+		/// <param name="UseCmbWidth"></param>
+		public static void TuneComboboxWidth5(ComboBox cmb, bool UseCmbWidth = false)
+		{
+			double width = 0;
+			PropertyInfo pi = null;
+			foreach (object item in cmb.Items)
+			{
+				if (width == 0)
+					pi = item.GetType().GetProperty(cmb.DisplayMemberPath);
+
+				FormattedText ft = new FormattedText(pi == null ? item.ToString() : pi.GetValue(item, null).ToString(),
+													 CultureInfo.CurrentCulture,
+													 FlowDirection.LeftToRight,
+													 new Typeface(cmb.FontFamily, cmb.FontStyle, cmb.FontWeight, cmb.FontStretch),
+													 cmb.FontSize,
+													 Brushes.Black);
+				if (ft.Width + 25 > width)
+					width = ft.Width + 25;
+			}
+
+			cmb.Measure(STD_SIZE_FOR_MEASURE);
+
+			if (width == 0)
+				width = cmb.Width = cmb.DesiredSize.Width;
+			else
+				width = cmb.Width = (UseCmbWidth ? Math.Max(cmb.Width, width) : width);
+		}
 		#endregion
 
-				
+
 		/// <summary>
 		/// Доавляет данные в ComboBox. Добавляется ComboBoxItem, у которого Content = Value, а Tag = Key
 		/// </summary>
@@ -1423,8 +1455,9 @@ namespace DBManager.Global
 				instance = (MSExcel.Application)Marshal.GetActiveObject("Excel.Application");
 				NewAppCreated = false;
 			}
-			catch
+			catch (Exception ex)
 			{
+				ex.ToString();
 				instance = new MSExcel.Application();
 				/*instance.WindowState = MSExcel.XlWindowState.xlMinimized;
 				instance.Visible = true;*/

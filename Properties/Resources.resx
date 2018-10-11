@@ -346,7 +346,7 @@
     <value>Зам. Главного судьи по виду:</value>
   </data>
   <data name="resInvitedToStart" xml:space="preserve">
-    <value>Приглашается на старт</value>
+    <value>ПРИГЛАШАЕТСЯ НА СТАРТ</value>
   </data>
   <data name="resJustRecievedResult" xml:space="preserve">
     <value>Только что полученный результат</value>
@@ -358,7 +358,7 @@
     <value>В СЛЕДУЮЩИЙ РАУНД выходят</value>
   </data>
   <data name="resPreparing" xml:space="preserve">
-    <value>Готовится</value>
+    <value>ГОТОВИТСЯ</value>
   </data>
   <data name="resStayOnStart" xml:space="preserve">
     <value>Участник находится на старте</value>
@@ -1076,5 +1076,8 @@
   </data>
   <data name="resRequiredFieldsAreEmpty" xml:space="preserve">
     <value>Обязательные поля не заполнены</value>
+  </data>
+  <data name="resShowRibbon" xml:space="preserve">
+    <value>Показать ленту</value>
   </data>
 </root>

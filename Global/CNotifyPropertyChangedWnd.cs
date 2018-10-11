@@ -24,8 +24,7 @@ namespace DBManager.Global
 
 		public virtual void OnPropertyChanged(string info)
 		{
-			if (PropertyChanged != null)
-				PropertyChanged(this, new PropertyChangedEventArgs(info));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
 		}
 		#endregion
 	}

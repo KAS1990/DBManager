@@ -16,17 +16,13 @@ namespace DBManager.Global
 		{
 			DataContext = this;
 		}
-
-
+		
 		#region OnPropertyChanged and PropertyChanged event
 		public event PropertyChangedEventHandler PropertyChanged;
-
-
+		
 		public virtual void OnPropertyChanged(string info)
 		{
-			PropertyChangedEventHandler handler = PropertyChanged;
-			if (handler != null)
-				handler(this, new PropertyChangedEventArgs(info));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
 		}
 		#endregion
 	}
