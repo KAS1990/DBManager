@@ -55,8 +55,8 @@ namespace DBManager
 				.Entries()
 				.Where(p => p.State == EntityState.Modified)
 				.ToList();
-			
-			foreach (var change in modifiedEntities)
+
+            foreach (var change in modifiedEntities)
 			{
 				OneEntityChanging entityHasBeenChanged = new OneEntityChanging(change.Entity);
 				
@@ -69,16 +69,17 @@ namespace DBManager
 						|| (propValues.OldValue != null && propValues.NewValue == null)
 						|| !propValues.OldValue.Equals(propValues.NewValue)))
 					{
-						entityHasBeenChanged.PropertiesHasBeenChanged.Add(propertyName, propValues);
-					}
+                        entityHasBeenChanged.PropertiesHasBeenChanged.Add(propertyName, propValues);
+                        changes.Add(entityHasBeenChanged);
+                    }
 				}
 			}
 
-			int result = base.SaveChanges();
+            int result = base.SaveChanges();
 
-			RaiseChangesSaved(changes);
+            RaiseChangesSaved(changes);
 
-			return result;
-		}
+            return result;
+        }
 	}
 }

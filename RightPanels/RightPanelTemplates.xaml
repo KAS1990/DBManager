@@ -175,7 +175,9 @@
 		<Setter Property="FontWeight"
 				Value="{Binding FontWeight}" />
 		<Setter Property="Padding" Value="20,2,20,2" />
-	</Style>
+
+        <Setter Property="Visibility" Value="Collapsed" />
+    </Style>
 
 	<Style x:Key="NextRoundMembersCountControl" TargetType="{x:Type Label}">
 		<Setter Property="Template">

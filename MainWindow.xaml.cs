@@ -2135,7 +2135,7 @@ namespace DBManager
 			}
 
 			// Проверяем, расставлены ли итоговые места у всех участников
-			int? RoundFinishedFlags = DBManagerApp.m_Entities.groups.First(arg => arg.id_group == sender.Key).round_finished_flags;
+			int? RoundFinishedFlags = DBManagerApp.m_Entities.groups.FirstOrDefault(arg => arg.id_group == sender.Key)?.round_finished_flags;
 
 			RoundAndDate = new CRoundAndDate()
 			{
