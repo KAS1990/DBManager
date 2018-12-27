@@ -1,4 +1,14 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+1. Нужно использовать mysql-installer-community-8.0.11.0.msi
+2. Не устанавливать Connector Net из mysql-installer-community-8.0.13.0.msi!!! Т.к. с ним ничего не работает и сложно удалить MySQL Server 8.0.13!!!
+3. Использовать старую версию аутентификации!!!
+4. Установить mysql-for-visualstudio-1.2.7.msi
+5. Установить mysql-connector-net-6.9.8.msi
+6. Не использовать пакеты NuGet для MySQL версий 6.9.12, вместо этого брать MySql.Dataю.dll и MySql.Data.Entity.EF6.dll из папки с коннетором C:\Program Files (x86)\MySQL\MySQL Connector Net 6.9.8\Assemblies\v4.0\
+
+Пока проверялось только на Net 4.0 Client. Другие фреймворки не проверял.
+
+App.Config
+<?xml version="1.0" encoding="utf-8"?>
 <configuration>
 	<configSections>
 		<section name="entityFramework" type="System.Data.Entity.Internal.ConfigFile.EntityFrameworkSection, EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" requirePermission="false" />
@@ -16,3 +26,7 @@
 		<add name="compdbEntities" connectionString="metadata=res://*/compdbEntities.csdl|res://*/compdbEntities.ssdl|res://*/compdbEntities.msl;provider=MySql.Data.MySqlClient;provider connection string=&quot;server=localhost;user id=root;password=MySQL_12345;database=compdb;persistsecurityinfo=True&quot;" providerName="System.Data.EntityClient" />
 	</connectionStrings>
 </configuration>
+
+Для загрузки версий
+https://downloads.mysql.com/archives
+
