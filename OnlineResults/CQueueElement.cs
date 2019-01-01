@@ -3,61 +3,94 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using DBManager.Global;
+using DBManager.OnlineResults.Tasks;
 using DBManager.Scanning.DBAdditionalDataClasses;
-using DBManager.FTP.SheetGenerators;
+using DBManager.Scanning.XMLDataClasses;
 
-namespace DBManager.FTP
+namespace DBManager.OnlineResults
 {
 	public class CQueueItem
 	{
-		#region PCWbkFullPath
-		private string m_PCWbkFullPath = null;
+        #region PCWbkFullPath
+        private string m_PCWbkFullPath = null;
 
-		public string PCWbkFullPath
-		{
-			get { return m_PCWbkFullPath; }
-			set
-			{
-				if (m_PCWbkFullPath != value)
-				{
-					m_PCWbkFullPath = value;
-				}
-			}
-		}
-		#endregion
+        public string PCWbkFullPath
+        {
+            get { return m_PCWbkFullPath; }
+            set
+            {
+                if (m_PCWbkFullPath != value)
+                {
+                    m_PCWbkFullPath = value;
+                }
+            }
+        }
+        #endregion
 
+        #region CompId
+        private long m_CompId = -1;
 
-		#region FTPWbkFullPath
-		private string m_FTPWbkFullPath = null;
+        public long CompId
+        {
+            get { return m_CompId; }
+            set
+            {
+                if (m_CompId != value)
+                {
+                    m_CompId = value;
+                }
+            }
+        }
+        #endregion
 
-		public string FTPWbkFullPath
-		{
-			get { return m_FTPWbkFullPath; }
-			set
-			{
-				if (m_FTPWbkFullPath != value)
-				{
-					m_FTPWbkFullPath = value;
-				}
-			}
-		}
-		#endregion
+        #region GroupId
+        private long m_GroupId = -1;
 
+        public long GroupId
+        {
+            get { return m_GroupId; }
+            set
+            {
+                if (m_GroupId != value)
+                {
+                    m_GroupId = value;
+                }
+            }
+        }
+        #endregion
 
-		#region GeneratorTask
-		private CFTPSheetGeneratorBase.CTask m_GeneratorTask = null;
+        #region CompSettings
+        private CCompSettings m_CompSettings = null;
 
-		public CFTPSheetGeneratorBase.CTask GeneratorTask
-		{
-			get { return m_GeneratorTask; }
-			set
-			{
-				if (m_GeneratorTask != value)
-				{
-					m_GeneratorTask = value;
-				}
-			}
-		}
-		#endregion
-	}
+        public CCompSettings CompSettings
+        {
+            get { return m_CompSettings; }
+            set
+            {
+                if (m_CompSettings != value)
+                {
+                    m_CompSettings = value;
+                }
+            }
+        }
+        #endregion
+
+        #region Round
+        private enRounds m_Round = enRounds.None;
+
+        public enRounds Round
+        {
+            get { return m_Round; }
+            set
+            {
+                if (m_Round != value)
+                {
+                    m_Round = value;
+                }
+            }
+        }
+        #endregion
+
+        public OnlineResultsTaskBase Task { get; set; }
+    }
 }

@@ -167,21 +167,35 @@
     <Compile Include="falsestarts_rules.cs">
       <DependentUpon>compdbEntities.tt</DependentUpon>
     </Compile>
-    <Compile Include="FTP\CFTPExporter.cs" />
-    <Compile Include="FTP\CFTPLogWnd.xaml.cs">
-      <DependentUpon>CFTPLogWnd.xaml</DependentUpon>
+    <Compile Include="OnlineResults\CPublishingSettingsWnd.xaml.cs">
+      <DependentUpon>CPublishingSettingsWnd.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FTP\CFTPSettingsWnd.xaml.cs">
-      <DependentUpon>CFTPSettingsWnd.xaml</DependentUpon>
+    <Compile Include="OnlineResults\COnlineResultsGenerator.cs" />
+    <Compile Include="OnlineResults\CPublishingResultsLogWnd.xaml.cs">
+      <DependentUpon>CPublishingResultsLogWnd.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FTP\LogItemTypeToImageMarkupConverter.cs" />
-    <Compile Include="FTP\CLogItem.cs" />
-    <Compile Include="FTP\CQueueElement.cs" />
-    <Compile Include="FTP\SheetGenerators\CFinalGenerator.cs" />
-    <Compile Include="FTP\SheetGenerators\CFTPSheetGeneratorBase.cs" />
-    <Compile Include="FTP\SheetGenerators\CMiddleSheetsGenerator.cs" />
-    <Compile Include="FTP\SheetGenerators\CQualifGenerator.cs" />
-    <Compile Include="FTP\SheetGenerators\CTotalGenerator.cs" />
+    <Compile Include="OnlineResults\DAL\results_speed.cs" />
+    <Compile Include="OnlineResults\Data\OnlineResultsEntities.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OnlineResultsEntities.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OnlineResults\Data\OnlineResultsEntities.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OnlineResultsEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OnlineResults\Data\OnlineResultsEntities.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OnlineResultsEntities.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="OnlineResults\Data\results_speed.cs">
+      <DependentUpon>OnlineResultsEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OnlineResults\LogItemTypeToImageMarkupConverter.cs" />
+    <Compile Include="OnlineResults\CLogItem.cs" />
+    <Compile Include="OnlineResults\CQueueElement.cs" />
     <Compile Include="Global\ThreadManager.cs" />
     <Compile Include="grades.cs">
       <DependentUpon>compdbEntities.tt</DependentUpon>
@@ -196,6 +210,10 @@
     <Compile Include="members.cs">
       <DependentUpon>compdbEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="OnlineResults\Tasks\OtherSheetsTask.cs" />
+    <Compile Include="OnlineResults\Tasks\OnlineResultsTaskBase.cs" />
+    <Compile Include="OnlineResults\Tasks\QualifTask.cs" />
+    <Compile Include="OnlineResults\Tasks\TotalTask.cs" />
     <Compile Include="participations.cs">
       <DependentUpon>compdbEntities.tt</DependentUpon>
     </Compile>
@@ -349,11 +367,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="FTP\CFTPLogWnd.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="OnlineResults\CPublishingSettingsWnd.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
-    <Page Include="FTP\CFTPSettingsWnd.xaml">
+    <Page Include="OnlineResults\CPublishingResultsLogWnd.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -459,6 +477,13 @@
     <None Include="compdbEntities.edmx.diagram">
       <DependentUpon>compdbEntities.edmx</DependentUpon>
     </None>
+    <EntityDeploy Include="OnlineResults\Data\OnlineResultsEntities.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>OnlineResultsEntities.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="OnlineResults\Data\OnlineResultsEntities.edmx.diagram">
+      <DependentUpon>OnlineResultsEntities.edmx</DependentUpon>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\DataSources\coaches.datasource" />
     <None Include="Properties\DataSources\compdbEntities.datasource" />
@@ -538,9 +563,6 @@
     <Resource Include="Icons\ptp.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="RibbonIcons\FTPIcon.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="RibbonIcons\server-from-client.png" />
   </ItemGroup>
   <ItemGroup>
@@ -576,6 +598,18 @@
       <DependentUpon>compdbEntities.edmx</DependentUpon>
       <LastGenOutput>compdbEntities.cs</LastGenOutput>
     </Content>
+    <Content Include="OnlineResults\Data\OnlineResultsEntities.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>OnlineResultsEntities.edmx</DependentUpon>
+      <LastGenOutput>OnlineResultsEntities.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="OnlineResults\Data\OnlineResultsEntities.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>OnlineResultsEntities.edmx</DependentUpon>
+      <LastGenOutput>OnlineResultsEntities.cs</LastGenOutput>
+    </Content>
+    <Resource Include="RibbonIcons\PublishingSettings.png" />
+    <Resource Include="Docs\IMPORTANT!!!! How to instal.txt" />
     <Resource Include="RibbonIcons\if_teamviewer_100417.png" />
     <Resource Include="RibbonIcons\Open.png" />
   </ItemGroup>

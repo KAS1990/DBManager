@@ -217,7 +217,7 @@
 						</Grid>
 					</GroupBox>
 
-					<GroupBox Header="{Loc resFTP}" IsEnabled="{Binding FTPEnabled}">
+                    <GroupBox Header="{Loc resPublishing}" IsEnabled="{Binding PublishingEnabled}">
 						<StackPanel Orientation="Vertical">
 							<Grid >
 								<Grid.RowDefinitions>
@@ -232,32 +232,32 @@
 								
 								<localctrls:ButtonWithPicture Grid.Row="0"
 															  Grid.Column="0"
-															  ButtonText="{Loc resFTPSettings}"
-															  ButtonImage="../RibbonIcons/FTPIcon.ico"
+															  ButtonText="{Loc resPublishingSettings}"
+															  ButtonImage="../RibbonIcons/PublishingSettings.png"
 															  ImageLocation="Left"
-															  Click="btnFTPSettings_Click"/>
+															  Click="btnPublishingSettings_Click"/>
 								<localctrls:ButtonWithPicture Grid.Row="1"
 															  Grid.Column="0"
-															  ButtonText="{Loc resSendToFTP}"
+															  ButtonText="{Loc resPublishResults}"
 															  ButtonImage="../RibbonIcons/server-from-client.png"
 															  ImageLocation="Left"
-															  Click="btnSendToFTP_Click" />
+															  Click="btnPublishResults_Click" />
 								<localctrls:ButtonWithPicture Grid.Row="0"
 															  Grid.Column="1"
 															  Grid.RowSpan="2"
-															  ButtonText="{Loc resFTPLog}"
+															  ButtonText="{Loc resPublishingLog}"
 															  ButtonImage="../RibbonIcons/CreateReport.png" 
 															  ImageLocation="Left"
 															  MaxTextWidth="60"
-															  Click="btnFTPLog_Click" />
+															  Click="btnPublishingLog_Click" />
 							</Grid>
 
-							<CheckBox Name="chkAutoSendToFTP"
-									  Content="{Loc resAutoSendToFTP}"
+                            <CheckBox Name="chkAutoPublishing"
+									  Content="{Loc resAutoPublishing}"
 									  Margin="5,5,0,0"
 									  VerticalAlignment="Center"
 									  VerticalContentAlignment="Center"
-									  Click="chkAutoSendToFTP_Click" />
+									  Click="chkAutoPublishing_Click" />
 						</StackPanel>
 					</GroupBox>
 				</WrapPanel>

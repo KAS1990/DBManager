@@ -157,21 +157,21 @@
 										   Checked="rchkAutoscrollEnabled_CheckedUnchecked"
 										   Unchecked="rchkAutoscrollEnabled_CheckedUnchecked"/>
 				</ribbon:RibbonGroup>
-				
-				<ribbon:RibbonGroup Header="{Loc resFTP}" IsEnabled="{Binding FTPEnabled}" >
-					<ribbon:RibbonButton LargeImageSource="/RibbonIcons/FTPIcon.ico"
-										 Label="{Loc resFTPSettings}"
-										 Click="FTPSettingsCmdExecuted" />
-					<ribbon:RibbonButton LargeImageSource="/RibbonIcons/server-from-client.png"
-										 Label="{Loc resSendToFTP}"
-										 Click="SendToFTPCmdExecuted" />
-					<ribbon:RibbonButton Name="rbtnFTPLogWindow" 
+
+                <ribbon:RibbonGroup Header="{Loc resPublishing}" IsEnabled="{Binding PublishingEnabled}" >
+                    <ribbon:RibbonButton LargeImageSource="/RibbonIcons/PublishingSettings.png"
+										 Label="{Loc resPublishingSettings}"
+										 Click="PublishingSettingsCmdExecuted" />
+                    <ribbon:RibbonButton LargeImageSource="/RibbonIcons/server-from-client.png"
+										 Label="{Loc resPublishResults}"
+										 Click="PublishResultsCmdExecuted" />
+                    <ribbon:RibbonButton Name="rbtnPublishResultsLogWindow" 
 										 LargeImageSource="/RibbonIcons/CreateReport.png"
-										 Label="{Loc resFTPLog}"
-										 Click="FTPLogCmdExecuted" />
-					<ribbon:RibbonCheckBox Name="rchkAutoSendToFTP"
-										   Label="{Loc resAutoSendToFTP}"
-										   Click="rchkAutoSendToFTP_Click"/>
+										 Label="{Loc resPublishingLog}"
+										 Click="PublishingLogCmdExecuted" />
+                    <ribbon:RibbonCheckBox Name="rchkAutoPublishing"
+										   Label="{Loc resAutoPublishing}"
+										   Click="rchkAutoPublishing_Click"/>
 				</ribbon:RibbonGroup>
 			</ribbon:RibbonTab>
 

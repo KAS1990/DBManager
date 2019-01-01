@@ -142,20 +142,20 @@ namespace DBManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Автоматически публиковать.
+        /// </summary>
+        internal static string resAutoPublishing {
+            get {
+                return ResourceManager.GetString("resAutoPublishing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Автоматически пролистывать.
         /// </summary>
         internal static string resAutoscrollEnabled {
             get {
                 return ResourceManager.GetString("resAutoscrollEnabled", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Автоматически отправлять данные.
-        /// </summary>
-        internal static string resAutoSendToFTP {
-            get {
-                return ResourceManager.GetString("resAutoSendToFTP", resourceCulture);
             }
         }
         
@@ -417,15 +417,6 @@ namespace DBManager.Properties {
         internal static string resDontSet {
             get {
                 return ResourceManager.GetString("resDontSet", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Пути к книгам на FTP не должны повторяться.
-        /// </summary>
-        internal static string resDuplicateFTPPaths {
-            get {
-                return ResourceManager.GetString("resDuplicateFTPPaths", resourceCulture);
             }
         }
         
@@ -918,15 +909,6 @@ namespace DBManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Невозможно отправить на FTP-сервер данные о группе &quot;{0}&quot;, т.к. для неё не заданы настройки или произошла ошибка при выполнении обмена данными с FTP-сервером.
-        /// </summary>
-        internal static string resfmtNoGroupSetsForFTPSending {
-            get {
-                return ResourceManager.GetString("resfmtNoGroupSetsForFTPSending", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to поле нельзя оставлять пустым.
         /// </summary>
         internal static string resfmtNotEmptyInvalidNumber {
@@ -977,6 +959,24 @@ namespace DBManager.Properties {
         internal static string resfmtPositiveIntInvalidNumber {
             get {
                 return ResourceManager.GetString("resfmtPositiveIntInvalidNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Невозможно отправить на сайт данные о группе &quot;{0}&quot;, т.к. произошла ошибка при отправке данных.
+        /// </summary>
+        internal static string resfmtPublishingRoundResultsError {
+            get {
+                return ResourceManager.GetString("resfmtPublishingRoundResultsError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Раунд &quot;{0}&quot; группы &quot;{1}&quot; успешно опубликован.
+        /// </summary>
+        internal static string resfmtRoundPublishedSuccessfully {
+            get {
+                return ResourceManager.GetString("resfmtRoundPublishedSuccessfully", resourceCulture);
             }
         }
         
@@ -1091,15 +1091,6 @@ namespace DBManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Раунд &quot;{0}&quot; группы &quot;{1}&quot; успешно передан на FTP сервер.
-        /// </summary>
-        internal static string resfmtWbkSentToFTPSuccefully {
-            get {
-                return ResourceManager.GetString("resfmtWbkSentToFTPSuccefully", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Каталог.
         /// </summary>
         internal static string resFolderName {
@@ -1141,141 +1132,6 @@ namespace DBManager.Properties {
         internal static string resFrom {
             get {
                 return ResourceManager.GetString("resFrom", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to FTP.
-        /// </summary>
-        internal static string resFTP {
-            get {
-                return ResourceManager.GetString("resFTP", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Хост.
-        /// </summary>
-        internal static string resFTPHost {
-            get {
-                return ResourceManager.GetString("resFTPHost", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Лог событий.
-        /// </summary>
-        internal static string resFTPLog {
-            get {
-                return ResourceManager.GetString("resFTPLog", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Путь к каталогу с логом.
-        /// </summary>
-        internal static string resFTPLogFolderPath {
-            get {
-                return ResourceManager.GetString("resFTPLogFolderPath", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Сообщение.
-        /// </summary>
-        internal static string resFTPLogText {
-            get {
-                return ResourceManager.GetString("resFTPLogText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Лог обмена данными с FTP.
-        /// </summary>
-        internal static string resFTPLogWndTitle {
-            get {
-                return ResourceManager.GetString("resFTPLogWndTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Пароль.
-        /// </summary>
-        internal static string resFTPPassword {
-            get {
-                return ResourceManager.GetString("resFTPPassword", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Порт.
-        /// </summary>
-        internal static string resFTPPort {
-            get {
-                return ResourceManager.GetString("resFTPPort", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Отправка данных на FTP.
-        /// </summary>
-        internal static string resFTPSending {
-            get {
-                return ResourceManager.GetString("resFTPSending", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Настройки.
-        /// </summary>
-        internal static string resFTPSettings {
-            get {
-                return ResourceManager.GetString("resFTPSettings", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Настройки пересылки данных на FTP.
-        /// </summary>
-        internal static string resFTPSettingsWndTitle {
-            get {
-                return ResourceManager.GetString("resFTPSettingsWndTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Шаблоны листов.
-        /// </summary>
-        internal static string resFTPTemplateFullPath {
-            get {
-                return ResourceManager.GetString("resFTPTemplateFullPath", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Имя пользователя.
-        /// </summary>
-        internal static string resFTPUsername {
-            get {
-                return ResourceManager.GetString("resFTPUsername", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Путь к книге на сервере.
-        /// </summary>
-        internal static string resFTPWbkFullPath {
-            get {
-                return ResourceManager.GetString("resFTPWbkFullPath", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Книга на FTP.
-        /// </summary>
-        internal static string resFTPWbkName {
-            get {
-                return ResourceManager.GetString("resFTPWbkName", resourceCulture);
             }
         }
         
@@ -1411,16 +1267,6 @@ namespace DBManager.Properties {
         internal static string resInvalidDatesForLeadSheets {
             get {
                 return ResourceManager.GetString("resInvalidDatesForLeadSheets", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to В задании путей для выбранных групп есть ошибки.
-        ///ВАЖНО: книги должны иметь расширение .xls.
-        /// </summary>
-        internal static string resInvalidFTPPaths {
-            get {
-                return ResourceManager.GetString("resInvalidFTPPaths", resourceCulture);
             }
         }
         
@@ -2038,6 +1884,87 @@ namespace DBManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Публикация на сайте.
+        /// </summary>
+        internal static string resPublishing {
+            get {
+                return ResourceManager.GetString("resPublishing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Лог событий.
+        /// </summary>
+        internal static string resPublishingLog {
+            get {
+                return ResourceManager.GetString("resPublishingLog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Путь к каталогу с логом.
+        /// </summary>
+        internal static string resPublishingLogFolderPath {
+            get {
+                return ResourceManager.GetString("resPublishingLogFolderPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Сообщение.
+        /// </summary>
+        internal static string resPublishingLogText {
+            get {
+                return ResourceManager.GetString("resPublishingLogText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Лог публикации результатов.
+        /// </summary>
+        internal static string resPublishingLogWndTitle {
+            get {
+                return ResourceManager.GetString("resPublishingLogWndTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Публикация результатов.
+        /// </summary>
+        internal static string resPublishingResults {
+            get {
+                return ResourceManager.GetString("resPublishingResults", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Настройки.
+        /// </summary>
+        internal static string resPublishingSettings {
+            get {
+                return ResourceManager.GetString("resPublishingSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Настройки публикации результатов.
+        /// </summary>
+        internal static string resPublishingSettingsWndTitle {
+            get {
+                return ResourceManager.GetString("resPublishingSettingsWndTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Опубликовать результаты.
+        /// </summary>
+        internal static string resPublishResults {
+            get {
+                return ResourceManager.GetString("resPublishResults", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Недавние цвета.
         /// </summary>
         internal static string resRecentColorsHeader {
@@ -2155,6 +2082,15 @@ namespace DBManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Невозможно подключится к удалённой БД, используя строку подключения &quot;{0}&quot;.
+        /// </summary>
+        internal static string resrmtCantConnectToRemoteDB {
+            get {
+                return ResourceManager.GetString("resrmtCantConnectToRemoteDB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to В РАУНДЕ участвует.
         /// </summary>
         internal static string resRoundMembersCount {
@@ -2232,15 +2168,6 @@ namespace DBManager.Properties {
         internal static string resSelectRound {
             get {
                 return ResourceManager.GetString("resSelectRound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Отправить на сервер.
-        /// </summary>
-        internal static string resSendToFTP {
-            get {
-                return ResourceManager.GetString("resSendToFTP", resourceCulture);
             }
         }
         

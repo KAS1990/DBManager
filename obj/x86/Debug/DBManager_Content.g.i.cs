@@ -10,5 +10,7 @@
 
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("compdbentities.context.tt")]
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("compdbentities.tt")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("onlineresults/data/onlineresultsentities.context.tt")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("onlineresults/data/onlineresultsentities.tt")]
 
 

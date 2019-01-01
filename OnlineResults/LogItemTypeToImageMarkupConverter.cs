@@ -10,7 +10,7 @@ using System.Drawing;
 using System.Windows;
 using System.Windows.Media.Imaging;
 
-namespace DBManager.FTP
+namespace DBManager.OnlineResults
 {
 	/// <summary>
 	/// Преобразование типа элемента лога в картику
@@ -22,22 +22,22 @@ namespace DBManager.FTP
 		{
 			if (value != null)
 			{
-				enFTPLogItemType Type = enFTPLogItemType.None;
+				enOnlineResultsLogItemType Type = enOnlineResultsLogItemType.None;
 
-				if (value is enFTPLogItemType)
-					Type = (enFTPLogItemType)value;
+				if (value is enOnlineResultsLogItemType)
+					Type = (enOnlineResultsLogItemType)value;
 				else if (value is int)
-					Type = (enFTPLogItemType)((int)value);
+					Type = (enOnlineResultsLogItemType)((int)value);
 
 				switch (Type)
 				{
-					case enFTPLogItemType.Error:
+					case enOnlineResultsLogItemType.Error:
 						return Imaging.CreateBitmapSourceFromHIcon(SystemIcons.Error.Handle, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
 					
-					case enFTPLogItemType.OK:
+					case enOnlineResultsLogItemType.OK:
 						return Imaging.CreateBitmapSourceFromHIcon(SystemIcons.Information.Handle, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
 					
-					case enFTPLogItemType.None:
+					case enOnlineResultsLogItemType.None:
 					default:
 						return null;
 				}

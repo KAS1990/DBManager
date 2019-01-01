@@ -184,7 +184,7 @@ namespace DBManager.SettingsWriter
 
 
 	[Serializable]
-	public class CFTPGroupItemInSets
+	public class CPublishedGroupItemInSets
 	{
 		/// <summary>
 		/// Идентификтор группы
@@ -194,18 +194,6 @@ namespace DBManager.SettingsWriter
 
 		[DefaultValue(false)]
 		public bool IsSelected = false;
-
-		/// <summary>
-		/// Путь к книге на FTP
-		/// </summary>
-		[DefaultValue(null)]
-		public string FTPWbkPath = null;
-
-
-		public bool CheckFTPWbkFullPath()
-		{
-			return !string.IsNullOrWhiteSpace(FTPWbkPath) && System.IO.Path.GetExtension(FTPWbkPath) == GlobalDefines.XLS_EXTENSION;
-		}
 	}
 
 
@@ -294,11 +282,11 @@ namespace DBManager.SettingsWriter
 		public enPersRepWinnerDetection PersRepWinnerDetection = enPersRepWinnerDetection.LeadPriority;
 
 		/// <summary>
-		/// Настройки групп, связанные с посылкой данных на FTP-сервер
+		/// Настройки групп, связанные с публикацией данных на сайте
 		/// </summary>
-		[XmlElement("GroupsForAutosendToFTP")]
+		[XmlElement("GroupsForAutopublish")]
 		[DefaultValue(null)]
-		public SerializableDictionary<long, CFTPGroupItemInSets> dictGroupsForAutosendToFTP = null;
+		public SerializableDictionary<long, CPublishedGroupItemInSets> dictGroupsForAutopublish = null;
 
 
 		public void ToDefault()
@@ -318,7 +306,7 @@ namespace DBManager.SettingsWriter
 			PersRepPlaceAggregationMethod = enPersRepPlacesAggregationMethod.Sum;
 			PersRepWinnerDetection = enPersRepWinnerDetection.LeadPriority;
 
-			dictGroupsForAutosendToFTP = new SerializableDictionary<long, CFTPGroupItemInSets>();
+			dictGroupsForAutopublish = new SerializableDictionary<long, CPublishedGroupItemInSets>();
 		}
 
 
@@ -331,7 +319,7 @@ namespace DBManager.SettingsWriter
 			{
 				lstTeamsForTeamReport = new List<CTeamForTeamReport>();
 				dictGroupsLeadSheetsInfos = new SerializableDictionary<long, CLeadSheetInfo>();
-				dictGroupsForAutosendToFTP = new SerializableDictionary<long, CFTPGroupItemInSets>();
+				dictGroupsForAutopublish = new SerializableDictionary<long, CPublishedGroupItemInSets>();
 			}
 			else
 			{
@@ -339,8 +327,8 @@ namespace DBManager.SettingsWriter
 					lstTeamsForTeamReport = new List<CTeamForTeamReport>();
 				if (dictGroupsLeadSheetsInfos == null)
 					dictGroupsLeadSheetsInfos = new SerializableDictionary<long, CLeadSheetInfo>();
-				if (dictGroupsForAutosendToFTP == null)
-					dictGroupsForAutosendToFTP = new SerializableDictionary<long, CFTPGroupItemInSets>();
+				if (dictGroupsForAutopublish == null)
+					dictGroupsForAutopublish = new SerializableDictionary<long, CPublishedGroupItemInSets>();
 			}
 
 			if (PlaceColumnIndex < 1)
@@ -379,23 +367,6 @@ namespace DBManager.SettingsWriter
 		[DefaultValue(null)]
 		public SerializableDictionary<enReportTypes, int> dictReportTemplates = null;
 		
-		/// <summary>
-		/// Название файла с шаблонами листов для выгрузки на FTP 
-		/// </summary>
-		[DefaultValue(null)]
-		public string FTPTemplatesWbkName = "FTPTemplates.xls";
-
-
-		/// <summary>
-		/// Номера листов, соотвестующие каждому типу листа при выгрузке на FTP
-		/// Ключ - тип отчёта.
-		/// Значение - номер листа в ReportTemplatesWbkName. Начинается с 1!!!
-		/// </summary>
-		[XmlElement("FTPSheetTemplates")]
-		[DefaultValue(null)]
-		public SerializableDictionary<enFTPSheetGeneratorTypes, int> dictFTPSheetTemplates = null;
-		
-
 		public void ToDefault()
 		{
 			MaxSheetNameLen = 31;
@@ -413,19 +384,6 @@ namespace DBManager.SettingsWriter
 			dictReportTemplates.Add(enReportTypes.Team, 7);
 			dictReportTemplates.Add(enReportTypes.Personal, 8);
 			dictReportTemplates.Add(enReportTypes.StartList, 9);
-			
-
-			FTPTemplatesWbkName = "FTPTemplates.xls";
-
-			dictFTPSheetTemplates = new SerializableDictionary<enFTPSheetGeneratorTypes, int>();
-			dictFTPSheetTemplates.Add(enFTPSheetGeneratorTypes.Start, 1);
-			dictFTPSheetTemplates.Add(enFTPSheetGeneratorTypes.Qualif, 1);
-			dictFTPSheetTemplates.Add(enFTPSheetGeneratorTypes.Qualif2, 1);
-			dictFTPSheetTemplates.Add(enFTPSheetGeneratorTypes.OneEighthFinal, 2);
-			dictFTPSheetTemplates.Add(enFTPSheetGeneratorTypes.QuaterFinal, 3);
-			dictFTPSheetTemplates.Add(enFTPSheetGeneratorTypes.SemiFinal, 4);
-			dictFTPSheetTemplates.Add(enFTPSheetGeneratorTypes.Final, 5);
-			dictFTPSheetTemplates.Add(enFTPSheetGeneratorTypes.Total, 6);
 		}
 
 
@@ -450,26 +408,6 @@ namespace DBManager.SettingsWriter
 				dictReportTemplates.Add(enReportTypes.Team, 7);
 				dictReportTemplates.Add(enReportTypes.Personal, 8);
 				dictReportTemplates.Add(enReportTypes.StartList, 9);
-			}
-
-
-			if (string.IsNullOrWhiteSpace(FTPTemplatesWbkName) ||
-				System.IO.Path.GetExtension(FTPTemplatesWbkName) != GlobalDefines.XLSX_EXTENSION)
-			{
-				FTPTemplatesWbkName = "FTPTemplates.xls";
-			}
-
-			if (dictFTPSheetTemplates == null || dictFTPSheetTemplates.Count < (int)enFTPSheetGeneratorTypes.Start)
-			{
-				dictFTPSheetTemplates = new SerializableDictionary<enFTPSheetGeneratorTypes, int>();
-				dictFTPSheetTemplates.Add(enFTPSheetGeneratorTypes.Start, 1);
-				dictFTPSheetTemplates.Add(enFTPSheetGeneratorTypes.Qualif, 1);
-				dictFTPSheetTemplates.Add(enFTPSheetGeneratorTypes.Qualif2, 1);
-				dictFTPSheetTemplates.Add(enFTPSheetGeneratorTypes.OneEighthFinal, 2);
-				dictFTPSheetTemplates.Add(enFTPSheetGeneratorTypes.QuaterFinal, 3);
-				dictFTPSheetTemplates.Add(enFTPSheetGeneratorTypes.SemiFinal, 4);
-				dictFTPSheetTemplates.Add(enFTPSheetGeneratorTypes.Final, 5);
-				dictFTPSheetTemplates.Add(enFTPSheetGeneratorTypes.Total, 6);
 			}
 		}
 	}
@@ -612,34 +550,7 @@ namespace DBManager.SettingsWriter
 		/// </summary>
 		[DefaultValue(null)]
 		public CExcelSettings ExcelSettings = null;
-
-		#region FTP
-		/// <summary>
-		/// FTP-сервер
-		/// </summary>
-		[DefaultValue(null)]
-		public string FTPHost = "smolclimb.ru";
-		
-		/// <summary>
-		/// Порт для обмена с FTP-сервером
-		/// </summary>
-		[DefaultValue(0)]
-		public int FTPPort = 21;
-
-		/// <summary>
-		/// Пользователь на FTP-сервере
-		/// </summary>
-		[DefaultValue(null)]
-		public string FTPUsername = "extremist_comp";
-
-		/// <summary>
-		/// Пароль от FTP-сервера
-		/// </summary>
-		[DefaultValue(null)]
-		public string FTPPassword = "OQFvPx3G";
-		#endregion
-
-
+        		
 		/// <summary>
 		/// Полный путь к bat-нику, запускаеющему MySQL.
 		/// </summary>
@@ -723,11 +634,6 @@ namespace DBManager.SettingsWriter
 
 			ExcelSettings = new CExcelSettings();
 			ExcelSettings.ToDefault();
-
-			FTPHost = "smolclimb.ru";
-			FTPPort = 21;
-			FTPUsername = "extremist_comp";
-			FTPPassword = "OQFvPx3G";
 
 			MySQLBatFullPath = null;
 
@@ -850,15 +756,6 @@ namespace DBManager.SettingsWriter
 			}
 			else
 				ExcelSettings.CheckAndToDefault();
-
-			if (string.IsNullOrEmpty(FTPHost))
-				FTPHost = "smolclimb.ru";
-			if (FTPPort <= 0)
-				FTPPort = 21;
-			if (string.IsNullOrEmpty(FTPUsername))
-				FTPUsername = "extremist_comp";
-			if (string.IsNullOrEmpty(FTPPassword))
-				FTPPassword = "OQFvPx3G";
 
 			if (string.IsNullOrEmpty(MySQLBatFullPath))
 				MySQLBatFullPath = "D:\\Саша\\Документы\\Эксель\\Для соревнований\\Скалолазание\\Скорость Last Edition\\БД\\RunMySQLServer.lnk";

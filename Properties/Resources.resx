@@ -782,20 +782,14 @@
 {1}
 {2}</value>
   </data>
-  <data name="resAutoSendToFTP" xml:space="preserve">
-    <value>Автоматически отправлять данные</value>
+  <data name="resAutoPublishing" xml:space="preserve">
+    <value>Автоматически публиковать</value>
   </data>
-  <data name="resFTP" xml:space="preserve">
-    <value>FTP</value>
-  </data>
-  <data name="resFTPLog" xml:space="preserve">
+  <data name="resPublishingLog" xml:space="preserve">
     <value>Лог событий</value>
   </data>
-  <data name="resFTPSettings" xml:space="preserve">
-    <value>Настройки</value>
-  </data>
-  <data name="resSendToFTP" xml:space="preserve">
-    <value>Отправить на сервер</value>
+  <data name="resPublishResults" xml:space="preserve">
+    <value>Опубликовать результаты</value>
   </data>
   <data name="resClearLogFileQuestion" xml:space="preserve">
     <value>Очистить файл лога?</value>
@@ -806,17 +800,14 @@
   <data name="resFolderName" xml:space="preserve">
     <value>Каталог</value>
   </data>
-  <data name="resFTPLogFolderPath" xml:space="preserve">
+  <data name="resPublishingLogFolderPath" xml:space="preserve">
     <value>Путь к каталогу с логом</value>
   </data>
-  <data name="resFTPLogText" xml:space="preserve">
+  <data name="resPublishingLogText" xml:space="preserve">
     <value>Сообщение</value>
   </data>
-  <data name="resFTPLogWndTitle" xml:space="preserve">
-    <value>Лог обмена данными с FTP</value>
-  </data>
-  <data name="resFTPWbkName" xml:space="preserve">
-    <value>Книга на FTP</value>
+  <data name="resPublishingLogWndTitle" xml:space="preserve">
+    <value>Лог публикации результатов</value>
   </data>
   <data name="resGroupNameLogTitle" xml:space="preserve">
     <value>Соревнование и группа</value>
@@ -833,45 +824,17 @@
   <data name="resTotalReport" xml:space="preserve">
     <value>Итоговый протокол</value>
   </data>
-  <data name="resfmtNoGroupSetsForFTPSending" xml:space="preserve">
-    <value>Невозможно отправить на FTP-сервер данные о группе "{0}", т.к. для неё не заданы настройки или произошла ошибка при выполнении обмена данными с FTP-сервером</value>
+  <data name="resfmtPublishingRoundResultsError" xml:space="preserve">
+    <value>Невозможно отправить на сайт данные о группе "{0}", т.к. произошла ошибка при отправке данных</value>
   </data>
-  <data name="resFTPHost" xml:space="preserve">
-    <value>Хост</value>
-  </data>
-  <data name="resFTPPassword" xml:space="preserve">
-    <value>Пароль</value>
-  </data>
-  <data name="resFTPPort" xml:space="preserve">
-    <value>Порт</value>
-  </data>
-  <data name="resFTPSending" xml:space="preserve">
-    <value>Отправка данных на FTP</value>
-  </data>
-  <data name="resFTPSettingsWndTitle" xml:space="preserve">
-    <value>Настройки пересылки данных на FTP</value>
-  </data>
-  <data name="resFTPTemplateFullPath" xml:space="preserve">
-    <value>Шаблоны листов</value>
-  </data>
-  <data name="resFTPUsername" xml:space="preserve">
-    <value>Имя пользователя</value>
-  </data>
-  <data name="resFTPWbkFullPath" xml:space="preserve">
-    <value>Путь к книге на сервере</value>
-  </data>
-  <data name="resInvalidFTPPaths" xml:space="preserve">
-    <value>В задании путей для выбранных групп есть ошибки.
-ВАЖНО: книги должны иметь расширение .xls</value>
+  <data name="resPublishingResults" xml:space="preserve">
+    <value>Публикация результатов</value>
   </data>
   <data name="resNoGroupsToSend" xml:space="preserve">
     <value>Ничего не выделено</value>
   </data>
-  <data name="resDuplicateFTPPaths" xml:space="preserve">
-    <value>Пути к книгам на FTP не должны повторяться</value>
-  </data>
-  <data name="resfmtWbkSentToFTPSuccefully" xml:space="preserve">
-    <value>Раунд "{0}" группы "{1}" успешно передан на FTP сервер</value>
+  <data name="resfmtRoundPublishedSuccessfully" xml:space="preserve">
+    <value>Раунд "{0}" группы "{1}" успешно опубликован</value>
   </data>
   <data name="resDeleteLogQuestion" xml:space="preserve">
     <value>Вы хотите очистить лог?</value>
@@ -1079,5 +1042,17 @@
   </data>
   <data name="resShowRibbon" xml:space="preserve">
     <value>Показать ленту</value>
+  </data>
+  <data name="resPublishing" xml:space="preserve">
+    <value>Публикация на сайте</value>
+  </data>
+  <data name="resPublishingSettings" xml:space="preserve">
+    <value>Настройки</value>
+  </data>
+  <data name="resPublishingSettingsWndTitle" xml:space="preserve">
+    <value>Настройки публикации результатов</value>
+  </data>
+  <data name="resrmtCantConnectToRemoteDB" xml:space="preserve">
+    <value>Невозможно подключится к удалённой БД, используя строку подключения "{0}"</value>
   </data>
 </root>

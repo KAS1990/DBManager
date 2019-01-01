@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Settings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <IsRestarting>false</IsRestarting>
-  <CompDir>D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\Скорость Last Edition</CompDir>
+  <CompDir>D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\24-25.02.2018</CompDir>
   <DefaultCompSettings>
     <MenInGroup>3</MenInGroup>
     <WomenInGroup>3</WomenInGroup>
@@ -12,7 +12,6 @@
     <YearOfBirthColumnIndex>4</YearOfBirthColumnIndex>
     <TeamColumnIndex>3</TeamColumnIndex>
   </DefaultCompSettings>
-  <Only75PercentForCalcGrades>true</Only75PercentForCalcGrades>
   <PlainResultsFontStyle FontWeight="400" FontStyle="Normal">
     <BackgroundColor>
       <Color>
@@ -196,262 +195,20 @@
     </ForeColor>
   </FalsestartFontStyle>
   <FileScannerSettings>
-    <item key="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\Скорость Last Edition\Таблица Скорость Новая.xml">
-      <CFileScannerSettings FullFilePath="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\Скорость Last Edition\Таблица Скорость Новая.xml" GroupId="69" />
+    <item key="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\24-25.02.2018\Младшие Девушки.xml">
+      <CFileScannerSettings FullFilePath="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\24-25.02.2018\Младшие Девушки.xml" GroupId="22" />
+    </item>
+    <item key="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\24-25.02.2018\Младшие Юноши.xml">
+      <CFileScannerSettings FullFilePath="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\24-25.02.2018\Младшие Юноши.xml" GroupId="23" />
+    </item>
+    <item key="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\24-25.02.2018\Подростки Девочки.xml">
+      <CFileScannerSettings FullFilePath="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\24-25.02.2018\Подростки Девочки.xml" GroupId="28" />
+    </item>
+    <item key="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\24-25.02.2018\Подростки Мальчики.xml">
+      <CFileScannerSettings FullFilePath="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\24-25.02.2018\Подростки Мальчики.xml" GroupId="29" />
     </item>
   </FileScannerSettings>
-  <CompSettings>
-    <item key="3">
-      <CCompSpecificSets>
-        <CompId>3</CompId>
-        <TeamsForTeamReport />
-        <PlaceColumnIndex>1</PlaceColumnIndex>
-        <PersonalDataColumnIndex>2</PersonalDataColumnIndex>
-        <YearOfBirthColumnIndex>4</YearOfBirthColumnIndex>
-        <TeamColumnIndex>3</TeamColumnIndex>
-        <GroupsLeadSheetsInfos />
-        <GroupsForAutosendToFTP>
-          <item key="2">
-            <CFTPGroupItemInSets>
-              <GroupId>2</GroupId>
-              <IsSelected>true</IsSelected>
-              <FTPWbkPath>test\f_old.xls</FTPWbkPath>
-            </CFTPGroupItemInSets>
-          </item>
-          <item key="3">
-            <CFTPGroupItemInSets>
-              <GroupId>3</GroupId>
-              <FTPWbkPath>test\f_young.xls</FTPWbkPath>
-            </CFTPGroupItemInSets>
-          </item>
-          <item key="1">
-            <CFTPGroupItemInSets>
-              <GroupId>1</GroupId>
-              <IsSelected>true</IsSelected>
-              <FTPWbkPath>test\m_young.xls</FTPWbkPath>
-            </CFTPGroupItemInSets>
-          </item>
-          <item key="4">
-            <CFTPGroupItemInSets>
-              <GroupId>4</GroupId>
-              <FTPWbkPath>test\m_old.xls</FTPWbkPath>
-            </CFTPGroupItemInSets>
-          </item>
-        </GroupsForAutosendToFTP>
-      </CCompSpecificSets>
-    </item>
-    <item key="5">
-      <CCompSpecificSets>
-        <CompId>5</CompId>
-        <MenInGroup>3</MenInGroup>
-        <WomenInGroup>3</WomenInGroup>
-        <TeamsForTeamReport>
-          <CTeamForTeamReport>
-            <Name>Брянск, СП "Варяг", Кузенков В. А.</Name>
-            <SubteamsIds>
-              <long>11</long>
-            </SubteamsIds>
-          </CTeamForTeamReport>
-          <CTeamForTeamReport>
-            <Name>Вологда, Попова О. В.</Name>
-            <SubteamsIds>
-              <long>24</long>
-            </SubteamsIds>
-          </CTeamForTeamReport>
-          <CTeamForTeamReport>
-            <Name>Егорьевск, Лильмутдинов Р. Р.</Name>
-            <SubteamsIds>
-              <long>2</long>
-            </SubteamsIds>
-          </CTeamForTeamReport>
-          <CTeamForTeamReport>
-            <Name>Кострома, Бедняков А. В.</Name>
-            <SubteamsIds>
-              <long>19</long>
-            </SubteamsIds>
-          </CTeamForTeamReport>
-          <CTeamForTeamReport>
-            <Name>Марьина Горка (РБ), Рак О. С.</Name>
-            <SubteamsIds>
-              <long>12</long>
-            </SubteamsIds>
-          </CTeamForTeamReport>
-          <CTeamForTeamReport>
-            <Name>Минск Минск, Малыженкова Л. А.</Name>
-            <SubteamsIds>
-              <long>22</long>
-              <long>21</long>
-            </SubteamsIds>
-          </CTeamForTeamReport>
-          <CTeamForTeamReport>
-            <Name>Москва, "О-Скал"</Name>
-            <SubteamsIds>
-              <long>18</long>
-              <long>7</long>
-            </SubteamsIds>
-          </CTeamForTeamReport>
-          <CTeamForTeamReport>
-            <Name>Москва, LimeStone</Name>
-            <SubteamsIds>
-              <long>23</long>
-            </SubteamsIds>
-          </CTeamForTeamReport>
-          <CTeamForTeamReport>
-            <Name>Москва, Red Point</Name>
-            <SubteamsIds>
-              <long>15</long>
-            </SubteamsIds>
-          </CTeamForTeamReport>
-          <CTeamForTeamReport>
-            <Name>Москва, Атмосфера, Теплых М. В.</Name>
-            <SubteamsIds>
-              <long>6</long>
-            </SubteamsIds>
-          </CTeamForTeamReport>
-          <CTeamForTeamReport>
-            <Name>Москва, СШОР №24</Name>
-            <SubteamsIds>
-              <long>16</long>
-            </SubteamsIds>
-          </CTeamForTeamReport>
-          <CTeamForTeamReport>
-            <Name>Москва, СШОР №24, Черешневы</Name>
-            <SubteamsIds>
-              <long>1</long>
-            </SubteamsIds>
-          </CTeamForTeamReport>
-          <CTeamForTeamReport>
-            <Name>Москва, Сшор24, Кутькина Н. И.</Name>
-            <SubteamsIds>
-              <long>8</long>
-            </SubteamsIds>
-          </CTeamForTeamReport>
-          <CTeamForTeamReport>
-            <Name>Обнинск, Спас</Name>
-            <SubteamsIds>
-              <long>10</long>
-            </SubteamsIds>
-          </CTeamForTeamReport>
-          <CTeamForTeamReport>
-            <Name>Орел, Сазонов В. В.</Name>
-            <SubteamsIds>
-              <long>5</long>
-            </SubteamsIds>
-          </CTeamForTeamReport>
-          <CTeamForTeamReport>
-            <Name>Рязань, Геккон</Name>
-            <SubteamsIds>
-              <long>17</long>
-            </SubteamsIds>
-          </CTeamForTeamReport>
-          <CTeamForTeamReport>
-            <Name>Рязань, КС "Геккон", Топоркова Д. В.</Name>
-            <SubteamsIds>
-              <long>20</long>
-            </SubteamsIds>
-          </CTeamForTeamReport>
-          <CTeamForTeamReport>
-            <Name>Смоленск, Калентеенкова С. Н.</Name>
-            <SubteamsIds>
-              <long>4</long>
-            </SubteamsIds>
-          </CTeamForTeamReport>
-          <CTeamForTeamReport>
-            <Name>Смоленск, Лисовская Н. Ю.</Name>
-            <SubteamsIds>
-              <long>9</long>
-            </SubteamsIds>
-          </CTeamForTeamReport>
-          <CTeamForTeamReport>
-            <Name>Смоленск, Шевченко И. И.</Name>
-            <SubteamsIds>
-              <long>3</long>
-            </SubteamsIds>
-          </CTeamForTeamReport>
-        </TeamsForTeamReport>
-        <LeadReportXlsPath>D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\03.12.17\Протоколы трудности.xlsx</LeadReportXlsPath>
-        <FirstMemberRow>8</FirstMemberRow>
-        <PlaceColumnIndex>1</PlaceColumnIndex>
-        <PersonalDataColumnIndex>2</PersonalDataColumnIndex>
-        <YearOfBirthColumnIndex>4</YearOfBirthColumnIndex>
-        <TeamColumnIndex>5</TeamColumnIndex>
-        <GroupsLeadSheetsInfos>
-          <item key="9">
-            <CLeadSheetInfo>
-              <SheetIndex>0</SheetIndex>
-              <StartDate DD="5" MMMM="11" YYYY="2017" />
-              <EndDate DD="5" MMMM="11" YYYY="2017" />
-            </CLeadSheetInfo>
-          </item>
-          <item key="10">
-            <CLeadSheetInfo>
-              <SheetIndex>1</SheetIndex>
-              <StartDate DD="5" MMMM="11" YYYY="2017" />
-              <EndDate DD="5" MMMM="11" YYYY="2017" />
-            </CLeadSheetInfo>
-          </item>
-        </GroupsLeadSheetsInfos>
-        <PersRepWinnerDetection>LessDifference</PersRepWinnerDetection>
-        <GroupsForAutosendToFTP>
-          <item key="9">
-            <CFTPGroupItemInSets>
-              <GroupId>9</GroupId>
-              <IsSelected>true</IsSelected>
-              <FTPWbkPath>speed/f_young.xls</FTPWbkPath>
-            </CFTPGroupItemInSets>
-          </item>
-          <item key="10">
-            <CFTPGroupItemInSets>
-              <GroupId>10</GroupId>
-              <IsSelected>true</IsSelected>
-              <FTPWbkPath>speed/m_young.xls</FTPWbkPath>
-            </CFTPGroupItemInSets>
-          </item>
-        </GroupsForAutosendToFTP>
-      </CCompSpecificSets>
-    </item>
-    <item key="6">
-      <CCompSpecificSets>
-        <CompId>6</CompId>
-        <TeamsForTeamReport />
-        <PlaceColumnIndex>1</PlaceColumnIndex>
-        <PersonalDataColumnIndex>2</PersonalDataColumnIndex>
-        <YearOfBirthColumnIndex>4</YearOfBirthColumnIndex>
-        <TeamColumnIndex>3</TeamColumnIndex>
-        <GroupsLeadSheetsInfos />
-        <GroupsForAutosendToFTP>
-          <item key="11">
-            <CFTPGroupItemInSets>
-              <GroupId>11</GroupId>
-              <IsSelected>true</IsSelected>
-              <FTPWbkPath>speed\f_old.xls</FTPWbkPath>
-            </CFTPGroupItemInSets>
-          </item>
-          <item key="12">
-            <CFTPGroupItemInSets>
-              <GroupId>12</GroupId>
-              <IsSelected>true</IsSelected>
-              <FTPWbkPath>speed\m_old.xls</FTPWbkPath>
-            </CFTPGroupItemInSets>
-          </item>
-          <item key="13">
-            <CFTPGroupItemInSets>
-              <GroupId>13</GroupId>
-              <IsSelected>true</IsSelected>
-              <FTPWbkPath>speed\f_young.xls</FTPWbkPath>
-            </CFTPGroupItemInSets>
-          </item>
-          <item key="19">
-            <CFTPGroupItemInSets>
-              <GroupId>19</GroupId>
-              <IsSelected>true</IsSelected>
-              <FTPWbkPath>speed\m_young.xls</FTPWbkPath>
-            </CFTPGroupItemInSets>
-          </item>
-        </GroupsForAutosendToFTP>
-      </CCompSpecificSets>
-    </item>
-  </CompSettings>
+  <CompSettings />
   <ExcelSettings>
     <MaxSheetNameLen>31</MaxSheetNameLen>
     <ReportTemplatesWbkName>ReportTemplates.xlsx</ReportTemplatesWbkName>
@@ -537,77 +294,6 @@
         </value>
       </item>
     </ReportTemplates>
-    <FTPTemplatesWbkName>FTPTemplates.xls</FTPTemplatesWbkName>
-    <FTPSheetTemplates>
-      <item>
-        <key>
-          <enFTPSheetGeneratorTypes>Start</enFTPSheetGeneratorTypes>
-        </key>
-        <value>
-          <int>1</int>
-        </value>
-      </item>
-      <item>
-        <key>
-          <enFTPSheetGeneratorTypes>Qualif</enFTPSheetGeneratorTypes>
-        </key>
-        <value>
-          <int>1</int>
-        </value>
-      </item>
-      <item>
-        <key>
-          <enFTPSheetGeneratorTypes>Qualif2</enFTPSheetGeneratorTypes>
-        </key>
-        <value>
-          <int>1</int>
-        </value>
-      </item>
-      <item>
-        <key>
-          <enFTPSheetGeneratorTypes>OneEighthFinal</enFTPSheetGeneratorTypes>
-        </key>
-        <value>
-          <int>2</int>
-        </value>
-      </item>
-      <item>
-        <key>
-          <enFTPSheetGeneratorTypes>QuaterFinal</enFTPSheetGeneratorTypes>
-        </key>
-        <value>
-          <int>3</int>
-        </value>
-      </item>
-      <item>
-        <key>
-          <enFTPSheetGeneratorTypes>SemiFinal</enFTPSheetGeneratorTypes>
-        </key>
-        <value>
-          <int>4</int>
-        </value>
-      </item>
-      <item>
-        <key>
-          <enFTPSheetGeneratorTypes>Final</enFTPSheetGeneratorTypes>
-        </key>
-        <value>
-          <int>5</int>
-        </value>
-      </item>
-      <item>
-        <key>
-          <enFTPSheetGeneratorTypes>Total</enFTPSheetGeneratorTypes>
-        </key>
-        <value>
-          <int>6</int>
-        </value>
-      </item>
-    </FTPSheetTemplates>
   </ExcelSettings>
-  <FTPHost>smolclimb.ru</FTPHost>
-  <FTPPort>21</FTPPort>
-  <FTPUsername>extremist_comp</FTPUsername>
-  <FTPPassword>OQFvPx3G</FTPPassword>
   <MySQLBatFullPath>D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\Скорость Last Edition\БД\RunMySQLServer.lnk</MySQLBatFullPath>
 </Settings>

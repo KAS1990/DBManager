@@ -57,9 +57,9 @@ namespace DBManager.Stuff
 			chkShowRibbon.IsChecked = !m_mainWnd.Ribbon.IsMinimized;
 			(m_mainWnd.Ribbon.ContextMenu.Items[0] as RibbonMenuItem).Click += m_mainWnd_Ribbon_ContextMenu_Items_0_Click;
 			
-			chkAutoSendToFTP.IsChecked = m_mainWnd.rchkAutoSendToFTP.IsChecked;
-			m_mainWnd.rchkAutoSendToFTP.Checked += m_mainWnd_rchkAutoSendToFTP_CheckedOrUnchecked;
-			m_mainWnd.rchkAutoSendToFTP.Unchecked += m_mainWnd_rchkAutoSendToFTP_CheckedOrUnchecked;
+			chkAutoPublishing.IsChecked = m_mainWnd.rchkAutoPublishing.IsChecked;
+			m_mainWnd.rchkAutoPublishing.Checked += m_mainWnd_rchkAutoPublishing_CheckedOrUnchecked;
+			m_mainWnd.rchkAutoPublishing.Unchecked += m_mainWnd_rchkAutoPublishing_CheckedOrUnchecked;
 
 			RefreshGroups();
 			m_mainWnd.CurrentGroups.PropertyChanged += m_mainWnd_CurrentGroups_PropertyChanged;
@@ -81,7 +81,7 @@ namespace DBManager.Stuff
 			OnPropertyChanged(GroupSelectionEnabledPropertyName);
 			OnPropertyChanged(RoundSelectionEnabledPropertyName);
 
-			OnPropertyChanged(MainWindow.FTPEnabledPropertyName);
+			OnPropertyChanged(MainWindow.PublishEnabledPropertyName);
 
 			OnPropertyChanged(MainWindow.SettingsEnabledPropertyName);
 			OnPropertyChanged(MainWindow.LogWindowEnabledPropertyName);
@@ -151,46 +151,46 @@ namespace DBManager.Stuff
 
 		#endregion
 
-		public bool FTPEnabled => m_mainWnd?.FTPEnabled ?? false;
+		public bool PublishEnabled => m_mainWnd?.PublishEnabled ?? false;
 
-		#region btnFTPSettings
+        #region btnPublishingSettings
 
-		private void btnFTPSettings_Click(object sender, RoutedEventArgs e)
+        private void btnPublishingSettings_Click(object sender, RoutedEventArgs e)
 		{
-			m_mainWnd.FTPSettingsCmdExecuted(sender, e);
+			m_mainWnd.PublishingSettingsCmdExecuted(sender, e);
 		}
 
-		#endregion
+        #endregion
 
-		#region btnSendToFTP
+        #region btnPublishResults
 
-		private void btnSendToFTP_Click(object sender, RoutedEventArgs e)
+        private void btnPublishResults_Click(object sender, RoutedEventArgs e)
 		{
-			m_mainWnd.SendToFTPCmdExecuted(sender, e);
+			m_mainWnd.PublishResultsCmdExecuted(sender, e);
 		}
 
-		#endregion
+        #endregion
 
-		#region btnFTPLog
+        #region btnPublishingLog
 
-		private void btnFTPLog_Click(object sender, RoutedEventArgs e)
+        private void btnPublishingLog_Click(object sender, RoutedEventArgs e)
 		{
-			m_mainWnd.FTPLogCmdExecuted(sender, e);
+			m_mainWnd.PublishingLogCmdExecuted(sender, e);
 		}
 
-		#endregion
+        #endregion
 
-		#region chkAutoSendToFTP
+        #region chkAutoPublishing
 
-		private void chkAutoSendToFTP_Click(object sender, RoutedEventArgs e)
+        private void chkAutoPublishing_Click(object sender, RoutedEventArgs e)
 		{
-			m_mainWnd.rchkAutoSendToFTP.IsChecked = chkAutoSendToFTP.IsChecked;
-			m_mainWnd.rchkAutoSendToFTP_Click(sender, e);
+			m_mainWnd.rchkAutoPublishing.IsChecked = chkAutoPublishing.IsChecked;
+			m_mainWnd.rchkAutoPublishing_Click(sender, e);
 		}
 
-		private void m_mainWnd_rchkAutoSendToFTP_CheckedOrUnchecked(object sender, RoutedEventArgs e)
+		private void m_mainWnd_rchkAutoPublishing_CheckedOrUnchecked(object sender, RoutedEventArgs e)
 		{
-			chkAutoSendToFTP.IsChecked = m_mainWnd.rchkAutoSendToFTP.IsChecked;
+            chkAutoPublishing.IsChecked = m_mainWnd.rchkAutoPublishing.IsChecked;
 		}
 
 		#endregion

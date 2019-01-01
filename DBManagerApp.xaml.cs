@@ -45,96 +45,96 @@ namespace DBManager
 
 		protected override void OnStartup(StartupEventArgs e)
 		{
-			m_App = this;
+            m_App = this;
 
-			bool createdNew;
-			AppDomain.CurrentDomain.UnhandledException += DumpMaker.CurrentDomain_UnhandledException;
-			AppDomain.CurrentDomain.FirstChanceException += (source, ev) =>
-			{
-				ev.ToString();
-			};
+            bool createdNew;
+            AppDomain.CurrentDomain.UnhandledException += DumpMaker.CurrentDomain_UnhandledException;
+            AppDomain.CurrentDomain.FirstChanceException += (source, ev) =>
+            {
+                ev.ToString();
+            };
 
-			m_AppSettings = new XMLSettingsWriter();
-			
-			m_SyncMutex = new Mutex(true, "DBManager mutex", out createdNew);
+            m_AppSettings = new XMLSettingsWriter();
 
-			if (!createdNew)
-			{
-				MessageBox.Show(DBManager.Properties.Resources.resmsgAppAlreadyOpened, AppAttributes.Title, MessageBoxButton.OK, MessageBoxImage.Error);
-				Environment.Exit(0);
-				return;
-			}
+            m_SyncMutex = new Mutex(true, "DBManager mutex", out createdNew);
 
-			// Вычисляем коэффициенты пересчёта размера формы-хоста в зависимости от установленного DPI
-			PropertyInfo dpiXProperty = typeof(SystemParameters).GetProperty("DpiX", BindingFlags.NonPublic | BindingFlags.Static);
-			PropertyInfo dpiYProperty = typeof(SystemParameters).GetProperty("Dpi", BindingFlags.NonPublic | BindingFlags.Static);
-			int dpiX = (int)dpiXProperty.GetValue(null, null);
-			int dpiY = (int)dpiYProperty.GetValue(null, null);
-			m_DPIScale = new System.Windows.Point((float)dpiX / 96.0, (float)dpiY / 96.0);
+            if (!createdNew)
+            {
+                MessageBox.Show(DBManager.Properties.Resources.resmsgAppAlreadyOpened, AppAttributes.Title, MessageBoxButton.OK, MessageBoxImage.Error);
+                Environment.Exit(0);
+                return;
+            }
 
-			m_Entities = new compdbEntities();
+            // Вычисляем коэффициенты пересчёта размера формы-хоста в зависимости от установленного DPI
+            PropertyInfo dpiXProperty = typeof(SystemParameters).GetProperty("DpiX", BindingFlags.NonPublic | BindingFlags.Static);
+            PropertyInfo dpiYProperty = typeof(SystemParameters).GetProperty("Dpi", BindingFlags.NonPublic | BindingFlags.Static);
+            int dpiX = (int)dpiXProperty.GetValue(null, null);
+            int dpiY = (int)dpiYProperty.GetValue(null, null);
+            m_DPIScale = new System.Windows.Point((float)dpiX / 96.0, (float)dpiY / 96.0);
 
-			try
-			{
-				if (!m_Entities.Database.Exists())
-				{
-					throw new InvalidOperationException();
-				}
-			}
-			catch
-			{	// Невозможно подключится к БД => пробуем запустить bat-ник, запускающий MySQL 
-				try
-				{
-					ProcessStartInfo procInfo = new ProcessStartInfo()
-					{
-						FileName = m_AppSettings.m_Settings.MySQLBatFullPath,
-						WorkingDirectory = Path.GetDirectoryName(m_AppSettings.m_Settings.MySQLBatFullPath),
-						Verb = "runas",
-						CreateNoWindow = true,
-					};
-					Process.Start(procInfo);  //Start that process.
-				}
-				catch (Exception ex)
-				{
-					MessageBox.Show(string.Format(DBManager.Properties.Resources.resfmtCantStartMySQL, ex.Message),
-									AppAttributes.Title,
-									MessageBoxButton.OK,
-									MessageBoxImage.Error);
-					Environment.Exit(0);
-					return;
-				}
+            m_Entities = new compdbEntities();
 
-				// Делаем ещё несколько попыток подключится к БД
-				int i = 5;
-				while (--i > 0)
-				{
-					Thread.Sleep(2 * 1000); // Ожидаем запуска MySQL
-					try
-					{
-						if (m_Entities.Database.Exists())
-							break;
-					}
-					catch
-					{ }
-				}
+            try
+            {
+                if (!m_Entities.Database.Exists())
+                {
+                    throw new InvalidOperationException();
+                }
+            }
+            catch
+            {   // Невозможно подключится к БД => пробуем запустить bat-ник, запускающий MySQL 
+                try
+                {
+                    ProcessStartInfo procInfo = new ProcessStartInfo()
+                    {
+                        FileName = m_AppSettings.m_Settings.MySQLBatFullPath,
+                        WorkingDirectory = Path.GetDirectoryName(m_AppSettings.m_Settings.MySQLBatFullPath),
+                        Verb = "runas",
+                        CreateNoWindow = true,
+                    };
+                    Process.Start(procInfo);  //Start that process.
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(string.Format(DBManager.Properties.Resources.resfmtCantStartMySQL, ex.Message),
+                                    AppAttributes.Title,
+                                    MessageBoxButton.OK,
+                                    MessageBoxImage.Error);
+                    Environment.Exit(0);
+                    return;
+                }
 
-				if (i == 0)
-				{
-					MessageBox.Show(string.Format(DBManager.Properties.Resources.resrmtCantConnectToDB, m_Entities.Database.Connection.ConnectionString),
-									AppAttributes.Title,
-									MessageBoxButton.OK,
-									MessageBoxImage.Error);
-					Environment.Exit(0);
-					return;
-				}
-			}
+                // Делаем ещё несколько попыток подключится к БД
+                int i = 5;
+                while (--i > 0)
+                {
+                    Thread.Sleep(2 * 1000); // Ожидаем запуска MySQL
+                    try
+                    {
+                        if (m_Entities.Database.Exists())
+                            break;
+                    }
+                    catch
+                    { }
+                }
 
-			//m_NotifyIcon = (TaskbarIcon)FindResource("ctrlNotifyIcon");
+                if (i == 0)
+                {
+                    MessageBox.Show(string.Format(DBManager.Properties.Resources.resrmtCantConnectToDB, m_Entities.Database.Connection.ConnectionString),
+                                    AppAttributes.Title,
+                                    MessageBoxButton.OK,
+                                    MessageBoxImage.Error);
+                    Environment.Exit(0);
+                    return;
+                }
+            }
 
-			GlobalDefines.RefreshVariables();
+            //m_NotifyIcon = (TaskbarIcon)FindResource("ctrlNotifyIcon");
 
-			base.OnStartup(e);
-		}
+            GlobalDefines.RefreshVariables();
+
+            base.OnStartup(e);
+        }
 
 		void CloseWndOwnedWnds(Window wnd)
 		{

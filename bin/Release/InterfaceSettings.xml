@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Settings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <IsRestarting>false</IsRestarting>
-  <CompDir>D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\07.10.2018</CompDir>
+  <CompDir>D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\24-25.02.2018</CompDir>
   <DefaultCompSettings>
     <MenInGroup>3</MenInGroup>
     <WomenInGroup>3</WomenInGroup>
@@ -12,21 +12,8 @@
     <YearOfBirthColumnIndex>4</YearOfBirthColumnIndex>
     <TeamColumnIndex>3</TeamColumnIndex>
   </DefaultCompSettings>
-  <Only75PercentForCalcGrades>true</Only75PercentForCalcGrades>
   <PlainResultsFontStyle FontWeight="400" FontStyle="Normal">
     <BackgroundColor>
-      <Color>
-        <A>255</A>
-        <R>128</R>
-        <G>128</G>
-        <B>128</B>
-        <ScA>1</ScA>
-        <ScR>0.2158605</ScR>
-        <ScG>0.2158605</ScG>
-        <ScB>0.2158605</ScB>
-      </Color>
-    </BackgroundColor>
-    <ForeColor>
       <Color>
         <A>255</A>
         <R>255</R>
@@ -37,19 +24,31 @@
         <ScG>1</ScG>
         <ScB>1</ScB>
       </Color>
+    </BackgroundColor>
+    <ForeColor>
+      <Color>
+        <A>255</A>
+        <R>0</R>
+        <G>0</G>
+        <B>0</B>
+        <ScA>1</ScA>
+        <ScR>0</ScR>
+        <ScG>0</ScG>
+        <ScB>0</ScB>
+      </Color>
     </ForeColor>
   </PlainResultsFontStyle>
   <NextRoundMembersCountFontStyle FontWeight="400" FontStyle="Normal">
     <BackgroundColor>
       <Color>
         <A>255</A>
-        <R>191</R>
-        <G>216</G>
-        <B>247</B>
+        <R>197</R>
+        <G>217</G>
+        <B>241</B>
         <ScA>1</ScA>
-        <ScR>0.520995557</ScR>
-        <ScG>0.6866853</ScG>
-        <ScB>0.9301109</ScB>
+        <ScR>0.5583404</ScR>
+        <ScG>0.693871737</ScG>
+        <ScB>0.8796224</ScB>
       </Color>
     </BackgroundColor>
     <ForeColor>
@@ -69,13 +68,13 @@
     <BackgroundColor>
       <Color>
         <A>255</A>
-        <R>245</R>
-        <G>180</G>
-        <B>191</B>
+        <R>146</R>
+        <G>208</G>
+        <B>80</B>
         <ScA>1</ScA>
-        <ScR>0.913098633</ScR>
-        <ScG>0.456411034</ScG>
-        <ScB>0.520995557</ScB>
+        <ScR>0.287440836</ScR>
+        <ScG>0.630757153</ScG>
+        <ScB>0.08021982</ScB>
       </Color>
     </BackgroundColor>
     <ForeColor>
@@ -95,13 +94,13 @@
     <BackgroundColor>
       <Color>
         <A>255</A>
-        <R>245</R>
-        <G>222</G>
-        <B>179</B>
+        <R>255</R>
+        <G>255</G>
+        <B>0</B>
         <ScA>1</ScA>
-        <ScR>0.913098633</ScR>
-        <ScG>0.730460763</ScG>
-        <ScB>0.4507858</ScB>
+        <ScR>1</ScR>
+        <ScG>1</ScG>
+        <ScB>0</ScB>
       </Color>
     </BackgroundColor>
     <ForeColor>
@@ -146,31 +145,17 @@
   <JustRecievedResultFontStyle FontWeight="400" FontStyle="Normal">
     <BackgroundColor>
       <Color>
-        <A>245</A>
-        <R>224</R>
-        <G>245</G>
-        <B>180</B>
-        <ScA>0.9607843</ScA>
-        <ScR>0.7454042</ScR>
-        <ScG>0.913098633</ScG>
-        <ScB>0.456411034</ScB>
-      </Color>
-    </BackgroundColor>
-    <ForeColor>
-      <Color>
         <A>255</A>
         <R>0</R>
         <G>0</G>
-        <B>0</B>
+        <B>255</B>
         <ScA>1</ScA>
         <ScR>0</ScR>
         <ScG>0</ScG>
-        <ScB>0</ScB>
+        <ScB>1</ScB>
       </Color>
-    </ForeColor>
-  </JustRecievedResultFontStyle>
-  <FalsestartFontStyle FontWeight="400" FontStyle="Normal">
-    <BackgroundColor>
+    </BackgroundColor>
+    <ForeColor>
       <Color>
         <A>255</A>
         <R>255</R>
@@ -181,143 +166,49 @@
         <ScG>1</ScG>
         <ScB>1</ScB>
       </Color>
+    </ForeColor>
+  </JustRecievedResultFontStyle>
+  <FalsestartFontStyle FontWeight="400" FontStyle="Normal">
+    <BackgroundColor>
+      <Color>
+        <A>255</A>
+        <R>128</R>
+        <G>128</G>
+        <B>128</B>
+        <ScA>1</ScA>
+        <ScR>0.2158605</ScR>
+        <ScG>0.2158605</ScG>
+        <ScB>0.2158605</ScB>
+      </Color>
     </BackgroundColor>
     <ForeColor>
       <Color>
         <A>255</A>
-        <R>0</R>
-        <G>0</G>
-        <B>0</B>
+        <R>255</R>
+        <G>255</G>
+        <B>255</B>
         <ScA>1</ScA>
-        <ScR>0</ScR>
-        <ScG>0</ScG>
-        <ScB>0</ScB>
+        <ScR>1</ScR>
+        <ScG>1</ScG>
+        <ScB>1</ScB>
       </Color>
     </ForeColor>
   </FalsestartFontStyle>
-  <FontFamilyName>Lucida Console</FontFamilyName>
-  <FontSize>16</FontSize>
-  <FileScannerSettings />
-  <CompSettings>
-    <item key="5">
-      <CCompSpecificSets>
-        <CompId>5</CompId>
-        <TeamsForTeamReport />
-        <LeadReportXlsPath>D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\03.12.17\Протоколы трудности.xlsx</LeadReportXlsPath>
-        <FirstMemberRow>8</FirstMemberRow>
-        <PlaceColumnIndex>1</PlaceColumnIndex>
-        <PersonalDataColumnIndex>2</PersonalDataColumnIndex>
-        <YearOfBirthColumnIndex>4</YearOfBirthColumnIndex>
-        <TeamColumnIndex>5</TeamColumnIndex>
-        <GroupsLeadSheetsInfos>
-          <item key="10">
-            <CLeadSheetInfo>
-              <SheetIndex>1</SheetIndex>
-              <StartDate DD="3" MMMM="11" YYYY="2017" />
-              <EndDate DD="3" MMMM="11" YYYY="2017" />
-            </CLeadSheetInfo>
-          </item>
-          <item key="9">
-            <CLeadSheetInfo>
-              <SheetIndex>0</SheetIndex>
-              <StartDate DD="3" MMMM="11" YYYY="2017" />
-              <EndDate DD="3" MMMM="11" YYYY="2017" />
-            </CLeadSheetInfo>
-          </item>
-        </GroupsLeadSheetsInfos>
-        <PersRepWinnerDetection>LessDifference</PersRepWinnerDetection>
-        <GroupsForAutosendToFTP>
-          <item key="9">
-            <CFTPGroupItemInSets>
-              <GroupId>9</GroupId>
-              <IsSelected>true</IsSelected>
-              <FTPWbkPath>speed\f_young.xls</FTPWbkPath>
-            </CFTPGroupItemInSets>
-          </item>
-          <item key="10">
-            <CFTPGroupItemInSets>
-              <GroupId>10</GroupId>
-              <IsSelected>true</IsSelected>
-              <FTPWbkPath>speed\m_young.xls</FTPWbkPath>
-            </CFTPGroupItemInSets>
-          </item>
-        </GroupsForAutosendToFTP>
-      </CCompSpecificSets>
+  <FileScannerSettings>
+    <item key="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\24-25.02.2018\Младшие Девушки.xml">
+      <CFileScannerSettings FullFilePath="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\24-25.02.2018\Младшие Девушки.xml" GroupId="22" />
     </item>
-    <item key="6">
-      <CCompSpecificSets>
-        <CompId>6</CompId>
-        <TeamsForTeamReport />
-        <LeadReportXlsPath>D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\24-25.02.2018\Трудность\итоговый трудность.xlsx</LeadReportXlsPath>
-        <FirstMemberRow>8</FirstMemberRow>
-        <PlaceColumnIndex>1</PlaceColumnIndex>
-        <PersonalDataColumnIndex>2</PersonalDataColumnIndex>
-        <YearOfBirthColumnIndex>4</YearOfBirthColumnIndex>
-        <TeamColumnIndex>5</TeamColumnIndex>
-        <GroupsLeadSheetsInfos>
-          <item key="11">
-            <CLeadSheetInfo>
-              <SheetIndex>2</SheetIndex>
-              <StartDate DD="25" MMMM="1" YYYY="2018" />
-              <EndDate DD="25" MMMM="1" YYYY="2018" />
-            </CLeadSheetInfo>
-          </item>
-          <item key="12">
-            <CLeadSheetInfo>
-              <SheetIndex>3</SheetIndex>
-              <StartDate DD="25" MMMM="1" YYYY="2018" />
-              <EndDate DD="25" MMMM="1" YYYY="2018" />
-            </CLeadSheetInfo>
-          </item>
-          <item key="13">
-            <CLeadSheetInfo>
-              <SheetIndex>1</SheetIndex>
-              <StartDate DD="24" MMMM="1" YYYY="2018" />
-              <EndDate DD="24" MMMM="1" YYYY="2018" />
-            </CLeadSheetInfo>
-          </item>
-          <item key="22">
-            <CLeadSheetInfo>
-              <SheetIndex>0</SheetIndex>
-              <StartDate DD="24" MMMM="1" YYYY="2018" />
-              <EndDate DD="24" MMMM="1" YYYY="2018" />
-            </CLeadSheetInfo>
-          </item>
-        </GroupsLeadSheetsInfos>
-        <PersRepWinnerDetection>LessDifference</PersRepWinnerDetection>
-        <GroupsForAutosendToFTP>
-          <item key="11">
-            <CFTPGroupItemInSets>
-              <GroupId>11</GroupId>
-              <IsSelected>true</IsSelected>
-              <FTPWbkPath>speed\f_old.xls</FTPWbkPath>
-            </CFTPGroupItemInSets>
-          </item>
-          <item key="12">
-            <CFTPGroupItemInSets>
-              <GroupId>12</GroupId>
-              <IsSelected>true</IsSelected>
-              <FTPWbkPath>speed\m_old.xls</FTPWbkPath>
-            </CFTPGroupItemInSets>
-          </item>
-          <item key="13">
-            <CFTPGroupItemInSets>
-              <GroupId>13</GroupId>
-              <IsSelected>true</IsSelected>
-              <FTPWbkPath>speed\f_young.xls</FTPWbkPath>
-            </CFTPGroupItemInSets>
-          </item>
-          <item key="22">
-            <CFTPGroupItemInSets>
-              <GroupId>22</GroupId>
-              <IsSelected>true</IsSelected>
-              <FTPWbkPath>speed\m_young.xls</FTPWbkPath>
-            </CFTPGroupItemInSets>
-          </item>
-        </GroupsForAutosendToFTP>
-      </CCompSpecificSets>
+    <item key="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\24-25.02.2018\Младшие Юноши.xml">
+      <CFileScannerSettings FullFilePath="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\24-25.02.2018\Младшие Юноши.xml" GroupId="23" />
     </item>
-  </CompSettings>
+    <item key="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\24-25.02.2018\Подростки Девочки.xml">
+      <CFileScannerSettings FullFilePath="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\24-25.02.2018\Подростки Девочки.xml" GroupId="28" />
+    </item>
+    <item key="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\24-25.02.2018\Подростки Мальчики.xml">
+      <CFileScannerSettings FullFilePath="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\24-25.02.2018\Подростки Мальчики.xml" GroupId="29" />
+    </item>
+  </FileScannerSettings>
+  <CompSettings />
   <ExcelSettings>
     <MaxSheetNameLen>31</MaxSheetNameLen>
     <ReportTemplatesWbkName>ReportTemplates.xlsx</ReportTemplatesWbkName>
@@ -403,77 +294,6 @@
         </value>
       </item>
     </ReportTemplates>
-    <FTPTemplatesWbkName>FTPTemplates.xls</FTPTemplatesWbkName>
-    <FTPSheetTemplates>
-      <item>
-        <key>
-          <enFTPSheetGeneratorTypes>Start</enFTPSheetGeneratorTypes>
-        </key>
-        <value>
-          <int>1</int>
-        </value>
-      </item>
-      <item>
-        <key>
-          <enFTPSheetGeneratorTypes>Qualif</enFTPSheetGeneratorTypes>
-        </key>
-        <value>
-          <int>1</int>
-        </value>
-      </item>
-      <item>
-        <key>
-          <enFTPSheetGeneratorTypes>Qualif2</enFTPSheetGeneratorTypes>
-        </key>
-        <value>
-          <int>1</int>
-        </value>
-      </item>
-      <item>
-        <key>
-          <enFTPSheetGeneratorTypes>OneEighthFinal</enFTPSheetGeneratorTypes>
-        </key>
-        <value>
-          <int>2</int>
-        </value>
-      </item>
-      <item>
-        <key>
-          <enFTPSheetGeneratorTypes>QuaterFinal</enFTPSheetGeneratorTypes>
-        </key>
-        <value>
-          <int>3</int>
-        </value>
-      </item>
-      <item>
-        <key>
-          <enFTPSheetGeneratorTypes>SemiFinal</enFTPSheetGeneratorTypes>
-        </key>
-        <value>
-          <int>4</int>
-        </value>
-      </item>
-      <item>
-        <key>
-          <enFTPSheetGeneratorTypes>Final</enFTPSheetGeneratorTypes>
-        </key>
-        <value>
-          <int>5</int>
-        </value>
-      </item>
-      <item>
-        <key>
-          <enFTPSheetGeneratorTypes>Total</enFTPSheetGeneratorTypes>
-        </key>
-        <value>
-          <int>6</int>
-        </value>
-      </item>
-    </FTPSheetTemplates>
   </ExcelSettings>
-  <FTPHost>smolclimb.ru</FTPHost>
-  <FTPPort>21</FTPPort>
-  <FTPUsername>extremist_comp</FTPUsername>
-  <FTPPassword>OQFvPx3G</FTPPassword>
   <MySQLBatFullPath>D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\Скорость Last Edition\БД\RunMySQLServer.lnk</MySQLBatFullPath>
 </Settings>

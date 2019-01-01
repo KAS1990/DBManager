@@ -11,8 +11,6 @@ D:\Саша\Документы\Эксель\Для соревнований\Ск
 D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\Скорость Last Edition\DBManager\obj\x86\Release\Excel\Exporting\Tabs\CMainExportTab.g.cs
 D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\Скорость Last Edition\DBManager\obj\x86\Release\Excel\Exporting\Tabs\CPersonalExportTab.g.cs
 D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\Скорость Last Edition\DBManager\obj\x86\Release\Excel\Exporting\Tabs\CTeamExportTab.g.cs
-D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\Скорость Last Edition\DBManager\obj\x86\Release\FTP\CFTPLogWnd.g.cs
-D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\Скорость Last Edition\DBManager\obj\x86\Release\FTP\CFTPSettingsWnd.g.cs
 D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\Скорость Last Edition\DBManager\obj\x86\Release\InterfaceElements\CFontStylePicker.g.cs
 D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\Скорость Last Edition\DBManager\obj\x86\Release\InterfaceElements\CTicker.g.cs
 D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\Скорость Last Edition\DBManager\obj\x86\Release\MainWindow.g.cs
@@ -30,8 +28,6 @@ D:\Саша\Документы\Эксель\Для соревнований\Ск
 D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\Скорость Last Edition\DBManager\obj\x86\Release\Excel\Exporting\Tabs\CMainExportTab.baml
 D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\Скорость Last Edition\DBManager\obj\x86\Release\Excel\Exporting\Tabs\CPersonalExportTab.baml
 D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\Скорость Last Edition\DBManager\obj\x86\Release\Excel\Exporting\Tabs\CTeamExportTab.baml
-D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\Скорость Last Edition\DBManager\obj\x86\Release\FTP\CFTPLogWnd.baml
-D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\Скорость Last Edition\DBManager\obj\x86\Release\FTP\CFTPSettingsWnd.baml
 D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\Скорость Last Edition\DBManager\obj\x86\Release\Global\GlobalResources.baml
 D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\Скорость Last Edition\DBManager\obj\x86\Release\InterfaceElements\CFontStylePicker.baml
 D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\Скорость Last Edition\DBManager\obj\x86\Release\InterfaceElements\CTicker.baml
@@ -67,5 +63,9 @@ D:\Саша\Документы\Эксель\Для соревнований\Ск
 D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\Скорость Last Edition\DBManager\obj\x86\Release\Stuff\CRemoteControlWnd.baml
 D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\Скорость Last Edition\DBManager\obj\x86\Release\DBManager.csproj.CoreCompileInputs.cache
 D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\Скорость Last Edition\DBManager\obj\x86\Release\DBManager.csproj.CopyComplete
-D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\Скорость Last Edition\DBManager\obj\x86\Release\DBManager.csprojAssemblyReference.cache
 D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\Скорость Last Edition\DBManager\bin\Release\MySql.Data.Entity.EF6.dll
+D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\Скорость Last Edition\DBManager\obj\x86\Release\DBManager.csprojAssemblyReference.cache
+D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\Скорость Last Edition\DBManager\obj\x86\Release\OnlineResults\CPublishingSettingsWnd.g.cs
+D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\Скорость Last Edition\DBManager\obj\x86\Release\OnlineResults\CPublishingResultsLogWnd.g.cs
+D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\Скорость Last Edition\DBManager\obj\x86\Release\OnlineResults\CPublishingSettingsWnd.baml
+D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\Скорость Last Edition\DBManager\obj\x86\Release\OnlineResults\CPublishingResultsLogWnd.baml

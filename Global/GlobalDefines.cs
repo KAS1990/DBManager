@@ -28,8 +28,7 @@ namespace DBManager.Global
 		
 		public static readonly string STD_APP_CONFIGS_DIR = "";
 		public static readonly string STD_ERROR_LOG_FILE_PATH = "";
-		public static readonly string STD_FTP_LOG_DIR = "";
-		public static readonly string STD_FTP_WORKBOOKS_DIR = "";
+		public static readonly string STD_PUBLISHING_LOG_DIR = "";
 		
 		/// <summary>
 		/// Аргумент для функции FrameworkElement.Measure()
@@ -133,10 +132,10 @@ namespace DBManager.Global
 		public static string EXCEL_DEFAULT_SHEET_SIGNATURE = "ТебеНетДелаДоДругих";
 		public static string EXCEL_REPORT_NAME_TEXT_TO_REPLACE = "<Название группы>";
 
-		public const char FTP_LOG_FIELDS_SEPARATOR = ';';
-		public const char FTP_LOG_LFCR_SYMBOL = '#';
-		public const string FTP_LOG_FILE_EXTENSION = ".ftplog";
-		public const int FTP_LOG_FILE_SIZE = 10*1024*1024;
+		public const char PUBLISHING_LOG_FIELDS_SEPARATOR = ';';
+		public const char PUBLISHING_LOG_LFCR_SYMBOL = '#';
+		public const string PUBLISHING_LOG_FILE_EXTENSION = ".publog";
+		public const int PUBLISHING_LOG_FILE_SIZE = 10*1024*1024;
 
 		public static string[] MONTHS_IN_GENITIVE = {
 														"Января",
@@ -163,9 +162,8 @@ namespace DBManager.Global
 		{
 			STD_APP_CONFIGS_DIR = Environment.CurrentDirectory;
 			STD_ERROR_LOG_FILE_PATH = STD_APP_CONFIGS_DIR + "\\ErrLog.txt";
-			STD_FTP_LOG_DIR = STD_APP_CONFIGS_DIR + "\\FTPLog\\";
-			STD_FTP_WORKBOOKS_DIR = STD_APP_CONFIGS_DIR + "\\ServerWorkbooks\\";
-
+			STD_PUBLISHING_LOG_DIR = STD_APP_CONFIGS_DIR + "\\PublishingLog\\";
+			
 			MIN_YEAR_OF_BIRTH = (short)(DateTime.Today.Year - 100);
 			MIN_GROUP_YEAR = DateTime.Today.Year - 100;
 			MAX_GROUP_YEAR = DateTime.Today.Year - 4;
@@ -180,9 +178,11 @@ namespace DBManager.Global
 			{
 				ROUND_IDS.Clear();
 				ROUND_NAMES.Clear();
-				BALLS_FOR_PLACES.Clear();
+                GRADE_NAMES.Clear();
+                BALLS_FOR_PLACES.Clear();
+                ADDITIONAL_EVENT_NAMES.Clear();
 
-				foreach (rounds round in DBManagerApp.m_Entities.rounds)
+                foreach (rounds round in DBManagerApp.m_Entities.rounds)
 				{
 					ROUND_IDS.Add(round.name, round.id_round);
 					ROUND_NAMES.Add(round.id_round, round.name);
@@ -1712,10 +1712,10 @@ namespace DBManager.Global
 		}
 
 
-		public static void CheckFTPDirExists()
+		public static void CheckPublishingDirExists()
 		{
-			if (!Directory.Exists(STD_FTP_LOG_DIR))
-				Directory.CreateDirectory(STD_FTP_LOG_DIR);
+			if (!Directory.Exists(STD_PUBLISHING_LOG_DIR))
+				Directory.CreateDirectory(STD_PUBLISHING_LOG_DIR);
 		}
 
 

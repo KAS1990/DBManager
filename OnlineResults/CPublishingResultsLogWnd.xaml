@@ -1,17 +1,17 @@
-﻿<glob:CNotifyPropertyChangedWnd x:Class="DBManager.FTP.CFTPLogWnd"
+﻿<glob:CNotifyPropertyChangedWnd x:Class="DBManager.OnlineResults.CPublishingResultsLogWnd"
 								xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 								xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 								xmlns:glob="clr-namespace:DBManager.Global"
-								xmlns:ftp="clr-namespace:DBManager.FTP"
-								Title="{Loc resFTPLogWndTitle}"
+                                xmlns:publishing="clr-namespace:DBManager.OnlineResults"
+								Title="{Loc resPublishingLogWndTitle}"
 								ShowInTaskbar="False"
 								WindowStyle="ToolWindow"
 								WindowStartupLocation="CenterScreen"
 								SizeToContent="WidthAndHeight"
-								SizeChanged="CFTPLogWnd_SizeChanged"
-								Loaded="CFTPLogWnd_Loaded">
+								SizeChanged="CPublishingResultsLogWnd_SizeChanged"
+								Loaded="CPublishingResultsLogWnd_Loaded">
     <DockPanel LastChildFill="True" Margin="5,5,5,5">
-        <Label DockPanel.Dock="Top" Content="{Loc resFTPLogFolderPath}" />
+        <Label DockPanel.Dock="Top" Content="{Loc resPublishingLogFolderPath}" />
 		<TextBox DockPanel.Dock="Top"
 				 Name="txtLogFilePath"
 				 Margin="0,0,0,15"
@@ -90,7 +90,7 @@
 																	<Image Height="22"
 																		   Width="22"
 																		   RenderOptions.BitmapScalingMode="Fant"
-																		   Source="{Binding Type, Converter={ftp:LogItemTypeToImageMarkupConverter}}" />
+																		   Source="{Binding Type, Converter={publishing:LogItemTypeToImageMarkupConverter}}" />
 																</DataTemplate>
 															</GridViewColumn.CellTemplate>
 														</GridViewColumn>
@@ -105,15 +105,7 @@
 															</GridViewColumn.CellTemplate>
 														</GridViewColumn>
 														
-														<GridViewColumn Header="{Loc resFTPWbkName}" >
-															<GridViewColumn.CellTemplate>
-																<DataTemplate>
-																	<TextBox Padding="5" Text="{Binding FTPWbkFullPath}" TextWrapping="Wrap" IsReadOnly="True" />
-																</DataTemplate>
-															</GridViewColumn.CellTemplate>
-														</GridViewColumn>
-														
-														<GridViewColumn Header="{Loc resFTPLogText}" >
+														<GridViewColumn Header="{Loc resPublishingLogText}" >
 															<GridViewColumn.CellTemplate>
 																<DataTemplate>
 																	<TextBlock Padding="5" Text="{Binding Text}" TextWrapping="Wrap" />

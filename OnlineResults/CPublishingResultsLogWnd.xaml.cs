@@ -18,12 +18,12 @@ using DBManager.Commands;
 using System.Collections.Specialized;
 using DBManager.Global.Converters;
 
-namespace DBManager.FTP
+namespace DBManager.OnlineResults
 {
-	/// <summary>
-	/// Interaction logic for CFTPLogWnd.xaml
-	/// </summary>
-	public partial class CFTPLogWnd : CNotifyPropertyChangedWnd
+    /// <summary>
+    /// Interaction logic for CPublishingResultsLogWnd.xaml
+    /// </summary>
+    public partial class CPublishingResultsLogWnd : CNotifyPropertyChangedWnd
 	{		
 		public class CGroupItem : INotifyPropertyChanged
 		{
@@ -246,19 +246,19 @@ namespace DBManager.FTP
 														MessageBoxImage.Question,
 														MessageBoxResult.No) == MessageBoxResult.Yes)
 									{
-										GlobalDefines.CheckFTPDirExists();
+										GlobalDefines.CheckPublishingDirExists();
 
 										File.Delete(string.Format("{0}{1}\\{2}{3}",
-																	GlobalDefines.STD_FTP_LOG_DIR,
+																	GlobalDefines.STD_PUBLISHING_LOG_DIR,
 																	id,
 																	item.id,
-																	GlobalDefines.FTP_LOG_FILE_EXTENSION));
+																	GlobalDefines.PUBLISHING_LOG_FILE_EXTENSION));
 										Groups.Remove(item);
 
 										if (Groups.Count == 0)
 										{
 											Directory.Delete(string.Format("{0}{1}",
-																			GlobalDefines.STD_FTP_LOG_DIR,
+																			GlobalDefines.STD_PUBLISHING_LOG_DIR,
 																			id));
 											RaiseDeleteMe();
 										}
@@ -295,7 +295,7 @@ namespace DBManager.FTP
 
 
 		#region Comps
-		private static readonly string CompsPropertyName = GlobalDefines.GetPropertyName<CFTPLogWnd>(m => m.Comps);
+		private static readonly string CompsPropertyName = GlobalDefines.GetPropertyName<CPublishingResultsLogWnd>(m => m.Comps);
 		private ObservableCollectionEx<CCompItem> m_Comps = new ObservableCollectionEx<CCompItem>();
 		/// <summary>
 		/// Коллекция, содержащий все соревнования
@@ -316,23 +316,23 @@ namespace DBManager.FTP
 		{
 			NotifyFilter = NotifyFilters.LastWrite, /* нас интересует только изменение названия файла,
 													 * а также дата последнего изменения */
-			Filter = "*" + GlobalDefines.FTP_LOG_FILE_EXTENSION,	// отслеживаем только xml-файлы, т.к. в них пишет инофрмацю Excel
+			Filter = "*" + GlobalDefines.PUBLISHING_LOG_FILE_EXTENSION,	// отслеживаем только xml-файлы, т.к. в них пишет инофрмацю Excel
 			IncludeSubdirectories = true
 		}; // инициализацию m_PathWatcher нужно делать именно здесь, а не в конструкторе, т.к метод Start вызывется раньше создания класса
 
 
-		public CFTPLogWnd()
+		public CPublishingResultsLogWnd()
 		{
 			InitializeComponent();
 
-			GlobalDefines.CheckFTPDirExists();
+			GlobalDefines.CheckPublishingDirExists();
 
-			txtLogFilePath.Text = GlobalDefines.STD_FTP_LOG_DIR;
+			txtLogFilePath.Text = GlobalDefines.STD_PUBLISHING_LOG_DIR;
 
 			m_LogFileWatcher.Changed += m_LogFileWatcher_Changed;
 
 			m_LogFileWatcher.BeginInit();
-			m_LogFileWatcher.Path = GlobalDefines.STD_FTP_LOG_DIR;
+			m_LogFileWatcher.Path = GlobalDefines.STD_PUBLISHING_LOG_DIR;
 			m_LogFileWatcher.EnableRaisingEvents = true; // Эту операцию нужно делать после запуска всех сканеров файлов
 			m_LogFileWatcher.EndInit();
 
@@ -372,7 +372,7 @@ namespace DBManager.FTP
 		{
 			CGroupItem result = new CGroupItem(GroupId)
 			{
-				FileName = GroupId.ToString() + GlobalDefines.FTP_LOG_FILE_EXTENSION
+				FileName = GroupId.ToString() + GlobalDefines.PUBLISHING_LOG_FILE_EXTENSION
 			};
 			groups gr = DBManagerApp.m_Entities.groups.FirstOrDefault(arg => arg.id_group == GroupId);
 			if (gr == null)
@@ -445,21 +445,21 @@ namespace DBManager.FTP
 
 			GroupChanged.Items.Clear();
 
-			GlobalDefines.CheckFTPDirExists();
+			GlobalDefines.CheckPublishingDirExists();
 
 			List<CLogItem> lstItems = new List<CLogItem>();
 			try
 			{
 				using (TextReader tr = new StreamReader(string.Format("{0}{1}\\{2}{3}",
-																		GlobalDefines.STD_FTP_LOG_DIR,
+																		GlobalDefines.STD_PUBLISHING_LOG_DIR,
 																		Comp.id,
 																		GroupChanged.id,
-																		GlobalDefines.FTP_LOG_FILE_EXTENSION)))
+																		GlobalDefines.PUBLISHING_LOG_FILE_EXTENSION)))
 				{
 					string line = null;
 					CLogItem CurLogItem = null;
 					DateTime ItemDateTime = DateTime.Now;
-					enFTPLogItemType ItemType = enFTPLogItemType.None;
+					enOnlineResultsLogItemType ItemType = enOnlineResultsLogItemType.None;
 
 					do
 					{
@@ -471,12 +471,12 @@ namespace DBManager.FTP
 						}
 						else
 						{
-							string[] Fields = line.Split(GlobalDefines.FTP_LOG_FIELDS_SEPARATOR);
+							string[] Fields = line.Split(GlobalDefines.PUBLISHING_LOG_FIELDS_SEPARATOR);
 							// Переносы строк не используем в логе для удобства, поэтому добавляем их там, где они нужны
 							for (int i = 0; i < Fields.Length; i++)
-								Fields[i] = Fields[i].Replace(GlobalDefines.FTP_LOG_LFCR_SYMBOL, '\n');
+								Fields[i] = Fields[i].Replace(GlobalDefines.PUBLISHING_LOG_LFCR_SYMBOL, '\n');
 							int Index = 0;
-							if (Enum.TryParse<enFTPLogItemType>(Fields[Index++], out ItemType) &&
+							if (Enum.TryParse<enOnlineResultsLogItemType>(Fields[Index++], out ItemType) &&
 								DateTime.TryParse(Fields[Index++], out ItemDateTime))
 							{
 								CurLogItem = new CLogItem()
@@ -487,10 +487,6 @@ namespace DBManager.FTP
 								
 								if (Fields.Length > Index)
 									CurLogItem.PCWbkName = Fields[Index].Trim();
-								Index++;
-								
-								if (Fields.Length > Index)
-									CurLogItem.FTPWbkFullPath = Fields[Index].Trim();
 								Index++;
 								
 								if (Fields.Length > Index)
@@ -520,9 +516,9 @@ namespace DBManager.FTP
 			{
 				Comps.Clear();
 
-				GlobalDefines.CheckFTPDirExists();
+				GlobalDefines.CheckPublishingDirExists();
 
-				foreach (string Dir in Directory.EnumerateDirectories(GlobalDefines.STD_FTP_LOG_DIR))
+				foreach (string Dir in Directory.EnumerateDirectories(GlobalDefines.STD_PUBLISHING_LOG_DIR))
 				{
 					try
 					{
@@ -547,7 +543,7 @@ namespace DBManager.FTP
 
 		bool m_IsLoaded = false;
 
-		private void CFTPLogWnd_SizeChanged(object sender, SizeChangedEventArgs e)
+		private void CPublishingResultsLogWnd_SizeChanged(object sender, SizeChangedEventArgs e)
 		{
 			if (!m_IsLoaded)
 				return;
@@ -568,7 +564,7 @@ namespace DBManager.FTP
 		}
 
 
-		private void CFTPLogWnd_Loaded(object sender, RoutedEventArgs e)
+		private void CPublishingResultsLogWnd_Loaded(object sender, RoutedEventArgs e)
 		{
 			Measure(GlobalDefines.STD_SIZE_FOR_MEASURE);
 			MinWidth = DesiredSize.Width;

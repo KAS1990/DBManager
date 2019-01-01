@@ -297,36 +297,8 @@ namespace DBManager.Global
 		LeadPriority,
 	}
 
-
-	public enum enFTPSheetGeneratorTypes
-	{
-		/// <summary> Квалификация_1 </summary>
-		Qualif = 1,
-
-		/// <summary> Квалификация_2 </summary>
-		Qualif2 = 2,
-
-		/// <summary> Одна_восьмая_финала </summary>
-		OneEighthFinal = 3,
-
-		/// <summary> Четвертьфинал </summary>
-		QuaterFinal = 4,
-
-		/// <summary> Полуфинал </summary>
-		SemiFinal = 5,
-
-		/// <summary> Финал </summary>
-		Final = 6,
-
-		/// <summary> Итоговый протокол </summary>
-		Total = 7,
-
-		/// <summary> Стартовый протокол </summary>
-		Start = 8,
-	}
-
-
-	public enum enFTPLogItemType
+    	
+	public enum enOnlineResultsLogItemType
 	{
 		None,
 		Error,

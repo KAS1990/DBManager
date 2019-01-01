@@ -32,11 +32,11 @@ using DBManager.RoundResultsControl.FilterControl;
 using WPFLocalization;
 using DBManager.Stuff;
 using DBManager.Excel.Exporting;
-using DBManager.FTP;
-using DBManager.FTP.SheetGenerators;
 using DBManager.RightPanels;
 using DBManager.DAL;
 using MSExcel = Microsoft.Office.Interop.Excel;
+using DBManager.OnlineResults;
+using DBManager.OnlineResults.Tasks;
 
 namespace DBManager
 {
@@ -275,7 +275,7 @@ namespace DBManager
 
 		CRemoteControlWnd m_remoteControlWnd = null;
 
-		CFTPExporter m_FTPExporter = new CFTPExporter();
+        COnlineResultsGenerator m_OnlineResult = new COnlineResultsGenerator();
 		
 		#region hsActiveFilters
 		private static readonly string ActiveFiltersPropertyName = GlobalDefines.GetPropertyName<MainWindow>(m => m.ActiveFilters);
@@ -306,8 +306,8 @@ namespace DBManager
 			OnPropertyChanged(SyncDBWithFilesEnabledPropertyName);
 			OnPropertyChanged(DBToGridEnabledPropertyName);
 			OnPropertyChanged(ExportToXlsEnabledPropertyName);
-			OnPropertyChanged(FTPEnabledPropertyName);
-			OnPropertyChanged(ExportingToFTPNowPropertyName);
+			OnPropertyChanged(PublishEnabledPropertyName);
+			OnPropertyChanged(PublishingNowPropertyName);
 			OnPropertyChanged(CalcGradesEnabledPropertyName);
 			OnPropertyChanged(CurHighlightGradesTypePropertyName);
 						
@@ -818,22 +818,22 @@ namespace DBManager
 		/*----------------------------------------------------------*/
 
 
-		#region ExportingToFTPNow
+		#region PublishingNow
 
-		private static readonly string ExportingToFTPNowPropertyName = GlobalDefines.GetPropertyName<MainWindow>(m => m.ExportingToFTPNow);
+		private static readonly string PublishingNowPropertyName = GlobalDefines.GetPropertyName<MainWindow>(m => m.PublishingNow);
 
-		private bool m_ExportingToFTPNow = false;
+		private bool m_PublishingNow = false;
 
-		public bool ExportingToFTPNow
+		public bool PublishingNow
 		{
-			get { return m_ExportingToFTPNow; }
+			get { return m_PublishingNow; }
 			set
 			{
-				if (m_ExportingToFTPNow != value)
+				if (m_PublishingNow != value)
 				{
-					m_ExportingToFTPNow = value;
-					OnPropertyChanged(FTPEnabledPropertyName);
-					OnPropertyChanged(ExportingToFTPNowPropertyName);
+					m_PublishingNow = value;
+					OnPropertyChanged(PublishEnabledPropertyName);
+					OnPropertyChanged(PublishingNowPropertyName);
 				}
 			}
 		}
@@ -841,8 +841,8 @@ namespace DBManager
 		#endregion
 
 
-		public static readonly string FTPEnabledPropertyName = GlobalDefines.GetPropertyName<MainWindow>(m => m.FTPEnabled);
-		public bool FTPEnabled
+		public static readonly string PublishEnabledPropertyName = GlobalDefines.GetPropertyName<MainWindow>(m => m.PublishEnabled);
+		public bool PublishEnabled
 		{
 			get
 			{
@@ -851,80 +851,79 @@ namespace DBManager
 					m_DirScanner.CompId != GlobalDefines.DEFAULT_XML_INT_VAL &&
 					CurrentRounds != null &&
 					CurrentRounds.Count > 0 &&
-					!ExportingToFTPNow;
+					!PublishingNow;
 			}
 		}
 
-		/// <summary>
-		/// Открытие настроек FTP
+        /// <summary>
+		/// Открытие настроек публикации данных
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		public void FTPSettingsCmdExecuted(object sender, RoutedEventArgs e)
-		{
-			CFTPSettingsWnd wnd = new CFTPSettingsWnd(m_DirScanner.CompId, CurrentGroups)
-			{
-				Owner = this,
-			};
+		public void PublishingSettingsCmdExecuted(object sender, RoutedEventArgs e)
+        {
+            var wnd = new CPublishingSettingsWnd(m_DirScanner.CompId, CurrentGroups)
+            {
+                Owner = this,
+            };
 
-			try
-			{
-				wnd.ShowDialog();
-			}
-			catch (Exception ex)
-			{
-				DumpMaker.HandleExceptionAndClose(ex, Title);
-				return;
-			}
-		}
+            try
+            {
+                wnd.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                DumpMaker.HandleExceptionAndClose(ex, Title);
+                return;
+            }
+        }
 
-		/// <summary>
-		/// Принудительная отправка данных на FTP
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		public void SendToFTPCmdExecuted(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Принудительная публикация данных на сайте
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void PublishResultsCmdExecuted(object sender, RoutedEventArgs e)
 		{
-			if (!SendRoundToFTP(false,
+			if (!PublishRoundResults(false,
 								m_DirScanner.CompId,
-								(enFTPSheetGeneratorTypes)CurrentRounds.SelectedKey,
-								(from key in CurrentRounds.Keys select (enRounds)key).ToList(),
+								(enRounds)CurrentRounds.SelectedKey,
 								CurrentGroups.SelectedItem.Value,
 								CurrentGroups.SelectedKey))
 			{
 				MessageBox.Show(this,
-									string.Format(Properties.Resources.resfmtNoGroupSetsForFTPSending, CurrentGroups.SelectedItem.Value.AgeGroup.FullGroupName),
-									Properties.Resources.resFTPSending,
+									string.Format(Properties.Resources.resfmtPublishingRoundResultsError, CurrentGroups.SelectedItem.Value.AgeGroup.FullGroupName),
+									Properties.Resources.resPublishingResults,
 									MessageBoxButton.OK,
 									MessageBoxImage.Error);
 			}
 			else
 			{
 				MessageBox.Show(this,
-									string.Format(Properties.Resources.resfmtWbkSentToFTPSuccefully,
+									string.Format(Properties.Resources.resfmtRoundPublishedSuccessfully,
 													CurrentRounds.SelectedItem.Value.Name,
 													CurrentGroups.SelectedItem.Value.AgeGroup.FullGroupName),
-									Properties.Resources.resFTPSending,
+									Properties.Resources.resPublishingResults,
 									MessageBoxButton.OK,
 									MessageBoxImage.Information);
 			}
 		}
 
 		/// <summary>
-		/// Открытие окна лога FTP
+		/// Открытие окна лога публикации данных на сайте
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		public void FTPLogCmdExecuted(object sender, RoutedEventArgs e)
+		public void PublishingLogCmdExecuted(object sender, RoutedEventArgs e)
 		{
-			CFTPLogWnd wnd = new CFTPLogWnd()
+			var wnd = new CPublishingResultsLogWnd()
 			{
 				Owner = this,
 			};
 
 			try
 			{
-				rbtnFTPLogWindow.BorderBrush = Brushes.Transparent;
+                rbtnPublishResultsLogWindow.BorderBrush = Brushes.Transparent;
 				wnd.ShowDialog();
 			}
 			catch (Exception ex)
@@ -1380,8 +1379,8 @@ namespace DBManager
 				if (m_remoteControlWnd != null)
 					m_remoteControlWnd.Close();
 
-				if (m_FTPExporter != null)
-					(m_FTPExporter as IDisposable).Dispose();
+				if (m_OnlineResult != null)
+					(m_OnlineResult as IDisposable).Dispose();
 			}
 			else
 				e.Cancel = true;
@@ -1890,38 +1889,28 @@ namespace DBManager
 							}
 						}
 
-						// Проверяем, нужно ли отправлять этот раунд на FTP
+						// Проверяем, нужно ли публиковать этот раунд
 						CCompSpecificSets CompSets = null;
-						CFTPGroupItemInSets FTPGroupItemInSets = null;
+						CPublishedGroupItemInSets PublishedGroupItemInSets = null;
 											
 						lock (DBManagerApp.m_AppSettings.m_SettigsSyncObj)
 						{
-							if (!m_FTPExporter.IsStarted ||
+							if (!m_OnlineResult.IsStarted ||
 								!DBManagerApp.m_AppSettings.m_Settings.dictCompSettings.TryGetValue(m_DirScanner.CompId, out CompSets) ||
-								!CompSets.dictGroupsForAutosendToFTP.TryGetValue(Changing.GroupID, out FTPGroupItemInSets) ||
-								!FTPGroupItemInSets.CheckFTPWbkFullPath() ||
-								!FTPGroupItemInSets.IsSelected)
+								!CompSets.dictGroupsForAutopublish.TryGetValue(Changing.GroupID, out PublishedGroupItemInSets) ||
+								!PublishedGroupItemInSets.IsSelected)
 							{	/* Настроек для группы нет или её не нужно автоматически отправлять на сервер =>
 								 * отправка на сервер невозможна */
 								break;
 							}
 
-							List<enRounds> GroupRounds = (from result in DBManagerApp.m_Entities.results_speed
-														  join part in DBManagerApp.m_Entities.participations on result.participation equals part.id_participation
-														  where part.Group == Changing.GroupID
-														  group result by result.round into groupRounds
-														  orderby groupRounds.Key
-														  select (enRounds)groupRounds.Key).ToList();
-							GroupRounds.Add(enRounds.Total); // Итоговый протокол всегда есть
-
 							switch (Changing.ChangingType)
 							{
 								case enDataChangesTypes.Add:
 								case enDataChangesTypes.Delete:
-									SendRoundToFTP(true,
+									PublishRoundResults(true,
 											m_DirScanner.CompId,
-											enFTPSheetGeneratorTypes.Qualif, // Эти операции могут быть только в первой квалификации
-											GroupRounds,
+                                            enRounds.Qualif, // Эти операции могут быть только в первой квалификации
 											CurrentGroups[Changing.GroupID].Value,
 											Changing.GroupID);
 									break;
@@ -1929,19 +1918,17 @@ namespace DBManager
 								case enDataChangesTypes.QualifSorted:
 								case enDataChangesTypes.RoundFinished:
 								case enDataChangesTypes.AddManyPcs:
-									SendRoundToFTP(true,
+									PublishRoundResults(true,
 												m_DirScanner.CompId,
-												(enFTPSheetGeneratorTypes)(Changing.ID),
-												GroupRounds,
+												(enRounds)(Changing.ID),
 												CurrentGroups[Changing.GroupID].Value,
 												Changing.GroupID);
 									break;
 
 								case enDataChangesTypes.Changing:
-									SendRoundToFTP(true,
+									PublishRoundResults(true,
 													m_DirScanner.CompId,
-													(Changing.ChangedObjects == enDataChangedObjects.Results) ? (enFTPSheetGeneratorTypes)(Changing.ID) : enFTPSheetGeneratorTypes.Qualif,
-													GroupRounds,
+													(Changing.ChangedObjects == enDataChangedObjects.Results) ? (enRounds)(Changing.ID) : enRounds.Qualif,
 													CurrentGroups[Changing.GroupID].Value,
 													Changing.GroupID);
 									break;
@@ -1975,7 +1962,7 @@ namespace DBManager
 				SetDesc(null);
 			}
 			HighlightTypes[0].Command.DoExecute();
-			OnPropertyChanged(FTPEnabledPropertyName);
+			OnPropertyChanged(PublishEnabledPropertyName);
 			OnPropertyChanged(CalcGradesEnabledPropertyName);
 		}
 
@@ -1994,7 +1981,7 @@ namespace DBManager
 				RightPanel.ClearTemplate();
 			}
 			HighlightTypes[0].Command.DoExecute();
-			OnPropertyChanged(FTPEnabledPropertyName);
+			OnPropertyChanged(PublishEnabledPropertyName);
 			OnPropertyChanged(CalcGradesEnabledPropertyName);
 		}
 		
@@ -4002,21 +3989,21 @@ namespace DBManager
 		}
 		#endregion
 		
-		#region Отправка данных на FTP
+		#region Публикация данных на сайте
 
-		public void rchkAutoSendToFTP_Click(object sender, RoutedEventArgs e)
+		public void rchkAutoPublishing_Click(object sender, RoutedEventArgs e)
 		{
-			if (rchkAutoSendToFTP.IsChecked.Value)
-				m_FTPExporter.Start();
+			if (rchkAutoPublishing.IsChecked.Value)
+				m_OnlineResult.Start();
 			else
-				m_FTPExporter.Stop();
+				m_OnlineResult.Stop();
 		}
 		
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="DeferredExport">
-		/// True - данные будут переданы на FTP не сразу, а будут помещены в очередь заданий на отправку
+		/// True - данные будут опубликованы не сразу, а будут помещены в очередь заданий на отправку
 		/// </param>
 		/// <param name="CompId"></param>
 		/// <param name="RoundToSend"></param>
@@ -4024,288 +4011,69 @@ namespace DBManager
 		/// <param name="Group"></param>
 		/// <param name="GroupId"></param>
 		/// <returns></returns>
-		private bool SendRoundToFTP(bool DeferredExport,
-									long CompId,
-									enFTPSheetGeneratorTypes RoundToSend,
-									List<enRounds> AllGroupRounds,
-									CCompSettings Group,
-									long GroupId)
+		private bool PublishRoundResults(bool DeferredExport,
+									    long CompId,
+                                        enRounds RoundToSend,
+									    CCompSettings CompSettings,
+									    long GroupId)
 		{
-			CCompSpecificSets CompSets = null;
-			CFTPGroupItemInSets FTPGroupItemInSets = null;
-			CQueueItem Item = null;
+            var selGroupInDB = DBManagerApp.m_Entities.groups.FirstOrDefault(arg => arg.id_group == GroupId);
+            if (selGroupInDB == null)
+                return false;
 
-			lock (DBManagerApp.m_AppSettings.m_SettigsSyncObj)
-			{
-				if (!DBManagerApp.m_AppSettings.m_Settings.dictCompSettings.TryGetValue(CompId, out CompSets) ||
-					!CompSets.dictGroupsForAutosendToFTP.TryGetValue(GroupId, out FTPGroupItemInSets) ||
-					!FTPGroupItemInSets.CheckFTPWbkFullPath())
-				{	// Настроек для группы нет => отправка на сервер невозможна
-					return false;
-				}
+            string wbkFullPath = Path.ChangeExtension(selGroupInDB.xml_file_name, GlobalDefines.MAIN_WBK_EXTENSION);
 
-				string Dir = GlobalDefines.STD_FTP_WORKBOOKS_DIR + CompId.ToString() + "\\";
-				if (!Directory.Exists(Dir))
-					Directory.CreateDirectory(Dir);
-								
-				IEnumerable<CDBAdditionalClassBase> Members = null;
-				if ((enRounds)RoundToSend == enRounds.Total)
-				{
-					List<results_speed> AllGroupResultsInDB = (from part in DBManagerApp.m_Entities.participations
-															   join result in DBManagerApp.m_Entities.results_speed on part.id_participation equals result.participation
-															   where part.Group == GroupId
-															   select result).ToList();
+            CQueueItem Item = new CQueueItem()
+            {
+                PCWbkFullPath = wbkFullPath,
+                CompId = CompId,
+                GroupId = GroupId,
+                // Создаём копию, т.к. оригинал может изменится к тому моменту, когда будет совершена публикация данных на сайт
+                CompSettings = new CCompSettings(CompSettings),
+                Round = RoundToSend
+            };
+            
+            switch (RoundToSend)
+            {
+                case enRounds.Qualif:
+                    Item.Task = new QualifTask()
+                    {
+                        m_MembersAfterQualif = CompSettings.MembersFrom1stQualif
+                    };
+                    break;
 
-					Members = (from member in DBManagerApp.m_Entities.members
-							   join part in DBManagerApp.m_Entities.participations on member.id_member equals part.member
-							   where part.Group == GroupId
-							   orderby part.result_place
-							   select new CMemberInTotal
-							   {
-								   MemberInfo = new CFullMemberInfo()
-								   {
-									   IDMember = member.id_member,
-									   Surname = member.surname,
-									   Name = member.name,
-									   YearOfBirth = member.year_of_birth,
-									   Coach = part.coach,
-									   Team = part.team,
-									   InitGrade = part.init_grade,
-								   },
+                case enRounds.Qualif2:
+                    Item.Task = new QualifTask()
+                    {
+                        m_MembersAfterQualif = CompSettings.MembersFrom2ndQualif
+                    };
+                    break;
 
-								   TotalGrade = part.result_grade,
-								   Place = part.result_place,
-								   id_part = part.id_participation,
-							   }).ToList();
-					// Перебираем всех участников соревнования
-					foreach (CMemberInTotal MemberInTotal in Members)
-					{
-						if (Group.SecondColNameType == enSecondColNameType.Coach)
-							MemberInTotal.MemberInfo.SecondCol = DBManagerApp.m_Entities.coaches.First(arg => arg.id_coach == MemberInTotal.MemberInfo.Coach).name;
-						else
-							MemberInTotal.MemberInfo.SecondCol = DBManagerApp.m_Entities.teams.First(arg => arg.id_team == MemberInTotal.MemberInfo.Team).name;
+                case enRounds.OneEighthFinal:
+                case enRounds.QuaterFinal:
+                case enRounds.SemiFinal:
+                case enRounds.Final:
+                    Item.Task = new OtherSheetsTask();
+                    break;
 
-						// Заносим результат всех раундов для участника
-						IEnumerable<results_speed> CurMemberResults = AllGroupResultsInDB.Where(arg => arg.participation == MemberInTotal.id_part);
-						foreach (results_speed MemberResult in CurMemberResults)
-						{
-							MemberInTotal.SetResultsForRound(MemberResult.round,
-															new COneRoundResults()
-															{
-																m_Round = (enRounds)MemberResult.round,
-																Route1 = new CResult()
-																{
-																	ResultInDB = MemberResult,
-																	ResultColumnNumber = enResultColumnNumber.Route1,
-																	Time = MemberResult.route1,
-																},
-																Route2 = new CResult()
-																{
-																	ResultInDB = MemberResult,
-																	ResultColumnNumber = enResultColumnNumber.Route2,
-																	Time = MemberResult.route2,
-																},
-																Sum = new CResult()
-																{
-																	ResultInDB = MemberResult,
-																	ResultColumnNumber = enResultColumnNumber.Sum,
-																	Time = MemberResult.sum,
-																},
-															});
-						}
-					}
+                case enRounds.Total:
+                    List<enRounds> GroupRounds = (from result in DBManagerApp.m_Entities.results_speed
+                                                  join part in DBManagerApp.m_Entities.participations on result.participation equals part.id_participation
+                                                  where part.Group == GroupId
+                                                  group result by result.round into groupRounds
+                                                  orderby groupRounds.Key
+                                                  select (enRounds)groupRounds.Key).ToList();
+                    Item.Task = new TotalTask()
+                    {
+                        m_FirstMiddleSheetRoundMembers = GroupRounds.Contains(enRounds.Qualif2)
+                                                            ? CompSettings.MembersFrom2ndQualif
+                                                            : CompSettings.MembersFrom1stQualif,
+                        m_MembersAfter1stQualif = CompSettings.MembersFrom1stQualif
+                    };
+                    break;
+            }
 
-					Item = new CQueueItem()
-					{
-						GeneratorTask = new CTotalGenerator.CTotalTask()
-						{
-							m_GeneratorType = RoundToSend,
-							m_lstCompRounds = AllGroupRounds,
-							m_lstMembers = Members.ToList(),
-							m_SecondColName = Group.SecondColName,
-							m_GroupId = GroupId,
-							m_CompId = CompId,
-							m_FirstMiddleSheetRoundMembers = AllGroupRounds.Contains(enRounds.Qualif2) ? Group.MembersFrom2ndQualif : Group.MembersFrom1stQualif,
-							m_MembersAfter1stQualif = Group.MembersFrom1stQualif
-						},
-						FTPWbkFullPath = FTPGroupItemInSets.FTPWbkPath,
-						PCWbkFullPath = Dir + GroupId.ToString() + GlobalDefines.XLS_EXTENSION,
-					};
-				}
-				else
-				{
-					// Список участников раунда со всей необходимой информацией 
-					Members = (from member in DBManagerApp.m_Entities.members
-							   join part in DBManagerApp.m_Entities.participations on member.id_member equals part.member
-							   join result in DBManagerApp.m_Entities.results_speed on part.id_participation equals result.participation
-							   where result.round == (byte)RoundToSend && part.Group == GroupId
-							   select new CMemberAndResults
-							   {
-								   MemberInfo = new CFullMemberInfo()
-								   {
-									   IDMember = member.id_member,
-									   Surname = member.surname,
-									   Name = member.name,
-									   YearOfBirth = member.year_of_birth,
-									   Coach = part.coach,
-									   Team = part.team,
-									   InitGrade = part.init_grade,
-								   },
-
-								   Results = new COneRoundResults()
-								   {
-									   m_Round = (enRounds)result.round,
-									   Route1 = new CResult()
-									   {
-										   ResultInDB = result,
-										   ResultColumnNumber = enResultColumnNumber.Route1,
-										   Time = result.route1,
-									   },
-									   Route2 = new CResult()
-									   {
-										   ResultInDB = result,
-										   ResultColumnNumber = enResultColumnNumber.Route2,
-										   Time = result.route2,
-									   },
-									   Sum = new CResult()
-									   {
-										   ResultInDB = result,
-										   ResultColumnNumber = enResultColumnNumber.Sum,
-										   Time = result.sum,
-									   },
-								   },
-
-								   StartNumber = result.number,
-								   Place = result.place,
-							   }).ToList();
-
-					// В основном запросе заполнить эти поля почему-то не получилось
-					foreach (CMemberAndResults item in Members)
-					{
-						if (Group.SecondColNameType == enSecondColNameType.Coach)
-							item.MemberInfo.SecondCol = DBManagerApp.m_Entities.coaches.First(arg => arg.id_coach == item.MemberInfo.Coach).name;
-						else
-							item.MemberInfo.SecondCol = DBManagerApp.m_Entities.teams.First(arg => arg.id_team == item.MemberInfo.Team).name;
-					}
-
-					switch (RoundToSend)
-					{
-						case enFTPSheetGeneratorTypes.Qualif:
-							if (!m_FTPExporter.HasStartlist)
-							{	// Нужно добавить ещё и стартовый протокол
-								Members = Members.OrderBy(arg => (arg as CMemberAndResults).StartNumber);
-								Item = new CQueueItem()
-								{
-									GeneratorTask = new CQualifGenerator.CQualifTask()
-									{
-										m_GeneratorType = enFTPSheetGeneratorTypes.Start,
-										m_lstCompRounds = AllGroupRounds,
-										m_lstMembers = Members.ToList(),
-										m_SecondColName = Group.SecondColName,
-										m_GroupId = GroupId,
-										m_CompId = CompId
-									},
-									FTPWbkFullPath = FTPGroupItemInSets.FTPWbkPath,
-									PCWbkFullPath = Dir + GroupId.ToString() + GlobalDefines.XLS_EXTENSION,
-								};
-								if (!m_FTPExporter.HandleItem(Item))
-									return false;
-							}
-							Members = Members.OrderBy((arg) => 
-								{
-									if ((arg as CMemberAndResults).Results.Sum.Time.HasValue)
-										return (arg as CMemberAndResults).Results.Sum.Time.Value;
-									else
-										return TimeSpan.MaxValue;
-								}).ThenBy(arg => (arg as CMemberAndResults).StartNumber);
-
-							Item = new CQueueItem()
-							{
-								GeneratorTask = new CQualifGenerator.CQualifTask()
-								{
-									m_GeneratorType = RoundToSend,
-									m_lstCompRounds = AllGroupRounds,
-									m_lstMembers = Members.ToList(),
-									m_SecondColName = Group.SecondColName,
-									m_GroupId = GroupId,
-									m_CompId = CompId,
-									m_MembersAfterQualif = Group.MembersFrom1stQualif,
-								},
-								FTPWbkFullPath = FTPGroupItemInSets.FTPWbkPath,
-								PCWbkFullPath = Dir + GroupId.ToString() + GlobalDefines.XLS_EXTENSION,
-							};
-							break;
-
-						case enFTPSheetGeneratorTypes.Qualif2:
-							Members = Members.OrderBy((arg) =>
-							{
-								if ((arg as CMemberAndResults).Results.Sum.Time.HasValue)
-									return (arg as CMemberAndResults).Results.Sum.Time.Value;
-								else
-									return TimeSpan.MaxValue;
-							}).ThenBy(arg => (arg as CMemberAndResults).StartNumber);
-							Item = new CQueueItem()
-							{
-								GeneratorTask = new CQualifGenerator.CQualifTask()
-								{
-									m_GeneratorType = RoundToSend,
-									m_lstCompRounds = AllGroupRounds,
-									m_lstMembers = Members.ToList(),
-									m_SecondColName = Group.SecondColName,
-									m_GroupId = GroupId,
-									m_CompId = CompId,
-									m_MembersAfterQualif = Group.MembersFrom2ndQualif,
-								},
-								FTPWbkFullPath = FTPGroupItemInSets.FTPWbkPath,
-								PCWbkFullPath = Dir + GroupId.ToString() + GlobalDefines.XLS_EXTENSION,
-							};
-							break;
-
-						case enFTPSheetGeneratorTypes.OneEighthFinal:
-						case enFTPSheetGeneratorTypes.QuaterFinal:
-						case enFTPSheetGeneratorTypes.SemiFinal:
-							Members = Members.OrderBy(arg => (arg as CMemberAndResults).StartNumber);
-							Item = new CQueueItem()
-							{
-								GeneratorTask = new CMiddleSheetsGenerator.CMiddleSheetsTask()
-								{
-									m_GeneratorType = RoundToSend,
-									m_lstCompRounds = AllGroupRounds,
-									m_lstMembers = Members.ToList(),
-									m_SecondColName = Group.SecondColName,
-									m_GroupId = GroupId,
-									m_CompId = CompId,
-								},
-								FTPWbkFullPath = FTPGroupItemInSets.FTPWbkPath,
-								PCWbkFullPath = Dir + GroupId.ToString() + GlobalDefines.XLS_EXTENSION,
-							};
-							break;
-
-						case enFTPSheetGeneratorTypes.Final:
-							Members = Members.OrderBy(arg => (arg as CMemberAndResults).StartNumber);
-							Item = new CQueueItem()
-							{
-								GeneratorTask = new CFinalGenerator.CFinalTask()
-								{
-									m_GeneratorType = RoundToSend,
-									m_lstCompRounds = AllGroupRounds,
-									m_lstMembers = Members.ToList(),
-									m_SecondColName = Group.SecondColName,
-									m_GroupId = GroupId,
-									m_CompId = CompId,
-								},
-								FTPWbkFullPath = FTPGroupItemInSets.FTPWbkPath,
-								PCWbkFullPath = Dir + GroupId.ToString() + GlobalDefines.XLS_EXTENSION,
-							};
-							break;
-
-						default:
-							break;
-					}
-				}
-			}
-
-			return DeferredExport ? m_FTPExporter.HandleItem(Item) : m_FTPExporter.AddItemToQueue(Item);
+            return DeferredExport ? m_OnlineResult.HandleItem(Item) : m_OnlineResult.AddItemToQueue(Item);
 		}
 
 		#endregion
