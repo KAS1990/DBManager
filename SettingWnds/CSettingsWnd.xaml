@@ -152,9 +152,25 @@
 								   TextChanged="txtMinAgeToCalcResultGrade_TextChanged"/>
 				<Label Name="lblMaxYearToCalcResultGrade" />
 			</StackPanel>
-			
-			<Label Grid.Row="6" Grid.Column="0" Content="{Loc resFontSize}" Margin="0,0,0,5" />
-			<localctrls:TextBoxEx Grid.Row="6"
+
+            <Label Grid.Row="6" Grid.Column="0" Content="{Loc resWorkbookTemplateFolder}" Margin="0,0,0,5"/>
+            <localctrls:TextBoxEx x:Name="txtWorkbookTemplateFolder"
+									Grid.Row="6" Grid.Column="1" 
+                                   Width="520"
+									Margin="0,0,0,5"
+									FieldName="{Loc resWorkbookTemplateFolder}"
+									InputCheckType="NotEmpty"
+                                  TextChanged="txt_TextChanged"/>
+            <Button Grid.Row="6"
+                    Grid.Column="2" 
+                    Content="..."
+					Width="75"
+					Margin="0,0,0,5"
+					Padding="5"
+					Click="btnWorkbookTemplateFolderBrowse_Click" />
+
+            <Label Grid.Row="7" Grid.Column="0" Content="{Loc resFontSize}" Margin="0,0,0,5" />
+			<localctrls:TextBoxEx Grid.Row="7"
 								   Grid.Column="1"
 								   x:Name="txtFontSize"
 								   Width="50"
@@ -166,56 +182,56 @@
 								   LostFocus="txtFontSize_LostFocus"
 								   MouseWheel="txtFontSize_MouseWheel"/>
 			
-			<Button Grid.Row="7"
+			<Button Grid.Row="8"
 					Grid.Column="0"
 					Content="{Loc resFontFamily}"
 					Margin="0,0,0,5"
 					Click="btnFontFamily_Click"
 					Height="23"
 					VerticalAlignment="Bottom"/>
-			<Label Grid.Row="7"
+			<Label Grid.Row="8"
 				   Grid.Column="1"
 				   Margin="0,0,0,5"
 				   Name="lblFontFamilyName" />
 			
-			<localctrls:CFontStylePicker Grid.Row="8"
+			<localctrls:CFontStylePicker Grid.Row="9"
 										 Grid.Column="0"
 										 Grid.ColumnSpan="10"
 										 x:Name="fntstlPlainResults"
 										 TextSample="{Loc resPlainResults}"
 										 FieldsToShow="ForeColor,BackgroundColor"/>
 			
-			<localctrls:CFontStylePicker Grid.Row="9"
+			<localctrls:CFontStylePicker Grid.Row="10"
 										 Grid.Column="0"
 										 Grid.ColumnSpan="10"
 										 x:Name="fntstlNextRoundMembersCount"
 										 TextSample="{Loc resNextRoundMembersCountInOneLine}" />
 			
-			<localctrls:CFontStylePicker Grid.Row="10"
+			<localctrls:CFontStylePicker Grid.Row="11"
 										 Grid.Column="0"
 										 Grid.ColumnSpan="10"
 										 x:Name="fntstlInvatedToStart"
 										 TextSample="{Loc resInvitedToStartInOneLine}" />
 			
-			<localctrls:CFontStylePicker Grid.Row="11"
+			<localctrls:CFontStylePicker Grid.Row="12"
 										 Grid.Column="0"
 										 Grid.ColumnSpan="10"
 										 x:Name="fntstlPreparing"
 										 TextSample="{Loc resPreparingInOneLine}" />
 			
-			<localctrls:CFontStylePicker Grid.Row="12"
+			<localctrls:CFontStylePicker Grid.Row="13"
 										 Grid.Column="0"
 										 Grid.ColumnSpan="10"
 										 x:Name="fntstlStayOnStart"
 										 TextSample="{Loc resStayOnStartInOneLine}" />
 			
-			<localctrls:CFontStylePicker Grid.Row="13"
+			<localctrls:CFontStylePicker Grid.Row="14"
 										 Grid.Column="0"
 										 Grid.ColumnSpan="10"
 										 x:Name="fntstlJustRecievedResult"
 										 TextSample="{Loc resJustRecievedResultInOneLine}" />
 
-			<localctrls:CFontStylePicker Grid.Row="14"
+			<localctrls:CFontStylePicker Grid.Row="15"
 										 Grid.Column="0"
 										 Grid.ColumnSpan="10"
 										 x:Name="fntstlFalsestart"

@@ -101,7 +101,7 @@ namespace DBManager.SettingsWriter
 						try
 						{
 							XmlSerializer ser = new XmlSerializer(typeof(AppSettings));
-							m_Settings = ser.Deserialize(reader) as AppSettings;
+                            m_Settings = ser.Deserialize(reader) as AppSettings;
 						}
 						catch (Exception ex)
 						{

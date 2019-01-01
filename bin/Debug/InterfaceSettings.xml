@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Settings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <IsRestarting>false</IsRestarting>
-  <CompDir>D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\24-25.02.2018</CompDir>
+  <CompDir />
   <DefaultCompSettings>
     <MenInGroup>3</MenInGroup>
     <WomenInGroup>3</WomenInGroup>
@@ -194,20 +194,7 @@
       </Color>
     </ForeColor>
   </FalsestartFontStyle>
-  <FileScannerSettings>
-    <item key="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\24-25.02.2018\Младшие Девушки.xml">
-      <CFileScannerSettings FullFilePath="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\24-25.02.2018\Младшие Девушки.xml" GroupId="22" />
-    </item>
-    <item key="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\24-25.02.2018\Младшие Юноши.xml">
-      <CFileScannerSettings FullFilePath="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\24-25.02.2018\Младшие Юноши.xml" GroupId="23" />
-    </item>
-    <item key="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\24-25.02.2018\Подростки Девочки.xml">
-      <CFileScannerSettings FullFilePath="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\24-25.02.2018\Подростки Девочки.xml" GroupId="28" />
-    </item>
-    <item key="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\24-25.02.2018\Подростки Мальчики.xml">
-      <CFileScannerSettings FullFilePath="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\24-25.02.2018\Подростки Мальчики.xml" GroupId="29" />
-    </item>
-  </FileScannerSettings>
+  <FileScannerSettings />
   <CompSettings />
   <ExcelSettings>
     <MaxSheetNameLen>31</MaxSheetNameLen>
@@ -296,4 +283,91 @@
     </ReportTemplates>
   </ExcelSettings>
   <MySQLBatFullPath>D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\Скорость Last Edition\БД\RunMySQLServer.lnk</MySQLBatFullPath>
+  <WorkbookTemplateFolder>D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\Скорость Last Edition</WorkbookTemplateFolder>
+  <WorkbookTemplateName>Таблица Скорость Новая.xlsm</WorkbookTemplateName>
+  <FilesToCopyFromWorkbookTemplateFolder>
+    <string>Таблица Скорость Новая.xlsm</string>
+    <string>Таблица флагов и горячих клавиш (Скорость).doc</string>
+    <string>FI.txt</string>
+    <string>data.txt</string>
+    <string>GroupDefiner\GroupDefiner.exe</string>
+    <string>OpenSecondQualif\OpenSecondQualif.exe</string>
+    <string>StopWatchScan\borlndmm.dll</string>
+    <string>StopWatchScan\CC3260MT.DLL</string>
+    <string>StopWatchScan\ErrorCOMLog.txt</string>
+    <string>StopWatchScan\PrjStopWatchScan.exe</string>
+    <string>StopWatchScan\ResultLog.txt</string>
+    <string>StopWatchScan\UsingCOM.txt</string>
+    <string>StopWatchScan\PrjStopWatchScan.exe</string>
+  </FilesToCopyFromWorkbookTemplateFolder>
+  <AvailableGroupNames>
+    <CAvailableGroupName>
+      <GroupName>Мужчины</GroupName>
+      <Sex>Male</Sex>
+    </CAvailableGroupName>
+    <CAvailableGroupName>
+      <GroupName>Юниоры</GroupName>
+      <Sex>Male</Sex>
+      <YearsRangeCanBeSet>true</YearsRangeCanBeSet>
+    </CAvailableGroupName>
+    <CAvailableGroupName>
+      <GroupName>Младшие юноши</GroupName>
+      <Sex>Male</Sex>
+      <YearsRangeCanBeSet>true</YearsRangeCanBeSet>
+    </CAvailableGroupName>
+    <CAvailableGroupName>
+      <GroupName>Старшие юноши</GroupName>
+      <Sex>Male</Sex>
+      <YearsRangeCanBeSet>true</YearsRangeCanBeSet>
+    </CAvailableGroupName>
+    <CAvailableGroupName>
+      <GroupName>Подростки мальчики</GroupName>
+      <Sex>Male</Sex>
+      <YearsRangeCanBeSet>true</YearsRangeCanBeSet>
+    </CAvailableGroupName>
+    <CAvailableGroupName>
+      <GroupName>Суперподростки мальчики</GroupName>
+      <Sex>Male</Sex>
+      <YearsRangeCanBeSet>true</YearsRangeCanBeSet>
+    </CAvailableGroupName>
+    <CAvailableGroupName>
+      <GroupName>Мальчики</GroupName>
+      <Sex>Male</Sex>
+      <YearsRangeCanBeSet>true</YearsRangeCanBeSet>
+    </CAvailableGroupName>
+    <CAvailableGroupName>
+      <GroupName>Женщины</GroupName>
+      <Sex>Female</Sex>
+    </CAvailableGroupName>
+    <CAvailableGroupName>
+      <GroupName>Юниорки</GroupName>
+      <Sex>Female</Sex>
+      <YearsRangeCanBeSet>true</YearsRangeCanBeSet>
+    </CAvailableGroupName>
+    <CAvailableGroupName>
+      <GroupName>Младшие девушки</GroupName>
+      <Sex>Female</Sex>
+      <YearsRangeCanBeSet>true</YearsRangeCanBeSet>
+    </CAvailableGroupName>
+    <CAvailableGroupName>
+      <GroupName>Старшие девушки</GroupName>
+      <Sex>Female</Sex>
+      <YearsRangeCanBeSet>true</YearsRangeCanBeSet>
+    </CAvailableGroupName>
+    <CAvailableGroupName>
+      <GroupName>Подростки девочки</GroupName>
+      <Sex>Female</Sex>
+      <YearsRangeCanBeSet>true</YearsRangeCanBeSet>
+    </CAvailableGroupName>
+    <CAvailableGroupName>
+      <GroupName>Суперподростки девочки</GroupName>
+      <Sex>Female</Sex>
+      <YearsRangeCanBeSet>true</YearsRangeCanBeSet>
+    </CAvailableGroupName>
+    <CAvailableGroupName>
+      <GroupName>Девочки</GroupName>
+      <Sex>Female</Sex>
+      <YearsRangeCanBeSet>true</YearsRangeCanBeSet>
+    </CAvailableGroupName>
+  </AvailableGroupNames>
 </Settings>

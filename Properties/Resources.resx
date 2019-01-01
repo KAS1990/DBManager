@@ -928,7 +928,7 @@
     <value>РЕЗУЛЬТАТЫ также НА САЙТЕ</value>
   </data>
   <data name="resSmolclimbSite" xml:space="preserve">
-    <value>http://smolclimb.ru/online/</value>
+    <value>https://smolclimb.ru/result</value>
   </data>
   <data name="resfmtMaxYearToCalcResultGrade" xml:space="preserve">
     <value>лет (с {0} г.р.)</value>
@@ -1054,5 +1054,14 @@
   </data>
   <data name="resrmtCantConnectToRemoteDB" xml:space="preserve">
     <value>Невозможно подключится к удалённой БД, используя строку подключения "{0}"</value>
+  </data>
+  <data name="resfmtInvalidWorkbookTemplateFolder" xml:space="preserve">
+    <value>Неверный путь к папке с книгой-шаблоном. Отсутствует файл "{0}"</value>
+  </data>
+  <data name="resInvalidWorkbookTemplateFolder" xml:space="preserve">
+    <value>Неверный путь к папке с книгой-шаблоном</value>
+  </data>
+  <data name="resWorkbookTemplateFolder" xml:space="preserve">
+    <value>Путь к книге-шаблону</value>
   </data>
 </root>

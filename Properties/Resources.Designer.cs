@@ -873,6 +873,15 @@ namespace DBManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Неверный путь к папке с книгой-шаблоном. Отсутствует файл &quot;{0}&quot;.
+        /// </summary>
+        internal static string resfmtInvalidWorkbookTemplateFolder {
+            get {
+                return ResourceManager.GetString("resfmtInvalidWorkbookTemplateFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Неверный год рождения (&quot;{1}&quot;) в протоколе трудности у участника &quot;{0}&quot;.
         /// </summary>
         internal static string resfmtInvalidYoBInLead {
@@ -1276,6 +1285,15 @@ namespace DBManager.Properties {
         internal static string resInvalidLeadReportInfoVals {
             get {
                 return ResourceManager.GetString("resInvalidLeadReportInfoVals", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Неверный путь к папке с книгой-шаблоном.
+        /// </summary>
+        internal static string resInvalidWorkbookTemplateFolder {
+            get {
+                return ResourceManager.GetString("resInvalidWorkbookTemplateFolder", resourceCulture);
             }
         }
         
@@ -2271,7 +2289,7 @@ namespace DBManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to http://smolclimb.ru/online/.
+        ///   Looks up a localized string similar to https://smolclimb.ru/result.
         /// </summary>
         internal static string resSmolclimbSite {
             get {
@@ -2627,6 +2645,15 @@ namespace DBManager.Properties {
         internal static string resWomenInGroup {
             get {
                 return ResourceManager.GetString("resWomenInGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Путь к книге-шаблону.
+        /// </summary>
+        internal static string resWorkbookTemplateFolder {
+            get {
+                return ResourceManager.GetString("resWorkbookTemplateFolder", resourceCulture);
             }
         }
         

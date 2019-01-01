@@ -164,6 +164,10 @@
       <DependentUpon>CLeadReportInfoTab.xaml</DependentUpon>
     </Compile>
     <Compile Include="Excel\Exporting\Tabs\CExportingTabBase.cs" />
+    <Compile Include="Excel\GeneratingWorkbooks\GenerationWnd.xaml.cs">
+      <DependentUpon>GenerationWnd.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Excel\GeneratingWorkbooks\Generator.cs" />
     <Compile Include="falsestarts_rules.cs">
       <DependentUpon>compdbEntities.tt</DependentUpon>
     </Compile>
@@ -364,6 +368,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Excel\Exporting\Tabs\CTeamExportTab.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Excel\GeneratingWorkbooks\GenerationWnd.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

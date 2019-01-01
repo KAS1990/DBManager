@@ -222,7 +222,7 @@ namespace DBManager.Global
 				if (!ContainsKey(key))
 					Add(key, value);
 
-				if (!UseAttrForValue)
+				if (!(UseAttrForValue && UseAttrForKey))
 				{	/* Завершаем чтение узла, если выполняли ReadStartElement */
 					reader.ReadEndElement();
 					reader.MoveToContent();

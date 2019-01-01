@@ -412,11 +412,42 @@ namespace DBManager.SettingsWriter
 		}
 	}
 
-	/// <summary>
-	/// Класс, содержащий все настройки, которые есть в программе
-	/// </summary>
-	/// 
-	[XmlRoot("Settings", IsNullable = false)]
+    [Serializable]
+    public class CAvailableGroupName
+    {
+        /// <summary>
+		///
+		/// </summary>
+		[DefaultValue(null)]
+        public string GroupName = null;
+
+        /// <summary>
+		///
+		/// </summary>
+		[DefaultValue(enSex.None)]
+        public enSex Sex = enSex.None;
+
+        [DefaultValue(false)]
+        public bool YearsRangeCanBeSet = false;
+
+        public CAvailableGroupName()
+        {
+
+        }
+
+        public CAvailableGroupName(string groupName, enSex sex, bool yearsRangeCanBeSet)
+        {
+            GroupName = groupName;
+            Sex = sex;
+            YearsRangeCanBeSet = yearsRangeCanBeSet;
+        }
+    }
+
+    /// <summary>
+    /// Класс, содержащий все настройки, которые есть в программе
+    /// </summary>
+    /// 
+    [XmlRoot("Settings", IsNullable = false)]
 	public class AppSettings
 	{
 		/* Список всех настроек приложения */
@@ -424,11 +455,11 @@ namespace DBManager.SettingsWriter
 		/// Запустили программу после автоматической перезагрузки.
 		/// </summary>
 		public bool IsRestarting = false;
-		
-		/// <summary>
-		/// 
-		/// </summary>
-		[DefaultValue(null)]
+                
+        /// <summary>
+        /// 
+        /// </summary>
+        [DefaultValue(null)]
 		public string CompDir = null;
 
 		/// <summary>
@@ -544,21 +575,44 @@ namespace DBManager.SettingsWriter
 		[XmlElement("CompSettings")]
 		[DefaultValue(null)]
 		public SerializableDictionary<long, CCompSpecificSets> dictCompSettings = null;
-		
-		/// <summary>
-		/// Настройки для экспорта в Excel
-		/// </summary>
-		[DefaultValue(null)]
+                
+        /// <summary>
+        /// Настройки для экспорта в Excel
+        /// </summary>
+        [DefaultValue(null)]
 		public CExcelSettings ExcelSettings = null;
-        		
-		/// <summary>
-		/// Полный путь к bat-нику, запускаеющему MySQL.
+                
+        /// <summary>
+        /// Полный путь к bat-нику, запускаеющему MySQL.
+        /// </summary>
+        [DefaultValue(GlobalDefines.DEFAULT_XML_STRING_VAL)]
+		public string MySQLBatFullPath = GlobalDefines.DEFAULT_XML_STRING_VAL;
+                
+        /// <summary>
+		/// Полный путь к папке, где содержится текущий шаблон книги.
 		/// </summary>
 		[DefaultValue(GlobalDefines.DEFAULT_XML_STRING_VAL)]
-		public string MySQLBatFullPath = GlobalDefines.DEFAULT_XML_STRING_VAL;
+        public string WorkbookTemplateFolder = GlobalDefines.DEFAULT_XML_STRING_VAL;
+                
+        /// <summary>
+		/// Название книги-шаблона.
+		/// </summary>
+		[DefaultValue(GlobalDefines.DEFAULT_XML_STRING_VAL)]
+        public string WorkbookTemplateName = GlobalDefines.DEFAULT_XML_STRING_VAL;
 
+        /// <summary>
+        /// Файлы, которые нужно скопировать из каталога с книгой-шаблоном
+        /// </summary>
+        [XmlArray()]
+        public string[] FilesToCopyFromWorkbookTemplateFolder = null;
 
-		[XmlIgnore]
+        /// <summary>
+        /// Допустимые названия групп
+        /// </summary>
+        [XmlArray()]
+        public CAvailableGroupName[] AvailableGroupNames = null;
+
+        [XmlIgnore]
 		public bool GodsMode = false;
 
 
@@ -637,7 +691,13 @@ namespace DBManager.SettingsWriter
 
 			MySQLBatFullPath = null;
 
-			Only75PercentForCalcGrades = false;
+            WorkbookTemplateFolder = null;
+            WorkbookTemplateName = null;
+            FilesToCopyFromWorkbookTemplateFolder = null;
+
+            //AvailableGroupNames = null;
+
+            Only75PercentForCalcGrades = false;
 			MinAgeToCalcResultGrade = 10;
 
 			GodsMode = false;
@@ -760,7 +820,58 @@ namespace DBManager.SettingsWriter
 			if (string.IsNullOrEmpty(MySQLBatFullPath))
 				MySQLBatFullPath = "D:\\Саша\\Документы\\Эксель\\Для соревнований\\Скалолазание\\Скорость Last Edition\\БД\\RunMySQLServer.lnk";
 
-			if (MinAgeToCalcResultGrade <= 0)
+            if (string.IsNullOrEmpty(WorkbookTemplateFolder))
+                WorkbookTemplateFolder = "D:\\Саша\\Документы\\Эксель\\Для соревнований\\Скалолазание\\Скорость Last Edition";
+
+            if (string.IsNullOrEmpty(WorkbookTemplateName))
+                WorkbookTemplateName = "Таблица Скорость Новая.xlsm";
+
+            if (FilesToCopyFromWorkbookTemplateFolder == null)
+            {
+                FilesToCopyFromWorkbookTemplateFolder = new string[]
+                    {
+                        "Таблица Скорость Новая.xlsm",
+                        "Таблица флагов и горячих клавиш (Скорость).doc",
+
+                        "FI.txt",
+                        "data.txt",
+
+                        @"GroupDefiner\GroupDefiner.exe",
+                        @"OpenSecondQualif\OpenSecondQualif.exe",
+
+                        @"StopWatchScan\borlndmm.dll",
+                        @"StopWatchScan\CC3260MT.DLL",
+                        @"StopWatchScan\ErrorCOMLog.txt",
+                        @"StopWatchScan\PrjStopWatchScan.exe",
+                        @"StopWatchScan\ResultLog.txt",
+                        @"StopWatchScan\UsingCOM.txt",
+                        @"StopWatchScan\PrjStopWatchScan.exe",
+                    };
+            }
+
+            if (AvailableGroupNames == null || AvailableGroupNames.Length == 0)
+            {
+                AvailableGroupNames = new CAvailableGroupName[]
+                    {
+                        new CAvailableGroupName("Мужчины", enSex.Male, false),
+                        new CAvailableGroupName("Юниоры", enSex.Male, true),
+                        new CAvailableGroupName("Младшие юноши", enSex.Male, true),
+                        new CAvailableGroupName("Старшие юноши", enSex.Male, true),
+                        new CAvailableGroupName("Подростки мальчики", enSex.Male, true),
+                        new CAvailableGroupName("Суперподростки мальчики", enSex.Male, true),
+                        new CAvailableGroupName("Мальчики", enSex.Male, true),
+
+                        new CAvailableGroupName("Женщины", enSex.Female, false),
+                        new CAvailableGroupName("Юниорки", enSex.Female, true),
+                        new CAvailableGroupName("Младшие девушки", enSex.Female, true),
+                        new CAvailableGroupName("Старшие девушки", enSex.Female, true),
+                        new CAvailableGroupName("Подростки девочки", enSex.Female, true),
+                        new CAvailableGroupName("Суперподростки девочки", enSex.Female, true),
+                        new CAvailableGroupName("Девочки", enSex.Female, true),
+                    };
+            }
+
+            if (MinAgeToCalcResultGrade <= 0)
 				MinAgeToCalcResultGrade = 10;
 		}
 	}

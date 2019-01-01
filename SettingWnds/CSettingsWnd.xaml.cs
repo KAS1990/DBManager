@@ -380,7 +380,9 @@ namespace DBManager.SettingWnds
 				txtMinAgeToCalcResultGrade.Text = DBManagerApp.m_AppSettings.m_Settings.MinAgeToCalcResultGrade.ToString();
 				RefreshMaxYearToCalcResultGrade(DBManagerApp.m_AppSettings.m_Settings.MinAgeToCalcResultGrade);
 
-				fntstlInvatedToStart.FontStyleSettings = DBManagerApp.m_AppSettings.m_Settings.InvitedToStartFontStyle;
+                txtWorkbookTemplateFolder.Text = DBManagerApp.m_AppSettings.m_Settings.WorkbookTemplateFolder;
+
+                fntstlInvatedToStart.FontStyleSettings = DBManagerApp.m_AppSettings.m_Settings.InvitedToStartFontStyle;
 				fntstlJustRecievedResult.FontStyleSettings = DBManagerApp.m_AppSettings.m_Settings.JustRecievedResultFontStyle;
 				fntstlNextRoundMembersCount.FontStyleSettings = DBManagerApp.m_AppSettings.m_Settings.NextRoundMembersCountFontStyle;
 				fntstlPreparing.FontStyleSettings = DBManagerApp.m_AppSettings.m_Settings.PreparingFontStyle;
@@ -569,10 +571,29 @@ namespace DBManager.SettingWnds
 						System.Windows.MessageBox.Show(this, Properties.Resources.resInvalidCompDir, Title, MessageBoxButton.OK, MessageBoxImage.Error);
 						return false;
 					}
-					else
-						return true;
 				}
-			}
+
+                if (!Directory.Exists(DBManagerApp.m_AppSettings.m_Settings.WorkbookTemplateFolder))
+                {
+                    System.Windows.MessageBox.Show(this, Properties.Resources.resInvalidWorkbookTemplateFolder, Title, MessageBoxButton.OK, MessageBoxImage.Error);
+                    return false;
+                }
+
+                foreach (var filename in DBManagerApp.m_AppSettings.m_Settings.FilesToCopyFromWorkbookTemplateFolder)
+                {
+                    if (!File.Exists(System.IO.Path.Combine(DBManagerApp.m_AppSettings.m_Settings.WorkbookTemplateFolder, filename)))
+                    {
+                        System.Windows.MessageBox.Show(this,
+                            string.Format(Properties.Resources.resfmtInvalidWorkbookTemplateFolder, filename),
+                            Title,
+                            MessageBoxButton.OK,
+                            MessageBoxImage.Error);
+                        return false;
+                    }
+                }
+
+                return true;
+            }
 
 			return Modified;
 		}
@@ -609,7 +630,9 @@ namespace DBManager.SettingWnds
 																						chkOnly75PercentForCalcGrades.IsChecked.Value;
 					DBManagerApp.m_AppSettings.m_Settings.MinAgeToCalcResultGrade = (int)txtMinAgeToCalcResultGrade.Value;
 
-					DBManagerApp.m_AppSettings.m_Settings.InvitedToStartFontStyle = fntstlInvatedToStart.FontStyleSettings;
+                    DBManagerApp.m_AppSettings.m_Settings.WorkbookTemplateFolder = txtWorkbookTemplateFolder.Text;
+
+                    DBManagerApp.m_AppSettings.m_Settings.InvitedToStartFontStyle = fntstlInvatedToStart.FontStyleSettings;
 					DBManagerApp.m_AppSettings.m_Settings.JustRecievedResultFontStyle = fntstlJustRecievedResult.FontStyleSettings;
 					DBManagerApp.m_AppSettings.m_Settings.NextRoundMembersCountFontStyle = fntstlNextRoundMembersCount.FontStyleSettings;
 					DBManagerApp.m_AppSettings.m_Settings.PreparingFontStyle = fntstlPreparing.FontStyleSettings;
@@ -740,5 +763,24 @@ namespace DBManager.SettingWnds
 			}
 			base.txt_TextChanged(sender, e);
 		}
-	}
+
+
+        private void btnWorkbookTemplateFolderBrowse_Click(object sender, RoutedEventArgs e)
+        {
+            var dlg = new System.Windows.Forms.FolderBrowserDialog()
+            {
+                 ShowNewFolderButton = false
+            };
+            lock (DBManagerApp.m_AppSettings.m_SettigsSyncObj)
+            {
+                dlg.SelectedPath = DBManagerApp.m_AppSettings.m_Settings.WorkbookTemplateFolder;
+            }
+
+            if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                txtWorkbookTemplateFolder.Text = dlg.SelectedPath;
+            }
+
+        }
+    }
 }
