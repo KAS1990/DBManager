@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DBManager.OnlineResults.Data
+namespace DBManager.OnlineDB.Data
 {
     using System;
     using System.Collections.Generic;
@@ -15,6 +15,7 @@ namespace DBManager.OnlineResults.Data
     public partial class results_speed
     {
         public int id { get; set; }
+        public int local_member_id { get; set; }
         public string name { get; set; }
         public string surname { get; set; }
         public string team { get; set; }
@@ -27,7 +28,6 @@ namespace DBManager.OnlineResults.Data
         public Nullable<System.TimeSpan> sum { get; set; }
         public Nullable<sbyte> place { get; set; }
         public int number { get; set; }
-        public int local_member_id { get; set; }
         public bool pass_to_next_round { get; set; }
     }
 }

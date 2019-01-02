@@ -1064,4 +1064,10 @@
   <data name="resWorkbookTemplateFolder" xml:space="preserve">
     <value>Путь к книге-шаблону</value>
   </data>
+  <data name="resCreateCompetition" xml:space="preserve">
+    <value>Добавление соревнования</value>
+  </data>
+  <data name="resGenerationWndTitle" xml:space="preserve">
+    <value>Создание соревнования</value>
+  </data>
 </root>

@@ -349,6 +349,15 @@ namespace DBManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Добавление соревнования.
+        /// </summary>
+        internal static string resCreateCompetition {
+            get {
+                return ResourceManager.GetString("resCreateCompetition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Формировать протокол.
         /// </summary>
         internal static string resCreateReport {
@@ -1141,6 +1150,15 @@ namespace DBManager.Properties {
         internal static string resFrom {
             get {
                 return ResourceManager.GetString("resFrom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Создание соревнования.
+        /// </summary>
+        internal static string resGenerationWndTitle {
+            get {
+                return ResourceManager.GetString("resGenerationWndTitle", resourceCulture);
             }
         }
         

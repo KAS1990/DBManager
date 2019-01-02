@@ -37,6 +37,7 @@ using DBManager.DAL;
 using MSExcel = Microsoft.Office.Interop.Excel;
 using DBManager.OnlineResults;
 using DBManager.OnlineResults.Tasks;
+using DBManager.Excel.GeneratingWorkbooks;
 
 namespace DBManager
 {
@@ -306,7 +307,8 @@ namespace DBManager
 			OnPropertyChanged(SyncDBWithFilesEnabledPropertyName);
 			OnPropertyChanged(DBToGridEnabledPropertyName);
 			OnPropertyChanged(ExportToXlsEnabledPropertyName);
-			OnPropertyChanged(PublishEnabledPropertyName);
+            OnPropertyChanged(CreateCompetitionEnabledPropertyName);
+            OnPropertyChanged(PublishEnabledPropertyName);
 			OnPropertyChanged(PublishingNowPropertyName);
 			OnPropertyChanged(CalcGradesEnabledPropertyName);
 			OnPropertyChanged(CurHighlightGradesTypePropertyName);
@@ -815,12 +817,46 @@ namespace DBManager
 					CurrentGroups.Count > 0;
 			}
 		}
-		/*----------------------------------------------------------*/
 
 
-		#region PublishingNow
+        /// <summary>
+		/// Создание нового соревнования
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		public void CreateCompetitionCmdExecuted(object sender, RoutedEventArgs e)
+        {
+            var wnd = new GenerationWnd()
+            {
+                Owner = this,
+            };
 
-		private static readonly string PublishingNowPropertyName = GlobalDefines.GetPropertyName<MainWindow>(m => m.PublishingNow);
+            try
+            {
+                wnd.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                DumpMaker.HandleExceptionAndClose(ex, Title);
+                return;
+            }
+        }
+
+        public static readonly string CreateCompetitionEnabledPropertyName = GlobalDefines.GetPropertyName<MainWindow>(m => m.CreateCompetitionEnabled);
+        public bool CreateCompetitionEnabled
+        {
+            get
+            {
+                return m_DirScanner != null &&
+                    !m_RestartingThreads;
+            }
+        }
+        /*----------------------------------------------------------*/
+
+
+        #region PublishingNow
+
+        private static readonly string PublishingNowPropertyName = GlobalDefines.GetPropertyName<MainWindow>(m => m.PublishingNow);
 
 		private bool m_PublishingNow = false;
 

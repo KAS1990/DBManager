@@ -9,9 +9,9 @@ using System.Net;
 using MSExcel = Microsoft.Office.Interop.Excel;
 using DBManager.Global;
 using System.IO;
-using DBManager.OnlineResults.Data;
 using System.Windows;
 using DBManager.Scanning.XMLDataClasses;
+using DBManager.OnlineDB;
 
 namespace DBManager.OnlineResults
 {
@@ -25,7 +25,7 @@ namespace DBManager.OnlineResults
 		
 		Queue<CQueueItem> m_quTasksToExport = new Queue<CQueueItem>();
 
-        OnlineResultsEntities m_Entities = null;
+        OnlineDBManager m_DBManager = OnlineDBManager.Instance;
 
         Thread m_thExporter = null;
 
@@ -35,9 +35,6 @@ namespace DBManager.OnlineResults
 		public int MaxQueueLength { get; set; }
 
         public bool IsStarted { get; private set; } = false;
-
-        public bool IsConnectedToRemoteDB => m_Entities != null;
-
 
         void IDisposable.Dispose()
 		{
@@ -53,7 +50,6 @@ namespace DBManager.OnlineResults
 				{
                     // Free other state (managed objects).
                     StopThread();
-                    DisconnectFromRemoteDB();
                 }
 								
 				// Free your own state (unmanaged objects).
@@ -81,47 +77,6 @@ namespace DBManager.OnlineResults
 			Dispose(false);
 		}
         
-        #region Connecting To remote DB
-
-        void DisconnectFromRemoteDB()
-        {
-            if (DBManagerApp.MainWnd.PublishingNow)
-                return;
-
-            m_Entities = null;
-        }
-
-        bool ConnectToRemoteDB()
-        {
-            if (DBManagerApp.MainWnd.PublishingNow)
-                return false;
-
-            DisconnectFromRemoteDB();
-
-            m_Entities = new OnlineResultsEntities();
-
-            try
-            {
-                if (!m_Entities.Database.Exists())
-                {
-                    throw new InvalidOperationException();
-                }
-            }
-            catch
-            {   // Невозможно подключится к БД 
-                m_Entities = null;
-                MessageBox.Show(string.Format(DBManager.Properties.Resources.resrmtCantConnectToRemoteDB, m_Entities.Database.Connection.ConnectionString),
-                                AppAttributes.Title,
-                                MessageBoxButton.OK,
-                                MessageBoxImage.Error);
-                return false;
-            }
-
-            return true;
-        }
-
-        #endregion
-
         void m_thExporter_ThreadProc()
 		{
 			while (m_ThreadGo)
@@ -200,15 +155,14 @@ namespace DBManager.OnlineResults
             };
 
             // Проверка соединения с удалённой БД
-            if (!IsConnectedToRemoteDB)
+            if (!m_DBManager.IsConnectedToRemoteDB)
             {
-                if (!ConnectToRemoteDB())
-                {
-                    LogItem.Type = enOnlineResultsLogItemType.Error;
-                    LogItem.Text = string.Format(DBManager.Properties.Resources.resrmtCantConnectToRemoteDB, m_Entities.Database.Connection.ConnectionString);
-                    AddItemToLog(LogItem, Item);
-                    return false;
-                }
+                string msg = string.Format(DBManager.Properties.Resources.resrmtCantConnectToRemoteDB, m_DBManager.Entities.Database.Connection.ConnectionString);
+                MessageBox.Show(msg, AppAttributes.Title, MessageBoxButton.OK, MessageBoxImage.Error);
+                LogItem.Type = enOnlineResultsLogItemType.Error;
+                LogItem.Text = msg;
+                AddItemToLog(LogItem, Item);
+                return false;
             }
 
             if (Item.Round == enRounds.Total)
@@ -224,7 +178,7 @@ namespace DBManager.OnlineResults
             try
             {
                 // Получаем список участников заданной группы и раунда в удалённой БД
-                var RemoteDBResults = (from result in m_Entities.results_speed
+                var RemoteDBResults = (from result in m_DBManager.Entities.results_speed
                                        where result.groups == GroupFullNameToPublish
                                        && result.round == roundNameToPublish
                                        select result)
@@ -297,12 +251,12 @@ namespace DBManager.OnlineResults
                                           localResult
                                       }))
                 {
-                    Data.results_speed remoteResult = pair.remoteResult;
+                    OnlineDB.Data.results_speed remoteResult = pair.remoteResult;
 
                     if (remoteResult == null)
                     {   // Нужно добавить новый результат в удалённую БД
-                        remoteResult = new Data.results_speed(pair.localResult, GroupFullNameToPublish, Item.Round);
-                        m_Entities.results_speed.Add(remoteResult);
+                        remoteResult = new OnlineDB.Data.results_speed(pair.localResult, GroupFullNameToPublish, Item.Round);
+                        m_DBManager.Entities.results_speed.Add(remoteResult);
                     }
                     else if (!remoteResult.IsEqualWithoutIdentificationProperties(pair.localResult))
                     {   // Нужно заменить результат в удалённой БД
@@ -357,7 +311,7 @@ namespace DBManager.OnlineResults
                             break;
                     }
                 }
-                m_Entities.SaveChanges();
+                m_DBManager.Entities.SaveChanges();
 
                 // Удаляем из удалённой БД результаты, которых больше нет
                 foreach (var remoteResult in (from remoteResult in RemoteDBResults
@@ -366,9 +320,9 @@ namespace DBManager.OnlineResults
                                               where localResult == null
                                               select remoteResult))
                 {
-                    m_Entities.results_speed.Remove(remoteResult);
+                    m_DBManager.Entities.results_speed.Remove(remoteResult);
                 }
-                m_Entities.SaveChanges();
+                m_DBManager.Entities.SaveChanges();
             }
 			catch (Exception ex)
 			{

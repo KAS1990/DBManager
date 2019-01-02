@@ -80,6 +80,12 @@
 														IsEnabled="{Binding ExportToXlsEnabled}"
 														Style="{StaticResource RibbonApplicationMenuItemWithGoodImgScaling}"
 														Click="ExportToXlsCmdExecuted" />
+                    <ribbon:RibbonApplicationMenuItem x:Name="ramiExportFromXls"
+														Header="{Loc resCreateCompetition}"
+														ImageSource="/DBManager;component/Icons/new_comp.png"
+														IsEnabled="{Binding CreateCompetitionEnabled}"
+														Style="{StaticResource RibbonApplicationMenuItemWithGoodImgScaling}"
+														Click="CreateCompetitionCmdExecuted" />
 				</ribbon:RibbonApplicationMenu>
 			</ribbon:Ribbon.ApplicationMenu>
 

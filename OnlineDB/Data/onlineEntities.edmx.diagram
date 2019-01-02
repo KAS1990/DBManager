@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="a6b65355b7ad40b3aaeb01818b33adb4" Name="Diagram1">
+        <EntityTypeShape EntityType="OnlineDB.Data.events" Width="1.5" PointX="3" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlineDB.Data.events_kind" Width="1.5" PointX="5.25" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlineDB.Data.group" Width="1.5" PointX="0.75" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlineDB.Data.participants" Width="1.5" PointX="8.25" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlineDB.Data.participants_kind" Width="1.5" PointX="10.5" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlineDB.Data.pupil" Width="1.5" PointX="6" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlineDB.Data.rang" Width="1.5" PointX="3.75" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlineDB.Data.results_speed" Width="1.5" PointX="0.75" PointY="9.125" IsExpanded="true" />
+        <AssociationConnector Association="OnlineDB.Data.fk_events_kind_events" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlineDB.Data.fk_participants_events" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlineDB.Data.fk_participants_group" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlineDB.Data.fk_participants_kind_participants" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlineDB.Data.fk_participants_pupil" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlineDB.Data.fk_participants_rang" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlineDB.Data.fk_pupil_rang" ManuallyRouted="false" />
+        <AssociationConnector Association="OnlineDB.Data.event_group" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

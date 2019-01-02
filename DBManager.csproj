@@ -171,6 +171,46 @@
     <Compile Include="falsestarts_rules.cs">
       <DependentUpon>compdbEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="OnlineDB\Data\events.cs">
+      <DependentUpon>onlineEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OnlineDB\Data\events_kind.cs">
+      <DependentUpon>onlineEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OnlineDB\Data\group.cs">
+      <DependentUpon>onlineEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OnlineDB\Data\onlineEntities.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>onlineEntities.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OnlineDB\Data\onlineEntities.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>onlineEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OnlineDB\Data\onlineEntities.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>onlineEntities.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="OnlineDB\Data\participants.cs">
+      <DependentUpon>onlineEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OnlineDB\Data\participants_kind.cs">
+      <DependentUpon>onlineEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OnlineDB\Data\pupil.cs">
+      <DependentUpon>onlineEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OnlineDB\Data\rang.cs">
+      <DependentUpon>onlineEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OnlineDB\Data\results_speed.cs">
+      <DependentUpon>onlineEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OnlineDB\OnlineDBManager.cs" />
     <Compile Include="OnlineResults\CPublishingSettingsWnd.xaml.cs">
       <DependentUpon>CPublishingSettingsWnd.xaml</DependentUpon>
     </Compile>
@@ -178,25 +218,7 @@
     <Compile Include="OnlineResults\CPublishingResultsLogWnd.xaml.cs">
       <DependentUpon>CPublishingResultsLogWnd.xaml</DependentUpon>
     </Compile>
-    <Compile Include="OnlineResults\DAL\results_speed.cs" />
-    <Compile Include="OnlineResults\Data\OnlineResultsEntities.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>OnlineResultsEntities.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="OnlineResults\Data\OnlineResultsEntities.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>OnlineResultsEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="OnlineResults\Data\OnlineResultsEntities.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>OnlineResultsEntities.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="OnlineResults\Data\results_speed.cs">
-      <DependentUpon>OnlineResultsEntities.tt</DependentUpon>
-    </Compile>
+    <Compile Include="OnlineDB\DAL\results_speed.cs" />
     <Compile Include="OnlineResults\LogItemTypeToImageMarkupConverter.cs" />
     <Compile Include="OnlineResults\CLogItem.cs" />
     <Compile Include="OnlineResults\CQueueElement.cs" />
@@ -485,12 +507,12 @@
     <None Include="compdbEntities.edmx.diagram">
       <DependentUpon>compdbEntities.edmx</DependentUpon>
     </None>
-    <EntityDeploy Include="OnlineResults\Data\OnlineResultsEntities.edmx">
+    <EntityDeploy Include="OnlineDB\Data\onlineEntities.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>OnlineResultsEntities.Designer.cs</LastGenOutput>
+      <LastGenOutput>onlineEntities.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="OnlineResults\Data\OnlineResultsEntities.edmx.diagram">
-      <DependentUpon>OnlineResultsEntities.edmx</DependentUpon>
+    <None Include="OnlineDB\Data\onlineEntities.edmx.diagram">
+      <DependentUpon>onlineEntities.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
     <None Include="Properties\DataSources\coaches.datasource" />
@@ -606,21 +628,23 @@
       <DependentUpon>compdbEntities.edmx</DependentUpon>
       <LastGenOutput>compdbEntities.cs</LastGenOutput>
     </Content>
-    <Content Include="OnlineResults\Data\OnlineResultsEntities.Context.tt">
+    <Resource Include="Icons\new_comp.png" />
+    <Content Include="OnlineDB\Data\onlineEntities.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>OnlineResultsEntities.edmx</DependentUpon>
-      <LastGenOutput>OnlineResultsEntities.Context.cs</LastGenOutput>
+      <DependentUpon>onlineEntities.edmx</DependentUpon>
+      <LastGenOutput>onlineEntities.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="OnlineResults\Data\OnlineResultsEntities.tt">
+    <Content Include="OnlineDB\Data\onlineEntities.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>OnlineResultsEntities.edmx</DependentUpon>
-      <LastGenOutput>OnlineResultsEntities.cs</LastGenOutput>
+      <DependentUpon>onlineEntities.edmx</DependentUpon>
+      <LastGenOutput>onlineEntities.cs</LastGenOutput>
     </Content>
     <Resource Include="RibbonIcons\PublishingSettings.png" />
     <Resource Include="Docs\IMPORTANT!!!! How to instal.txt" />
     <Resource Include="RibbonIcons\if_teamviewer_100417.png" />
     <Resource Include="RibbonIcons\Open.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

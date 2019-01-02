@@ -7,16 +7,16 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DBManager.OnlineResults.Data
+namespace DBManager.OnlineDB.Data
 {
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class OnlineResultsEntities : DbContext
+    public partial class onlineEntities : DbContext
     {
-        public OnlineResultsEntities()
-            : base("name=OnlineResultsEntities")
+        public onlineEntities()
+            : base("name=onlineEntities")
         {
         }
     
@@ -25,6 +25,13 @@ namespace DBManager.OnlineResults.Data
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<events> events { get; set; }
+        public virtual DbSet<events_kind> events_kind { get; set; }
+        public virtual DbSet<group> group { get; set; }
+        public virtual DbSet<participants> participants { get; set; }
+        public virtual DbSet<participants_kind> participants_kind { get; set; }
+        public virtual DbSet<pupil> pupil { get; set; }
+        public virtual DbSet<rang> rang { get; set; }
         public virtual DbSet<results_speed> results_speed { get; set; }
     }
 }
