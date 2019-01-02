@@ -1064,10 +1064,46 @@
   <data name="resWorkbookTemplateFolder" xml:space="preserve">
     <value>Путь к книге-шаблону</value>
   </data>
+  <data name="resCoach" xml:space="preserve">
+    <value>Тренер</value>
+  </data>
+  <data name="resCompDates" xml:space="preserve">
+    <value>Даты проведения</value>
+  </data>
   <data name="resCreateCompetition" xml:space="preserve">
     <value>Добавление соревнования</value>
   </data>
-  <data name="resGenerationWndTitle" xml:space="preserve">
-    <value>Создание соревнования</value>
+  <data name="resDestCompFolder" xml:space="preserve">
+    <value>Сохранять соревнования в</value>
+  </data>
+  <data name="resDuplicateGroupNames" xml:space="preserve">
+    <value>Названия групп повторяются</value>
+  </data>
+  <data name="resEndYear" xml:space="preserve">
+    <value>Конечный год</value>
+  </data>
+  <data name="resGenerationFromOnlineBDWndTitle" xml:space="preserve">
+    <value>Импорт соревнования с сайта</value>
+  </data>
+  <data name="resImportFromOnlineDB" xml:space="preserve">
+    <value>Импортировать с сайта?</value>
+  </data>
+  <data name="resInvalidDestCompFolder" xml:space="preserve">
+    <value>Неверный путь к целевой папке</value>
+  </data>
+  <data name="resInvalidGroupYears" xml:space="preserve">
+    <value>Есть ошибки в задании годов рождения</value>
+  </data>
+  <data name="resNoGroupsInComp" xml:space="preserve">
+    <value>Не выбрано ни одной группы</value>
+  </data>
+  <data name="resNoSelectedComp" xml:space="preserve">
+    <value>Не выбрано соревнование</value>
+  </data>
+  <data name="resStartYear" xml:space="preserve">
+    <value>Начальный год</value>
+  </data>
+  <data name="resTeam" xml:space="preserve">
+    <value>Команда</value>
   </data>
 </root>

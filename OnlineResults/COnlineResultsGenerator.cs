@@ -157,7 +157,7 @@ namespace DBManager.OnlineResults
             // Проверка соединения с удалённой БД
             if (!m_DBManager.IsConnectedToRemoteDB)
             {
-                string msg = string.Format(DBManager.Properties.Resources.resrmtCantConnectToRemoteDB, m_DBManager.Entities.Database.Connection.ConnectionString);
+                string msg = string.Format(DBManager.Properties.Resources.resrmtCantConnectToRemoteDB, m_DBManager.ConnectionString);
                 MessageBox.Show(msg, AppAttributes.Title, MessageBoxButton.OK, MessageBoxImage.Error);
                 LogItem.Type = enOnlineResultsLogItemType.Error;
                 LogItem.Text = msg;

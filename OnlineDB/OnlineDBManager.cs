@@ -33,6 +33,7 @@ namespace DBManager.OnlineDB
             }
         }
 
+        public string ConnectionString => m_Entities?.Database.Connection.ConnectionString;
         public bool IsConnectedToRemoteDB => m_Entities != null;
 
         private OnlineDBManager()

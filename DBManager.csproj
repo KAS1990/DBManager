@@ -164,8 +164,8 @@
       <DependentUpon>CLeadReportInfoTab.xaml</DependentUpon>
     </Compile>
     <Compile Include="Excel\Exporting\Tabs\CExportingTabBase.cs" />
-    <Compile Include="Excel\GeneratingWorkbooks\GenerationWnd.xaml.cs">
-      <DependentUpon>GenerationWnd.xaml</DependentUpon>
+    <Compile Include="Excel\GeneratingWorkbooks\GenerationFromOnlineBDWnd.xaml.cs">
+      <DependentUpon>GenerationFromOnlineBDWnd.xaml</DependentUpon>
     </Compile>
     <Compile Include="Excel\GeneratingWorkbooks\Generator.cs" />
     <Compile Include="falsestarts_rules.cs">
@@ -210,6 +210,7 @@
     <Compile Include="OnlineDB\Data\results_speed.cs">
       <DependentUpon>onlineEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="OnlineDB\Enums.cs" />
     <Compile Include="OnlineDB\OnlineDBManager.cs" />
     <Compile Include="OnlineResults\CPublishingSettingsWnd.xaml.cs">
       <DependentUpon>CPublishingSettingsWnd.xaml</DependentUpon>
@@ -393,7 +394,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Excel\GeneratingWorkbooks\GenerationWnd.xaml">
+    <Page Include="Excel\GeneratingWorkbooks\GenerationFromOnlineBDWnd.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -322,11 +322,29 @@ namespace DBManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Тренер.
+        /// </summary>
+        internal static string resCoach {
+            get {
+                return ResourceManager.GetString("resCoach", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Соревнование.
         /// </summary>
         internal static string resComp {
             get {
                 return ResourceManager.GetString("resComp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Даты проведения.
+        /// </summary>
+        internal static string resCompDates {
+            get {
+                return ResourceManager.GetString("resCompDates", resourceCulture);
             }
         }
         
@@ -421,11 +439,29 @@ namespace DBManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Сохранять соревнования в.
+        /// </summary>
+        internal static string resDestCompFolder {
+            get {
+                return ResourceManager.GetString("resDestCompFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Не задано.
         /// </summary>
         internal static string resDontSet {
             get {
                 return ResourceManager.GetString("resDontSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Названия групп повторяются.
+        /// </summary>
+        internal static string resDuplicateGroupNames {
+            get {
+                return ResourceManager.GetString("resDuplicateGroupNames", resourceCulture);
             }
         }
         
@@ -480,6 +516,15 @@ namespace DBManager.Properties {
         internal static string resEndFalsestartRound {
             get {
                 return ResourceManager.GetString("resEndFalsestartRound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Конечный год.
+        /// </summary>
+        internal static string resEndYear {
+            get {
+                return ResourceManager.GetString("resEndYear", resourceCulture);
             }
         }
         
@@ -1154,11 +1199,11 @@ namespace DBManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Создание соревнования.
+        ///   Looks up a localized string similar to Импорт соревнования с сайта.
         /// </summary>
-        internal static string resGenerationWndTitle {
+        internal static string resGenerationFromOnlineBDWndTitle {
             get {
-                return ResourceManager.GetString("resGenerationWndTitle", resourceCulture);
+                return ResourceManager.GetString("resGenerationFromOnlineBDWndTitle", resourceCulture);
             }
         }
         
@@ -1280,6 +1325,15 @@ namespace DBManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Импортировать с сайта?.
+        /// </summary>
+        internal static string resImportFromOnlineDB {
+            get {
+                return ResourceManager.GetString("resImportFromOnlineDB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Неверный путь к папке с xml-файлами.
         /// </summary>
         internal static string resInvalidCompDir {
@@ -1294,6 +1348,24 @@ namespace DBManager.Properties {
         internal static string resInvalidDatesForLeadSheets {
             get {
                 return ResourceManager.GetString("resInvalidDatesForLeadSheets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Неверный путь к целевой папке.
+        /// </summary>
+        internal static string resInvalidDestCompFolder {
+            get {
+                return ResourceManager.GetString("resInvalidDestCompFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Есть ошибки в задании годов рождения.
+        /// </summary>
+        internal static string resInvalidGroupYears {
+            get {
+                return ResourceManager.GetString("resInvalidGroupYears", resourceCulture);
             }
         }
         
@@ -1641,6 +1713,15 @@ namespace DBManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Не выбрано ни одной группы.
+        /// </summary>
+        internal static string resNoGroupsInComp {
+            get {
+                return ResourceManager.GetString("resNoGroupsInComp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Не выбраны группы.
         /// </summary>
         internal static string resNoGroupsToExport {
@@ -1673,6 +1754,15 @@ namespace DBManager.Properties {
         internal static string resNoRoundsToExport {
             get {
                 return ResourceManager.GetString("resNoRoundsToExport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Не выбрано соревнование.
+        /// </summary>
+        internal static string resNoSelectedComp {
+            get {
+                return ResourceManager.GetString("resNoSelectedComp", resourceCulture);
             }
         }
         
@@ -2406,6 +2496,15 @@ namespace DBManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Начальный год.
+        /// </summary>
+        internal static string resStartYear {
+            get {
+                return ResourceManager.GetString("resStartYear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Участник находится на старте.
         /// </summary>
         internal static string resStayOnStart {
@@ -2510,6 +2609,15 @@ namespace DBManager.Properties {
         internal static string resTableUpdating {
             get {
                 return ResourceManager.GetString("resTableUpdating", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Команда.
+        /// </summary>
+        internal static string resTeam {
+            get {
+                return ResourceManager.GetString("resTeam", resourceCulture);
             }
         }
         

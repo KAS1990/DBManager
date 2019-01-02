@@ -826,10 +826,26 @@ namespace DBManager
 		/// <param name="e"></param>
 		public void CreateCompetitionCmdExecuted(object sender, RoutedEventArgs e)
         {
-            var wnd = new GenerationWnd()
+            Window wnd = null;
+
+            switch (MessageBox.Show(this,
+                                    Properties.Resources.resImportFromOnlineDB,
+                                    Title,
+                                    MessageBoxButton.YesNoCancel,
+                                    MessageBoxImage.Question))
             {
-                Owner = this,
-            };
+                case MessageBoxResult.Yes:
+                    wnd = new GenerationFromOnlineBDWnd();
+                    break;
+
+                case MessageBoxResult.No:
+
+                    break;
+
+                case MessageBoxResult.Cancel:
+                    return;
+            }
+            wnd.Owner = this;
 
             try
             {
