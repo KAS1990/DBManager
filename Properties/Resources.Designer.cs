@@ -691,6 +691,15 @@ namespace DBManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Инициализация формы.
+        /// </summary>
+        internal static string resFillingGenerationFromOnlineBDWnd {
+            get {
+                return ResourceManager.GetString("resFillingGenerationFromOnlineBDWnd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Номер строки, с которой начинается список участников.
         /// </summary>
         internal static string resFirstMemberRow {
@@ -932,6 +941,15 @@ namespace DBManager.Properties {
         internal static string resfmtInvalidWorkbookTemplateFolder {
             get {
                 return ResourceManager.GetString("resfmtInvalidWorkbookTemplateFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Неверный путь к книге-шаблону &quot;{0}&quot;.
+        /// </summary>
+        internal static string resfmtInvalidWorkbookTemplateName {
+            get {
+                return ResourceManager.GetString("resfmtInvalidWorkbookTemplateName", resourceCulture);
             }
         }
         

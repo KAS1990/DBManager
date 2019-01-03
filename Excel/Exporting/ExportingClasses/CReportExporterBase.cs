@@ -13,14 +13,14 @@ namespace DBManager.Excel.Exporting.ExportingClasses
 	public class CReportExporterBase
 	{
 		#region Название диапазонов
-		protected string RN_COMP_NAME = "CompName";
-		protected string RN_ROUND_DATE = "Date";
-		protected string RN_FIRST_DATA_ROW = "FirstDataRow";
-		protected string RN_MAIN_JUDGE = "MainJudge";
-		protected string RN_MAIN_SECRETARY = "MainSecretary";
-		protected string RN_REPORT_NAME = "ReportName";
-		protected string RN_ROW_6 = "RowSix";
-		protected string RN_SECOND_COL_NAME = "SecondColName";
+		protected const string RN_COMP_NAME = "CompName";
+		protected const string RN_ROUND_DATE = "Date";
+		protected const string RN_FIRST_DATA_ROW = "FirstDataRow";
+		protected const string RN_MAIN_JUDGE = "MainJudge";
+		protected const string RN_MAIN_SECRETARY = "MainSecretary";
+		protected const string RN_REPORT_NAME = "ReportName";
+        protected const string RN_ROW_6 = "RowSix";
+		protected const string RN_SECOND_COL_NAME = "SecondColName";
 		#endregion
 
 

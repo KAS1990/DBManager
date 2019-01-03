@@ -164,13 +164,17 @@
       <DependentUpon>CLeadReportInfoTab.xaml</DependentUpon>
     </Compile>
     <Compile Include="Excel\Exporting\Tabs\CExportingTabBase.cs" />
+    <Compile Include="Excel\GeneratingWorkbooks\CompItem.cs" />
     <Compile Include="Excel\GeneratingWorkbooks\GenerationFromOnlineBDWnd.xaml.cs">
       <DependentUpon>GenerationFromOnlineBDWnd.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Excel\GeneratingWorkbooks\Generator.cs" />
+    <Compile Include="Excel\GeneratingWorkbooks\GeneratorBase.cs" />
+    <Compile Include="Excel\GeneratingWorkbooks\GroupItem.cs" />
+    <Compile Include="Excel\GeneratingWorkbooks\Helpers\WorkbookDataFileHelper.cs" />
     <Compile Include="falsestarts_rules.cs">
       <DependentUpon>compdbEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Global\DisposableWrapper.cs" />
     <Compile Include="OnlineDB\Data\events.cs">
       <DependentUpon>onlineEntities.tt</DependentUpon>
     </Compile>

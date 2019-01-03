@@ -1,5 +1,6 @@
 ﻿using DBManager.Global;
 using DBManager.OnlineDB;
+using DBManager.Stuff;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,6 +9,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -24,301 +26,7 @@ namespace DBManager.Excel.GeneratingWorkbooks
     /// Interaction logic for GenerationFromOnlineBDWnd.xaml
     /// </summary>
     public partial class GenerationFromOnlineBDWnd : CNotifyPropertyChangedWnd
-    {
-        /// <summary>
-        /// Запись в таблице групп
-        /// </summary>
-        public class GroupItem : INotifyPropertyChanged
-        {
-            #region IsSelected
-            private static readonly string IsSelectedPropertyName = GlobalDefines.GetPropertyName<GroupItem>(m => m.IsSelected);
-            private bool m_IsSelected = false;
-            /// <summary>
-            ///
-            /// </summary>
-            public bool IsSelected
-            {
-                get { return m_IsSelected; }
-                set
-                {
-                    if (m_IsSelected != value)
-                    {
-                        m_IsSelected = value;
-                        OnPropertyChanged(IsSelectedPropertyName);
-                    }
-                }
-            }
-            #endregion
-
-            #region ID
-            private static readonly string IDPropertyName = GlobalDefines.GetPropertyName<GroupItem>(m => m.ID);
-            private int m_ID = 0;
-            /// <summary>
-            /// ID in remote DB
-            /// </summary>
-            public int ID
-            {
-                get { return m_ID; }
-                set
-                {
-                    if (m_ID != value)
-                    {
-                        m_ID = value;
-                        OnPropertyChanged(IDPropertyName);
-                    }
-                }
-            }
-            #endregion
-
-            #region Name
-            private static readonly string NamePropertyName = GlobalDefines.GetPropertyName<GroupItem>(m => m.Name);
-            private string m_Name = null;
-            /// <summary>
-            /// Название сорев. Выбирается из БД
-            /// </summary>
-            public string Name
-            {
-                get { return m_Name; }
-                set
-                {
-                    if (m_Name != value)
-                    {
-                        m_Name = value;
-                        OnPropertyChanged(NamePropertyName);
-                    }
-                }
-            }
-            #endregion
-
-            #region Sex
-            private static readonly string SexPropertyName = GlobalDefines.GetPropertyName<GroupItem>(m => m.Sex);
-            private enOnlineSex m_Sex = enOnlineSex.None;
-            /// <summary>
-            /// 
-            /// </summary>
-            public enOnlineSex Sex
-            {
-                get { return m_Sex; }
-                set
-                {
-                    if (m_Sex != value)
-                    {
-                        m_Sex = value;
-                        OnPropertyChanged(SexPropertyName);
-                    }
-                }
-            }
-            #endregion
-
-            #region StartYear
-            private static readonly string StartYearPropertyName = GlobalDefines.GetPropertyName<GroupItem>(m => m.StartYear);
-            private int m_StartYear = 0;
-            /// <summary>
-            /// 
-            /// </summary>
-            public int StartYear
-            {
-                get { return m_StartYear; }
-                set
-                {
-                    if (m_StartYear != value)
-                    {
-                        m_StartYear = value;
-                        OnPropertyChanged(StartYearPropertyName);
-                    }
-                }
-            }
-            #endregion
-
-            #region EndYear
-            private static readonly string EndYearPropertyName = GlobalDefines.GetPropertyName<GroupItem>(m => m.EndYear);
-            private int? m_EndYear = null;
-            /// <summary>
-            /// 
-            /// </summary>
-            public int? EndYear
-            {
-                get { return m_EndYear; }
-                set
-                {
-                    if (m_EndYear != value)
-                    {
-                        m_EndYear = value;
-                        OnPropertyChanged(EndYearPropertyName);
-                    }
-                }
-            }
-            #endregion
-
-            #region StartDate
-            private static readonly string StartDatePropertyName = GlobalDefines.GetPropertyName<GroupItem>(m => m.StartDate);
-            private DateTime m_StartDate;
-            /// <summary>
-            /// 
-            /// </summary>
-            public DateTime StartDate
-            {
-                get { return m_StartDate; }
-                set
-                {
-                    if (m_StartDate != value)
-                    {
-                        m_StartDate = value;
-                        OnPropertyChanged(StartDatePropertyName);
-                    }
-                }
-            }
-            #endregion
-
-            #region EndDate
-            private static readonly string EndDatePropertyName = GlobalDefines.GetPropertyName<GroupItem>(m => m.EndDate);
-            private DateTime? m_EndDate = null;
-            /// <summary>
-            /// 
-            /// </summary>
-            public DateTime? EndDate
-            {
-                get { return m_EndDate; }
-                set
-                {
-                    if (m_EndDate != value)
-                    {
-                        m_EndDate = value;
-                        OnPropertyChanged(EndDatePropertyName);
-                    }
-                }
-            }
-            #endregion
-
-            #region OnPropertyChanged and PropertyChanged event
-            public event PropertyChangedEventHandler PropertyChanged;
-
-
-            public virtual void OnPropertyChanged(string info)
-            {
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
-            }
-            #endregion
-
-            public GroupItem()
-            {
-
-            }
-
-            public GroupItem(GroupItem rhs)
-            {
-                Name = rhs.Name;
-                Sex = rhs.Sex;
-                StartYear = rhs.StartYear;
-                EndYear = rhs.EndYear;
-                ID = rhs.ID;
-                StartDate = rhs.StartDate;
-                EndDate = rhs.EndDate;
-            }
-        }
-
-        /// <summary>
-        /// Запись в выпадающем списке соревнований
-        /// </summary>
-        public class CompItem : INotifyPropertyChanged
-        {
-            #region Name
-            private static readonly string NamePropertyName = GlobalDefines.GetPropertyName<CompItem>(m => m.Name);
-            private string m_Name = null;
-            /// <summary>
-            /// Название сорев. Выбирается из БД
-            /// </summary>
-            public string Name
-            {
-                get { return m_Name; }
-                set
-                {
-                    if (m_Name != value)
-                    {
-                        m_Name = value;
-                        OnPropertyChanged(NamePropertyName);
-                    }
-                }
-            }
-            #endregion
-
-
-            #region StartDate
-            private static readonly string StartDatePropertyName = GlobalDefines.GetPropertyName<CompItem>(m => m.StartDate);
-            private DateTime m_StartDate;
-
-            public DateTime StartDate
-            {
-                get { return m_StartDate; }
-                set
-                {
-                    if (m_StartDate != value)
-                    {
-                        m_StartDate = value;
-                        OnPropertyChanged(StartDatePropertyName);
-                    }
-                }
-            }
-            #endregion
-
-
-            #region EndDate
-            private static readonly string EndDatePropertyName = GlobalDefines.GetPropertyName<CompItem>(m => m.EndDate);
-            private DateTime? m_EndDate;
-
-            public DateTime? EndDate
-            {
-                get { return m_EndDate; }
-                set
-                {
-                    if (m_EndDate != value)
-                    {
-                        m_EndDate = value;
-                        OnPropertyChanged(EndDatePropertyName);
-                    }
-                }
-            }
-            #endregion
-
-
-            #region ID
-            private static readonly string IDPropertyName = GlobalDefines.GetPropertyName<CompItem>(m => m.ID);
-            private int m_ID = -1;
-
-            public int ID
-            {
-                get { return m_ID; }
-                set
-                {
-                    if (m_ID != value)
-                    {
-                        m_ID = value;
-                        OnPropertyChanged(IDPropertyName);
-                    }
-                }
-            }
-            #endregion
-
-
-            #region Groups
-            public ObservableCollection<GroupItem> Groups { get; private set; } = new ObservableCollection<GroupItem>(); 
-            #endregion
-
-            public CompItem()
-            {
-            }
-
-
-            #region OnPropertyChanged and PropertyChanged event
-            public event PropertyChangedEventHandler PropertyChanged;
-            
-            public virtual void OnPropertyChanged(string info)
-            {
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
-            }
-            #endregion
-        }
-
+    {                        
         OnlineDBManager m_DBManager = OnlineDBManager.Instance;
 
         public ObservableCollectionEx<CompItem> RemoteDBComps { get; set; } = new ObservableCollectionEx<CompItem>();
@@ -342,6 +50,24 @@ namespace DBManager.Excel.GeneratingWorkbooks
         {
             InitializeComponent();
 
+            InitWndControls();
+        }
+
+        private void InitWndControls()
+        {
+            AutoResetEvent hFinishedSearchEvent = null;
+            Thread th = null;
+
+            if (CheckAccess())
+            {
+                CWaitingWnd.ShowAsync(out hFinishedSearchEvent,
+                                        out th,
+                                        Title,
+                                        Properties.Resources.resFillingGenerationFromOnlineBDWnd);
+            }
+
+            EndYears.Clear();
+            StartYears.Clear();
             EndYears.Add((int)enEndYearSpecVals.AndYounger);
             EndYears.Add((int)enEndYearSpecVals.AndElder);
             for (int i = DateTime.Now.Year - 7; i > DateTime.Now.Year - 100; i--)
@@ -351,10 +77,9 @@ namespace DBManager.Excel.GeneratingWorkbooks
             }
 
             // Заполняем выпадающие списки текущими значениями
+            RemoteDBComps.Clear();
             if (OnlineDBManager.Instance.IsConnectedToRemoteDB)
             {
-                RemoteDBComps.Clear();
-
                 var speedGroups = m_DBManager
                                     .Entities
                                     .group
@@ -398,6 +123,7 @@ namespace DBManager.Excel.GeneratingWorkbooks
                 cmbComp.SelectedIndex = 0;
             }
 
+            cmbMainJudge.Items.Clear();
             foreach (var mainJudge in DBManagerApp
                                     .m_Entities
                                     .groups
@@ -408,6 +134,7 @@ namespace DBManager.Excel.GeneratingWorkbooks
                 cmbMainJudge.Items.Add(mainJudge);
             }
 
+            cmbMainSecretary.Items.Clear();
             foreach (var mainSecretary in DBManagerApp
                                     .m_Entities
                                     .groups
@@ -418,6 +145,7 @@ namespace DBManager.Excel.GeneratingWorkbooks
                 cmbMainSecretary.Items.Add(mainSecretary);
             }
 
+            cmbRow6.Items.Clear();
             foreach (var row6 in DBManagerApp
                                     .m_Entities
                                     .groups
@@ -427,6 +155,9 @@ namespace DBManager.Excel.GeneratingWorkbooks
             {
                 cmbRow6.Items.Add(row6);
             }
+
+            if (hFinishedSearchEvent != null)
+                hFinishedSearchEvent.Set();
         }
 
         private bool CheckSettings()
@@ -434,12 +165,6 @@ namespace DBManager.Excel.GeneratingWorkbooks
             if (cmbComp.SelectedItem == null)
             {
                 MessageBox.Show(this, Properties.Resources.resNoSelectedComp, Title, MessageBoxButton.OK, MessageBoxImage.Error);
-                return false;
-            }
-
-            if (!Directory.Exists(txtDestCompFolder.Text))
-            {
-                MessageBox.Show(this, Properties.Resources.resInvalidDestCompFolder, Title, MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
             }
 
@@ -469,6 +194,24 @@ namespace DBManager.Excel.GeneratingWorkbooks
                 return false;
             }
 
+            if (!Directory.Exists(DBManagerApp.m_AppSettings.m_Settings.WorkbookTemplateFolder))
+            {
+                MessageBox.Show(this, Properties.Resources.resInvalidWorkbookTemplateFolder, Title, MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+
+            string WorkbookTemplateFullPath = System.IO.Path.Combine(DBManagerApp.m_AppSettings.m_Settings.WorkbookTemplateFolder,
+                                                    DBManagerApp.m_AppSettings.m_Settings.WorkbookTemplateName);
+            if (!File.Exists(WorkbookTemplateFullPath))
+            {
+                MessageBox.Show(this,
+                                string.Format(Properties.Resources.resfmtInvalidWorkbookTemplateName, WorkbookTemplateFullPath),
+                                Title,
+                                MessageBoxButton.OK,
+                                MessageBoxImage.Error);
+                return false;
+            }
+
             return true;
         }
 
@@ -481,7 +224,7 @@ namespace DBManager.Excel.GeneratingWorkbooks
         {
             var dlg = new System.Windows.Forms.FolderBrowserDialog()
             {
-                ShowNewFolderButton = false
+                ShowNewFolderButton = true
             };
 
             if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)

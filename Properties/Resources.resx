@@ -1106,4 +1106,10 @@
   <data name="resTeam" xml:space="preserve">
     <value>Команда</value>
   </data>
+  <data name="resFillingGenerationFromOnlineBDWnd" xml:space="preserve">
+    <value>Инициализация формы</value>
+  </data>
+  <data name="resfmtInvalidWorkbookTemplateName" xml:space="preserve">
+    <value>Неверный путь к книге-шаблону "{0}"</value>
+  </data>
 </root>
