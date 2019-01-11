@@ -389,14 +389,16 @@ namespace DBManager.SettingWnds
 				fntstlStayOnStart.FontStyleSettings = DBManagerApp.m_AppSettings.m_Settings.StayOnStartFontStyle;
 				fntstlPlainResults.FontStyleSettings = DBManagerApp.m_AppSettings.m_Settings.PlainResultsFontStyle;
 				fntstlFalsestart.FontStyleSettings = DBManagerApp.m_AppSettings.m_Settings.FalsestartFontStyle;
+                fntstlGridLines.FontStyleSettings = DBManagerApp.m_AppSettings.m_Settings.GridLinesFontStyle;
 
-				fntstlInvatedToStart.FontSize =
+                fntstlInvatedToStart.FontSize =
 					fntstlJustRecievedResult.FontSize =
 					fntstlNextRoundMembersCount.FontSize =
 					fntstlPreparing.FontSize =
 					fntstlStayOnStart.FontSize =
 					fntstlPlainResults.FontSize =
-					fntstlFalsestart.FontSize = DBManagerApp.m_AppSettings.m_Settings.FontSize;
+					fntstlFalsestart.FontSize =
+                    fntstlGridLines.FontSize = DBManagerApp.m_AppSettings.m_Settings.FontSize;
 				txtFontSize.Text = ((int)DBManagerApp.m_AppSettings.m_Settings.FontSize).ToString();
 
 				lblFontFamilyName.Content =
@@ -406,7 +408,8 @@ namespace DBManager.SettingWnds
 					fntstlPreparing.FontFamilyName =
 					fntstlStayOnStart.FontFamilyName =
 					fntstlPlainResults.FontFamilyName =
-					fntstlFalsestart.FontFamilyName = DBManagerApp.m_AppSettings.m_Settings.FontFamilyName;
+					fntstlFalsestart.FontFamilyName =
+                    fntstlGridLines.FontFamilyName = DBManagerApp.m_AppSettings.m_Settings.FontFamilyName;
 
 				InstalledFontCollection installedFontCollection = new InstalledFontCollection();
 				var family = installedFontCollection.Families.FirstOrDefault(arg => arg.Name == DBManagerApp.m_AppSettings.m_Settings.FontFamilyName)
@@ -419,7 +422,8 @@ namespace DBManager.SettingWnds
 					fntstlPreparing.Modified =
 					fntstlStayOnStart.Modified =
 					fntstlPlainResults.Modified =
-					fntstlFalsestart.Modified = false;
+					fntstlFalsestart.Modified =
+                    fntstlGridLines.Modified = false;
 
 				fntstlInvatedToStart.PropertyChanged += fntstl_PropertyChanged;
 				fntstlJustRecievedResult.PropertyChanged += fntstl_PropertyChanged;
@@ -428,7 +432,8 @@ namespace DBManager.SettingWnds
 				fntstlStayOnStart.PropertyChanged += fntstl_PropertyChanged;
 				fntstlPlainResults.PropertyChanged += fntstl_PropertyChanged;
 				fntstlFalsestart.PropertyChanged += fntstl_PropertyChanged;
-			}
+                fntstlGridLines.PropertyChanged += fntstl_PropertyChanged;
+            }
 
 			GlobalDefines.TuneComboboxWidth2(cmbResultGradeCalcMethod);
 
@@ -438,8 +443,18 @@ namespace DBManager.SettingWnds
 
 		void fntstl_PropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
-			if (sender is CFontStylePicker && e.PropertyName == CFontStylePicker.ModifiedPropertyName)
-				Modified |= (sender as CFontStylePicker).Modified;
+            if (sender is CFontStylePicker)
+            {
+                if (e.PropertyName == CFontStylePicker.ModifiedPropertyName)
+                    Modified |= (sender as CFontStylePicker).Modified;
+                else if (e.PropertyName == CFontStylePicker.BackgroundColorPropertyName && sender == fntstlGridLines)
+                {
+                    (sender as CFontStylePicker).ForeColor = System.Windows.Media.Color.FromArgb(fntstlGridLines.BackgroundColor.A,
+                                                                                                (byte)(fntstlGridLines.BackgroundColor.R ^ 0xFF),
+                                                                                                (byte)(fntstlGridLines.BackgroundColor.G ^ 0xFF),
+                                                                                                (byte)(fntstlGridLines.BackgroundColor.B ^ 0xFF));
+                }
+            }
 		}
 
 
@@ -513,7 +528,8 @@ namespace DBManager.SettingWnds
 					fntstlPreparing.FontSize =
 					fntstlStayOnStart.FontSize =
 					fntstlPlainResults.FontSize =
-					fntstlFalsestart.FontSize = (int)txtFontSize.Value;
+					fntstlFalsestart.FontSize =
+                    fntstlGridLines.FontSize = (int)txtFontSize.Value;
 			}
 		}
 
@@ -551,7 +567,8 @@ namespace DBManager.SettingWnds
 					fntstlPreparing.FontFamilyName =
 					fntstlStayOnStart.FontFamilyName =
 					fntstlPlainResults.FontFamilyName =
-					fntstlFalsestart.FontFamilyName = fd.Font.Name;
+					fntstlFalsestart.FontFamilyName =
+                    fntstlGridLines.FontFamilyName = fd.Font.Name;
 
 				m_lastSelectedFont = fd.Font;
 
@@ -639,8 +656,9 @@ namespace DBManager.SettingWnds
 					DBManagerApp.m_AppSettings.m_Settings.StayOnStartFontStyle = fntstlStayOnStart.FontStyleSettings;
 					DBManagerApp.m_AppSettings.m_Settings.PlainResultsFontStyle = fntstlPlainResults.FontStyleSettings;
 					DBManagerApp.m_AppSettings.m_Settings.FalsestartFontStyle = fntstlFalsestart.FontStyleSettings;
+                    DBManagerApp.m_AppSettings.m_Settings.GridLinesFontStyle = fntstlGridLines.FontStyleSettings;
 
-					DBManagerApp.m_AppSettings.m_Settings.FontFamilyName = lblFontFamilyName.Content.ToString();
+                    DBManagerApp.m_AppSettings.m_Settings.FontFamilyName = lblFontFamilyName.Content.ToString();
 					DBManagerApp.m_AppSettings.m_Settings.FontSize = (int)txtFontSize.Value;
 
 					DBManagerApp.m_AppSettings.Write();
@@ -653,7 +671,8 @@ namespace DBManager.SettingWnds
 					fntstlStayOnStart.Modified =
 					fntstlPlainResults.Modified =
 					fntstlFalsestart.Modified =
-					Modified = false;
+                    fntstlGridLines.Modified =
+                    Modified = false;
 			}
 						
 			return true;
@@ -671,7 +690,8 @@ namespace DBManager.SettingWnds
 					fntstlPreparing.FontSize =
 					fntstlStayOnStart.FontSize =
 					fntstlPlainResults.FontSize =
-					fntstlFalsestart.FontSize = (int)txtFontSize.Value;
+					fntstlFalsestart.FontSize =
+                    fntstlGridLines.FontSize = (int)txtFontSize.Value;
 
 			fntstlInvatedToStart.FontFamilyName =
 				fntstlJustRecievedResult.FontFamilyName =
@@ -679,9 +699,15 @@ namespace DBManager.SettingWnds
 				fntstlPreparing.FontFamilyName =
 				fntstlStayOnStart.FontFamilyName =
 				fntstlPlainResults.FontFamilyName =
-				fntstlFalsestart.FontFamilyName = lblFontFamilyName.Content.ToString();
+				fntstlFalsestart.FontFamilyName =
+                fntstlGridLines.FontFamilyName = lblFontFamilyName.Content.ToString();
 
-			fntstlPlainResults.FontStyleSettings = new CFontStyleSettings()
+            fntstlGridLines.FontStyleSettings = new CFontStyleSettings()
+            {
+                BackgroundColor = (m_GlobalResources["DataGridLinesBrush"] as SolidColorBrush).Color,
+            };
+
+            fntstlPlainResults.FontStyleSettings = new CFontStyleSettings()
 			{
 				BackgroundColor = (m_GlobalResources["PlainResultsBrush"] as SolidColorBrush).Color,
 				ForeColor = (m_GlobalResources["PlainResultsForeBrush"] as SolidColorBrush).Color,

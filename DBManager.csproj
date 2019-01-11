@@ -170,7 +170,11 @@
     </Compile>
     <Compile Include="Excel\GeneratingWorkbooks\GeneratorBase.cs" />
     <Compile Include="Excel\GeneratingWorkbooks\GroupItem.cs" />
-    <Compile Include="Excel\GeneratingWorkbooks\Helpers\WorkbookDataFileHelper.cs" />
+    <Compile Include="Excel\GeneratingWorkbooks\Helpers\BoolExtensions.cs" />
+    <Compile Include="Excel\GeneratingWorkbooks\Helpers\Int32Extensions.cs" />
+    <Compile Include="Excel\GeneratingWorkbooks\Helpers\SetupWorksheetHelper.cs" />
+    <Compile Include="Excel\GeneratingWorkbooks\Helpers\WorkbookDataFileWrapper.cs" />
+    <Compile Include="Excel\GeneratingWorkbooks\Helpers\WorkbookFlagsWrapper.cs" />
     <Compile Include="falsestarts_rules.cs">
       <DependentUpon>compdbEntities.tt</DependentUpon>
     </Compile>

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace DBManager.Excel.GeneratingWorkbooks.Helpers
 {
-    public class WorkbookDataFileHelper
+    public class WorkbookDataFileWrapper
     {
         public enum enWorkbookDataFileHelperItemType
         {
@@ -51,7 +51,7 @@ namespace DBManager.Excel.GeneratingWorkbooks.Helpers
         readonly List<FileItem> m_FileItems = new List<FileItem>();
 
 
-        public WorkbookDataFileHelper(string dirFullPath)
+        public WorkbookDataFileWrapper(string dirFullPath)
         {
             try
             {
@@ -71,9 +71,9 @@ namespace DBManager.Excel.GeneratingWorkbooks.Helpers
             }
         }
 
-        public IEnumerable<string> GetStrings(enWorkbookDataFileHelperItemType type)
+        public IList<string> GetStrings(enWorkbookDataFileHelperItemType type)
         {
-            return m_FileItems.Where(arg => arg.Type == type).Select(arg => arg.Text);
+            return m_FileItems.Where(arg => arg.Type == type).Select(arg => arg.Text).ToList();
         }
 
         public void AddItem(string text, enWorkbookDataFileHelperItemType type)

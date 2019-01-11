@@ -21,8 +21,7 @@
 	<SolidColorBrush x:Key="JustRecievedResultForeBrush" Color="White" />
 	<SolidColorBrush x:Key="StayOnStartForeBrush" Color="Black" />
 	<SolidColorBrush x:Key="FalsestartForeBrush" Color="White" />
-	<SolidColorBrush x:Key="DataGridLinesForeBrush" Color="Black" />
-
+	
 	<sys:Double x:Key="DefaultFontSize">14</sys:Double>
 	<sys:String x:Key="DefaultFontFamilyName">Arial</sys:String>
 	

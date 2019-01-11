@@ -83,11 +83,11 @@ namespace DBManager.InterfaceElements
 				}
 			}
 		}
-		#endregion
+        #endregion
 
-		
-		#region BackgroundColor
-		private static readonly string BackgroundColorPropertyName = GlobalDefines.GetPropertyName<CFontStylePicker>(m => m.BackgroundColor);
+
+        #region BackgroundColor
+        public static readonly string BackgroundColorPropertyName = GlobalDefines.GetPropertyName<CFontStylePicker>(m => m.BackgroundColor);
 
 		private Color m_BackgroundColor = Colors.White;
 

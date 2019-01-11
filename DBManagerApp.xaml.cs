@@ -14,6 +14,7 @@ using DBManager.Global;
 using System.Diagnostics;
 using System.IO;
 using System.Data.Entity;
+using System.Collections;
 
 namespace DBManager
 {

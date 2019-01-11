@@ -19,7 +19,10 @@
 		<Setter Property="Margin" Value="0" />
 		<Setter Property="Padding" Value="6,5,6,1" />
 		<Setter Property="HorizontalContentAlignment" Value="Center" />
-		<Setter Property="BorderBrush" Value="{StaticResource DataGridLinesBrush}" />
+        <Setter Property="BorderBrush"
+                Value="{Binding GridLinesFontStyle.BackgroundColor,
+                                Converter={gconvs:ColorToSolidBrushMarkupConverter},
+                                RelativeSource={RelativeSource AncestorType={x:Type mainwnd:MainWindow}}}" />
 	</Style>
 	
 	<Style x:Key="RndResBorderedLabel1stStyle" TargetType="Label" BasedOn="{StaticResource RndResBorderedLabelBaseStyle}">
@@ -51,6 +54,7 @@
 					
 	<Style x:Key="RndResDataGridColumnHeaderStyle" TargetType="DataGridColumnHeader">
 		<Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="FontSize" Value="12" />
 	</Style>
 		
 	<!-- Стиль для Border, который отображается при выделении строки-->
@@ -145,7 +149,8 @@
 		<Setter Property="Grid.Column" Value="0" />
 		<Setter Property="HorizontalAlignment" Value="Stretch" />
 		<Setter Property="TextAlignment" Value="Center" />
-		<Setter Property="Padding" Value="16,0,16,0" />
+		<Setter Property="Padding" Value="0,0,15,0" />
+        <Setter Property="FontSize" Value="12" />
 		
 		<Style.Triggers>
 			<DataTrigger Value="true">
@@ -165,9 +170,14 @@
 		<Setter Property="HorizontalAlignment" Value="Stretch" />
 		<Setter Property="HorizontalContentAlignment" Value="Stretch" />
 	</Style>
-	
-			
-	<!-- Квалификация -->
+
+    <Style x:Key="GridWithFilterStyle" TargetType="Grid">
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="Margin" Value="0,0,-3,0" />
+    </Style>
+
+
+    <!-- Квалификация -->
 	<Style x:Key="RndResDataGridCellQualifStyle" TargetType="{x:Type DataGridCell}">
 		<Setter Property="BorderBrush" Value="{Binding Background, RelativeSource={RelativeSource Self}}" />
 		<Setter Property="Background" Value="Transparent" />
@@ -325,7 +335,7 @@
 				<Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGridColumnHeaderWithFilterStyle}">
 					<Setter Property="Content" >
 						<Setter.Value>
-							<Grid HorizontalAlignment="Stretch">
+                            <Grid Style="{StaticResource GridWithFilterStyle}">
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition />
 									<ColumnDefinition Width="auto"/>
@@ -350,7 +360,7 @@
 				<Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGridColumnHeaderWithFilterStyle}">
 					<Setter Property="Content" >
 						<Setter.Value>
-							<Grid HorizontalAlignment="Stretch">
+                            <Grid Style="{StaticResource GridWithFilterStyle}">
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition />
 									<ColumnDefinition Width="auto"/>
@@ -375,7 +385,7 @@
 				<Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGridColumnHeaderWithFilterStyle}">
 					<Setter Property="Content" >
 						<Setter.Value>
-							<Grid HorizontalAlignment="Stretch">
+                            <Grid Style="{StaticResource GridWithFilterStyle}">
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition />
 									<ColumnDefinition Width="auto"/>
@@ -591,7 +601,9 @@
 									Padding="0,10,0,0"
 									BorderThickness="0,0,1,0"
 									Background="LightGray"
-									BorderBrush="{StaticResource DataGridLinesBrush}" />
+									BorderBrush="{Binding GridLinesFontStyle.BackgroundColor,
+                                                            Converter={gconvs:ColorToSolidBrushMarkupConverter},
+                                                            RelativeSource={RelativeSource AncestorType={x:Type mainwnd:MainWindow}}}" />
 							
 							<DataGridCellsPresenter Grid.Row="1"
 													Grid.Column="1"
@@ -637,7 +649,10 @@
 		<DataGridTextColumn Header="{Loc resPair}" Binding="{Binding PairNumber}" >
 			<DataGridTextColumn.CellStyle>
 				<Style TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource RndResDataGridCellMiddleSheetsStyle}">
-					<Setter Property="BorderBrush" Value="{StaticResource DataGridLinesBrush}" />
+                    <Setter Property="BorderBrush"
+                            Value="{Binding GridLinesFontStyle.BackgroundColor,
+                                            Converter={gconvs:ColorToSolidBrushMarkupConverter},
+                                            RelativeSource={RelativeSource AncestorType={x:Type mainwnd:MainWindow}}}" />
 					<Setter Property="BorderThickness" Value="0,1,0,0" />
 					
 					<Style.Triggers>
@@ -989,7 +1004,9 @@
 													Converter={gconvs:ColorToSolidBrushMarkupConverter}}"
 								   Padding="5,15,5,5"
 								   BorderThickness="0,0,1,0"
-								   BorderBrush="{StaticResource DataGridLinesBrush}"
+								   BorderBrush="{Binding GridLinesFontStyle.BackgroundColor,
+                                                            Converter={gconvs:ColorToSolidBrushMarkupConverter},
+                                                            RelativeSource={RelativeSource AncestorType={x:Type mainwnd:MainWindow}}}"
 								   HorizontalContentAlignment="Center" />
 							
 							<DataGridCellsPresenter Grid.Row="1"
@@ -1354,7 +1371,10 @@
 	<Style x:Key="RndResDataGridCellTotalStyle" TargetType="{x:Type DataGridCell}">
 		<Setter Property="Background" Value="Transparent" />
 		<Setter Property="BorderThickness" Value="1,0,0,1" />
-		<Setter Property="BorderBrush" Value="{StaticResource DataGridLinesBrush}" />
+        <Setter Property="BorderBrush"
+                Value="{Binding GridLinesFontStyle.BackgroundColor,
+                                Converter={gconvs:ColorToSolidBrushMarkupConverter},
+                                RelativeSource={RelativeSource AncestorType={x:Type mainwnd:MainWindow}}}" />
 		<Setter Property="Margin" Value="0" />
 		<Setter Property="HorizontalContentAlignment" Value="Center" />
 		<Setter Property="VerticalContentAlignment" Value="Center" />
@@ -1522,7 +1542,7 @@
 			<Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGridColumnHeaderWithFilterStyle}">
 				<Setter Property="Content" >
 					<Setter.Value>
-						<Grid HorizontalAlignment="Stretch">
+                        <Grid Style="{StaticResource GridWithFilterStyle}">
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition />
 								<ColumnDefinition Width="auto"/>
@@ -1547,7 +1567,7 @@
 			<Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGridColumnHeaderWithFilterStyle}">
 				<Setter Property="Content" >
 					<Setter.Value>
-						<Grid HorizontalAlignment="Stretch">
+                        <Grid Style="{StaticResource GridWithFilterStyle}">
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition />
 								<ColumnDefinition Width="auto"/>
@@ -1572,7 +1592,7 @@
 			<Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGridColumnHeaderWithFilterStyle}">
 				<Setter Property="Content" >
 					<Setter.Value>
-						<Grid HorizontalAlignment="Stretch">
+                        <Grid Style="{StaticResource GridWithFilterStyle}">
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition />
 								<ColumnDefinition Width="auto"/>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Settings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <IsRestarting>false</IsRestarting>
-  <CompDir />
+  <CompDir>D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\03.12.17</CompDir>
   <DefaultCompSettings>
     <MenInGroup>3</MenInGroup>
     <WomenInGroup>3</WomenInGroup>
@@ -12,6 +12,32 @@
     <YearOfBirthColumnIndex>4</YearOfBirthColumnIndex>
     <TeamColumnIndex>3</TeamColumnIndex>
   </DefaultCompSettings>
+  <GridLinesFontStyle FontWeight="400" FontStyle="Normal">
+    <BackgroundColor>
+      <Color>
+        <A>255</A>
+        <R>220</R>
+        <G>220</G>
+        <B>220</B>
+        <ScA>1</ScA>
+        <ScR>0.7156935</ScR>
+        <ScG>0.7156935</ScG>
+        <ScB>0.7156935</ScB>
+      </Color>
+    </BackgroundColor>
+    <ForeColor>
+      <Color>
+        <A>255</A>
+        <R>35</R>
+        <G>35</G>
+        <B>35</B>
+        <ScA>1</ScA>
+        <ScR>0.0168073755</ScR>
+        <ScG>0.0168073755</ScG>
+        <ScB>0.0168073755</ScB>
+      </Color>
+    </ForeColor>
+  </GridLinesFontStyle>
   <PlainResultsFontStyle FontWeight="400" FontStyle="Normal">
     <BackgroundColor>
       <Color>
@@ -194,7 +220,14 @@
       </Color>
     </ForeColor>
   </FalsestartFontStyle>
-  <FileScannerSettings />
+  <FileScannerSettings>
+    <item key="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\03.12.17\Подростки мальчики.xml">
+      <CFileScannerSettings FullFilePath="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\03.12.17\Подростки мальчики.xml" GroupId="40" />
+    </item>
+    <item key="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\03.12.17\Подростки девочки.xml">
+      <CFileScannerSettings FullFilePath="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\03.12.17\Подростки девочки.xml" GroupId="39" />
+    </item>
+  </FileScannerSettings>
   <CompSettings />
   <ExcelSettings>
     <MaxSheetNameLen>31</MaxSheetNameLen>

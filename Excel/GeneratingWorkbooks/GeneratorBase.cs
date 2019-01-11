@@ -1,4 +1,5 @@
-﻿using DBManager.Global;
+﻿using DBManager.Excel.GeneratingWorkbooks.Helpers;
+using DBManager.Global;
 using DBManager.Scanning.DBAdditionalDataClasses;
 using System;
 using System.Collections.Generic;
@@ -12,21 +13,6 @@ namespace DBManager.Excel.GeneratingWorkbooks
 {
     public class GeneratorBase
     {
-        #region Consts
-        const string SETUP_SHEET_NAME = "Setup";
-
-        const string RN_FLAGS = "FLAGS";
-        const string RN_ON_SHEET_FLAGS = "OnSheetFlags";
-        
-        const string RN_INIT_ON_SHEET_FLAGS_VALUE = "InitOnSheetFlagsValue";
-        const string RN_REQUEST = "Request";
-
-        const int REQUEST_LOAD_FLAGS = 1;
-        const int REQUEST_CLEAR_BOOK_SILENTLY = 2;
-        const int CLEAR_WBK_FLAGS_VALUE = 64;
-
-        #endregion
-
         protected bool CopyFilesToNewFolder(string destFolderFullPath, string sourceFolderFullPath, string[] sourceFileRelativePaths)
         {
             try
@@ -84,14 +70,8 @@ namespace DBManager.Excel.GeneratingWorkbooks
                         var wbk = OpenWbk(app, NewAppCreated, wbkFullPath, out wbkOpened);
                         if (wbk != null)
                         {
-                            var wshSetup = wbk.Worksheets[SETUP_SHEET_NAME];
-                            wshSetup.Range[RN_FLAGS].Value = CLEAR_WBK_FLAGS_VALUE;
-                            wshSetup.Range[RN_ON_SHEET_FLAGS].Value = wshSetup.Range[RN_INIT_ON_SHEET_FLAGS_VALUE].Value;
-                            wshSetup.Range[RN_REQUEST].Value = REQUEST_LOAD_FLAGS; // Посылаем запрос на сохранение флагов
+                            var helper = new SetupWorksheetHelper(wbk);
 
-                            Thread.Sleep(100);
-
-                            wshSetup.Range[RN_REQUEST].Value = REQUEST_CLEAR_BOOK_SILENTLY; // Посылаем запрос на молчаливую очистку книги при следующем открытии
                             wbk.Save();
                             wbk.Close(); // Закрываем книгу, в следующий раз она молчаливо себя почистит
 
@@ -151,6 +131,8 @@ namespace DBManager.Excel.GeneratingWorkbooks
             GroupItem groupDesc,
             IEnumerable<CFullMemberInfo> data)
         {
+            short WbkFlagsValue = 0;
+
             // Создаём книгу
             File.Copy(wbkTemplateFullPath, wbkFullPath, true);
 
@@ -180,9 +162,7 @@ namespace DBManager.Excel.GeneratingWorkbooks
                         var wbk = OpenWbk(app, NewAppCreated, wbkFullPath, out wbkOpened);
                         if (wbk != null)
                         {
-                            var wshSetup = wbk.Worksheets[SETUP_SHEET_NAME];
-
-
+                            
                             wbk.Save();
                             wbk.Close(); // Закрываем книгу, в следующий раз она молчаливо себя почистит
 

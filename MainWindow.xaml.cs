@@ -195,12 +195,17 @@ namespace DBManager
 				}
 			}
 		}
-		
-		#endregion
-		
-		#region CFontStyleSettings
 
-		public CFontStyleSettings PlainResultsFontStyle
+        #endregion
+
+        #region CFontStyleSettings
+
+        private static readonly string GridLinesFontStylePropertyName = GlobalDefines.GetPropertyName<MainWindow>(m => m.GridLinesFontStyle);
+        public CFontStyleSettings GridLinesFontStyle
+        {
+            get { return DBManagerApp.m_AppSettings.m_Settings.GridLinesFontStyle; ; }
+        }
+        public CFontStyleSettings PlainResultsFontStyle
 		{
 			get { return RightPanel.PlainResultsFontStyle; }
 		}
@@ -335,8 +340,7 @@ namespace DBManager
 				if (res.HasValue && res.Value)
 				{
 					long selectedGroupId = CurrentGroups.SelectedKey;
-					byte selectedRound = CurrentRounds.SelectedKey;
-
+					
 					m_RestartingThreads = true;
 					RefreshCommandEnable();
 
@@ -374,7 +378,6 @@ namespace DBManager
 					RefreshCommandEnable();
 
 					// Применяем новые цвета
-					CurrentRounds.SelectedKey = GetRountIdForSelect(selectedRound, false);
 					if (CurrentRounds.ContainsKey(CurrentRounds.SelectedKey))
 						CurrentRounds[CurrentRounds.SelectedKey].Command.DoExecute();
 					else
@@ -1725,7 +1728,8 @@ namespace DBManager
 			OnPropertyChanged(CRightPanelControl.PreparingFontStylePropertyName);
 			OnPropertyChanged(CRightPanelControl.StayOnStartFontStylePropertyName);
 			OnPropertyChanged(CRightPanelControl.FalsestartFontStylePropertyName);
-		}
+            OnPropertyChanged(GridLinesFontStylePropertyName);
+        }
 		
 		void DirScaner_DataChanged(CScannerBase sender, DataChangedEventArgs e)
 		{
@@ -2942,7 +2946,7 @@ namespace DBManager
 								{
 									Content = GlobalDefines.ROUND_NAMES[RoundId].Replace('_', ' '),
 									HorizontalContentAlignment = HorizontalAlignment.Center,
-									BorderBrush = Resources["DataGridLinesBrush"] as SolidColorBrush,
+									BorderBrush = new SolidColorBrush(GridLinesFontStyle.BackgroundColor),
 									BorderThickness = new Thickness(1, 1, 1, 0),
 									Padding = new Thickness(2, 2, 2, 2)
 								};

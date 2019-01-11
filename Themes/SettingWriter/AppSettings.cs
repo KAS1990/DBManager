@@ -430,16 +430,20 @@ namespace DBManager.SettingsWriter
         [DefaultValue(false)]
         public bool YearsRangeCanBeSet = false;
 
+        [DefaultValue(0)]
+        public int ValueInWbkFlags = 0;
+
         public CAvailableGroupName()
         {
 
         }
 
-        public CAvailableGroupName(string groupName, enSex sex, bool yearsRangeCanBeSet)
+        public CAvailableGroupName(string groupName, enSex sex, bool yearsRangeCanBeSet, int valueInWbkFlags)
         {
             GroupName = groupName;
             Sex = sex;
             YearsRangeCanBeSet = yearsRangeCanBeSet;
+            ValueInWbkFlags = valueInWbkFlags;
         }
     }
 
@@ -497,10 +501,17 @@ namespace DBManager.SettingsWriter
 		[DefaultValue(10)]
 		public int MinAgeToCalcResultGrade = 10;
 
-		/// <summary>
+        /// <summary>
 		/// Обычный текст
 		/// </summary>
 		[XmlElement]
+        [DefaultValue(null)]
+        public CFontStyleSettings GridLinesFontStyle = null;
+
+        /// <summary>
+        /// Обычный текст
+        /// </summary>
+        [XmlElement]
 		[DefaultValue(null)]
 		public CFontStyleSettings PlainResultsFontStyle = null;
 
@@ -545,6 +556,7 @@ namespace DBManager.SettingsWriter
 		[XmlElement]
 		[DefaultValue(null)]
 		public CFontStyleSettings FalsestartFontStyle = null;
+        
 
 		/// <summary>
 		/// Шрифт
@@ -643,7 +655,11 @@ namespace DBManager.SettingsWriter
 				PersRepWinnerDetection = enPersRepWinnerDetection.LeadPriority
 			};
 
-			PlainResultsFontStyle = new CFontStyleSettings()
+            GridLinesFontStyle = new CFontStyleSettings()
+            {
+                BackgroundColor = (m_GlobalResources["DataGridLinesBrush"] as SolidColorBrush).Color,
+            };
+            PlainResultsFontStyle = new CFontStyleSettings()
 			{
 				BackgroundColor = (m_GlobalResources["PlainResultsBrush"] as SolidColorBrush).Color,
 				ForeColor = (m_GlobalResources["PlainResultsForeBrush"] as SolidColorBrush).Color
@@ -712,7 +728,15 @@ namespace DBManager.SettingsWriter
 			if (string.IsNullOrEmpty(CompDir))
 				CompDir = "";
 
-			if (PlainResultsFontStyle == null)
+            if (GridLinesFontStyle == null)
+            {
+                GridLinesFontStyle = new CFontStyleSettings()
+                {
+                    BackgroundColor = (m_GlobalResources["DataGridLinesBrush"] as SolidColorBrush).Color,
+                };
+            }
+            
+            if (PlainResultsFontStyle == null)
 			{
 				PlainResultsFontStyle = new CFontStyleSettings()
 				{
@@ -853,21 +877,21 @@ namespace DBManager.SettingsWriter
             {
                 AvailableGroupNames = new CAvailableGroupName[]
                     {
-                        new CAvailableGroupName("Мужчины", enSex.Male, false),
-                        new CAvailableGroupName("Юниоры", enSex.Male, true),
-                        new CAvailableGroupName("Младшие юноши", enSex.Male, true),
-                        new CAvailableGroupName("Старшие юноши", enSex.Male, true),
-                        new CAvailableGroupName("Подростки мальчики", enSex.Male, true),
-                        new CAvailableGroupName("Суперподростки мальчики", enSex.Male, true),
-                        new CAvailableGroupName("Мальчики", enSex.Male, true),
+                        new CAvailableGroupName("Мужчины", enSex.Male, false, 0),
+                        new CAvailableGroupName("Юниоры", enSex.Male, true, 0),
+                        new CAvailableGroupName("Старшие юноши", enSex.Male, true, 1),
+                        new CAvailableGroupName("Младшие юноши", enSex.Male, true, 2),
+                        new CAvailableGroupName("Подростки мальчики", enSex.Male, true, 3),
+                        new CAvailableGroupName("Суперподростки мальчики", enSex.Male, true, 4),
+                        new CAvailableGroupName("Мальчики", enSex.Male, true, 5),
 
-                        new CAvailableGroupName("Женщины", enSex.Female, false),
-                        new CAvailableGroupName("Юниорки", enSex.Female, true),
-                        new CAvailableGroupName("Младшие девушки", enSex.Female, true),
-                        new CAvailableGroupName("Старшие девушки", enSex.Female, true),
-                        new CAvailableGroupName("Подростки девочки", enSex.Female, true),
-                        new CAvailableGroupName("Суперподростки девочки", enSex.Female, true),
-                        new CAvailableGroupName("Девочки", enSex.Female, true),
+                        new CAvailableGroupName("Женщины", enSex.Female, false, 0),
+                        new CAvailableGroupName("Юниорки", enSex.Female, true, 0),
+                        new CAvailableGroupName("Старшие девушки", enSex.Female, true, 1),
+                        new CAvailableGroupName("Младшие девушки", enSex.Female, true, 2),
+                        new CAvailableGroupName("Подростки девочки", enSex.Female, true, 3),
+                        new CAvailableGroupName("Суперподростки девочки", enSex.Female, true, 4),
+                        new CAvailableGroupName("Девочки", enSex.Female, true, 5),
                     };
             }
 

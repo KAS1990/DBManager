@@ -1262,6 +1262,15 @@ namespace DBManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Линии сетки.
+        /// </summary>
+        internal static string resGridLines {
+            get {
+                return ResourceManager.GetString("resGridLines", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Название группы.
         /// </summary>
         internal static string resGroupName {
@@ -1812,7 +1821,7 @@ namespace DBManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Старт №.
+        ///   Looks up a localized string similar to №.
         /// </summary>
         internal static string resNumber {
             get {
@@ -2874,7 +2883,7 @@ namespace DBManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Г.Р..
+        ///   Looks up a localized string similar to Г.р..
         /// </summary>
         internal static string resYoB {
             get {

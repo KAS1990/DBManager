@@ -373,10 +373,10 @@
     <value>ПОБЕДИТЕЛИ</value>
   </data>
   <data name="resNumber" xml:space="preserve">
-    <value>Старт №</value>
+    <value>№</value>
   </data>
   <data name="resYoB" xml:space="preserve">
-    <value>Г.Р.</value>
+    <value>Г.р.</value>
   </data>
   <data name="resGrade" xml:space="preserve">
     <value>Разряд</value>
@@ -1111,5 +1111,8 @@
   </data>
   <data name="resfmtInvalidWorkbookTemplateName" xml:space="preserve">
     <value>Неверный путь к книге-шаблону "{0}"</value>
+  </data>
+  <data name="resGridLines" xml:space="preserve">
+    <value>Линии сетки</value>
   </data>
 </root>
