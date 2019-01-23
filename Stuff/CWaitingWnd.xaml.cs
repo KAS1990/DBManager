@@ -185,13 +185,23 @@ namespace DBManager.Stuff
 			GlobalDefines.DoEvents(DBManagerApp.MainWnd); // Чтобы не зависла главная форма и в её заголовке не было написано "(Не отвечает)"
 		}
 
+        public static ShowAsyncResult ShowAsync(string WndTitle, string WndText, bool isAllowedAccess)
+        {
+            var res = new ShowAsyncResult();
 
-		/// <summary>
-		/// Функция потока.
-		/// Отдельная функция сделана для того, чтобы в неё можно было передать "out AutoResetEvent hFinishedSearchEvent"
-		/// </summary>
-		/// <param name="Parameter"></param>
-		static void ShowAsyncThreadFunc(object Parameter)
+            if (isAllowedAccess)
+                ShowAsync(out res.hFinishedSearchEvent, out res.th, WndTitle, WndText);
+
+            return res;
+        }
+
+
+        /// <summary>
+        /// Функция потока.
+        /// Отдельная функция сделана для того, чтобы в неё можно было передать "out AutoResetEvent hFinishedSearchEvent"
+        /// </summary>
+        /// <param name="Parameter"></param>
+        static void ShowAsyncThreadFunc(object Parameter)
 		{
 			CShowAsyncParam ThreadParam = Parameter as CShowAsyncParam;
 			CWaitingWnd wnd = new CWaitingWnd(ThreadParam.m_hFinishedSearchEvent,
@@ -209,4 +219,10 @@ namespace DBManager.Stuff
 			}
 		}
 	}
+
+    public class ShowAsyncResult
+    {
+        public AutoResetEvent hFinishedSearchEvent = null;
+        public Thread th = null;
+    }
 }

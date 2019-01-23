@@ -338,9 +338,6 @@ namespace DBManager.Global.Converters
 
 			if (value is bool?)
 			{
-				if (((bool?)value).Value == IfNull)
-					return null;
-
 				if (((bool?)value).Value == IfTrue)
 					return true;
 
@@ -349,9 +346,6 @@ namespace DBManager.Global.Converters
 			}
 			else
 			{
-				if ((bool)value == IfNull)
-					return null;
-
 				if ((bool?)value == IfTrue)
 					return true;
 

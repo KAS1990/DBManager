@@ -32,7 +32,7 @@ namespace DBManager.Excel.GeneratingWorkbooks
         public ObservableCollectionEx<CompItem> RemoteDBComps { get; set; } = new ObservableCollectionEx<CompItem>();
 
         #region SecectedCompGroups
-        private static readonly string NamePropertyName = GlobalDefines.GetPropertyName<GenerationFromOnlineBDWnd>(m => m.SecectedCompGroups);
+        private static readonly string SecectedCompGroupsPropertyName = GlobalDefines.GetPropertyName<GenerationFromOnlineBDWnd>(m => m.SecectedCompGroups);
         private ObservableCollection<GroupItem> m_SecectedCompGroups = new ObservableCollection<GroupItem>();
         /// <summary>
         /// 
@@ -43,121 +43,162 @@ namespace DBManager.Excel.GeneratingWorkbooks
         }
         #endregion
 
+        #region SelectedComp
+        private static readonly string SecectedCompPropertyName = GlobalDefines.GetPropertyName<GenerationFromOnlineBDWnd>(m => m.SelectedComp);
+        private CompItem m_SelectedComp = null;
+        /// <summary>
+        /// 
+        /// </summary>
+        public CompItem SelectedComp
+        {
+            get { return m_SelectedComp; }
+            set
+            {
+                if (m_SelectedComp?.Desc.ID != value?.Desc.ID)
+                {
+                    SecectedCompGroups.Clear();
+                    if (value != null)
+                    {
+                        if (m_SelectedComp != null)
+                            value.Desc.CopyNonRemoteFields(m_SelectedComp.Desc);
+
+                        value.Desc.UpdateDatesFromRemoteOnes();
+                        foreach (var group in value.Groups)
+                        {   // Создаём копию, чтобы не затирать исходные данные
+                            SecectedCompGroups.Add(new GroupItem(group));
+                        }
+                    }
+
+                    m_SelectedComp = value;
+
+                    OnPropertyChanged(SecectedCompPropertyName);
+                }
+            }
+        }
+        #endregion
+                
         public List<int> StartYears { get; set; } = new List<int>();
         public List<int> EndYears { get; set; } = new List<int>();
 
         public GenerationFromOnlineBDWnd()
         {
             InitializeComponent();
-
-            InitWndControls();
         }
 
-        private void InitWndControls()
+        public bool InitWndControls()
         {
-            AutoResetEvent hFinishedSearchEvent = null;
-            Thread th = null;
-
-            if (CheckAccess())
+            using (var wrapper = new DisposableWrapper<ShowAsyncResult>(CWaitingWnd.ShowAsync(Title,
+                                                                                            Properties.Resources.resFillingGenerationFromOnlineBDWnd,
+                                                                                            CheckAccess()),
+                                            asyncResult =>
+                                            {
+                                                if (asyncResult?.hFinishedSearchEvent != null)
+                                                    asyncResult.hFinishedSearchEvent.Set();
+                                            }))
             {
-                CWaitingWnd.ShowAsync(out hFinishedSearchEvent,
-                                        out th,
-                                        Title,
-                                        Properties.Resources.resFillingGenerationFromOnlineBDWnd);
-            }
-
-            EndYears.Clear();
-            StartYears.Clear();
-            EndYears.Add((int)enEndYearSpecVals.AndYounger);
-            EndYears.Add((int)enEndYearSpecVals.AndElder);
-            for (int i = DateTime.Now.Year - 7; i > DateTime.Now.Year - 100; i--)
-            {
-                StartYears.Add(i);
-                EndYears.Add(i);
-            }
-
-            // Заполняем выпадающие списки текущими значениями
-            RemoteDBComps.Clear();
-            if (OnlineDBManager.Instance.IsConnectedToRemoteDB)
-            {
-                var speedGroups = m_DBManager
-                                    .Entities
-                                    .group
-                                    .Where(gr =>
-                                            gr
-                                                .participants
-                                                .SelectMany(part => part.participants_kind)
-                                                .Any(kind => kind.kind_id == (int)enOnlineDBKind.Speed))
-                                    .ToList();
-
-                // Выбираем только соревы на скорость
-                foreach (var comp in speedGroups.SelectMany(gr => gr.events).Distinct().ToList())
+                EndYears.Clear();
+                StartYears.Clear();
+                EndYears.Add((int)enEndYearSpecVals.AndYounger);
+                EndYears.Add((int)enEndYearSpecVals.AndElder);
+                for (int i = DateTime.Now.Year - 7; i > DateTime.Now.Year - 100; i--)
                 {
-                    var item = new CompItem()
-                    {
-                        ID = comp.id,
-                        Name = comp.name,
-                        StartDate = comp.date1,
-                        EndDate = comp.date2
-                    };
-
-                    foreach (var group in speedGroups.Where(gr => gr.events.Any(ev => ev.id == comp.id)))
-                    {
-                        if (DBManagerApp.m_AppSettings.m_Settings.AvailableGroupNames.Any(arg => string.Compare(arg.GroupName, group.name, true) == 0))
-                        {
-                            item.Groups.Add(new GroupItem()
-                            {
-                                ID = group.id,
-                                Name = group.name,
-                                Sex = (enOnlineSex)(group.sex ? 1 : 0),
-                                StartYear = DateTime.Now.Year - group.year2,
-                                EndYear = group.year1.HasValue ? DateTime.Now.Year - group.year1 : null,
-                                StartDate = item.StartDate,
-                                EndDate = item.EndDate
-                            });
-                        }
-                    }
-
-                    RemoteDBComps.Add(item);
+                    StartYears.Add(i);
+                    EndYears.Add(i);
                 }
-                cmbComp.SelectedIndex = 0;
+
+                // Заполняем выпадающие списки текущими значениями
+                RemoteDBComps.Clear();
+                if (OnlineDBManager.Instance.IsConnectedToRemoteDB)
+                {
+                    try
+                    {
+                        var speedGroups = m_DBManager
+                                            .Entities
+                                            .group
+                                            .Where(gr =>
+                                                    gr
+                                                        .participants
+                                                        .SelectMany(part => part.participants_kind)
+                                                        .Any(kind => kind.kind_id == (int)enOnlineDBKind.Speed))
+                                            .ToList();
+
+                        // Выбираем только соревы на скорость
+                        foreach (var comp in speedGroups.SelectMany(gr => gr.events).Distinct().ToList())
+                        {
+                            var item = new CompItem();
+                            item.Desc.ID = comp.id;
+                            item.Desc.Name = comp.name;
+                            item.Desc.RemoteStartDate = comp.date1;
+                            item.Desc.RemoteEndDate = comp.date2;
+                            item.Desc.UpdateDatesFromRemoteOnes();
+
+                            foreach (var group in speedGroups.Where(gr => gr.events.Any(ev => ev.id == comp.id)))
+                            {
+                                if (DBManagerApp.m_AppSettings.m_Settings.AvailableGroupNames.Any(arg => string.Compare(arg.GroupName, group.name, true) == 0))
+                                {
+                                    item.Groups.Add(new GroupItem()
+                                    {
+                                        ID = group.id,
+                                        Name = group.name,
+                                        Sex = (enOnlineSex)(group.sex ? 1 : 0),
+                                        StartYear = DateTime.Now.Year - group.year2,
+                                        EndYear = group.year1.HasValue ? DateTime.Now.Year - group.year1 : null,
+                                        StartDate = item.Desc.StartDate,
+                                        EndDate = item.Desc.EndDate
+                                    });
+                                }
+                            }
+
+                            RemoteDBComps.Add(item);
+                        }
+                        SelectedComp = RemoteDBComps.FirstOrDefault();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(this,
+                            string.Format(Properties.Resources.resfmtErrorDuringReadingDataFromOnlineDB, ex.Message),
+                            Title,
+                            MessageBoxButton.OK,
+                            MessageBoxImage.Error);
+                        return false;
+                    }
+                }
+
+                cmbMainJudge.Items.Clear();
+                foreach (var mainJudge in DBManagerApp
+                                        .m_Entities
+                                        .groups
+                                        .Select(arg => arg.main_judge)
+                                        .Where(arg => !string.IsNullOrEmpty(arg))
+                                        .Distinct())
+                {
+                    cmbMainJudge.Items.Add(mainJudge);
+                }
+
+                cmbMainSecretary.Items.Clear();
+                foreach (var mainSecretary in DBManagerApp
+                                        .m_Entities
+                                        .groups
+                                        .Select(arg => arg.main_secretary)
+                                        .Where(arg => !string.IsNullOrEmpty(arg))
+                                        .Distinct())
+                {
+                    cmbMainSecretary.Items.Add(mainSecretary);
+                }
+
+                cmbRow6.Items.Clear();
+                foreach (var row6 in DBManagerApp
+                                        .m_Entities
+                                        .groups
+                                        .Select(arg => arg.row6)
+                                        .Where(arg => !string.IsNullOrEmpty(arg))
+                                        .Distinct())
+                {
+                    cmbRow6.Items.Add(row6);
+                }
             }
 
-            cmbMainJudge.Items.Clear();
-            foreach (var mainJudge in DBManagerApp
-                                    .m_Entities
-                                    .groups
-                                    .Select(arg => arg.main_judge)
-                                    .Where(arg => !string.IsNullOrEmpty(arg))
-                                    .Distinct())
-            {
-                cmbMainJudge.Items.Add(mainJudge);
-            }
-
-            cmbMainSecretary.Items.Clear();
-            foreach (var mainSecretary in DBManagerApp
-                                    .m_Entities
-                                    .groups
-                                    .Select(arg => arg.main_secretary)
-                                    .Where(arg => !string.IsNullOrEmpty(arg))
-                                    .Distinct())
-            {
-                cmbMainSecretary.Items.Add(mainSecretary);
-            }
-
-            cmbRow6.Items.Clear();
-            foreach (var row6 in DBManagerApp
-                                    .m_Entities
-                                    .groups
-                                    .Select(arg => arg.row6)
-                                    .Where(arg => !string.IsNullOrEmpty(arg))
-                                    .Distinct())
-            {
-                cmbRow6.Items.Add(row6);
-            }
-
-            if (hFinishedSearchEvent != null)
-                hFinishedSearchEvent.Set();
+            return true;
         }
 
         private bool CheckSettings()
@@ -215,11 +256,6 @@ namespace DBManager.Excel.GeneratingWorkbooks
             return true;
         }
 
-        private void chkRow6_CheckedOrUnchecked(object sender, RoutedEventArgs e)
-        {
-            cmbRow6.IsEnabled = chkRow6.IsChecked ?? false;
-        }
-
         private void btnDestFolderBrowse_Click(object sender, RoutedEventArgs e)
         {
             var dlg = new System.Windows.Forms.FolderBrowserDialog()
@@ -229,7 +265,7 @@ namespace DBManager.Excel.GeneratingWorkbooks
 
             if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                txtDestCompFolder.Text = dlg.SelectedPath;
+                SelectedComp.Desc.DestCompFolder = dlg.SelectedPath;
             }
         }
 
@@ -249,31 +285,6 @@ namespace DBManager.Excel.GeneratingWorkbooks
         {
             if (!CheckSettings())
                 return;
-        }
-
-        private void cmbComp_Loaded(object sender, RoutedEventArgs e)
-        {
-            TextBox txt = (TextBox)cmbComp.Template.FindName("PART_EditableTextBox", cmbComp);
-            if (txt != null)
-            {
-                txt.TextWrapping = TextWrapping.Wrap;
-            }
-        }
-
-        private void cmbComp_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (cmbComp.SelectedItem != null)
-            {
-                var compItem = (cmbComp.SelectedItem as CompItem);
-                dtpckrStartDate.Value = compItem.StartDate;
-                dtpckrEndDate.Value = compItem.EndDate;
-
-                SecectedCompGroups.Clear();
-                foreach (var group in compItem.Groups)
-                {   // Создаём копию, чтобы не затирать исходные данные
-                    SecectedCompGroups.Add(new GroupItem(group));
-                }
-            }
         }
 
         private void chkSelectAll_Click(object sender, RoutedEventArgs e)
@@ -329,6 +340,49 @@ namespace DBManager.Excel.GeneratingWorkbooks
                 return res;
             else
                 return (int?)res;
+        }
+    }
+
+    [ValueConversion(typeof(enSecondColNameType), typeof(bool))]
+    public class SecondColNameType2NullBoolConverter : IValueConverter
+    {
+        /// <summary>
+        /// Это значение конвертируется в true и обратно
+        /// </summary>
+        public enSecondColNameType TrueValue { get; set; } = enSecondColNameType.None;
+
+        /// <summary>
+        /// Это значение конвертируется в false и обратно
+        /// </summary>
+        public enSecondColNameType FalseValue { get; set; } = enSecondColNameType.None;
+
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (!(value is enSecondColNameType) || (value is null))
+                return null;
+
+            var secondColNameType = (enSecondColNameType)value;
+
+            if (secondColNameType == TrueValue)
+                return (bool?)true;
+
+            if (secondColNameType == FalseValue)
+                return (bool?)false;
+
+            return null;
+        }
+
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (!(value is bool?))
+                return null;
+
+            var val = (bool?)value;
+            if (val.HasValue)
+                return val.Value ? TrueValue : FalseValue;
+            else
+                return enSecondColNameType.None;
         }
     }
 }

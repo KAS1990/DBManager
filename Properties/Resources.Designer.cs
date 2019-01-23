@@ -855,6 +855,16 @@ namespace DBManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ошибка при получении данных из удалённой БД:
+        ///{0}.
+        /// </summary>
+        internal static string resfmtErrorDuringReadingDataFromOnlineDB {
+            get {
+                return ResourceManager.GetString("resfmtErrorDuringReadingDataFromOnlineDB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Экспорт в файл &quot;{0}&quot;.
         /// </summary>
         internal static string resfmtExportingToExcel {

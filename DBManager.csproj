@@ -164,6 +164,7 @@
       <DependentUpon>CLeadReportInfoTab.xaml</DependentUpon>
     </Compile>
     <Compile Include="Excel\Exporting\Tabs\CExportingTabBase.cs" />
+    <Compile Include="Excel\GeneratingWorkbooks\CompDesc.cs" />
     <Compile Include="Excel\GeneratingWorkbooks\CompItem.cs" />
     <Compile Include="Excel\GeneratingWorkbooks\GenerationFromOnlineBDWnd.xaml.cs">
       <DependentUpon>GenerationFromOnlineBDWnd.xaml</DependentUpon>

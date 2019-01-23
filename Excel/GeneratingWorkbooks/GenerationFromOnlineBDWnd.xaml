@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:baseWnd="clr-namespace:DBManager.Global"
+        xmlns:gconvs="clr-namespace:DBManager.Global.Converters"
         xmlns:localctrls="clr-namespace:DBManager.InterfaceElements"
         xmlns:local="clr-namespace:DBManager.Excel.GeneratingWorkbooks"
         xmlns:xctk="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
@@ -18,6 +19,8 @@
 
     <baseWnd:CNotifyPropertyChangedWnd.Resources>
         <local:YearToStringValueConverter x:Key="valconvYearToString" />
+        <local:SecondColNameType2NullBoolConverter x:Key="valconvSecondColNameCoach2NullBool" TrueValue="Coach" FalseValue="Team" />
+        <local:SecondColNameType2NullBoolConverter x:Key="valconvSecondColNameTeam2NullBool" TrueValue="Team" FalseValue="Coach" />
     </baseWnd:CNotifyPropertyChangedWnd.Resources>
     
     <DockPanel LastChildFill="True">
@@ -74,15 +77,20 @@
 					  Margin="0,0,0,5"
 					  Width="650"
 					  ItemsSource="{Binding RemoteDBComps}"
-                      DisplayMemberPath="Name"
-					  Loaded="cmbComp_Loaded"
-                      SelectionChanged="cmbComp_SelectionChanged"/>
+                      SelectedItem="{Binding SelectedComp}"
+                      DisplayMemberPath="Desc.Name"/>
 
             <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="10" Orientation="Horizontal" Margin="0,0,0,5" >
                 <Label Content="{Loc resFrom}" />
-                <xctk:DateTimePicker Name="dtpckrStartDate" Format="ShortDate" Width="200" />
+                <xctk:DateTimePicker Name="dtpckrStartDate"
+                                     Format="ShortDate"
+                                     Width="200"
+                                     Value="{Binding SelectedComp.Desc.StartDate}" />
                 <Label Content="{Loc resTo}" />
-                <xctk:DateTimePicker Name="dtpckrEndDate" Format="ShortDate" Width="200" />
+                <xctk:DateTimePicker Name="dtpckrEndDate"
+                                     Format="ShortDate"
+                                     Width="200"
+                                     Value="{Binding SelectedComp.Desc.EndDate}" />
             </StackPanel>
 
             <Label Grid.Row="3"
@@ -95,7 +103,8 @@
 					  Name="cmbMainJudge"
 					  Margin="0,0,0,5"
 					  Width="650"
-					  IsEditable="True"/>
+					  IsEditable="True"
+                      Text="{Binding SelectedComp.Desc.MainJudge, FallbackValue=''}"/>
 
             <Label Grid.Row="4"
 				   Grid.Column="0"
@@ -107,7 +116,8 @@
 					  Name="cmbMainSecretary"
 					  Margin="0,0,0,5"
 					  Width="650"
-					  IsEditable="True"/>
+					  IsEditable="True"
+                      Text="{Binding SelectedComp.Desc.MainSecretary, FallbackValue=''}"/>
 
             <CheckBox Grid.Row="5"
                       Grid.Column="0"
@@ -115,8 +125,9 @@
                       Content="{Loc resRow6}"
                       VerticalAlignment="Center"
                       Margin="0,0,5,5"
-                      Checked="chkRow6_CheckedOrUnchecked"
-                      Unchecked="chkRow6_CheckedOrUnchecked"/>
+                      IsChecked="{Binding SelectedComp.Desc.ShowRow6,
+                                            FallbackValue=false,
+                                            Converter={gconvs:NullBoolToBoolMarkupConverter IfNull=False}}"/>
             <ComboBox Grid.Row="5"
 					  Grid.Column="1"
                       Grid.ColumnSpan="2"
@@ -124,11 +135,24 @@
 					  Margin="0,0,0,5"
 					  Width="650"
 					  IsEditable="True"
-                      IsEnabled="False"/>
+                      IsEnabled="{Binding SelectedComp.Desc.ShowRow6, FallbackValue=false}"
+                      Text="{Binding SelectedComp.Desc.Row6, FallbackValue=''}"/>
 
             <StackPanel Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="10" Orientation="Horizontal" Margin="0,0,0,5">
-                <RadioButton Name="rdbTeam" Margin="0,0,5,0" Content="{Loc resTeam}" GroupName="SecondColName" />
-                <RadioButton Name="rdbCoach" Margin="0,0,5,0" Content="{Loc resCoach}" GroupName="SecondColName" />
+                <RadioButton Name="rdbTeam"
+                             Margin="0,0,5,0"
+                             Content="{Loc resTeam}"
+                             GroupName="SecondColName"
+                             IsChecked="{Binding SelectedComp.Desc.SecondColNameType,
+                                                FallbackValue={x:Null},
+                                                Converter={StaticResource valconvSecondColNameTeam2NullBool}}" />
+                <RadioButton Name="rdbCoach"
+                             Margin="0,0,5,0"
+                             Content="{Loc resCoach}"
+                             GroupName="SecondColName"
+                             IsChecked="{Binding SelectedComp.Desc.SecondColNameType,
+                                                FallbackValue={x:Null},
+                                                Converter={StaticResource valconvSecondColNameCoach2NullBool}}"/>
             </StackPanel>
 
             <Label Grid.Row="7"
@@ -141,7 +165,8 @@
                                   Margin="0,0,0,5"
                                   Width="550"
                                   InputCheckType="NotEmpty"
-                                  FieldName="{Loc resDestCompFolder}"/>
+                                  FieldName="{Loc resDestCompFolder}"
+                                  Text="{Binding SelectedComp.Desc.DestCompFolder, FallbackValue=''}"/>
             <Button Grid.Row="7"
                     Grid.Column="2" 
                     Content="..."

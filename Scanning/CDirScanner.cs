@@ -230,9 +230,6 @@ namespace DBManager.Scanning
 		{
 			LastException = null;
 
-			AutoResetEvent hFinishedSearchEvent = null;
-			Thread th = null;
-
 			CSyncParam SyncParam = Param as CSyncParam;
 
 			if (SyncParam == null ||
@@ -242,151 +239,148 @@ namespace DBManager.Scanning
 				return false;
 			}
 
-			if ((DBManagerApp.MainWnd as DispatcherObject).CheckAccess())
-			{
-				CWaitingWnd.ShowAsync(out hFinishedSearchEvent,
-										out th,
-										DBManagerApp.MainWnd.Title,
-										string.Format(Properties.Resources.resfmtSyncingDir, SyncParam.m_Dir));
-			}
+            using (var wrapper = new DisposableWrapper<ShowAsyncResult>(CWaitingWnd.ShowAsync(DBManagerApp.MainWnd.Title,
+                                                                                            string.Format(Properties.Resources.resfmtSyncingDir, SyncParam.m_Dir),
+                                                                                            true),
+                                            asyncResult =>
+                                            {
+                                                if (asyncResult?.hFinishedSearchEvent != null)
+                                                    asyncResult.hFinishedSearchEvent.Set();
+                                            }))
+            {
+                lock (EventsCS)
+                {
+                    if (State == enScanningThreadState.Worked)
+                    {   // Синхронизацию можно проводить только при незапущенном сканировании
+                        return false;
+                    }
 
-			lock (EventsCS)
-			{
-				if (State == enScanningThreadState.Worked)
-				{	// Синхронизацию можно проводить только при незапущенном сканировании
-					if (hFinishedSearchEvent != null)
-						hFinishedSearchEvent.Set();
-					return false;
-				}
+                    m_PathWatcher.EnableRaisingEvents = false;
 
-				m_PathWatcher.EnableRaisingEvents = false;
-								
-				List<string> ScannedFilesFullPaths = new List<string>();
+                    List<string> ScannedFilesFullPaths = new List<string>();
 
-				try
-				{
-					if (SyncParam.m_lstFileScannerSettings != null)
-					{
-						bool AllFilesSync = true;
+                    try
+                    {
+                        if (SyncParam.m_lstFileScannerSettings != null)
+                        {
+                            bool AllFilesSync = true;
 
-						foreach (CFileScannerSettings ScannerSettings in SyncParam.m_lstFileScannerSettings)
-						{
-							if (Path.GetDirectoryName(ScannerSettings.FullFilePath) != SyncParam.m_Dir)
-							{	// Файл не находится в просматриваемой папке => он нам не нужен
-								AllFilesSync = false;
-								lock (DBManagerApp.m_AppSettings.m_SettigsSyncObj)
-									DBManagerApp.m_AppSettings.m_Settings.dictFileScannerSettings.Remove(ScannerSettings.FullFilePath);
-								continue;
-							}
+                            foreach (CFileScannerSettings ScannerSettings in SyncParam.m_lstFileScannerSettings)
+                            {
+                                if (Path.GetDirectoryName(ScannerSettings.FullFilePath) != SyncParam.m_Dir)
+                                {   // Файл не находится в просматриваемой папке => он нам не нужен
+                                    AllFilesSync = false;
+                                    lock (DBManagerApp.m_AppSettings.m_SettigsSyncObj)
+                                        DBManagerApp.m_AppSettings.m_Settings.dictFileScannerSettings.Remove(ScannerSettings.FullFilePath);
+                                    continue;
+                                }
 
-							string FullScannerFilePath = Path.Combine(SyncParam.m_Dir, ScannerSettings.FullFilePath);
-							ScannedFilesFullPaths.Add(FullScannerFilePath);
-							
-							CFileScanner Scanner = null;
-							if (m_FileScanners.TryGetValue(FullScannerFilePath, out Scanner))
-							{
-								m_FileScanners[FullScannerFilePath] =
-									Scanner = new CFileScanner(ScannerSettings.FullFilePath,
-																this,
-																true,
-																new CFileScanner.CSyncParam(ScannerSettings.GroupId,
-																							FullScannerFilePath));
-								if (!Scanner.SyncSuccessfully)
-								{	// Синхронизироваться не удалось
-									m_FileScanners.Remove(FullScannerFilePath);
-									AllFilesSync = false;
-									lock (DBManagerApp.m_AppSettings.m_SettigsSyncObj)
-										DBManagerApp.m_AppSettings.m_Settings.dictFileScannerSettings.Remove(ScannerSettings.FullFilePath);
-								}
-							}
-							else
-							{
-								Scanner = new CFileScanner(ScannerSettings.FullFilePath,
-																	this,
-																	true,
-																	new CFileScanner.CSyncParam(ScannerSettings.GroupId,
-																								FullScannerFilePath));
-								if (Scanner.SyncSuccessfully)
-									m_FileScanners.Add(ScannerSettings.FullFilePath, Scanner);
-								else
-								{	// Синхронизироваться не удалось
-									AllFilesSync = false;
-									lock (DBManagerApp.m_AppSettings.m_SettigsSyncObj)
-										DBManagerApp.m_AppSettings.m_Settings.dictFileScannerSettings.Remove(ScannerSettings.FullFilePath);
-								}
-							}
-						}
+                                string FullScannerFilePath = Path.Combine(SyncParam.m_Dir, ScannerSettings.FullFilePath);
+                                ScannedFilesFullPaths.Add(FullScannerFilePath);
 
-						if (!AllFilesSync)
-							DBManagerApp.m_AppSettings.Write();
-					}
+                                CFileScanner Scanner = null;
+                                if (m_FileScanners.TryGetValue(FullScannerFilePath, out Scanner))
+                                {
+                                    m_FileScanners[FullScannerFilePath] =
+                                        Scanner = new CFileScanner(ScannerSettings.FullFilePath,
+                                                                    this,
+                                                                    true,
+                                                                    new CFileScanner.CSyncParam(ScannerSettings.GroupId,
+                                                                                                FullScannerFilePath));
+                                    if (!Scanner.SyncSuccessfully)
+                                    {   // Синхронизироваться не удалось
+                                        m_FileScanners.Remove(FullScannerFilePath);
+                                        AllFilesSync = false;
+                                        lock (DBManagerApp.m_AppSettings.m_SettigsSyncObj)
+                                            DBManagerApp.m_AppSettings.m_Settings.dictFileScannerSettings.Remove(ScannerSettings.FullFilePath);
+                                    }
+                                }
+                                else
+                                {
+                                    Scanner = new CFileScanner(ScannerSettings.FullFilePath,
+                                                                        this,
+                                                                        true,
+                                                                        new CFileScanner.CSyncParam(ScannerSettings.GroupId,
+                                                                                                    FullScannerFilePath));
+                                    if (Scanner.SyncSuccessfully)
+                                        m_FileScanners.Add(ScannerSettings.FullFilePath, Scanner);
+                                    else
+                                    {   // Синхронизироваться не удалось
+                                        AllFilesSync = false;
+                                        lock (DBManagerApp.m_AppSettings.m_SettigsSyncObj)
+                                            DBManagerApp.m_AppSettings.m_Settings.dictFileScannerSettings.Remove(ScannerSettings.FullFilePath);
+                                    }
+                                }
+                            }
 
-					// Пытаемся загрузить данные из всех остальных XML-файлов, имеющихся в папке
-					string[] AllXMLFullFilePaths = Directory.GetFiles(SyncParam.m_Dir, "*.xml");
-					foreach (string FullFilePath in from xmlFileL in AllXMLFullFilePaths
-												join xmlFileR in ScannedFilesFullPaths on xmlFileL equals xmlFileR into XMLFiles
-												from scannedFile in XMLFiles.DefaultIfEmpty()
-												where scannedFile == null
-												select xmlFileL)
-					{
-						CFileScanner Scanner = null;
-						if (m_FileScanners.TryGetValue(FullFilePath, out Scanner))
-						{
-							m_FileScanners[FullFilePath] =
-								Scanner = new CFileScanner(FullFilePath,
-															this,
-															true,
-															new CFileScanner.CSyncParam(m_FileScanners[FullFilePath].Group == null ? 
-																							GlobalDefines.NO_OUR_COMP_IN_DB :
-																							m_FileScanners[FullFilePath].Group.id_group,
-																						FullFilePath));
-							if (!Scanner.SyncSuccessfully)
-							{	// Синхронизироваться не удалось
-								m_FileScanners.Remove(FullFilePath);
-								lock (DBManagerApp.m_AppSettings.m_SettigsSyncObj)
-									DBManagerApp.m_AppSettings.m_Settings.dictFileScannerSettings.Remove(FullFilePath);
-								continue;
-							}
-						}
-						else
-						{
-							Scanner = new CFileScanner(FullFilePath,
-														this,
-														true,
-														new CFileScanner.CSyncParam(GlobalDefines.NO_OUR_COMP_IN_DB,
-																					FullFilePath));
+                            if (!AllFilesSync)
+                                DBManagerApp.m_AppSettings.Write();
+                        }
 
-							if (Scanner.SyncSuccessfully)
-							{	// Удалось синхронизироваться => добавляем сканер в m_FileScanners и в файл настроек
-								m_FileScanners.Add(FullFilePath, Scanner);
-							}
-						}
+                        // Пытаемся загрузить данные из всех остальных XML-файлов, имеющихся в папке
+                        string[] AllXMLFullFilePaths = Directory.GetFiles(SyncParam.m_Dir, "*.xml");
+                        foreach (string FullFilePath in from xmlFileL in AllXMLFullFilePaths
+                                                        join xmlFileR in ScannedFilesFullPaths on xmlFileL equals xmlFileR into XMLFiles
+                                                        from scannedFile in XMLFiles.DefaultIfEmpty()
+                                                        where scannedFile == null
+                                                        select xmlFileL)
+                        {
+                            CFileScanner Scanner = null;
+                            if (m_FileScanners.TryGetValue(FullFilePath, out Scanner))
+                            {
+                                m_FileScanners[FullFilePath] =
+                                    Scanner = new CFileScanner(FullFilePath,
+                                                                this,
+                                                                true,
+                                                                new CFileScanner.CSyncParam(m_FileScanners[FullFilePath].Group == null ?
+                                                                                                GlobalDefines.NO_OUR_COMP_IN_DB :
+                                                                                                m_FileScanners[FullFilePath].Group.id_group,
+                                                                                            FullFilePath));
+                                if (!Scanner.SyncSuccessfully)
+                                {   // Синхронизироваться не удалось
+                                    m_FileScanners.Remove(FullFilePath);
+                                    lock (DBManagerApp.m_AppSettings.m_SettigsSyncObj)
+                                        DBManagerApp.m_AppSettings.m_Settings.dictFileScannerSettings.Remove(FullFilePath);
+                                    continue;
+                                }
+                            }
+                            else
+                            {
+                                Scanner = new CFileScanner(FullFilePath,
+                                                            this,
+                                                            true,
+                                                            new CFileScanner.CSyncParam(GlobalDefines.NO_OUR_COMP_IN_DB,
+                                                                                        FullFilePath));
 
-						if (Scanner.Group != null)
-						{
-							CFileScannerSettings ScannerSettings = new CFileScannerSettings()
-							{
-								FullFilePath = FullFilePath,
-								GroupId = Scanner.Group.id_group
-							};
-							lock (DBManagerApp.m_AppSettings.m_SettigsSyncObj)
-								DBManagerApp.m_AppSettings.m_Settings.dictFileScannerSettings.TryAddValue(FullFilePath, ScannerSettings);
-						}
-					}
-				}
-				catch (Exception ex)
-				{
-					List<CDataChangedInfo> Changes = new List<CDataChangedInfo>();
-					OnException(ref Changes, ex, CompId);
-				}
+                                if (Scanner.SyncSuccessfully)
+                                {   // Удалось синхронизироваться => добавляем сканер в m_FileScanners и в файл настроек
+                                    m_FileScanners.Add(FullFilePath, Scanner);
+                                }
+                            }
 
-				if (Directory.Exists(m_PathWatcher.Path))
-					m_PathWatcher.EnableRaisingEvents = true;
-			}
+                            if (Scanner.Group != null)
+                            {
+                                CFileScannerSettings ScannerSettings = new CFileScannerSettings()
+                                {
+                                    FullFilePath = FullFilePath,
+                                    GroupId = Scanner.Group.id_group
+                                };
+                                lock (DBManagerApp.m_AppSettings.m_SettigsSyncObj)
+                                    DBManagerApp.m_AppSettings.m_Settings.dictFileScannerSettings.TryAddValue(FullFilePath, ScannerSettings);
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        List<CDataChangedInfo> Changes = new List<CDataChangedInfo>();
+                        OnException(ref Changes, ex, CompId);
+                    }
+
+                    if (Directory.Exists(m_PathWatcher.Path))
+                        m_PathWatcher.EnableRaisingEvents = true;
+                }
+            }
 			
-			if (hFinishedSearchEvent != null)
-				hFinishedSearchEvent.Set();
-
 			return true;
 		}
 

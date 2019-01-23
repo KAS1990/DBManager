@@ -1115,4 +1115,8 @@
   <data name="resGridLines" xml:space="preserve">
     <value>Линии сетки</value>
   </data>
+  <data name="resfmtErrorDuringReadingDataFromOnlineDB" xml:space="preserve">
+    <value>Ошибка при получении данных из удалённой БД:
+{0}</value>
+  </data>
 </root>
