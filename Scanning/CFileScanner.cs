@@ -177,7 +177,7 @@ namespace DBManager.Scanning
 				{
 					if (Group != null)
 					{
-						lock (DBManagerApp.m_AppSettings.m_SettigsSyncObj)
+						lock (DBManagerApp.m_AppSettings.m_SettingsSyncObj)
 						{
 							if (DBManagerApp.m_AppSettings.m_Settings.dictFileScannerSettings.TryAddValue(ScanningPath, new CFileScannerSettings()
 																														{
@@ -528,7 +528,7 @@ namespace DBManager.Scanning
 						// Удаляем все повторяющиеся записи из ChangesOfResults и добавляем их в result
 						result.AddRange(ChangesOfResults.Distinct());
 
-						lock (DBManagerApp.m_AppSettings.m_SettigsSyncObj)
+						lock (DBManagerApp.m_AppSettings.m_SettingsSyncObj)
 						{
 							if (DBManagerApp.m_AppSettings.m_Settings.dictFileScannerSettings.TryAddValue(ScanningPath, new CFileScannerSettings()
 																														{
@@ -627,7 +627,7 @@ namespace DBManager.Scanning
 					State = enScanningThreadState.Stopped;
 				}
 
-				lock (DBManagerApp.m_AppSettings.m_SettigsSyncObj)
+				lock (DBManagerApp.m_AppSettings.m_SettingsSyncObj)
 				{
 					if (DBManagerApp.m_AppSettings.m_Settings.dictFileScannerSettings.Remove(ScanningPath))
 					{

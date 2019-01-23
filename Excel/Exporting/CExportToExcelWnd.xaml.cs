@@ -583,7 +583,7 @@ namespace DBManager.Excel.Exporting
 
 		private void btnBrowse_Click(object sender, RoutedEventArgs e)
 		{
-			lock (DBManagerApp.m_AppSettings.m_SettigsSyncObj)
+			lock (DBManagerApp.m_AppSettings.m_SettingsSyncObj)
 			{
 				System.Windows.Forms.SaveFileDialog dlg = new System.Windows.Forms.SaveFileDialog()
 				{
@@ -618,7 +618,7 @@ namespace DBManager.Excel.Exporting
 			WbkTemplatesOpened = false;
 
 			// Открываем книгу с шаблонами
-			lock (DBManagerApp.m_AppSettings.m_SettigsSyncObj)
+			lock (DBManagerApp.m_AppSettings.m_SettingsSyncObj)
 			{
 				if (NewAppCreated)
 				{	// Без этого книга не открывается
@@ -679,7 +679,7 @@ namespace DBManager.Excel.Exporting
 			WbkLeadReportOpened = false;
 
 			// Открываем книгу с шаблонами
-			lock (DBManagerApp.m_AppSettings.m_SettigsSyncObj)
+			lock (DBManagerApp.m_AppSettings.m_SettingsSyncObj)
 			{
 				if (NewAppCreated)
 				{	// Без этого книга не открывается

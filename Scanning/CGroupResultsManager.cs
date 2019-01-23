@@ -657,7 +657,7 @@ namespace DBManager.Scanning
 										result.participations.result_place = result.place;
 
 									int MinAgeToCalcResultGrade = 0;
-									lock (DBManagerApp.m_AppSettings.m_SettigsSyncObj)
+									lock (DBManagerApp.m_AppSettings.m_SettingsSyncObj)
 									{
 										MinAgeToCalcResultGrade = DBManagerApp.m_AppSettings.m_Settings.MinAgeToCalcResultGrade;
 									}
@@ -672,7 +672,7 @@ namespace DBManager.Scanning
 																					member,
 																					part
 																				};
-									lock (DBManagerApp.m_AppSettings.m_SettigsSyncObj)
+									lock (DBManagerApp.m_AppSettings.m_SettingsSyncObj)
 									{
 										if (DBManagerApp.m_AppSettings.m_Settings.Only75PercentForCalcGrades)
 										{   // Учитываем только 75% участников

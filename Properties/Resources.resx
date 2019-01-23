@@ -1076,8 +1076,8 @@
   <data name="resDestCompFolder" xml:space="preserve">
     <value>Сохранять соревнования в</value>
   </data>
-  <data name="resDuplicateGroupNames" xml:space="preserve">
-    <value>Названия групп повторяются</value>
+  <data name="resDuplicateWorkbookNames" xml:space="preserve">
+    <value>Названия книг повторяются</value>
   </data>
   <data name="resEndYear" xml:space="preserve">
     <value>Конечный год</value>
@@ -1118,5 +1118,20 @@
   <data name="resfmtErrorDuringReadingDataFromOnlineDB" xml:space="preserve">
     <value>Ошибка при получении данных из удалённой БД:
 {0}</value>
+  </data>
+  <data name="resCouldNotExtractDataFromRemoteDB" xml:space="preserve">
+    <value>Не удалось получить список участников с сервера</value>
+  </data>
+  <data name="resCouldNotExtractDataToWbks" xml:space="preserve">
+    <value>Не удалось создать книги для соревнований</value>
+  </data>
+  <data name="resDataIsExtractedToWbksSuccessfully" xml:space="preserve">
+    <value>Соревнования успешно импортированы в книги Excel</value>
+  </data>
+  <data name="resfmtInvalidWorkbookNames" xml:space="preserve">
+    <value>Неверно заданы названия книг. Возможно они содержат недопустимые символы {0}</value>
+  </data>
+  <data name="resWorkbookName" xml:space="preserve">
+    <value>Название книги</value>
   </data>
 </root>

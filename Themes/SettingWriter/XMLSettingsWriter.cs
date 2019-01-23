@@ -10,7 +10,7 @@ namespace DBManager.SettingsWriter
 		/// <summary>
 		/// Объект, который используется для синхронизации доступа к полю m_Settings
 		/// </summary>
-		public object m_SettigsSyncObj = new object();
+		public object m_SettingsSyncObj = new object();
 
 
 		/// <summary>
@@ -40,7 +40,7 @@ namespace DBManager.SettingsWriter
 		/// <returns></returns>
 		public bool FileAvailableToWrite()
 		{
-			lock (m_SettigsSyncObj)
+			lock (m_SettingsSyncObj)
 			{
 				TextWriter writer = null;
 				try
@@ -63,7 +63,7 @@ namespace DBManager.SettingsWriter
 
 		public void Write()
 		{
-			lock (m_SettigsSyncObj)
+			lock (m_SettingsSyncObj)
 			{
 				TextWriter writer = null;
 				try
@@ -88,7 +88,7 @@ namespace DBManager.SettingsWriter
 
 		public void Read()
 		{
-			lock (m_SettigsSyncObj)
+			lock (m_SettingsSyncObj)
 			{
 				if (File.Exists(m_FileName))
 				{

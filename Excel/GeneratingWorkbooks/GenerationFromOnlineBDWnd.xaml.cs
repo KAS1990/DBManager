@@ -1,10 +1,12 @@
-﻿using DBManager.Global;
+﻿using DBManager.Excel.GeneratingWorkbooks.Helpers;
+using DBManager.Global;
 using DBManager.OnlineDB;
 using DBManager.Stuff;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -33,11 +35,11 @@ namespace DBManager.Excel.GeneratingWorkbooks
 
         #region SecectedCompGroups
         private static readonly string SecectedCompGroupsPropertyName = GlobalDefines.GetPropertyName<GenerationFromOnlineBDWnd>(m => m.SecectedCompGroups);
-        private ObservableCollection<GroupItem> m_SecectedCompGroups = new ObservableCollection<GroupItem>();
+        private ObservableCollection<GroupItemRemoteDB> m_SecectedCompGroups = new ObservableCollection<GroupItemRemoteDB>();
         /// <summary>
         /// 
         /// </summary>
-        public ObservableCollection<GroupItem> SecectedCompGroups
+        public ObservableCollection<GroupItemRemoteDB> SecectedCompGroups
         {
             get { return m_SecectedCompGroups; }
         }
@@ -65,7 +67,7 @@ namespace DBManager.Excel.GeneratingWorkbooks
                         value.Desc.UpdateDatesFromRemoteOnes();
                         foreach (var group in value.Groups)
                         {   // Создаём копию, чтобы не затирать исходные данные
-                            SecectedCompGroups.Add(new GroupItem(group));
+                            SecectedCompGroups.Add(new GroupItemRemoteDB(group));
                         }
                     }
 
@@ -136,16 +138,18 @@ namespace DBManager.Excel.GeneratingWorkbooks
                             {
                                 if (DBManagerApp.m_AppSettings.m_Settings.AvailableGroupNames.Any(arg => string.Compare(arg.GroupName, group.name, true) == 0))
                                 {
-                                    item.Groups.Add(new GroupItem()
+                                    var groupItem = new GroupItemRemoteDB()
                                     {
                                         ID = group.id,
                                         Name = group.name,
-                                        Sex = (enOnlineSex)(group.sex ? 1 : 0),
+                                        Sex = ((enOnlineSex)(group.sex ? 1 : 0)).ToLocalSexValue(),
                                         StartYear = DateTime.Now.Year - group.year2,
                                         EndYear = group.year1.HasValue ? DateTime.Now.Year - group.year1 : null,
                                         StartDate = item.Desc.StartDate,
                                         EndDate = item.Desc.EndDate
-                                    });
+                                    };
+                                    groupItem.FillWorkbookName();
+                                    item.Groups.Add(groupItem);
                                 }
                             }
 
@@ -216,17 +220,33 @@ namespace DBManager.Excel.GeneratingWorkbooks
             }
 
             if ((from gr in SecectedCompGroups
-                 group gr by gr.Name into groupNames
+                 where gr.IsSelected
+                 group gr by gr.WorkbookName into groupNames
                  where groupNames.Count() > 1
                  select groupNames.Key)
                 .Any())
             {
-                MessageBox.Show(this, Properties.Resources.resDuplicateGroupNames, Title, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(this, Properties.Resources.resDuplicateWorkbookNames, Title, MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+                        
+            if (SecectedCompGroups.Any(
+                arg =>
+                    arg.IsSelected
+                        && (string.IsNullOrWhiteSpace(arg.WorkbookName)
+                            || arg.WorkbookName.IndexOfAny(System.IO.Path.GetInvalidFileNameChars()) != -1)))
+            {
+                MessageBox.Show(this,
+                    string.Format(Properties.Resources.resfmtInvalidWorkbookNames, string.Join(", ", System.IO.Path.GetInvalidFileNameChars())),
+                    Title,
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
                 return false;
             }
 
             if (SecectedCompGroups.Any(arg =>
-                    arg.EndYear.HasValue
+                    arg.IsSelected
+                        && arg.EndYear.HasValue
                         && arg.EndYear != (int)enEndYearSpecVals.AndElder
                         && arg.EndYear != (int)enEndYearSpecVals.AndYounger
                         && arg.StartYear >= arg.EndYear))
@@ -274,17 +294,61 @@ namespace DBManager.Excel.GeneratingWorkbooks
             if (!m_DBManager.IsConnectedToRemoteDB)
             {
                 string msg = string.Format(DBManager.Properties.Resources.resrmtCantConnectToRemoteDB, OnlineDBManager.Instance.ConnectionString);
-                MessageBox.Show(msg, AppAttributes.Title, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(this, msg, AppAttributes.Title, MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
             txtDestCompFolder.Measure(GlobalDefines.STD_SIZE_FOR_MEASURE);
             txtDestCompFolder.Width = txtDestCompFolder.DesiredSize.Width;
+
+            Measure(GlobalDefines.STD_SIZE_FOR_MEASURE);
+            MaxWidth = MinWidth = Width = DesiredSize.Width;
         }
 
         private void btnOK_Click(object sender, RoutedEventArgs e)
         {
             if (!CheckSettings())
                 return;
+
+            var dataExtractor = new RemoteDBDataExtractor();
+            var generator = new WorkbookGenerator(dataExtractor);
+
+            using (var wrapper = new DisposableWrapper<ShowAsyncResult>(CWaitingWnd.ShowAsync(Title,
+                                                                                            Properties.Resources.resFillingGenerationFromOnlineBDWnd,
+                                                                                            CheckAccess()),
+                                            asyncResult =>
+                                            {
+                                                if (asyncResult?.hFinishedSearchEvent != null)
+                                                    asyncResult.hFinishedSearchEvent.Set();
+                                            }))
+            {
+                if (!dataExtractor.Extract(SelectedComp.Desc, SecectedCompGroups))
+                {
+                    MessageBox.Show(this,
+                        Properties.Resources.resCouldNotExtractDataFromRemoteDB,
+                        AppAttributes.Title,
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error);
+                    return;
+                }
+                if (!generator.Generate())
+                {
+                    MessageBox.Show(this,
+                        Properties.Resources.resCouldNotExtractDataToWbks,
+                        AppAttributes.Title,
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error);
+                    return;
+                }
+
+                // Показываем книгу в проводнике
+                Process.Start(SelectedComp.Desc.DestCompFolder);
+
+                MessageBox.Show(this,
+                        Properties.Resources.resDataIsExtractedToWbksSuccessfully,
+                        AppAttributes.Title,
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Information);
+            }
         }
 
         private void chkSelectAll_Click(object sender, RoutedEventArgs e)
@@ -308,18 +372,7 @@ namespace DBManager.Excel.GeneratingWorkbooks
             if (value is int? && (value as int?) == null)
                 return null;
 
-            int year = value is int? ? (value as int?).Value : (int)value;
-            switch (year)
-            {
-                case (int)enEndYearSpecVals.AndElder:
-                    return Properties.Resources.resAndElder;
-
-                case (int)enEndYearSpecVals.AndYounger:
-                    return Properties.Resources.resAndYounger;
-
-                default:
-                    return year.ToString();
-            }
+            return GroupItemRemoteDB.CreateYearInString(value is int? ? (value as int?) : (int?)value);
         }
 
 

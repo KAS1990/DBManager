@@ -345,7 +345,7 @@ namespace DBManager.SettingWnds
 
 			HasUnsavedChanges += () => { return Modified; };
 
-			lock (DBManagerApp.m_AppSettings.m_SettigsSyncObj)
+			lock (DBManagerApp.m_AppSettings.m_SettingsSyncObj)
 			{
 				// Ищем все соревы, имеющиеся в БД
 				cmbComp.SelectedIndex = -1;
@@ -481,7 +481,7 @@ namespace DBManager.SettingWnds
 			{
 				ShowNewFolderButton = true
 			};
-			lock (DBManagerApp.m_AppSettings.m_SettigsSyncObj)
+			lock (DBManagerApp.m_AppSettings.m_SettingsSyncObj)
 			{
 				dlg.SelectedPath = DBManagerApp.m_AppSettings.m_Settings.CompDir;
 			}
@@ -633,7 +633,7 @@ namespace DBManager.SettingWnds
 				if (!CheckSettings())
 					return false;
 
-				lock (DBManagerApp.m_AppSettings.m_SettigsSyncObj)
+				lock (DBManagerApp.m_AppSettings.m_SettingsSyncObj)
 				{
 					DBManagerApp.m_AppSettings.m_Settings.CompDir = SelectedCompItem == null ? null : SelectedCompItem.Dir;
 					DBManagerApp.m_AppSettings.m_Settings.HandleFileDeletion = chkHandleFileDeletion.IsChecked.HasValue &&
@@ -797,7 +797,7 @@ namespace DBManager.SettingWnds
             {
                  ShowNewFolderButton = false
             };
-            lock (DBManagerApp.m_AppSettings.m_SettigsSyncObj)
+            lock (DBManagerApp.m_AppSettings.m_SettingsSyncObj)
             {
                 dlg.SelectedPath = DBManagerApp.m_AppSettings.m_Settings.WorkbookTemplateFolder;
             }

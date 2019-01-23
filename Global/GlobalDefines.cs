@@ -1446,8 +1446,15 @@ namespace DBManager.Global
 			}
 		}
 
+        public static ExcelApplicationEx StartExcel()
+        {
+            var res = new ExcelApplicationEx();
+            res.App = StartExcel(out res.NewAppCreated);
+            return res;
+        }
 
-		public static MSExcel.Application StartExcel(out bool NewAppCreated)
+
+        public static MSExcel.Application StartExcel(out bool NewAppCreated)
 		{
 			MSExcel.Application instance = null;
 			try

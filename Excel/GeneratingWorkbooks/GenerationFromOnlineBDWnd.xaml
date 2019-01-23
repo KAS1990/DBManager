@@ -64,6 +64,7 @@
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
             <Label Grid.Row="0"
@@ -76,6 +77,7 @@
 					  Name="cmbComp"
 					  Margin="0,0,0,5"
 					  Width="650"
+                      HorizontalAlignment="Left"
 					  ItemsSource="{Binding RemoteDBComps}"
                       SelectedItem="{Binding SelectedComp}"
                       DisplayMemberPath="Desc.Name"/>
@@ -103,6 +105,7 @@
 					  Name="cmbMainJudge"
 					  Margin="0,0,0,5"
 					  Width="650"
+                      HorizontalAlignment="Left"
 					  IsEditable="True"
                       Text="{Binding SelectedComp.Desc.MainJudge, FallbackValue=''}"/>
 
@@ -116,6 +119,7 @@
 					  Name="cmbMainSecretary"
 					  Margin="0,0,0,5"
 					  Width="650"
+                      HorizontalAlignment="Left"
 					  IsEditable="True"
                       Text="{Binding SelectedComp.Desc.MainSecretary, FallbackValue=''}"/>
 
@@ -135,6 +139,7 @@
 					  Margin="0,0,0,5"
 					  Width="650"
 					  IsEditable="True"
+                      HorizontalAlignment="Left"
                       IsEnabled="{Binding SelectedComp.Desc.ShowRow6, FallbackValue=false}"
                       Text="{Binding SelectedComp.Desc.Row6, FallbackValue=''}"/>
 
@@ -164,6 +169,7 @@
                                   x:Name="txtDestCompFolder"
                                   Margin="0,0,0,5"
                                   Width="550"
+                                  HorizontalAlignment="Left"
                                   InputCheckType="NotEmpty"
                                   FieldName="{Loc resDestCompFolder}"
                                   Text="{Binding SelectedComp.Desc.DestCompFolder, FallbackValue=''}"/>
@@ -171,6 +177,7 @@
                     Grid.Column="2" 
                     Content="..."
 					Width="75"
+                    HorizontalAlignment="Left"
 					Margin="0,0,0,5"
 					Padding="5"
 					Click="btnDestFolderBrowse_Click" />
@@ -182,6 +189,7 @@
 					  ItemsSource="{Binding SecectedCompGroups}"
 					  SelectionMode="Single"
 					  Height="300"
+                      MaxWidth="900"
 					  Margin="0,10,0,0">
                 <ListView.View>
                     <GridView  AllowsColumnReorder="False">
@@ -200,12 +208,11 @@
                         <GridViewColumn Header="{Loc resGroupName}" >
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <localctrls:TextBoxEx Padding="5"
-															Margin="0"
-															Width="220"
-															Text="{Binding Name}"
-															InputCheckType="NotEmpty"
-															FieldName="{Loc resGroupName}"/>
+                                    <TextBox Padding="5"
+                                             Margin="0"
+                                             Width="170"
+                                             Text="{Binding Name}"
+                                             IsReadOnly="True"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
@@ -257,6 +264,19 @@
 													SelectedDateFormat="Short"
                                                     FirstDayOfWeek="Monday"/>
                                     </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
+                        <GridViewColumn Header="{Loc resWorkbookName}" >
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <localctrls:TextBoxEx Padding="5"
+															Margin="0"
+															Width="500"
+															Text="{Binding WorkbookName}"
+															InputCheckType="NotEmpty"
+															FieldName="{Loc resWorkbookName}"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>

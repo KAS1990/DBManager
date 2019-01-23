@@ -88,7 +88,7 @@ namespace DBManager.RoundMembers.Converters
 
 			CConverterResult res = new CConverterResult();
 
-			lock (DBManagerApp.m_AppSettings.m_SettigsSyncObj)
+			lock (DBManagerApp.m_AppSettings.m_SettingsSyncObj)
 			{
 				if ((Member.HasFalsestart && DestColumnType == enCellType.SurnameAndName)
 					|| (result.AdditionalEventTypes.HasValue && result.AdditionalEventTypes.Value.HasFlag(enAdditionalEventTypes.Falsestart)

@@ -166,12 +166,20 @@
     <Compile Include="Excel\Exporting\Tabs\CExportingTabBase.cs" />
     <Compile Include="Excel\GeneratingWorkbooks\CompDesc.cs" />
     <Compile Include="Excel\GeneratingWorkbooks\CompItem.cs" />
+    <Compile Include="Excel\GeneratingWorkbooks\Interfaces\IDataExtractor.cs" />
     <Compile Include="Excel\GeneratingWorkbooks\GenerationFromOnlineBDWnd.xaml.cs">
       <DependentUpon>GenerationFromOnlineBDWnd.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Excel\GeneratingWorkbooks\GeneratorBase.cs" />
-    <Compile Include="Excel\GeneratingWorkbooks\GroupItem.cs" />
+    <Compile Include="Excel\GeneratingWorkbooks\Helpers\GradeExtensions.cs" />
+    <Compile Include="Excel\GeneratingWorkbooks\Interfaces\ICompDesc.cs" />
+    <Compile Include="Excel\GeneratingWorkbooks\Interfaces\IGroupItem.cs" />
+    <Compile Include="Excel\GeneratingWorkbooks\RemoteDBDataExtractor.cs" />
+    <Compile Include="Excel\GeneratingWorkbooks\WorkbookGenerator.cs" />
+    <Compile Include="Excel\GeneratingWorkbooks\GroupItemRemoteDB.cs" />
     <Compile Include="Excel\GeneratingWorkbooks\Helpers\BoolExtensions.cs" />
+    <Compile Include="Excel\GeneratingWorkbooks\Helpers\SexExtensions.cs" />
+    <Compile Include="Excel\GeneratingWorkbooks\Helpers\StartListWorksheetHelper.cs" />
+    <Compile Include="Global\ExcelApplicationEx.cs" />
     <Compile Include="Excel\GeneratingWorkbooks\Helpers\Int32Extensions.cs" />
     <Compile Include="Excel\GeneratingWorkbooks\Helpers\SetupWorksheetHelper.cs" />
     <Compile Include="Excel\GeneratingWorkbooks\Helpers\WorkbookDataFileWrapper.cs" />

@@ -35,6 +35,7 @@ namespace DBManager.Excel.GeneratingWorkbooks.Helpers
 
         const int REQUEST_LOAD_FLAGS = 1;
         const int REQUEST_CLEAR_BOOK_SILENTLY = 2;
+        const int REQUEST_FILL_WBK_BASED_ON_SETUP_SHEET = 3;
         const int CLEAR_WBK_FLAGS_VALUE = 64;
         const int INIT_HIDE_FLAGS_VALUE = 0;
         const int INIT_TRANS_FLAGS_VALUE = 0;
@@ -42,7 +43,6 @@ namespace DBManager.Excel.GeneratingWorkbooks.Helpers
         #endregion
 
         readonly WorkbookDataFileWrapper m_DataFileWrapper = null;
-        readonly WorkbookFlagsWrapper m_WorkbookFlagsWrapper = null;
         readonly MSExcel.Workbook m_wbk = null;
         readonly MSExcel.Worksheet m_wshSetup = null;
 
@@ -337,10 +337,36 @@ namespace DBManager.Excel.GeneratingWorkbooks.Helpers
 
         #endregion
 
+        #region FLAGS
+
+        ushort? m_FLAGS = null;
+        public ushort FLAGS
+        {
+            get
+            {
+                if (m_FLAGS == null)
+                {
+                    m_FLAGS = m_wshSetup.Range[RN_FLAGS].Value;
+                }
+
+                return m_FLAGS ?? 0;
+            }
+            set
+            {
+                if (m_FLAGS == null)
+                {
+                    m_wshSetup.Range[RN_FLAGS].Value = value;
+
+                    m_FLAGS = value;
+                }
+            }
+        }
+
+        #endregion
+
         #region Constructors
 
-        public SetupWorksheetHelper(MSExcel.Workbook wbk
-            )
+        public SetupWorksheetHelper(MSExcel.Workbook wbk)
         {
             m_wbk = wbk;
             m_wshSetup = m_wbk.Worksheets[SETUP_SHEET_NAME];
@@ -352,7 +378,6 @@ namespace DBManager.Excel.GeneratingWorkbooks.Helpers
             )
         {
             m_DataFileWrapper = dataFileWrapper;
-            m_WorkbookFlagsWrapper = workbookFlagsWrapper;
             m_wbk = wbk;
             if (m_wbk != null)
                 m_wshSetup = m_wbk.Worksheets[SETUP_SHEET_NAME];
@@ -367,13 +392,11 @@ namespace DBManager.Excel.GeneratingWorkbooks.Helpers
 
             try
             {
-                m_wshSetup.Range[RN_FLAGS].Value = CLEAR_WBK_FLAGS_VALUE;
+                FLAGS = CLEAR_WBK_FLAGS_VALUE;
                 m_wshSetup.Range[RN_HIDE_FLAGS].Value = INIT_HIDE_FLAGS_VALUE;
                 m_wshSetup.Range[RN_TRANS_FLAGS].Value = INIT_TRANS_FLAGS_VALUE;
                 m_wshSetup.Range[RN_ON_SHEET_FLAGS].Value = m_wshSetup.Range[RN_INIT_ON_SHEET_FLAGS_VALUE].Value;
-                m_wshSetup.Range[RN_REQUEST].Value = REQUEST_LOAD_FLAGS; // Посылаем запрос на сохранение флагов
-
-                Thread.Sleep(100);
+                SaveAllFlags();
 
                 m_wshSetup.Range[RN_REQUEST].Value = REQUEST_CLEAR_BOOK_SILENTLY; // Посылаем запрос на молчаливую очистку книги при следующем открытии
             }
@@ -383,6 +406,18 @@ namespace DBManager.Excel.GeneratingWorkbooks.Helpers
             }
 
             return true;
+        }
+
+        public void SaveAllFlags()
+        {
+            m_wshSetup.Range[RN_REQUEST].Value = REQUEST_LOAD_FLAGS; // Посылаем запрос на сохранение флагов
+            Thread.Sleep(100);
+        }
+
+        public void SendRequestToFillWbkBasedOnSetupSheet()
+        {
+            m_wshSetup.Range[RN_REQUEST].Value = REQUEST_FILL_WBK_BASED_ON_SETUP_SHEET;
+            Thread.Sleep(3000);
         }
 
         private string GetStringByIndex(string excelRangeName,

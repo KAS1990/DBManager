@@ -11,5 +11,10 @@ namespace DBManager.Excel.GeneratingWorkbooks.Helpers
         {
             return number != 0;
         }
+
+        public static string ToLatinCapitalLetter(this Int32 number)
+        {
+            return ((char)('A' + 1)).ToString();
+        }
     }
 }

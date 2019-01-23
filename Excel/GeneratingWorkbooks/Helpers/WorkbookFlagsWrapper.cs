@@ -43,6 +43,13 @@ namespace DBManager.Excel.GeneratingWorkbooks.Helpers
 
                 return (ushort)res;
             }
+            set
+            {
+                for (int i = 0; i < m_flags.Count; i++)
+                {
+                    m_flags[i] = (value >> i) == 1;
+                }
+            }
         }
 
         #region Задание флагов и получение их состояния
@@ -50,19 +57,19 @@ namespace DBManager.Excel.GeneratingWorkbooks.Helpers
         public bool CompetitionHoldsOneDay
         {
             get { return m_flags[ONE_DAY_COMPETITION_BIT]; }
-            set { m_flags[ONE_DAY_COMPETITION_BIT] = value; }
+            private set { m_flags[ONE_DAY_COMPETITION_BIT] = value; }
         }
 
-        public bool CompetitionHoldsSomeDay
+        public bool CompetitionHoldsSomeDays
         {
             get { return m_flags[SOME_DAYS_COMPETITION_BIT]; }
-            set { m_flags[SOME_DAYS_COMPETITION_BIT] = value; }
+            private set { m_flags[SOME_DAYS_COMPETITION_BIT] = value; }
         }
 
         public bool Select1stRowInCmbYYYY
         {
             get { return !m_flags[CMB_YYYY_SELECTED_INDEX_BIT]; }
-            set { m_flags[CMB_YYYY_SELECTED_INDEX_BIT] = !value; }
+            private set { m_flags[CMB_YYYY_SELECTED_INDEX_BIT] = !value; }
         }
 
         public enSex Sex
@@ -106,5 +113,13 @@ namespace DBManager.Excel.GeneratingWorkbooks.Helpers
         }
 
         #endregion
+
+        public void SetFlagsByCompDates(DateTime startDate, DateTime? endDate)
+        {
+            CompetitionHoldsOneDay = endDate == null || startDate == endDate;
+            CompetitionHoldsSomeDays = !CompetitionHoldsOneDay;
+
+            Select1stRowInCmbYYYY = DateTime.Today.Year == startDate.Year;
+        }
     }
 }

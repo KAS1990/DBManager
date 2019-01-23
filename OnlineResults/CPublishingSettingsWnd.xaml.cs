@@ -141,7 +141,7 @@ namespace DBManager.OnlineResults
 
             m_CompId = CompId;
 
-			lock (DBManagerApp.m_AppSettings.m_SettigsSyncObj)
+			lock (DBManagerApp.m_AppSettings.m_SettingsSyncObj)
 			{
 				foreach (KeyValuePair<long, CKeyValuePairEx<long, CCompSettings>> item in CompGroups)
 				{
@@ -166,7 +166,7 @@ namespace DBManager.OnlineResults
 
 		private void btnOK_Click(object sender, RoutedEventArgs e)
 		{
-			lock (DBManagerApp.m_AppSettings.m_SettigsSyncObj)
+			lock (DBManagerApp.m_AppSettings.m_SettingsSyncObj)
 			{
 				CCompSpecificSets CompSets = null;
 				if (!DBManagerApp.m_AppSettings.m_Settings.dictCompSettings.TryGetValue(m_CompId, out CompSets))

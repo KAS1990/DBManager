@@ -516,7 +516,7 @@ namespace DBManager
 			m_RestartingThreads = true;
 			RefreshCommandEnable();
 
-			lock (DBManagerApp.m_AppSettings.m_SettigsSyncObj)
+			lock (DBManagerApp.m_AppSettings.m_SettingsSyncObj)
 			{
 				AppSettings settings = DBManagerApp.m_AppSettings.m_Settings;
 
@@ -611,7 +611,7 @@ namespace DBManager
 		/// <param name="e"></param>
 		public void SyncDBWithFilesCmdExecuted(object sender, RoutedEventArgs e)
 		{
-			lock (DBManagerApp.m_AppSettings.m_SettigsSyncObj)
+			lock (DBManagerApp.m_AppSettings.m_SettingsSyncObj)
 			{
 				AppSettings settings = DBManagerApp.m_AppSettings.m_Settings;
 
@@ -664,7 +664,7 @@ namespace DBManager
 		/// <param name="e"></param>
 		public void DBToGridCmdExecuted(object sender, RoutedEventArgs e)
 		{
-			lock (DBManagerApp.m_AppSettings.m_SettigsSyncObj)
+			lock (DBManagerApp.m_AppSettings.m_SettingsSyncObj)
 			{
 				AppSettings settings = DBManagerApp.m_AppSettings.m_Settings;
 
@@ -1851,7 +1851,7 @@ namespace DBManager
 									}
 
 									// Удаляем группу из DBManagerApp.m_AppSettings.m_Settings
-									lock (DBManagerApp.m_AppSettings.m_SettigsSyncObj)
+									lock (DBManagerApp.m_AppSettings.m_SettingsSyncObj)
 									{
 										if (CurrentGroups.Count == 0)
 											DBManagerApp.m_AppSettings.m_Settings.dictCompSettings.Remove(m_DirScanner.CompId);
@@ -1953,7 +1953,7 @@ namespace DBManager
 						CCompSpecificSets CompSets = null;
 						CPublishedGroupItemInSets PublishedGroupItemInSets = null;
 											
-						lock (DBManagerApp.m_AppSettings.m_SettigsSyncObj)
+						lock (DBManagerApp.m_AppSettings.m_SettingsSyncObj)
 						{
 							if (!m_OnlineResult.IsStarted ||
 								!DBManagerApp.m_AppSettings.m_Settings.dictCompSettings.TryGetValue(m_DirScanner.CompId, out CompSets) ||

@@ -367,6 +367,24 @@ namespace DBManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Не удалось получить список участников с сервера.
+        /// </summary>
+        internal static string resCouldNotExtractDataFromRemoteDB {
+            get {
+                return ResourceManager.GetString("resCouldNotExtractDataFromRemoteDB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Не удалось создать книги для соревнований.
+        /// </summary>
+        internal static string resCouldNotExtractDataToWbks {
+            get {
+                return ResourceManager.GetString("resCouldNotExtractDataToWbks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Добавление соревнования.
         /// </summary>
         internal static string resCreateCompetition {
@@ -390,6 +408,15 @@ namespace DBManager.Properties {
         internal static string resCreationDate {
             get {
                 return ResourceManager.GetString("resCreationDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Соревнования успешно импортированы в книги Excel.
+        /// </summary>
+        internal static string resDataIsExtractedToWbksSuccessfully {
+            get {
+                return ResourceManager.GetString("resDataIsExtractedToWbksSuccessfully", resourceCulture);
             }
         }
         
@@ -457,20 +484,20 @@ namespace DBManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Названия групп повторяются.
-        /// </summary>
-        internal static string resDuplicateGroupNames {
-            get {
-                return ResourceManager.GetString("resDuplicateGroupNames", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Названия листов повторяются.
         /// </summary>
         internal static string resDuplicateSheetNames {
             get {
                 return ResourceManager.GetString("resDuplicateSheetNames", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Названия книг повторяются.
+        /// </summary>
+        internal static string resDuplicateWorkbookNames {
+            get {
+                return ResourceManager.GetString("resDuplicateWorkbookNames", resourceCulture);
             }
         }
         
@@ -942,6 +969,15 @@ namespace DBManager.Properties {
         internal static string resfmtInvalidNumber {
             get {
                 return ResourceManager.GetString("resfmtInvalidNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Неверно заданы названия книг. Возможно они содержат недопустимые символы {0}.
+        /// </summary>
+        internal static string resfmtInvalidWorkbookNames {
+            get {
+                return ResourceManager.GetString("resfmtInvalidWorkbookNames", resourceCulture);
             }
         }
         
@@ -2808,6 +2844,15 @@ namespace DBManager.Properties {
         internal static string resWomenInGroup {
             get {
                 return ResourceManager.GetString("resWomenInGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Название книги.
+        /// </summary>
+        internal static string resWorkbookName {
+            get {
+                return ResourceManager.GetString("resWorkbookName", resourceCulture);
             }
         }
         

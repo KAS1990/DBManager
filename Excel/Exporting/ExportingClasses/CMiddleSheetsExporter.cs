@@ -70,7 +70,7 @@ namespace DBManager.Excel.Exporting.ExportingClasses
 		{
 			// Копируем в конец новой книги лист-шаблон
 			MSExcel.Worksheet wsh = null;
-			lock (DBManagerApp.m_AppSettings.m_SettigsSyncObj)
+			lock (DBManagerApp.m_AppSettings.m_SettingsSyncObj)
 			{
 				wsh = wbkTemplates.Worksheets[DBManagerApp.m_AppSettings.m_Settings.ExcelSettings.dictReportTemplates[CurTask.m_ReportType]];
 			}

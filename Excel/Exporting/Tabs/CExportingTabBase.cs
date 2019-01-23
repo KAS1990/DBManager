@@ -117,7 +117,7 @@ namespace DBManager.Excel.Exporting.Tabs
 		protected bool BaseBrowse_Click(out string Path, string filter, bool IsOpenDlg)
 		{
 			Path = null;
-			lock (DBManagerApp.m_AppSettings.m_SettigsSyncObj)
+			lock (DBManagerApp.m_AppSettings.m_SettingsSyncObj)
 			{
 				if (IsOpenDlg)
 				{

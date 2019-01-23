@@ -48,7 +48,7 @@ namespace DBManager.OnlineDB
 
         void DisconnectFromRemoteDB()
         {
-            m_Entities.Dispose();
+            m_Entities?.Dispose();
             m_Entities = null;
         }
 

@@ -173,7 +173,7 @@ namespace DBManager.Excel.Exporting.Tabs
 		{
 			InitializeComponent();
 
-			lock (DBManagerApp.m_AppSettings.m_SettigsSyncObj)
+			lock (DBManagerApp.m_AppSettings.m_SettingsSyncObj)
 			{
 				AppSettings settings = DBManagerApp.m_AppSettings.m_Settings;
 								
@@ -498,7 +498,7 @@ namespace DBManager.Excel.Exporting.Tabs
 		{
 			if (HasLeadReport)
 			{
-				lock (DBManagerApp.m_AppSettings.m_SettigsSyncObj)
+				lock (DBManagerApp.m_AppSettings.m_SettingsSyncObj)
 				{
 					AppSettings settings = DBManagerApp.m_AppSettings.m_Settings;
 

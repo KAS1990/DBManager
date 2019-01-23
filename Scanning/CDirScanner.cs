@@ -159,7 +159,7 @@ namespace DBManager.Scanning
 					i++;
 				else
 				{	// Запустить сканер почему-то не получилось
-					lock (DBManagerApp.m_AppSettings.m_SettigsSyncObj)
+					lock (DBManagerApp.m_AppSettings.m_SettingsSyncObj)
 						DBManagerApp.m_AppSettings.m_Settings.dictFileScannerSettings.Remove(scanner.ScanningPath);
 
 					m_FileScanners.Remove(ScannersPaths[i]);
@@ -270,7 +270,7 @@ namespace DBManager.Scanning
                                 if (Path.GetDirectoryName(ScannerSettings.FullFilePath) != SyncParam.m_Dir)
                                 {   // Файл не находится в просматриваемой папке => он нам не нужен
                                     AllFilesSync = false;
-                                    lock (DBManagerApp.m_AppSettings.m_SettigsSyncObj)
+                                    lock (DBManagerApp.m_AppSettings.m_SettingsSyncObj)
                                         DBManagerApp.m_AppSettings.m_Settings.dictFileScannerSettings.Remove(ScannerSettings.FullFilePath);
                                     continue;
                                 }
@@ -291,7 +291,7 @@ namespace DBManager.Scanning
                                     {   // Синхронизироваться не удалось
                                         m_FileScanners.Remove(FullScannerFilePath);
                                         AllFilesSync = false;
-                                        lock (DBManagerApp.m_AppSettings.m_SettigsSyncObj)
+                                        lock (DBManagerApp.m_AppSettings.m_SettingsSyncObj)
                                             DBManagerApp.m_AppSettings.m_Settings.dictFileScannerSettings.Remove(ScannerSettings.FullFilePath);
                                     }
                                 }
@@ -307,7 +307,7 @@ namespace DBManager.Scanning
                                     else
                                     {   // Синхронизироваться не удалось
                                         AllFilesSync = false;
-                                        lock (DBManagerApp.m_AppSettings.m_SettigsSyncObj)
+                                        lock (DBManagerApp.m_AppSettings.m_SettingsSyncObj)
                                             DBManagerApp.m_AppSettings.m_Settings.dictFileScannerSettings.Remove(ScannerSettings.FullFilePath);
                                     }
                                 }
@@ -339,7 +339,7 @@ namespace DBManager.Scanning
                                 if (!Scanner.SyncSuccessfully)
                                 {   // Синхронизироваться не удалось
                                     m_FileScanners.Remove(FullFilePath);
-                                    lock (DBManagerApp.m_AppSettings.m_SettigsSyncObj)
+                                    lock (DBManagerApp.m_AppSettings.m_SettingsSyncObj)
                                         DBManagerApp.m_AppSettings.m_Settings.dictFileScannerSettings.Remove(FullFilePath);
                                     continue;
                                 }
@@ -365,7 +365,7 @@ namespace DBManager.Scanning
                                     FullFilePath = FullFilePath,
                                     GroupId = Scanner.Group.id_group
                                 };
-                                lock (DBManagerApp.m_AppSettings.m_SettigsSyncObj)
+                                lock (DBManagerApp.m_AppSettings.m_SettingsSyncObj)
                                     DBManagerApp.m_AppSettings.m_Settings.dictFileScannerSettings.TryAddValue(FullFilePath, ScannerSettings);
                             }
                         }
@@ -432,7 +432,7 @@ namespace DBManager.Scanning
 		{
 			LastException = null;
 
-			lock (DBManagerApp.m_AppSettings.m_SettigsSyncObj)
+			lock (DBManagerApp.m_AppSettings.m_SettingsSyncObj)
 				if (!DBManagerApp.m_AppSettings.m_Settings.HandleFileDeletion)
 					return;
 
@@ -557,7 +557,7 @@ namespace DBManager.Scanning
 						m_FileScanners.Remove(e.OldFullPath);
 						m_FileScanners.Add(Scanner.ScanningPath, Scanner);
 
-						lock (DBManagerApp.m_AppSettings.m_SettigsSyncObj)
+						lock (DBManagerApp.m_AppSettings.m_SettingsSyncObj)
 						{
 							CFileScannerSettings settings;
 							if (DBManagerApp.m_AppSettings.m_Settings.dictFileScannerSettings.TryGetValue(e.OldFullPath, out settings))

@@ -88,7 +88,7 @@ namespace DBManager.Excel.Exporting.ExportingClasses
 				CGroupItem LeadGroupItem = null;
 
 				MSExcel.Worksheet wsh = null;
-				lock (DBManagerApp.m_AppSettings.m_SettigsSyncObj)
+				lock (DBManagerApp.m_AppSettings.m_SettingsSyncObj)
 				{
 					wsh = wbkTemplates.Worksheets[DBManagerApp.m_AppSettings.m_Settings.ExcelSettings.dictReportTemplates[enReportTypes.Personal]];
 				}

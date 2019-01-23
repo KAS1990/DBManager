@@ -20,7 +20,7 @@ namespace DBManager.Excel.GeneratingWorkbooks
 
 
         #region Groups
-        public ObservableCollection<GroupItem> Groups { get; private set; } = new ObservableCollection<GroupItem>();
+        public ObservableCollection<GroupItemRemoteDB> Groups { get; private set; } = new ObservableCollection<GroupItemRemoteDB>();
         #endregion
 
         public CompItem()
