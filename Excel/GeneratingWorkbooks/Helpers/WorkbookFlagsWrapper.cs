@@ -20,6 +20,10 @@ namespace DBManager.Excel.GeneratingWorkbooks.Helpers
         const int GROUP_YEARS_NEEDED_BIT = 5;
         const int SHOW_ROW_6_BIT = 8;
         /// <summary>
+        /// Вводилось ли примерное количество участников (= открыли форму frmStartForm первый раз)
+        /// </summary>
+        const int WBK_IS_OPENED_FIRST_TIME_BIT = 9;
+        /// <summary>
         /// 0 - команда, 1 - тренер
         /// </summary>
         const int TEAM_COACH_BIT = 11;
@@ -88,6 +92,12 @@ namespace DBManager.Excel.GeneratingWorkbooks.Helpers
         {
             get { return m_flags[SHOW_ROW_6_BIT]; }
             set { m_flags[SHOW_ROW_6_BIT] = value; }
+        }
+
+        public bool WorkbookIsOpenedFirstTime
+        {
+            get { return !m_flags[WBK_IS_OPENED_FIRST_TIME_BIT]; }
+            set { m_flags[WBK_IS_OPENED_FIRST_TIME_BIT] = !value; }
         }
 
         public enSecondColNameType SecondColNameType

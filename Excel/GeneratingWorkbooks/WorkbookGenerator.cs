@@ -266,7 +266,8 @@ namespace DBManager.Excel.GeneratingWorkbooks
                             flagsHelper.GroupYearsAreNeeded = availableGroupName.YearsRangeCanBeSet;
                             flagsHelper.GroupIndexValue = availableGroupName.ValueInWbkFlags;
                         }
-                        
+                        flagsHelper.WorkbookIsOpenedFirstTime = false;
+
                         wshHelper.FLAGS = flagsHelper.Value;
 
                         #endregion
