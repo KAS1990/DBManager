@@ -458,7 +458,7 @@ namespace DBManager.Excel.GeneratingWorkbooks.Helpers
 
             var stringsInFile = m_DataFileWrapper.GetStrings(itemType);
             int index = stringsInFile.IndexOf(value);
-            if (index >= 0)
+            if (index < 0)
             {
                 m_DataFileWrapper.AddItemIfNotExists(value, itemType);
                 index = stringsInFile.Count;
