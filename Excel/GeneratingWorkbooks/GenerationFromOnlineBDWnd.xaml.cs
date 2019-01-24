@@ -155,7 +155,7 @@ namespace DBManager.Excel.GeneratingWorkbooks
 
                             RemoteDBComps.Add(item);
                         }
-                        SelectedComp = RemoteDBComps.FirstOrDefault();
+                        SelectedComp = RemoteDBComps.LastOrDefault();
                     }
                     catch (Exception ex)
                     {
@@ -321,19 +321,20 @@ namespace DBManager.Excel.GeneratingWorkbooks
                                                     asyncResult.hFinishedSearchEvent.Set();
                                             }))
             {
-                if (!dataExtractor.Extract(SelectedComp.Desc, SecectedCompGroups))
+                string errorMessage = null;
+                if (!dataExtractor.Extract(SelectedComp.Desc, SecectedCompGroups, out errorMessage))
                 {
                     MessageBox.Show(this,
-                        Properties.Resources.resCouldNotExtractDataFromRemoteDB,
+                        string.Format(Properties.Resources.resfmtCouldNotExtractDataFromRemoteDB, errorMessage),
                         AppAttributes.Title,
                         MessageBoxButton.OK,
                         MessageBoxImage.Error);
                     return;
                 }
-                if (!generator.Generate())
+                if (!generator.Generate(out errorMessage))
                 {
                     MessageBox.Show(this,
-                        Properties.Resources.resCouldNotExtractDataToWbks,
+                        string.Format(Properties.Resources.resfmtCouldNotExtractDataToWbks, errorMessage),
                         AppAttributes.Title,
                         MessageBoxButton.OK,
                         MessageBoxImage.Error);

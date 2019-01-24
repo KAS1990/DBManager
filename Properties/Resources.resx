@@ -1119,11 +1119,13 @@
     <value>Ошибка при получении данных из удалённой БД:
 {0}</value>
   </data>
-  <data name="resCouldNotExtractDataFromRemoteDB" xml:space="preserve">
-    <value>Не удалось получить список участников с сервера</value>
+  <data name="resfmtCouldNotExtractDataFromRemoteDB" xml:space="preserve">
+    <value>Не удалось получить список участников с сервера:
+{0}</value>
   </data>
-  <data name="resCouldNotExtractDataToWbks" xml:space="preserve">
-    <value>Не удалось создать книги для соревнований</value>
+  <data name="resfmtCouldNotExtractDataToWbks" xml:space="preserve">
+    <value>Не удалось создать книги для соревнований:
+{0}</value>
   </data>
   <data name="resDataIsExtractedToWbksSuccessfully" xml:space="preserve">
     <value>Соревнования успешно импортированы в книги Excel</value>
@@ -1133,5 +1135,11 @@
   </data>
   <data name="resWorkbookName" xml:space="preserve">
     <value>Название книги</value>
+  </data>
+  <data name="resfmtNoMembersInSomeGroups" xml:space="preserve">
+    <value>В группах {0} нет участников</value>
+  </data>
+  <data name="resNoGroupsToGenerateWorkbooks" xml:space="preserve">
+    <value>Нет данных для экспорта</value>
   </data>
 </root>

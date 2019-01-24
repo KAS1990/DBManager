@@ -385,10 +385,15 @@ namespace DBManager.Excel.GeneratingWorkbooks.Helpers
 
         #endregion
 
-        public bool PrepareSheetToClearWorkbook()
+        public bool PrepareSheetToClearWorkbook(out string message)
         {
+            message = null;
+
             if (m_wshSetup == null)
+            {
+                message = $"error in PrepareSheetToClearWorkbook: m_wshSetup == null";
                 return false;
+            }
 
             try
             {
@@ -400,8 +405,9 @@ namespace DBManager.Excel.GeneratingWorkbooks.Helpers
 
                 m_wshSetup.Range[RN_REQUEST].Value = REQUEST_CLEAR_BOOK_SILENTLY; // Посылаем запрос на молчаливую очистку книги при следующем открытии
             }
-            catch
+            catch (Exception ex)
             {
+                message = $"exception in PrepareSheetToClearWorkbook: {ex.Message}";
                 return false;
             }
 

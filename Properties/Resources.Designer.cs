@@ -367,24 +367,6 @@ namespace DBManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Не удалось получить список участников с сервера.
-        /// </summary>
-        internal static string resCouldNotExtractDataFromRemoteDB {
-            get {
-                return ResourceManager.GetString("resCouldNotExtractDataFromRemoteDB", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Не удалось создать книги для соревнований.
-        /// </summary>
-        internal static string resCouldNotExtractDataToWbks {
-            get {
-                return ResourceManager.GetString("resCouldNotExtractDataToWbks", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Добавление соревнования.
         /// </summary>
         internal static string resCreateCompetition {
@@ -845,6 +827,26 @@ namespace DBManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Не удалось получить список участников с сервера:
+        ///{0}.
+        /// </summary>
+        internal static string resfmtCouldNotExtractDataFromRemoteDB {
+            get {
+                return ResourceManager.GetString("resfmtCouldNotExtractDataFromRemoteDB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Не удалось создать книги для соревнований:
+        ///{0}.
+        /// </summary>
+        internal static string resfmtCouldNotExtractDataToWbks {
+            get {
+                return ResourceManager.GetString("resfmtCouldNotExtractDataToWbks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Данные из БД для каталога &quot;{0}&quot; успешно выведены на экран.
         /// </summary>
         internal static string resfmtDBToGridCopiedSuccessfully {
@@ -1032,6 +1034,15 @@ namespace DBManager.Properties {
         internal static string resfmtMaxYearToCalcResultGrade {
             get {
                 return ResourceManager.GetString("resfmtMaxYearToCalcResultGrade", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to В группах {0} нет участников.
+        /// </summary>
+        internal static string resfmtNoMembersInSomeGroups {
+            get {
+                return ResourceManager.GetString("resfmtNoMembersInSomeGroups", resourceCulture);
             }
         }
         
@@ -1800,6 +1811,15 @@ namespace DBManager.Properties {
         internal static string resNoGroupsToExport {
             get {
                 return ResourceManager.GetString("resNoGroupsToExport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Нет данных для экспорта.
+        /// </summary>
+        internal static string resNoGroupsToGenerateWorkbooks {
+            get {
+                return ResourceManager.GetString("resNoGroupsToGenerateWorkbooks", resourceCulture);
             }
         }
         

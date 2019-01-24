@@ -243,7 +243,7 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 			EditMember = new CCommand(EditMember_Executed);
 		}
 
-		private void EditMember_Executed()
+        private void EditMember_Executed()
 		{
 			var viewModel = new EditMemberViewModel(this,
 				DBManagerApp.MainWnd.CurrentGroups.SelectedKey,

@@ -173,6 +173,7 @@
     <Compile Include="Excel\GeneratingWorkbooks\Helpers\GradeExtensions.cs" />
     <Compile Include="Excel\GeneratingWorkbooks\Interfaces\ICompDesc.cs" />
     <Compile Include="Excel\GeneratingWorkbooks\Interfaces\IGroupItem.cs" />
+    <Compile Include="Excel\GeneratingWorkbooks\MemberInfo.cs" />
     <Compile Include="Excel\GeneratingWorkbooks\RemoteDBDataExtractor.cs" />
     <Compile Include="Excel\GeneratingWorkbooks\WorkbookGenerator.cs" />
     <Compile Include="Excel\GeneratingWorkbooks\GroupItemRemoteDB.cs" />
@@ -529,6 +530,7 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>onlineEntities.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <None Include="Docs\Таблица Скорость Новая.xlsm" />
     <None Include="OnlineDB\Data\onlineEntities.edmx.diagram">
       <DependentUpon>onlineEntities.edmx</DependentUpon>
     </None>

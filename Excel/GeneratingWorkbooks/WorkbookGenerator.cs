@@ -14,6 +14,27 @@ namespace DBManager.Excel.GeneratingWorkbooks
 {
     public class WorkbookGenerator
     {
+        class RunWbkActionResult<TResult> where TResult : IComparable
+        {
+            public TResult Result { get; }
+            public string ErrorMessage { get; } = null;
+
+            public RunWbkActionResult()
+            {
+            }
+
+            public RunWbkActionResult(TResult result)
+            {
+                Result = result;
+            }
+
+            public RunWbkActionResult(TResult result, string errorMessage)
+            {
+                Result = result;
+                ErrorMessage = errorMessage;
+            }
+        }
+
         private readonly IDataExtractor m_DataExtractor = null;
 
         public WorkbookGenerator(IDataExtractor dataExtractor)
@@ -68,9 +89,11 @@ namespace DBManager.Excel.GeneratingWorkbooks
                     string wbkFullPath,
                     bool closeWbkAfterAction,
                     TResult trueValue,
-                    Func<MSExcel.Workbook, TResult> action)
+                    Func<MSExcel.Workbook, RunWbkActionResult<TResult>> action,
+                    out string message)
             where TResult : IComparable
         {
+            message = null;
             try
             {
                 using (var wrapper = new DisposableWrapper<MSExcel.Application>(excelApp.App,
@@ -90,8 +113,11 @@ namespace DBManager.Excel.GeneratingWorkbooks
                         if (wbk != null)
                         {
                             var res = action(wbk);
-                            if (res.CompareTo(trueValue) != 0)
+                            if (res.Result.CompareTo(trueValue) != 0)
+                            {
+                                message = res.ErrorMessage;
                                 return false;
+                            }
 
                             wbk.Save();
                             if (closeWbkAfterAction)
@@ -102,16 +128,21 @@ namespace DBManager.Excel.GeneratingWorkbooks
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                message = $"exception in RunWbkOperation: {ex.Message}";
             }
 
             return false;
         }
 
-        private bool CopyFilesToNewFolder(string destFolderFullPath, string sourceFolderFullPath, string[] sourceFileRelativePaths)
+        private bool CopyFilesToNewFolder(string destFolderFullPath,
+            string sourceFolderFullPath, 
+            string[] sourceFileRelativePaths,
+            out string message)
         {
+            message = null;
+
             try
             {
                 if (!Directory.Exists(destFolderFullPath))
@@ -120,7 +151,9 @@ namespace DBManager.Excel.GeneratingWorkbooks
                 foreach (var relativePath in sourceFileRelativePaths)
                 {
                     string fileName = Path.GetFileName(relativePath);
-                    string[] pathDirs = Path.GetDirectoryName(relativePath).Split(Path.DirectorySeparatorChar);
+                    string[] pathDirs = Path
+                                            .GetDirectoryName(relativePath)
+                                            .Split(new char[] { Path.DirectorySeparatorChar }, StringSplitOptions.RemoveEmptyEntries);
 
                     foreach (var pathDir in pathDirs)
                     {
@@ -128,42 +161,53 @@ namespace DBManager.Excel.GeneratingWorkbooks
                         if (!Directory.Exists(destDirPath))
                             Directory.CreateDirectory(destDirPath);
                     }
-                    File.Copy(Path.Combine(destFolderFullPath, relativePath), Path.Combine(sourceFolderFullPath, relativePath), true);
+                    File.Copy(Path.Combine(sourceFolderFullPath, relativePath), Path.Combine(destFolderFullPath, relativePath), true);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                message = $"exception in CopyFilesToNewFolder: {ex.Message}";
                 return false;
             }
 
             return true;
         }
 
-        private bool PrepareTemplateWorkbook(ExcelApplicationEx excelApp, string wbkTemplateFullPath)
+        private bool PrepareTemplateWorkbook(ExcelApplicationEx excelApp, string wbkTemplateFullPath, out string message)
         {
             return RunWbkOperation<bool>(excelApp, wbkTemplateFullPath, true, true,
                 wbk =>
                 {
+
                     try
                     {
                         var helper = new SetupWorksheetHelper(wbk);
-                        return helper.PrepareSheetToClearWorkbook();
+                        string error;
+                        var result = helper.PrepareSheetToClearWorkbook(out error);
+                        return new RunWbkActionResult<bool>(result, error);
                     }
-                    catch
+                    catch (Exception ex)
                     {
-                        return false;
+                        return new RunWbkActionResult<bool>(false, $"exception in PrepareTemplateWorkbook: {ex.Message}");
                     }
-                });
+                },
+                out message);
         }
 
         private bool CreateGroupWbkAndWriteGroupDesc(ExcelApplicationEx excelApp,
             string wbkTemplateFullPath,
             string wbkFullPath,
             ICompDesc compDesc,
-            IGroupItem groupDesc)
+            IGroupItem groupDesc,
+            out string message)
         {
+            message = null;
+
             if (!File.Exists(wbkTemplateFullPath))
+            {
+                message = $"error in CreateGroupWbkAndWriteGroupDesc: {wbkTemplateFullPath} is not existed";
                 return false;
+            }
 
             File.Copy(wbkTemplateFullPath, wbkFullPath, true);
 
@@ -221,18 +265,20 @@ namespace DBManager.Excel.GeneratingWorkbooks
                         wbk.Save();
                         wshHelper.SendRequestToFillWbkBasedOnSetupSheet();
 
-                        return true;
+                        return new RunWbkActionResult<bool>(true);
                     }
-                    catch
+                    catch (Exception ex)
                     {
-                        return false;
+                        return new RunWbkActionResult<bool>(false, $"exception in CreateGroupWbkAndWriteGroupDesc: {ex.Message}");
                     }
-                });
+                },
+                out message);
         }
 
         private bool ExportDataWriteMembersToWbk(ExcelApplicationEx excelApp,
             string wbkFullPath,
-            IEnumerable<CFullMemberInfo> data)
+            IEnumerable<CFullMemberInfo> data,
+            out string message)
         {
             return RunWbkOperation<bool>(excelApp, wbkFullPath, true, true,
                 wbk =>
@@ -248,27 +294,34 @@ namespace DBManager.Excel.GeneratingWorkbooks
                         {
                             helper.SetMember(list[i], i);
                         }
-                        
-                        return true;
+
+                        return new RunWbkActionResult<bool>(true);
                     }
-                    catch
+                    catch (Exception ex)
                     {
-                        return false;
+                        return new RunWbkActionResult<bool>(false, $"exception in ExportDataWriteMembersToWbk: {ex.Message}");
                     }
-                });
+                },
+                out message);
         }
 
-        public bool Generate()
+        public bool Generate(out string message)
         {
+            message = null;
+
             if ((m_DataExtractor == null) || (m_DataExtractor.CompDesc == null) || ((m_DataExtractor.GroupsMembers?.Count ?? 0) == 0))
+            {
+                message = "error in Generate: extractor is not set, or CompDesc is not set, or there are not group members";
                 return false;
+            }
 
             // Создаём папку с соревнованиями
             lock (DBManagerApp.m_AppSettings.m_SettingsSyncObj)
             {
                 if (!CopyFilesToNewFolder(m_DataExtractor.CompDesc.DestCompFolder,
                     DBManagerApp.m_AppSettings.m_Settings.WorkbookTemplateFolder,
-                    DBManagerApp.m_AppSettings.m_Settings.FilesToCopyFromWorkbookTemplateFolder))
+                    DBManagerApp.m_AppSettings.m_Settings.FilesToCopyFromWorkbookTemplateFolder,
+                    out message))
                 {
                     return false;
                 }
@@ -296,7 +349,7 @@ namespace DBManager.Excel.GeneratingWorkbooks
                         wbkTemplateFullPath = Path.Combine(m_DataExtractor.CompDesc.DestCompFolder,
                                                             DBManagerApp.m_AppSettings.m_Settings.WorkbookTemplateName);
                     }
-                    if (!PrepareTemplateWorkbook(excelApp.Object, wbkTemplateFullPath))
+                    if (!PrepareTemplateWorkbook(excelApp.Object, wbkTemplateFullPath, out message))
                         return false;
 
                     foreach (var group in m_DataExtractor.GroupsMembers)
@@ -304,23 +357,25 @@ namespace DBManager.Excel.GeneratingWorkbooks
                         string wbkFullPath = Path.Combine(m_DataExtractor.CompDesc.DestCompFolder, group.Key.WorkbookName);
 
                         if (!CreateGroupWbkAndWriteGroupDesc(excelApp.Object,
-                            wbkTemplateFullPath,
-                            wbkFullPath,
-                            m_DataExtractor.CompDesc,
-                            group.Key))
+                                                            wbkTemplateFullPath,
+                                                            wbkFullPath,
+                                                            m_DataExtractor.CompDesc,
+                                                            group.Key,
+                                                            out message))
                         {
                             return false;
                         }
 
-                        if (!ExportDataWriteMembersToWbk(excelApp.Object, wbkFullPath, group.Value))
+                        if (!ExportDataWriteMembersToWbk(excelApp.Object, wbkFullPath, group.Value, out message))
                             return false;
                     }
                 }
 
                 return true;
             }
-            catch
+            catch (Exception ex)
             {
+                message = $"exception in Generate: {ex.Message}";
                 return false;
             }
         }
