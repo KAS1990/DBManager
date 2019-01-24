@@ -216,9 +216,23 @@ namespace DBManager.Excel.GeneratingWorkbooks
                 {
                     try
                     {
+                        #region WorkbookDataFileWrapper
+
+                        var dataFileWrapper = new WorkbookDataFileWrapper(compDesc.DestCompFolder);
+
+                        dataFileWrapper.AddItemIfNotExists(compDesc.Name, WorkbookDataFileWrapper.enWorkbookDataFileHelperItemType.CompetitionName);
+                        dataFileWrapper.AddItemIfNotExists(compDesc.MainJudge, WorkbookDataFileWrapper.enWorkbookDataFileHelperItemType.MainJudge);
+                        dataFileWrapper.AddItemIfNotExists(compDesc.MainSecretary, WorkbookDataFileWrapper.enWorkbookDataFileHelperItemType.MainSecretary);
+                        dataFileWrapper.AddItemIfNotExists(compDesc.Row6, WorkbookDataFileWrapper.enWorkbookDataFileHelperItemType.Row6);
+
+                        string errorMessage;
+                        if (!dataFileWrapper.Save(out errorMessage))
+                            return new RunWbkActionResult<bool>(false, errorMessage);
+                        #endregion
+
                         #region SetupWorksheetHelper
 
-                        var wshHelper = new SetupWorksheetHelper(wbk);
+                        var wshHelper = new SetupWorksheetHelper(dataFileWrapper, wbk);
 
                         wshHelper.CompName = compDesc.Name;
 

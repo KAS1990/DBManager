@@ -373,7 +373,6 @@ namespace DBManager.Excel.GeneratingWorkbooks.Helpers
         }
 
         public SetupWorksheetHelper(WorkbookDataFileWrapper dataFileWrapper,
-            WorkbookFlagsWrapper workbookFlagsWrapper,
             MSExcel.Workbook wbk
             )
         {
@@ -461,7 +460,7 @@ namespace DBManager.Excel.GeneratingWorkbooks.Helpers
             int index = stringsInFile.IndexOf(value);
             if (index >= 0)
             {
-                m_DataFileWrapper.AddItem(value, itemType);
+                m_DataFileWrapper.AddItemIfNotExists(value, itemType);
                 index = stringsInFile.Count;
             }
             m_wshSetup.Range[excelRangeName].Value = index;

@@ -17,7 +17,7 @@ namespace DBManager.Excel.GeneratingWorkbooks.Helpers
             Row6 = 4
         }
 
-        class FileItem
+        class FileItem : IEquatable<FileItem>
         {
             const string DELIMETER = "=+";
 
@@ -42,6 +42,11 @@ namespace DBManager.Excel.GeneratingWorkbooks.Helpers
             public override string ToString()
             {
                 return $"{Text} {DELIMETER}{(int)Type}";
+            }
+
+            public bool Equals(FileItem other)
+            {
+                return Type == other.Type && string.Compare(Text, other.Text, true) == 0;
             }
         }
 
@@ -76,23 +81,28 @@ namespace DBManager.Excel.GeneratingWorkbooks.Helpers
             return m_FileItems.Where(arg => arg.Type == type).Select(arg => arg.Text).ToList();
         }
 
-        public void AddItem(string text, enWorkbookDataFileHelperItemType type)
+        public void AddItemIfNotExists(string text, enWorkbookDataFileHelperItemType type)
         {
-            m_FileItems.Add(new FileItem()
+            var newItem = new FileItem()
             {
                 Text = text,
                 Type = type
-            });
+            };
+
+            if (!m_FileItems.Contains(newItem))
+                m_FileItems.Add(newItem);
         }
 
-        public bool Save()
+        public bool Save(out string message)
         {
+            message = null;
             try
             {
                 File.WriteAllLines(m_FilePath, m_FileItems.Select(arg => arg.ToString()).ToArray());
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                message = $"exception in WorkbookDataFileWrapper.Save: {ex.Message}";
                 return false;
             }
 
