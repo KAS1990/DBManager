@@ -220,14 +220,6 @@ namespace DBManager.Excel.GeneratingWorkbooks
 
                         var dataFileWrapper = new WorkbookDataFileWrapper(compDesc.DestCompFolder);
 
-                        dataFileWrapper.AddItemIfNotExists(compDesc.Name, WorkbookDataFileWrapper.enWorkbookDataFileHelperItemType.CompetitionName);
-                        dataFileWrapper.AddItemIfNotExists(compDesc.MainJudge, WorkbookDataFileWrapper.enWorkbookDataFileHelperItemType.MainJudge);
-                        dataFileWrapper.AddItemIfNotExists(compDesc.MainSecretary, WorkbookDataFileWrapper.enWorkbookDataFileHelperItemType.MainSecretary);
-                        dataFileWrapper.AddItemIfNotExists(compDesc.Row6, WorkbookDataFileWrapper.enWorkbookDataFileHelperItemType.Row6);
-
-                        string errorMessage;
-                        if (!dataFileWrapper.Save(out errorMessage))
-                            return new RunWbkActionResult<bool>(false, errorMessage);
                         #endregion
 
                         #region SetupWorksheetHelper
@@ -247,6 +239,10 @@ namespace DBManager.Excel.GeneratingWorkbooks
                         wshHelper.EndGroupYear = groupDesc.EndYear;
 
                         #endregion
+
+                        string errorMessage;
+                        if (!dataFileWrapper.Save(out errorMessage))
+                            return new RunWbkActionResult<bool>(false, errorMessage);
 
                         #region Заполняем FLAGS
 
