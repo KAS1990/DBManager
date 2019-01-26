@@ -69,6 +69,45 @@ namespace DBManager.Excel.GeneratingWorkbooks
                         {   // Создаём копию, чтобы не затирать исходные данные
                             SecectedCompGroups.Add(new GroupItemRemoteDB(group));
                         }
+
+                        lock (DBManagerApp.m_AppSettings.m_SettingsSyncObj)
+                        {
+                            value.Desc.DestCompFolder = DBManagerApp.m_AppSettings.m_Settings.CompetitionsFolder;
+
+                            if (value.Desc.EndDate.HasValue && value.Desc.StartDate != value.Desc.EndDate.Value)
+                            {
+                                if (value.Desc.StartDate.Year == value.Desc.EndDate.Value.Year)
+                                {
+                                    if (value.Desc.StartDate.Month == value.Desc.EndDate.Value.Month)
+                                    {
+                                        value.Desc.DestCompFolder = System.IO.Path.Combine(value.Desc.DestCompFolder,
+                                                                                string.Format("{0:D2}-{1:D2}.{2:D2}.{3:D2}",
+                                                                                                value.Desc.StartDate.Day,
+                                                                                                value.Desc.EndDate.Value.Day,
+                                                                                                value.Desc.StartDate.Month,
+                                                                                                value.Desc.StartDate.Year));
+                                    }
+                                    else
+                                    {
+                                        value.Desc.DestCompFolder = System.IO.Path.Combine(value.Desc.DestCompFolder,
+                                                                                string.Format("{0:D2}.{1:D2}-{2:D2}.{3:D2}.{4:D2}",
+                                                                                                value.Desc.StartDate.Day,
+                                                                                                value.Desc.StartDate.Month,
+                                                                                                value.Desc.EndDate.Value.Day,
+                                                                                                value.Desc.EndDate.Value.Month,
+                                                                                                value.Desc.StartDate.Year));
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                value.Desc.DestCompFolder = System.IO.Path.Combine(value.Desc.DestCompFolder,
+                                                                               string.Format("{0:D2}.{1:D2}.{2:D2}",
+                                                                                               value.Desc.StartDate.Day,
+                                                                                               value.Desc.StartDate.Month,
+                                                                                               value.Desc.StartDate.Year));
+                            }
+                        }
                     }
 
                     m_SelectedComp = value;
@@ -138,7 +177,7 @@ namespace DBManager.Excel.GeneratingWorkbooks
                             {
                                 if (DBManagerApp.m_AppSettings.m_Settings.AvailableGroupNames.Any(arg => string.Compare(arg.GroupName, group.name, true) == 0))
                                 {
-                                    var groupItem = new GroupItemRemoteDB()
+                                    var groupItem = new GroupItemRemoteDB(item.Desc)
                                     {
                                         ID = group.id,
                                         Name = group.name,
@@ -255,6 +294,12 @@ namespace DBManager.Excel.GeneratingWorkbooks
                 return false;
             }
 
+            if (string.IsNullOrEmpty(SelectedComp.Desc.DestCompFolder) || !Directory.Exists(SelectedComp.Desc.DestCompFolder))
+            {
+                MessageBox.Show(this, Properties.Resources.resInvalidDestCompFolder, Title, MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+
             if (!Directory.Exists(DBManagerApp.m_AppSettings.m_Settings.WorkbookTemplateFolder))
             {
                 MessageBox.Show(this, Properties.Resources.resInvalidWorkbookTemplateFolder, Title, MessageBoxButton.OK, MessageBoxImage.Error);
@@ -313,7 +358,9 @@ namespace DBManager.Excel.GeneratingWorkbooks
             var generator = new WorkbookGenerator(dataExtractor);
 
             using (var wrapper = new DisposableWrapper<ShowAsyncResult>(CWaitingWnd.ShowAsync(Title,
-                                                                                            Properties.Resources.resFillingGenerationFromOnlineBDWnd,
+                                                                                            string.Format(Properties.Resources.resImportingCompetitions,
+                                                                                                            SelectedComp.Desc.Name,
+                                                                                                            SelectedComp.Desc.DestCompFolder),
                                                                                             CheckAccess()),
                                             asyncResult =>
                                             {
@@ -437,6 +484,42 @@ namespace DBManager.Excel.GeneratingWorkbooks
                 return val.Value ? TrueValue : FalseValue;
             else
                 return enSecondColNameType.None;
+        }
+    }
+
+    [ValueConversion(typeof(int), typeof(SolidColorBrush))]
+    public class MembersCountToBrushValueConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (!(value is int) || value == null)
+                return Brushes.Transparent;
+
+            int count = (int)value;
+            if (count < 4)
+                return Brushes.Maroon;
+            else
+                return Brushes.Transparent;
+        }
+
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (!(value is string) || (targetType != typeof(int) && targetType != typeof(int?)) || value == null)
+                return null;
+
+            int res = 0;
+            if (value.ToString() == Properties.Resources.resAndElder)
+                res = (int)enEndYearSpecVals.AndElder;
+            else if (value.ToString() == Properties.Resources.resAndElder)
+                res = (int)enEndYearSpecVals.AndYounger;
+            else if (!int.TryParse(value.ToString(), out res))
+                return null;
+
+            if (targetType == typeof(int))
+                return res;
+            else
+                return (int?)res;
         }
     }
 }

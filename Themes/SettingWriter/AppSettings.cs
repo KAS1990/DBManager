@@ -613,6 +613,12 @@ namespace DBManager.SettingsWriter
         public string WorkbookTemplateName = GlobalDefines.DEFAULT_XML_STRING_VAL;
 
         /// <summary>
+		/// Полный путь к папке, где находятся папки с книгами соревнований
+		/// </summary>
+		[DefaultValue(GlobalDefines.DEFAULT_XML_STRING_VAL)]
+        public string CompetitionsFolder = GlobalDefines.DEFAULT_XML_STRING_VAL;
+
+        /// <summary>
         /// Файлы, которые нужно скопировать из каталога с книгой-шаблоном
         /// </summary>
         [XmlArray()]
@@ -709,6 +715,7 @@ namespace DBManager.SettingsWriter
 
             WorkbookTemplateFolder = null;
             WorkbookTemplateName = null;
+            CompetitionsFolder = null;
             FilesToCopyFromWorkbookTemplateFolder = null;
 
             //AvailableGroupNames = null;
@@ -849,6 +856,9 @@ namespace DBManager.SettingsWriter
 
             if (string.IsNullOrEmpty(WorkbookTemplateName))
                 WorkbookTemplateName = "Таблица Скорость Новая.xlsm";
+
+            if (string.IsNullOrEmpty(CompetitionsFolder))
+                CompetitionsFolder = "D:\\Саша\\Документы\\Эксель\\Для соревнований\\Скалолазание";
 
             if (FilesToCopyFromWorkbookTemplateFolder == null)
             {

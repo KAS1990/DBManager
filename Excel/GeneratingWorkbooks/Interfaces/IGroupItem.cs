@@ -8,6 +8,8 @@ namespace DBManager.Excel.GeneratingWorkbooks.Interfaces
 {
     public interface IGroupItem
     {
+        ICompDesc CompDesc { get; }
+
         string Name { get; }
         enSex Sex { get; }
         int StartYear { get; }

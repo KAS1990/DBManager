@@ -21,6 +21,7 @@
         <local:YearToStringValueConverter x:Key="valconvYearToString" />
         <local:SecondColNameType2NullBoolConverter x:Key="valconvSecondColNameCoach2NullBool" TrueValue="Coach" FalseValue="Team" />
         <local:SecondColNameType2NullBoolConverter x:Key="valconvSecondColNameTeam2NullBool" TrueValue="Team" FalseValue="Coach" />
+        <local:MembersCountToBrushValueConverter x:Key="valconvMembersCountToBrush" />
     </baseWnd:CNotifyPropertyChangedWnd.Resources>
     
     <DockPanel LastChildFill="True">
@@ -216,6 +217,17 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
+
+                        <GridViewColumn Header="{Loc resMembersCount}" >
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Label Margin="0"
+                                           Width="50"
+                                           Content="{Binding MembersCount}"
+                                           Background="{Binding MembersCount, Converter={StaticResource valconvMembersCountToBrush}}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>                        
 
                         <GridViewColumn Header="{Loc resStartYear}" >
                             <GridViewColumn.CellTemplate>

@@ -1418,6 +1418,18 @@ namespace DBManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Импортируем соревнования
+        ///&quot;{0}&quot;
+        ///в папку
+        ///{1}.
+        /// </summary>
+        internal static string resImportingCompetitions {
+            get {
+                return ResourceManager.GetString("resImportingCompetitions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Неверный путь к папке с xml-файлами.
         /// </summary>
         internal static string resInvalidCompDir {
@@ -1685,6 +1697,15 @@ namespace DBManager.Properties {
         internal static string resMembersCarryiedoutGrades {
             get {
                 return ResourceManager.GetString("resMembersCarryiedoutGrades", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Число участников.
+        /// </summary>
+        internal static string resMembersCount {
+            get {
+                return ResourceManager.GetString("resMembersCount", resourceCulture);
             }
         }
         

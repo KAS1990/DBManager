@@ -34,7 +34,7 @@ namespace DBManager.Excel.GeneratingWorkbooks.Helpers
         {
             // Последняя строка с таблицы
             int existingRowsCount = 0;
-            while (!string.IsNullOrEmpty(m_wshStartList.Cells[existingRowsCount + FIRST_DATA_ROW_INDEX, NUMBER_COLUMN_INDEX].ToString()))
+            while (!string.IsNullOrEmpty(m_wshStartList.Cells[existingRowsCount + FIRST_DATA_ROW_INDEX, NUMBER_COLUMN_INDEX].Value.ToString()))
                 existingRowsCount++;
 
             if (existingRowsCount == requiredRowCount)

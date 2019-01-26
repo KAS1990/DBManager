@@ -63,7 +63,7 @@ namespace DBManager.Excel.GeneratingWorkbooks.Helpers
                 m_FilePath = Path.Combine(dirFullPath, WORKBOOK_DATA_FILE_NAME);
 
                 m_FileItems.Clear();
-                foreach (var text in File.ReadAllLines(m_FilePath))
+                foreach (var text in File.ReadAllLines(m_FilePath, Encoding.Default))  // Такую кодировку использует Excel, и нам нужно её соблюдать
                 {
                     var item = FileItem.Create(text);
                     if (item != null)
@@ -98,7 +98,9 @@ namespace DBManager.Excel.GeneratingWorkbooks.Helpers
             message = null;
             try
             {
-                File.WriteAllLines(m_FilePath, m_FileItems.Select(arg => arg.ToString()).ToArray());
+                File.WriteAllLines(m_FilePath,
+                                    m_FileItems.Select(arg => arg.ToString()).ToArray(),
+                                    Encoding.Default); // Такую кодировку использует Excel, и нам нужно её соблюдать
             }
             catch (Exception ex)
             {

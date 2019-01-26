@@ -37,6 +37,13 @@ namespace DBManager.Excel.GeneratingWorkbooks
         #endregion
 
         #region ID
+        /// <summary>
+        /// 
+        /// </summary>
+        public ICompDesc CompDesc { get; } = null;
+        #endregion
+
+        #region ID
         private static readonly string IDPropertyName = GlobalDefines.GetPropertyName<GroupItemRemoteDB>(m => m.ID);
         private int m_ID = 0;
         /// <summary>
@@ -50,6 +57,7 @@ namespace DBManager.Excel.GeneratingWorkbooks
                 if (m_ID != value)
                 {
                     m_ID = value;
+                    RefreshMembersCount();
                     OnPropertyChanged(IDPropertyName);
                 }
             }
@@ -72,6 +80,24 @@ namespace DBManager.Excel.GeneratingWorkbooks
                     m_Name = value;
                     OnPropertyChanged(NamePropertyName);
                 }
+            }
+        }
+        #endregion
+
+        #region MembersCount
+        private static readonly string MembersCountPropertyName = GlobalDefines.GetPropertyName<GroupItemRemoteDB>(m => m.MembersCount);
+        private int? m_MembersCount = null;
+        /// <summary>
+        /// 
+        /// </summary>
+        public int MembersCount
+        {
+            get
+            {
+                if (m_MembersCount == null)
+                    RefreshMembersCount();
+
+                return m_MembersCount ?? 0;
             }
         }
         #endregion
@@ -137,7 +163,7 @@ namespace DBManager.Excel.GeneratingWorkbooks
             }
         }
 
-        public string EndYearInString => CreateYearInString(m_StartYear);
+        public string EndYearInString => CreateYearInString(m_EndYear);
         #endregion
 
         #region StartDate
@@ -210,13 +236,14 @@ namespace DBManager.Excel.GeneratingWorkbooks
         }
         #endregion
 
-        public GroupItemRemoteDB()
+        public GroupItemRemoteDB(CompDesc compDesc)
         {
-
+            CompDesc = compDesc;
         }
 
         public GroupItemRemoteDB(GroupItemRemoteDB rhs)
         {
+            CompDesc = rhs.CompDesc;
             Name = rhs.Name;
             WorkbookName = rhs.WorkbookName;
             Sex = rhs.Sex;
@@ -237,6 +264,20 @@ namespace DBManager.Excel.GeneratingWorkbooks
                 result += $" {StartYearInString}-{EndYearInString}{GlobalDefines.MAIN_WBK_EXTENSION}";
             }
             WorkbookName = result;
+        }
+
+        public void RefreshMembersCount()
+        {
+            int compID = (CompDesc as CompDesc)?.ID ?? 0;
+            if (OnlineDBManager.Instance.IsConnectedToRemoteDB && compID != 0)
+            {
+                m_MembersCount = OnlineDBManager
+                    .Instance
+                    .Entities
+                    .participants
+                    .Count(arg => arg.group_id == ID && arg.competition_id == compID);
+                OnPropertyChanged(MembersCountPropertyName);
+            }
         }
 
         public static string CreateYearInString(int? year)

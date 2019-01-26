@@ -211,7 +211,8 @@ namespace DBManager.Excel.GeneratingWorkbooks.Helpers
             {
                 if (m_EndCompDate == null)
                 {
-                    SetDate(RN_END_COMP_DATE, value);
+                    if (value != StartCompDate)
+                        SetDate(RN_END_COMP_DATE, value);
                 }
 
                 m_EndCompDate = value;
@@ -346,7 +347,7 @@ namespace DBManager.Excel.GeneratingWorkbooks.Helpers
             {
                 if (m_FLAGS == null)
                 {
-                    m_FLAGS = m_wshSetup.Range[RN_FLAGS].Value;
+                    m_FLAGS = Convert.ToUInt16(m_wshSetup.Range[RN_FLAGS].Value);
                 }
 
                 return m_FLAGS ?? 0;
@@ -434,7 +435,7 @@ namespace DBManager.Excel.GeneratingWorkbooks.Helpers
                 throw new InvalidOperationException("m_wshSetup should not be null");
 
             string res = null;
-            string indexRaw = m_wshSetup.Range[excelRangeName].Value.ToString();
+            string indexRaw = m_wshSetup.Range[excelRangeName].Value?.ToString();
             int index = -1;
             if (!string.IsNullOrEmpty(indexRaw)
                 && int.TryParse(indexRaw, out index))
@@ -456,14 +457,21 @@ namespace DBManager.Excel.GeneratingWorkbooks.Helpers
             if (m_wshSetup == null)
                 throw new InvalidOperationException("m_wshSetup should not be null");
 
-            var stringsInFile = m_DataFileWrapper.GetStrings(itemType);
-            int index = stringsInFile.IndexOf(value);
-            if (index < 0)
+            if (value == null)
             {
-                m_DataFileWrapper.AddItemIfNotExists(value, itemType);
-                index = stringsInFile.Count;
+                m_wshSetup.Range[excelRangeName].Value = null;
             }
-            m_wshSetup.Range[excelRangeName].Value = index;
+            else
+            {
+                var stringsInFile = m_DataFileWrapper.GetStrings(itemType);
+                int index = stringsInFile.IndexOf(value);
+                if (index < 0)
+                {
+                    m_DataFileWrapper.AddItemIfNotExists(value, itemType);
+                    index = stringsInFile.Count;
+                }
+                m_wshSetup.Range[excelRangeName].Value = index;
+            }
         }
 
         private DateTime? GetDate(string excelRangeName)

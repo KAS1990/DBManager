@@ -230,7 +230,7 @@ namespace DBManager.Excel.GeneratingWorkbooks
 
                         wshHelper.MainJudge = compDesc.MainJudge;
                         wshHelper.MainSecretary = compDesc.MainSecretary;
-                        wshHelper.Row6 = compDesc.Row6;
+                        wshHelper.Row6 = compDesc.ShowRow6 ? compDesc.Row6 : null;
 
                         wshHelper.StartCompDate = groupDesc.StartDate;
                         wshHelper.EndCompDate = groupDesc.EndDate;

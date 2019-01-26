@@ -1142,4 +1142,13 @@
   <data name="resNoGroupsToGenerateWorkbooks" xml:space="preserve">
     <value>Нет данных для экспорта</value>
   </data>
+  <data name="resImportingCompetitions" xml:space="preserve">
+    <value>Импортируем соревнования
+"{0}"
+в папку
+{1}</value>
+  </data>
+  <data name="resMembersCount" xml:space="preserve">
+    <value>Число участников</value>
+  </data>
 </root>
