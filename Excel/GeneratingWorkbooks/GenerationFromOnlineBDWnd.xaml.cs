@@ -130,6 +130,7 @@ namespace DBManager.Excel.GeneratingWorkbooks
         {
             using (var wrapper = new DisposableWrapper<ShowAsyncResult>(CWaitingWnd.ShowAsync(Title,
                                                                                             Properties.Resources.resFillingGenerationFromOnlineBDWnd,
+                                                                                            this,
                                                                                             CheckAccess()),
                                             asyncResult =>
                                             {
@@ -371,6 +372,7 @@ namespace DBManager.Excel.GeneratingWorkbooks
                                                                                             string.Format(Properties.Resources.resImportingCompetitions,
                                                                                                             SelectedComp.Desc.Name,
                                                                                                             SelectedComp.Desc.DestCompFolder),
+                                                                                            this,
                                                                                             CheckAccess()),
                                             asyncResult =>
                                             {
@@ -388,7 +390,14 @@ namespace DBManager.Excel.GeneratingWorkbooks
                         MessageBoxImage.Error);
                     return;
                 }
-                if (!generator.Generate(out errorMessage))
+                
+                if (!generator.Generate(out errorMessage,
+                        arg =>
+                            CWaitingWnd.SetPrompt(((ShowAsyncResult)wrapper).WndID,
+                                                    string.Format(Properties.Resources.resImportingCompetitionsWithGroupName,
+                                                                   SelectedComp.Desc.Name,
+                                                                   SelectedComp.Desc.DestCompFolder,
+                                                                   arg.Key.Name))))
                 {
                     MessageBox.Show(this,
                         string.Format(Properties.Resources.resfmtCouldNotExtractDataToWbks, errorMessage),

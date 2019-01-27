@@ -354,7 +354,8 @@ namespace DBManager
 						CWaitingWnd.ShowAsync(out hFinishedSearchEvent,
 												out th,
 												Title,
-												string.Format(Properties.Resources.resfmtStoppingDirScanningThread, DBManagerApp.m_AppSettings.m_Settings.CompDir));
+												string.Format(Properties.Resources.resfmtStoppingDirScanningThread, DBManagerApp.m_AppSettings.m_Settings.CompDir),
+                                                this);
 					}
 
 					SetDesc(null); // Удаляем данные из таблицы

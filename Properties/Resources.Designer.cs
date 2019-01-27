@@ -1430,6 +1430,18 @@ namespace DBManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Импортируем группу &quot;{2}&quot; соревнований
+        ///&quot;{0}&quot;
+        ///в папку
+        ///{1}.
+        /// </summary>
+        internal static string resImportingCompetitionsWithGroupName {
+            get {
+                return ResourceManager.GetString("resImportingCompetitionsWithGroupName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Неверный путь к папке с xml-файлами.
         /// </summary>
         internal static string resInvalidCompDir {

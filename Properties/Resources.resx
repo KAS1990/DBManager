@@ -1151,6 +1151,12 @@
   <data name="resMembersCount" xml:space="preserve">
     <value>Число участников</value>
   </data>
+  <data name="resImportingCompetitionsWithGroupName" xml:space="preserve">
+    <value>Импортируем группу "{2}" соревнований
+"{0}"
+в папку
+{1}</value>
+  </data>
   <data name="resInvalidGroupDates" xml:space="preserve">
     <value>Соревнования в каждой группе должны проходить в один день</value>
   </data>

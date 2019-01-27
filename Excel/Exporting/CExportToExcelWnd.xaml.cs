@@ -197,7 +197,8 @@ namespace DBManager.Excel.Exporting
 				CWaitingWnd.ShowAsync(out hFinishedSearchEvent,
 										out th,
 										Title,
-										string.Format(Properties.Resources.resfmtExportingToExcel, txtXlsPath.Text));
+										string.Format(Properties.Resources.resfmtExportingToExcel, txtXlsPath.Text),
+                                        this);
 			}
 
 			bool NewAppCreated;

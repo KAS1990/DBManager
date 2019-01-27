@@ -7,6 +7,7 @@ using System.Windows.Interop;
 using System.ComponentModel;
 using DBManager.TrayNotification;
 using DBManager.Global;
+using System.Collections.Generic;
 
 namespace DBManager.Stuff
 {
@@ -17,7 +18,14 @@ namespace DBManager.Stuff
 	{
 		public const int TimerIntervalInMs = 300;
 
-		bool m_AllowClose = false;
+        private static int NextWndID = 1;
+        /// <summary>
+        /// Key - id окна
+        /// </summary>
+        private readonly static Dictionary<int, CWaitingWnd> m_dictAllWnds = new Dictionary<int, CWaitingWnd>();
+
+        readonly int m_ID = 0;
+        bool m_AllowClose = false;
 		AutoResetEvent m_CloseEvent = null;
 		Window m_OwnerWindow = null;
 		
@@ -49,11 +57,18 @@ namespace DBManager.Stuff
 		/// <param name="ShowingPauseInMs">
 		/// Через сколько милисекунд отобразиться окно. Нужно задавать значения кратные TimerIntervalInMs
 		/// </param>
-		public CWaitingWnd(AutoResetEvent CloseEvent, Window OwnerWindow, string Prompt, string WndTitle, int ShowingPauseInMs = 0)
+		private CWaitingWnd(int ID,
+            AutoResetEvent CloseEvent,
+            Window OwnerWindow,
+            string Prompt,
+            string WndTitle,
+            int ShowingPauseInMs = 0)
 		{
 			InitializeComponent();
 
-			lblPleaseWait.Content = Properties.Resources.resPleaseWait; /* В xaml делать вывод этого текста (как обычно {Loc resPleaseWait}) нельзя,
+            m_ID = ID;
+
+            lblPleaseWait.Content = Properties.Resources.resPleaseWait; /* В xaml делать вывод этого текста (как обычно {Loc resPleaseWait}) нельзя,
 																		 * т.к. в этом случае почему-то LocalizationManager привязывается к другому потоку и
 																		 * больше не даёт менять свой язык */
 			Title = WndTitle;
@@ -115,6 +130,8 @@ namespace DBManager.Stuff
 			{
 				if (m_csShowCounter > 0)
 					m_csShowCounter--;
+
+                m_dictAllWnds.Remove(m_ID);
 				CTaskBarIconTuning.ResetProgressValue();
 				CTaskBarIconTuning.Flash();
 			}
@@ -140,11 +157,24 @@ namespace DBManager.Stuff
 		}
 
 
+        public static void SetPrompt(int wndID, string prompt)
+        {
+            CWaitingWnd window;
+            if (m_dictAllWnds.TryGetValue(wndID, out window))
+            {
+                window.Dispatcher.Invoke(new Action<CWaitingWnd, string>((wnd, text) => wnd.txtblkPrompt.Text = text),
+                                        window, prompt);
+            }
+        }
+
+
 		class CShowAsyncParam
 		{
-			public AutoResetEvent m_hFinishedSearchEvent;
+            public int m_ID;
+            public AutoResetEvent m_hFinishedSearchEvent;
 			public string m_WndTitle;
 			public string m_WndText;
+            public Window m_OwnerWindow;
 		}
 
 		static int? m_csShowCounter = 0;
@@ -159,7 +189,7 @@ namespace DBManager.Stuff
 		/// </param>
 		/// <param name="WndTitle"></param>
 		/// <param name="WndText"></param>
-		public static void ShowAsync(out AutoResetEvent hFinishedSearchEvent, out Thread th, string WndTitle, string WndText)
+		public static int ShowAsync(out AutoResetEvent hFinishedSearchEvent, out Thread th, string WndTitle, string WndText, Window OwnerWindow)
 		{
 			hFinishedSearchEvent = new AutoResetEvent(false);
 			th = new Thread(ShowAsyncThreadFunc)
@@ -168,29 +198,36 @@ namespace DBManager.Stuff
 			};
 
 			if (m_csShowCounter.Value > 0)
-				return;
+				return 0;
 
 			m_csShowCounter++;
-						
-			CShowAsyncParam ThreadParam = new CShowAsyncParam()
-			{
-				m_hFinishedSearchEvent = hFinishedSearchEvent,
+
+            CShowAsyncParam ThreadParam = new CShowAsyncParam()
+            {
+                m_ID = NextWndID,
+                m_hFinishedSearchEvent = hFinishedSearchEvent,
 				m_WndTitle = WndTitle,
-				m_WndText = WndText
-			};
+				m_WndText = WndText,
+                m_OwnerWindow = OwnerWindow
+            };
 						
 			th.SetApartmentState(ApartmentState.STA);
 			th.Start(ThreadParam);
 
 			GlobalDefines.DoEvents(DBManagerApp.MainWnd); // Чтобы не зависла главная форма и в её заголовке не было написано "(Не отвечает)"
+
+            return NextWndID++;
 		}
 
-        public static ShowAsyncResult ShowAsync(string WndTitle, string WndText, bool isAllowedAccess)
+        public static ShowAsyncResult ShowAsync(string WndTitle, string WndText, Window OwnerWindow, bool isAllowedAccess)
         {
             var res = new ShowAsyncResult();
 
             if (isAllowedAccess)
-                ShowAsync(out res.hFinishedSearchEvent, out res.th, WndTitle, WndText);
+                res.WndID = ShowAsync(out res.hFinishedSearchEvent, out res.th, WndTitle, WndText, OwnerWindow);
+
+            if (res.WndID <= 0)
+                return null;
 
             return res;
         }
@@ -204,13 +241,15 @@ namespace DBManager.Stuff
         static void ShowAsyncThreadFunc(object Parameter)
 		{
 			CShowAsyncParam ThreadParam = Parameter as CShowAsyncParam;
-			CWaitingWnd wnd = new CWaitingWnd(ThreadParam.m_hFinishedSearchEvent,
-												DBManagerApp.MainWnd,
+			CWaitingWnd wnd = new CWaitingWnd(ThreadParam.m_ID,
+                                                ThreadParam.m_hFinishedSearchEvent,
+                                                ThreadParam.m_OwnerWindow,
 												ThreadParam.m_WndText,
 												ThreadParam.m_WndTitle,
 												300);
 			try
 			{
+                m_dictAllWnds.TryAddValue(ThreadParam.m_ID, wnd);
 				wnd.ShowDialog();
 			}
 			catch (Exception ex)
@@ -222,6 +261,7 @@ namespace DBManager.Stuff
 
     public class ShowAsyncResult
     {
+        public int WndID = 0;
         public AutoResetEvent hFinishedSearchEvent = null;
         public Thread th = null;
     }

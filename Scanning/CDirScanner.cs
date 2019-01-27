@@ -193,7 +193,8 @@ namespace DBManager.Scanning
 				CWaitingWnd.ShowAsync(out hFinishedSearchEvent,
 										out th,
 										DBManagerApp.MainWnd.Title,
-										string.Format(Properties.Resources.resfmtStoppingDirScanningThread, ScanningPath));
+										string.Format(Properties.Resources.resfmtStoppingDirScanningThread, ScanningPath),
+                                        DBManagerApp.MainWnd);
 			}
 
 			lock (EventsCS)	// Ждём, когда завершаться все события
@@ -241,6 +242,7 @@ namespace DBManager.Scanning
 
             using (var wrapper = new DisposableWrapper<ShowAsyncResult>(CWaitingWnd.ShowAsync(DBManagerApp.MainWnd.Title,
                                                                                             string.Format(Properties.Resources.resfmtSyncingDir, SyncParam.m_Dir),
+                                                                                            DBManagerApp.MainWnd,
                                                                                             true),
                                             asyncResult =>
                                             {
@@ -398,7 +400,8 @@ namespace DBManager.Scanning
 				CWaitingWnd.ShowAsync(out hFinishedSearchEvent,
 										out th,
 										DBManagerApp.MainWnd.Title,
-										string.Format(Properties.Resources.resfmtScanningFile, e.FullPath));
+										string.Format(Properties.Resources.resfmtScanningFile, e.FullPath),
+                                        DBManagerApp.MainWnd);
 			}
 
 			lock (EventsCS)
@@ -444,7 +447,8 @@ namespace DBManager.Scanning
 				CWaitingWnd.ShowAsync(out hFinishedSearchEvent,
 										out th,
 										DBManagerApp.MainWnd.Title,
-										string.Format(Properties.Resources.resfmtHandlingFileDeletion, e.FullPath));
+										string.Format(Properties.Resources.resfmtHandlingFileDeletion, e.FullPath),
+                                        DBManagerApp.MainWnd);
 			}
 
 			lock (EventsCS)
@@ -501,7 +505,8 @@ namespace DBManager.Scanning
 				CWaitingWnd.ShowAsync(out hFinishedSearchEvent,
 										out th,
 										DBManagerApp.MainWnd.Title,
-										string.Format(Properties.Resources.resfmtScanningFile, e.FullPath));
+										string.Format(Properties.Resources.resfmtScanningFile, e.FullPath),
+                                        DBManagerApp.MainWnd);
 			}
 
 			lock (EventsCS)

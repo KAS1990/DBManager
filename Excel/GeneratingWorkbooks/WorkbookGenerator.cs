@@ -319,7 +319,7 @@ namespace DBManager.Excel.GeneratingWorkbooks
                 out message);
         }
 
-        public bool Generate(out string message)
+        public bool Generate(out string message, Action<KeyValuePair<IGroupItem, IEnumerable<CFullMemberInfo>>> beforeExportingGroup)
         {
             message = null;
 
@@ -368,6 +368,8 @@ namespace DBManager.Excel.GeneratingWorkbooks
 
                     foreach (var group in m_DataExtractor.GroupsMembers)
                     {
+                        beforeExportingGroup(group);
+
                         string wbkFullPath = Path.Combine(m_DataExtractor.CompDesc.DestCompFolder, group.Key.WorkbookName);
 
                         if (!CreateGroupWbkAndWriteGroupDesc(excelApp.Object,
