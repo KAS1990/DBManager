@@ -148,6 +148,9 @@ namespace DBManager.Excel.GeneratingWorkbooks
                 if (!Directory.Exists(destFolderFullPath))
                     Directory.CreateDirectory(destFolderFullPath);
 
+                // Очищаем папку с соревами
+                (new DirectoryInfo(destFolderFullPath)).ClearDirectory();
+
                 foreach (var relativePath in sourceFileRelativePaths)
                 {
                     string fileName = Path.GetFileName(relativePath);
@@ -296,7 +299,7 @@ namespace DBManager.Excel.GeneratingWorkbooks
                 {
                     try
                     {
-                        var list = data.ToList();
+                        var list = data.OrderBy(arg => arg.Surname).ToList();
 
                         var helper = new StartListWorksheetHelper(wbk);
                         helper.PrepareTable(list.Count);
@@ -330,9 +333,9 @@ namespace DBManager.Excel.GeneratingWorkbooks
             lock (DBManagerApp.m_AppSettings.m_SettingsSyncObj)
             {
                 if (!CopyFilesToNewFolder(m_DataExtractor.CompDesc.DestCompFolder,
-                    DBManagerApp.m_AppSettings.m_Settings.WorkbookTemplateFolder,
-                    DBManagerApp.m_AppSettings.m_Settings.FilesToCopyFromWorkbookTemplateFolder,
-                    out message))
+                        DBManagerApp.m_AppSettings.m_Settings.WorkbookTemplateFolder,
+                        DBManagerApp.m_AppSettings.m_Settings.FilesToCopyFromWorkbookTemplateFolder,
+                        out message))
                 {
                     return false;
                 }
@@ -380,6 +383,9 @@ namespace DBManager.Excel.GeneratingWorkbooks
                         if (!ExportDataWriteMembersToWbk(excelApp.Object, wbkFullPath, group.Value, out message))
                             return false;
                     }
+
+                    // Удаляем TemplateWorkbook
+                    File.Delete(wbkTemplateFullPath);
                 }
 
                 return true;

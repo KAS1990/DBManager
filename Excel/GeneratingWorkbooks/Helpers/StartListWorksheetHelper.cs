@@ -17,7 +17,7 @@ namespace DBManager.Excel.GeneratingWorkbooks.Helpers
         const int NAME_AND_LASTNAME_COLUMN_INDEX = 2;
         const int TEAM_COLUMN_INDEX = 3;
         const int YoB_COLUMN_INDEX = 4;
-        const int GRADE_COLUMN_INDEX = 4;
+        const int GRADE_COLUMN_INDEX = 5;
 
         #endregion
 
@@ -34,7 +34,7 @@ namespace DBManager.Excel.GeneratingWorkbooks.Helpers
         {
             // Последняя строка с таблицы
             int existingRowsCount = 0;
-            while (!string.IsNullOrEmpty(m_wshStartList.Cells[existingRowsCount + FIRST_DATA_ROW_INDEX, NUMBER_COLUMN_INDEX].Value.ToString()))
+            while (!string.IsNullOrEmpty(m_wshStartList.Cells[existingRowsCount + FIRST_DATA_ROW_INDEX, NUMBER_COLUMN_INDEX].Value?.ToString()))
                 existingRowsCount++;
 
             if (existingRowsCount == requiredRowCount)

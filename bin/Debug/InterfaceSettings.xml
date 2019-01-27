@@ -334,4 +334,84 @@
     <string>StopWatchScan\UsingCOM.txt</string>
     <string>StopWatchScan\PrjStopWatchScan.exe</string>
   </FilesToCopyFromWorkbookTemplateFolder>
+  <AvailableGroupNames>
+    <CAvailableGroupName>
+      <GroupName>Мужчины</GroupName>
+      <Sex>Male</Sex>
+    </CAvailableGroupName>
+    <CAvailableGroupName>
+      <GroupName>Юниоры</GroupName>
+      <Sex>Male</Sex>
+      <YearsRangeCanBeSet>true</YearsRangeCanBeSet>
+    </CAvailableGroupName>
+    <CAvailableGroupName>
+      <GroupName>Младшие юноши</GroupName>
+      <Sex>Male</Sex>
+      <YearsRangeCanBeSet>true</YearsRangeCanBeSet>
+      <ValueInWbkFlags>1</ValueInWbkFlags>
+    </CAvailableGroupName>
+    <CAvailableGroupName>
+      <GroupName>Старшие юноши</GroupName>
+      <Sex>Male</Sex>
+      <YearsRangeCanBeSet>true</YearsRangeCanBeSet>
+      <ValueInWbkFlags>2</ValueInWbkFlags>
+    </CAvailableGroupName>
+    <CAvailableGroupName>
+      <GroupName>Подростки мальчики</GroupName>
+      <Sex>Male</Sex>
+      <YearsRangeCanBeSet>true</YearsRangeCanBeSet>
+      <ValueInWbkFlags>3</ValueInWbkFlags>
+    </CAvailableGroupName>
+    <CAvailableGroupName>
+      <GroupName>Суперподростки мальчики</GroupName>
+      <Sex>Male</Sex>
+      <YearsRangeCanBeSet>true</YearsRangeCanBeSet>
+      <ValueInWbkFlags>4</ValueInWbkFlags>
+    </CAvailableGroupName>
+    <CAvailableGroupName>
+      <GroupName>Мальчики</GroupName>
+      <Sex>Male</Sex>
+      <YearsRangeCanBeSet>true</YearsRangeCanBeSet>
+      <ValueInWbkFlags>5</ValueInWbkFlags>
+    </CAvailableGroupName>
+    <CAvailableGroupName>
+      <GroupName>Женщины</GroupName>
+      <Sex>Female</Sex>
+    </CAvailableGroupName>
+    <CAvailableGroupName>
+      <GroupName>Юниорки</GroupName>
+      <Sex>Female</Sex>
+      <YearsRangeCanBeSet>true</YearsRangeCanBeSet>
+    </CAvailableGroupName>
+    <CAvailableGroupName>
+      <GroupName>Младшие девушки</GroupName>
+      <Sex>Female</Sex>
+      <YearsRangeCanBeSet>true</YearsRangeCanBeSet>
+      <ValueInWbkFlags>1</ValueInWbkFlags>
+    </CAvailableGroupName>
+    <CAvailableGroupName>
+      <GroupName>Старшие девушки</GroupName>
+      <Sex>Female</Sex>
+      <YearsRangeCanBeSet>true</YearsRangeCanBeSet>
+      <ValueInWbkFlags>2</ValueInWbkFlags>
+    </CAvailableGroupName>
+    <CAvailableGroupName>
+      <GroupName>Подростки девочки</GroupName>
+      <Sex>Female</Sex>
+      <YearsRangeCanBeSet>true</YearsRangeCanBeSet>
+      <ValueInWbkFlags>3</ValueInWbkFlags>
+    </CAvailableGroupName>
+    <CAvailableGroupName>
+      <GroupName>Суперподростки девочки</GroupName>
+      <Sex>Female</Sex>
+      <YearsRangeCanBeSet>true</YearsRangeCanBeSet>
+      <ValueInWbkFlags>4</ValueInWbkFlags>
+    </CAvailableGroupName>
+    <CAvailableGroupName>
+      <GroupName>Девочки</GroupName>
+      <Sex>Female</Sex>
+      <YearsRangeCanBeSet>true</YearsRangeCanBeSet>
+      <ValueInWbkFlags>5</ValueInWbkFlags>
+    </CAvailableGroupName>
+  </AvailableGroupNames>
 </Settings>

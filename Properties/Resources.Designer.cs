@@ -1457,6 +1457,15 @@ namespace DBManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Соревнования в каждой группе должны проходить в один день.
+        /// </summary>
+        internal static string resInvalidGroupDates {
+            get {
+                return ResourceManager.GetString("resInvalidGroupDates", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Есть ошибки в задании годов рождения.
         /// </summary>
         internal static string resInvalidGroupYears {

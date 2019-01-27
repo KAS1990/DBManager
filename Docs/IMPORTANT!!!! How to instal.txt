@@ -3,7 +3,7 @@
 3. Использовать старую версию аутентификации!!!
 4. Установить mysql-for-visualstudio-1.2.7.msi
 5. Установить mysql-connector-net-6.9.8.msi
-6. Не использовать пакеты NuGet для MySQL версий 6.9.12, вместо этого брать MySql.Dataю.dll и MySql.Data.Entity.EF6.dll из папки с коннетором C:\Program Files (x86)\MySQL\MySQL Connector Net 6.9.8\Assemblies\v4.0\
+6. Не использовать пакеты NuGet для MySQL версий 6.9.12, вместо этого брать MySql.Data.dll и MySql.Data.Entity.EF6.dll из папки с коннектором C:\Program Files (x86)\MySQL\MySQL Connector Net 6.9.8\Assemblies\v4.0\
 
 Пока проверялось только на Net 4.0 Client. Другие фреймворки не проверял.
 

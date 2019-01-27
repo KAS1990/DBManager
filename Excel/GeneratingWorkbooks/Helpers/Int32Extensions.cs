@@ -14,7 +14,7 @@ namespace DBManager.Excel.GeneratingWorkbooks.Helpers
 
         public static string ToLatinCapitalLetter(this Int32 number)
         {
-            return ((char)('A' + 1)).ToString();
+            return ((char)('A' + number - 1)).ToString();
         }
     }
 }

@@ -79,7 +79,7 @@ namespace DBManager.Excel.GeneratingWorkbooks.Helpers
         public enSex Sex
         {
             get { return (enSex)m_flags[SEX_BIT].ToInt32(); }
-            set { m_flags[SOME_DAYS_COMPETITION_BIT] = ((int)value).ToBool(); }
+            set { m_flags[SEX_BIT] = ((int)value).ToBool(); }
         }
 
         public bool GroupYearsAreNeeded
@@ -117,7 +117,7 @@ namespace DBManager.Excel.GeneratingWorkbooks.Helpers
             set
             {
                 m_flags[GROUP_INDEX_1ST_BIT] = (value & 1).ToBool();
-                m_flags[GROUP_INDEX_2ND_BIT] = (value & (1 << 2)).ToBool();
+                m_flags[GROUP_INDEX_2ND_BIT] = (value & (1 << 1)).ToBool();
                 m_flags[GROUP_INDEX_3RD_BIT] = (value & (1 << 2)).ToBool();
             }
         }

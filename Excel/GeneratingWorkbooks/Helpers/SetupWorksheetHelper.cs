@@ -63,14 +63,11 @@ namespace DBManager.Excel.GeneratingWorkbooks.Helpers
             }
             set
             {
-                if (m_CompName == null)
-                {
-                    SetStringByIndex(RN_COMP_NAME_INDEX,
+                SetStringByIndex(RN_COMP_NAME_INDEX,
                         WorkbookDataFileWrapper.enWorkbookDataFileHelperItemType.CompetitionName,
                         value);
 
-                    m_CompName = value;
-                }
+                m_CompName = value;
             }
         }
 
@@ -93,14 +90,11 @@ namespace DBManager.Excel.GeneratingWorkbooks.Helpers
             }
             set
             {
-                if (m_MainJudge == null)
-                {
-                    SetStringByIndex(RN_MAIN_JUDGE_INDEX,
+                SetStringByIndex(RN_MAIN_JUDGE_INDEX,
                         WorkbookDataFileWrapper.enWorkbookDataFileHelperItemType.MainJudge,
                         value);
 
-                    m_MainJudge = value;
-                }
+                m_MainJudge = value;
             }
         }
 
@@ -123,14 +117,11 @@ namespace DBManager.Excel.GeneratingWorkbooks.Helpers
             }
             set
             {
-                if (m_MainSecretary == null)
-                {
-                    SetStringByIndex(RN_MAIN_SECRETARY_INDEX,
+                SetStringByIndex(RN_MAIN_SECRETARY_INDEX,
                         WorkbookDataFileWrapper.enWorkbookDataFileHelperItemType.MainSecretary,
                         value);
 
-                    m_MainSecretary = value;
-                }
+                m_MainSecretary = value;
             }
         }
 
@@ -153,14 +144,11 @@ namespace DBManager.Excel.GeneratingWorkbooks.Helpers
             }
             set
             {
-                if (m_Row6 == null)
-                {
-                    SetStringByIndex(RN_ROW_6_INDEX,
+                SetStringByIndex(RN_ROW_6_INDEX,
                         WorkbookDataFileWrapper.enWorkbookDataFileHelperItemType.Row6,
                         value);
 
-                    m_Row6 = value;
-                }
+                m_Row6 = value;
             }
         }
 
@@ -182,10 +170,7 @@ namespace DBManager.Excel.GeneratingWorkbooks.Helpers
             }
             set
             {
-                if (m_StartCompDate == null)
-                {
-                    SetDate(RN_START_COMP_DATE, value);
-                }
+                SetDate(RN_START_COMP_DATE, value);
 
                 m_StartCompDate = value;
             }
@@ -209,11 +194,8 @@ namespace DBManager.Excel.GeneratingWorkbooks.Helpers
             }
             set
             {
-                if (m_EndCompDate == null)
-                {
-                    if (value != StartCompDate)
-                        SetDate(RN_END_COMP_DATE, value);
-                }
+                if (value != StartCompDate)
+                    SetDate(RN_END_COMP_DATE, value);
 
                 m_EndCompDate = value;
             }
@@ -246,15 +228,12 @@ namespace DBManager.Excel.GeneratingWorkbooks.Helpers
             }
             set
             {
-                if (m_StartGroupYear == null)
-                {
-                    if (m_wshSetup == null)
-                        throw new InvalidOperationException("m_wshSetup should not be null");
+                if (m_wshSetup == null)
+                    throw new InvalidOperationException("m_wshSetup should not be null");
 
-                    m_wshSetup.Range[RN_START_GROUP_YEAR].Value = value.HasValue
-                                ? value.Value.ToString()
-                                : "";
-                }
+                m_wshSetup.Range[RN_START_GROUP_YEAR].Value = value.HasValue
+                            ? value.Value.ToString()
+                            : "";
 
                 m_StartGroupYear = value;
             }
@@ -306,30 +285,27 @@ namespace DBManager.Excel.GeneratingWorkbooks.Helpers
             }
             set
             {
-                if (m_EndGroupYear == null)
+                if (m_wshSetup == null)
+                    throw new InvalidOperationException("m_wshSetup should not be null");
+                if (StartGroupYear == null)
+                    throw new InvalidOperationException("StartGroupYear should not be null");
+
+                if (value == null)
+                    m_wshSetup.Range[RN_END_GROUP_YEAR_INDEX].Value = 0;
+
+                switch (value.Value)
                 {
-                    if (m_wshSetup == null)
-                        throw new InvalidOperationException("m_wshSetup should not be null");
-                    if (StartGroupYear == null)
-                        throw new InvalidOperationException("StartGroupYear should not be null");
+                    case (int)enEndYearSpecVals.AndYounger:
+                        m_wshSetup.Range[RN_END_GROUP_YEAR_INDEX].Value = 1;
+                        break;
 
-                    if (value == null)
-                        m_wshSetup.Range[RN_END_GROUP_YEAR_INDEX].Value = 0;
+                    case (int)enEndYearSpecVals.AndElder:
+                        m_wshSetup.Range[RN_END_GROUP_YEAR_INDEX].Value = 2;
+                        break;
 
-                    switch (value.Value)
-                    {
-                        case (int)enEndYearSpecVals.AndYounger:
-                            m_wshSetup.Range[RN_END_GROUP_YEAR_INDEX].Value = 1;
-                            break;
-
-                        case (int)enEndYearSpecVals.AndElder:
-                            m_wshSetup.Range[RN_END_GROUP_YEAR_INDEX].Value = 2;
-                            break;
-
-                        default:
-                            m_wshSetup.Range[RN_END_GROUP_YEAR_INDEX].Value = value.Value - StartGroupYear + 3 - 1;
-                            break;
-                    }
+                    default:
+                        m_wshSetup.Range[RN_END_GROUP_YEAR_INDEX].Value = value.Value - StartGroupYear + 3 - 1;
+                        break;
                 }
 
                 m_EndGroupYear = value;
@@ -354,12 +330,9 @@ namespace DBManager.Excel.GeneratingWorkbooks.Helpers
             }
             set
             {
-                if (m_FLAGS == null)
-                {
-                    m_wshSetup.Range[RN_FLAGS].Value = value;
+                m_wshSetup.Range[RN_FLAGS].Value = value;
 
-                    m_FLAGS = value;
-                }
+                m_FLAGS = value;
             }
         }
 

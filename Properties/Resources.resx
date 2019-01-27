@@ -1151,4 +1151,7 @@
   <data name="resMembersCount" xml:space="preserve">
     <value>Число участников</value>
   </data>
+  <data name="resInvalidGroupDates" xml:space="preserve">
+    <value>Соревнования в каждой группе должны проходить в один день</value>
+  </data>
 </root>

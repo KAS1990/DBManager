@@ -294,7 +294,17 @@ namespace DBManager.Excel.GeneratingWorkbooks
                 return false;
             }
 
-            if (string.IsNullOrEmpty(SelectedComp.Desc.DestCompFolder) || !Directory.Exists(SelectedComp.Desc.DestCompFolder))
+            if (SecectedCompGroups.Any(arg =>
+                    arg.IsSelected
+                        && arg.EndDate.HasValue
+                        && arg.StartDate != arg.EndDate))
+            {
+                MessageBox.Show(this, Properties.Resources.resInvalidGroupDates, Title, MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(SelectedComp.Desc.DestCompFolder)
+                || (SelectedComp.Desc.DestCompFolder.IndexOfAny(System.IO.Path.GetInvalidPathChars()) != -1))
             {
                 MessageBox.Show(this, Properties.Resources.resInvalidDestCompFolder, Title, MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
