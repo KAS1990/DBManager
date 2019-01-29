@@ -1,4 +1,5 @@
 ﻿using DBManager.Excel.GeneratingWorkbooks.Helpers;
+using DBManager.Excel.GeneratingWorkbooks.Interfaces;
 using DBManager.Global;
 using DBManager.OnlineDB;
 using DBManager.Stuff;
@@ -31,7 +32,7 @@ namespace DBManager.Excel.GeneratingWorkbooks
     {                        
         OnlineDBManager m_DBManager = OnlineDBManager.Instance;
 
-        public ObservableCollectionEx<CompItem> RemoteDBComps { get; set; } = new ObservableCollectionEx<CompItem>();
+        public ObservableCollectionEx<CompItemRemoteDB> RemoteDBComps { get; set; } = new ObservableCollectionEx<CompItemRemoteDB>();
 
         #region SecectedCompGroups
         private static readonly string SecectedCompGroupsPropertyName = GlobalDefines.GetPropertyName<GenerationFromOnlineBDWnd>(m => m.SecectedCompGroups);
@@ -47,24 +48,26 @@ namespace DBManager.Excel.GeneratingWorkbooks
 
         #region SelectedComp
         private static readonly string SecectedCompPropertyName = GlobalDefines.GetPropertyName<GenerationFromOnlineBDWnd>(m => m.SelectedComp);
-        private CompItem m_SelectedComp = null;
+        private CompItemRemoteDB m_SelectedComp = null;
         /// <summary>
         /// 
         /// </summary>
-        public CompItem SelectedComp
+        public CompItemRemoteDB SelectedComp
         {
             get { return m_SelectedComp; }
             set
             {
-                if (m_SelectedComp?.Desc.ID != value?.Desc.ID)
+                ICompDesc selectedCompDesc = m_SelectedComp?.Desc;
+                ICompDesc valueCompDesc = value?.Desc;
+                if ((selectedCompDesc as CompDescRemoteDB)?.ID != (valueCompDesc as CompDescRemoteDB)?.ID)
                 {
                     SecectedCompGroups.Clear();
                     if (value != null)
                     {
                         if (m_SelectedComp != null)
-                            value.Desc.CopyNonRemoteFields(m_SelectedComp.Desc);
+                            value.Desc.CopyCompSpecificFields(m_SelectedComp.Desc);
 
-                        value.Desc.UpdateDatesFromRemoteOnes();
+                        (value.Desc as CompDescRemoteDB).UpdateDatesFromRemoteOnes();
                         foreach (var group in value.Groups)
                         {   // Создаём копию, чтобы не затирать исходные данные
                             SecectedCompGroups.Add(new GroupItemRemoteDB(group));
@@ -72,41 +75,9 @@ namespace DBManager.Excel.GeneratingWorkbooks
 
                         lock (DBManagerApp.m_AppSettings.m_SettingsSyncObj)
                         {
-                            value.Desc.DestCompFolder = DBManagerApp.m_AppSettings.m_Settings.CompetitionsFolder;
-
-                            if (value.Desc.EndDate.HasValue && value.Desc.StartDate != value.Desc.EndDate.Value)
-                            {
-                                if (value.Desc.StartDate.Year == value.Desc.EndDate.Value.Year)
-                                {
-                                    if (value.Desc.StartDate.Month == value.Desc.EndDate.Value.Month)
-                                    {
-                                        value.Desc.DestCompFolder = System.IO.Path.Combine(value.Desc.DestCompFolder,
-                                                                                string.Format("{0:D2}-{1:D2}.{2:D2}.{3:D2}",
-                                                                                                value.Desc.StartDate.Day,
-                                                                                                value.Desc.EndDate.Value.Day,
-                                                                                                value.Desc.StartDate.Month,
-                                                                                                value.Desc.StartDate.Year));
-                                    }
-                                    else
-                                    {
-                                        value.Desc.DestCompFolder = System.IO.Path.Combine(value.Desc.DestCompFolder,
-                                                                                string.Format("{0:D2}.{1:D2}-{2:D2}.{3:D2}.{4:D2}",
-                                                                                                value.Desc.StartDate.Day,
-                                                                                                value.Desc.StartDate.Month,
-                                                                                                value.Desc.EndDate.Value.Day,
-                                                                                                value.Desc.EndDate.Value.Month,
-                                                                                                value.Desc.StartDate.Year));
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                value.Desc.DestCompFolder = System.IO.Path.Combine(value.Desc.DestCompFolder,
-                                                                               string.Format("{0:D2}.{1:D2}.{2:D2}",
-                                                                                               value.Desc.StartDate.Day,
-                                                                                               value.Desc.StartDate.Month,
-                                                                                               value.Desc.StartDate.Year));
-                            }
+                            (value.Desc as CompDescRemoteDB).DestCompFolder =
+                                System.IO.Path.Combine(DBManagerApp.m_AppSettings.m_Settings.CompetitionsFolder,
+                                                        value.Desc.GetDefaultDestCompFolderName());
                         }
                     }
 
@@ -167,18 +138,21 @@ namespace DBManager.Excel.GeneratingWorkbooks
                         // Выбираем только соревы на скорость
                         foreach (var comp in speedGroups.SelectMany(gr => gr.events).Distinct().ToList())
                         {
-                            var item = new CompItem();
-                            item.Desc.ID = comp.id;
-                            item.Desc.Name = comp.name;
-                            item.Desc.RemoteStartDate = comp.date1;
-                            item.Desc.RemoteEndDate = comp.date2;
-                            item.Desc.UpdateDatesFromRemoteOnes();
+                            var item = new CompItemRemoteDB()
+                            {
+                                Desc = new CompDescRemoteDB()
+                            };
+                            (item.Desc as CompDescRemoteDB).ID = comp.id;
+                            (item.Desc as CompDescRemoteDB).Name = comp.name;
+                            (item.Desc as CompDescRemoteDB).RemoteStartDate = comp.date1;
+                            (item.Desc as CompDescRemoteDB).RemoteEndDate = comp.date2;
+                            (item.Desc as CompDescRemoteDB).UpdateDatesFromRemoteOnes();
 
                             foreach (var group in speedGroups.Where(gr => gr.events.Any(ev => ev.id == comp.id)))
                             {
                                 if (DBManagerApp.m_AppSettings.m_Settings.AvailableGroupNames.Any(arg => string.Compare(arg.GroupName, group.name, true) == 0))
                                 {
-                                    var groupItem = new GroupItemRemoteDB(item.Desc)
+                                    var groupItem = new GroupItemRemoteDB((item.Desc as CompDescRemoteDB))
                                     {
                                         ID = group.id,
                                         Name = group.name,
@@ -188,7 +162,6 @@ namespace DBManager.Excel.GeneratingWorkbooks
                                         StartDate = item.Desc.StartDate,
                                         EndDate = item.Desc.EndDate
                                     };
-                                    groupItem.FillWorkbookName();
                                     item.Groups.Add(groupItem);
                                 }
                             }
@@ -341,7 +314,7 @@ namespace DBManager.Excel.GeneratingWorkbooks
 
             if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                SelectedComp.Desc.DestCompFolder = dlg.SelectedPath;
+                (SelectedComp.Desc as CompDescRemoteDB).DestCompFolder = dlg.SelectedPath;
             }
         }
 
@@ -381,7 +354,7 @@ namespace DBManager.Excel.GeneratingWorkbooks
                                             }))
             {
                 string errorMessage = null;
-                if (!dataExtractor.Extract(SelectedComp.Desc, SecectedCompGroups, out errorMessage))
+                if (!dataExtractor.Extract(SelectedComp.Desc as CompDescRemoteDB, SecectedCompGroups, out errorMessage))
                 {
                     MessageBox.Show(this,
                         string.Format(Properties.Resources.resfmtCouldNotExtractDataFromRemoteDB, errorMessage),
@@ -427,85 +400,7 @@ namespace DBManager.Excel.GeneratingWorkbooks
         }
     }
 
-
-    [ValueConversion(typeof(int), typeof(string))]
-    public class YearToStringValueConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (!(value is int? || value is int) || value == null)
-                return null;
-
-            if (value is int? && (value as int?) == null)
-                return null;
-
-            return GroupItemRemoteDB.CreateYearInString(value is int? ? (value as int?) : (int?)value);
-        }
-
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (!(value is string) || (targetType != typeof(int) && targetType != typeof(int?)) || value == null)
-                return null;
-
-            int res = 0;
-            if (value.ToString() == Properties.Resources.resAndElder)
-                res = (int)enEndYearSpecVals.AndElder;
-            else if (value.ToString() == Properties.Resources.resAndElder)
-                res = (int)enEndYearSpecVals.AndYounger;
-            else if (!int.TryParse(value.ToString(), out res))
-                return null;
-
-            if (targetType == typeof(int))
-                return res;
-            else
-                return (int?)res;
-        }
-    }
-
-    [ValueConversion(typeof(enSecondColNameType), typeof(bool))]
-    public class SecondColNameType2NullBoolConverter : IValueConverter
-    {
-        /// <summary>
-        /// Это значение конвертируется в true и обратно
-        /// </summary>
-        public enSecondColNameType TrueValue { get; set; } = enSecondColNameType.None;
-
-        /// <summary>
-        /// Это значение конвертируется в false и обратно
-        /// </summary>
-        public enSecondColNameType FalseValue { get; set; } = enSecondColNameType.None;
-
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (!(value is enSecondColNameType) || (value is null))
-                return null;
-
-            var secondColNameType = (enSecondColNameType)value;
-
-            if (secondColNameType == TrueValue)
-                return (bool?)true;
-
-            if (secondColNameType == FalseValue)
-                return (bool?)false;
-
-            return null;
-        }
-
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (!(value is bool?))
-                return null;
-
-            var val = (bool?)value;
-            if (val.HasValue)
-                return val.Value ? TrueValue : FalseValue;
-            else
-                return enSecondColNameType.None;
-        }
-    }
-
+                
     [ValueConversion(typeof(int), typeof(SolidColorBrush))]
     public class MembersCountToBrushValueConverter : IValueConverter
     {

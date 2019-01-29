@@ -61,6 +61,15 @@ namespace DBManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Добавить.
+        /// </summary>
+        internal static string resAdd {
+            get {
+                return ResourceManager.GetString("resAdd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Добавить выделенные.
         /// </summary>
         internal static string resAddSelected {
@@ -97,7 +106,7 @@ namespace DBManager.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Файлы MS Excel 1997-2003 (*.xls)|*.xls|Файлы MS Excel 2007 (*.xlsx)|*.xlsx.
+        ///   Looks up a localized string similar to Файлы MS Excel 1997-2003 (*.xls)|*.xls|Файлы MS Excel 2007 (*.xlsx)|*.xlsx|Файлы MS Excel 2007 с поддержкой макросов (*.xlsm)|*.xlsm.
         /// </summary>
         internal static string resAllExcellFilesFilter {
             get {
@@ -403,6 +412,15 @@ namespace DBManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Диапазон.
+        /// </summary>
+        internal static string resDataRange {
+            get {
+                return ResourceManager.GetString("resDataRange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to БД -&gt; экран.
         /// </summary>
         internal static string resDBToGrid {
@@ -426,6 +444,15 @@ namespace DBManager.Properties {
         internal static string resDecimalPointOrComma {
             get {
                 return ResourceManager.GetString("resDecimalPointOrComma", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Удалить.
+        /// </summary>
+        internal static string resDelete {
+            get {
+                return ResourceManager.GetString("resDelete", resourceCulture);
             }
         }
         
@@ -1128,6 +1155,15 @@ namespace DBManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Не удаётся открыть книгу &quot;{0}&quot; со списками участников.
+        /// </summary>
+        internal static string resfmtSourceWorkbookCouldNotBeOpened {
+            get {
+                return ResourceManager.GetString("resfmtSourceWorkbookCouldNotBeOpened", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Запускаем сканирование папки &quot;{0}&quot;.
         /// </summary>
         internal static string resfmtStartingDirScanningThread {
@@ -1274,11 +1310,29 @@ namespace DBManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Импорт из книг Excel.
+        /// </summary>
+        internal static string resGenerationFromLocalWorkbookWnd {
+            get {
+                return ResourceManager.GetString("resGenerationFromLocalWorkbookWnd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Импорт соревнования с сайта.
         /// </summary>
         internal static string resGenerationFromOnlineBDWndTitle {
             get {
                 return ResourceManager.GetString("resGenerationFromOnlineBDWndTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Получаем названия лисов.
+        /// </summary>
+        internal static string resGettingSheetNames {
+            get {
+                return ResourceManager.GetString("resGettingSheetNames", resourceCulture);
             }
         }
         
@@ -1297,6 +1351,15 @@ namespace DBManager.Properties {
         internal static string resGrade {
             get {
                 return ResourceManager.GetString("resGrade", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Номер столбца с разрядом.
+        /// </summary>
+        internal static string resGradeColumnIndexShort {
+            get {
+                return ResourceManager.GetString("resGradeColumnIndexShort", resourceCulture);
             }
         }
         
@@ -1492,6 +1555,24 @@ namespace DBManager.Properties {
         internal static string resInvalidLeadReportInfoVals {
             get {
                 return ResourceManager.GetString("resInvalidLeadReportInfoVals", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Для одной из групп неверно заданы праметры диапазона, из которого нужно экспортировать данные.
+        /// </summary>
+        internal static string resInvalidSourceRangeForExporting {
+            get {
+                return ResourceManager.GetString("resInvalidSourceRangeForExporting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Неверный путь к книге со списками участников.
+        /// </summary>
+        internal static string resInvalidSourceWorkbookName {
+            get {
+                return ResourceManager.GetString("resInvalidSourceWorkbookName", resourceCulture);
             }
         }
         
@@ -2028,6 +2109,15 @@ namespace DBManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Номер столбца с ФИ.
+        /// </summary>
+        internal static string resPersonalDataColumnIndexShort {
+            get {
+                return ResourceManager.GetString("resPersonalDataColumnIndexShort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Настройки личного зачёта.
         /// </summary>
         internal static string resPersonalExportTab {
@@ -2469,6 +2559,15 @@ namespace DBManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Номер листа (1 - первый).
+        /// </summary>
+        internal static string resSheetIndex {
+            get {
+                return ResourceManager.GetString("resSheetIndex", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Название листа.
         /// </summary>
         internal static string resSheetName {
@@ -2546,6 +2645,15 @@ namespace DBManager.Properties {
         internal static string resSmolensk {
             get {
                 return ResourceManager.GetString("resSmolensk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Путь к книге со списками участников.
+        /// </summary>
+        internal static string resSourceWorkbookName {
+            get {
+                return ResourceManager.GetString("resSourceWorkbookName", resourceCulture);
             }
         }
         
@@ -2766,6 +2874,15 @@ namespace DBManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Номер столбца с командой.
+        /// </summary>
+        internal static string resTeamColumnIndexShort {
+            get {
+                return ResourceManager.GetString("resTeamColumnIndexShort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Настройки командного зачёта.
         /// </summary>
         internal static string resTeamExportTab {
@@ -2969,6 +3086,15 @@ namespace DBManager.Properties {
         internal static string resYearOfBirthColumnIndex {
             get {
                 return ResourceManager.GetString("resYearOfBirthColumnIndex", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Номер столбца с г.р..
+        /// </summary>
+        internal static string resYearOfBirthColumnIndexShort {
+            get {
+                return ResourceManager.GetString("resYearOfBirthColumnIndexShort", resourceCulture);
             }
         }
         

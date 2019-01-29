@@ -830,7 +830,7 @@ namespace DBManager
 		/// <param name="e"></param>
 		public void CreateCompetitionCmdExecuted(object sender, RoutedEventArgs e)
         {
-            GenerationFromOnlineBDWnd wnd = null;
+            Window wnd = null;
 
             switch (MessageBox.Show(this,
                                     Properties.Resources.resImportFromOnlineDB,
@@ -840,14 +840,18 @@ namespace DBManager
             {
                 case MessageBoxResult.Yes:
                     wnd = new GenerationFromOnlineBDWnd();
-                    if (!wnd.InitWndControls())
+                    if (!(wnd as GenerationFromOnlineBDWnd).InitWndControls())
                     {
                         return;
                     }
                     break;
 
                 case MessageBoxResult.No:
-
+                    wnd = new GenerationFromLocalWorkbookWnd();
+                    if (!(wnd as GenerationFromLocalWorkbookWnd).InitWndControls())
+                    {
+                        return;
+                    }
                     break;
 
                 case MessageBoxResult.Cancel:

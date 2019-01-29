@@ -7,6 +7,7 @@
         xmlns:gconvs="clr-namespace:DBManager.Global.Converters"
         xmlns:localctrls="clr-namespace:DBManager.InterfaceElements"
         xmlns:local="clr-namespace:DBManager.Excel.GeneratingWorkbooks"
+        xmlns:lconvs="clr-namespace:DBManager.Excel.GeneratingWorkbooks.Converters"
         xmlns:xctk="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
         mc:Ignorable="d"
         Title="{Loc resGenerationFromOnlineBDWndTitle}" 
@@ -18,9 +19,9 @@
         Loaded="GenerationFromOnlineBDWnd_Loaded">
 
     <baseWnd:CNotifyPropertyChangedWnd.Resources>
-        <local:YearToStringValueConverter x:Key="valconvYearToString" />
-        <local:SecondColNameType2NullBoolConverter x:Key="valconvSecondColNameCoach2NullBool" TrueValue="Coach" FalseValue="Team" />
-        <local:SecondColNameType2NullBoolConverter x:Key="valconvSecondColNameTeam2NullBool" TrueValue="Team" FalseValue="Coach" />
+        <lconvs:YearToStringValueConverter x:Key="valconvYearToString" />
+        <lconvs:SecondColNameType2NullBoolConverter x:Key="valconvSecondColNameCoach2NullBool" TrueValue="Coach" FalseValue="Team" />
+        <lconvs:SecondColNameType2NullBoolConverter x:Key="valconvSecondColNameTeam2NullBool" TrueValue="Team" FalseValue="Coach" />
         <local:MembersCountToBrushValueConverter x:Key="valconvMembersCountToBrush" />
     </baseWnd:CNotifyPropertyChangedWnd.Resources>
     
@@ -248,14 +249,14 @@
                         <GridViewColumn Header="{Loc resEndYear}" >
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <ComboBox Width="50"
+                                    <ComboBox Width="100"
                                               SelectedItem="{Binding EndYear}"
                                               ItemsSource="{Binding EndYears,RelativeSource={RelativeSource AncestorType={x:Type local:GenerationFromOnlineBDWnd}}}">
-                                        <ComboBox.ItemContainerStyle>
-                                            <Style TargetType="ComboBoxItem">
-                                                <Setter Property="Content" Value="{Binding Converter={StaticResource valconvYearToString}}" />
-                                            </Style>
-                                        </ComboBox.ItemContainerStyle>
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Converter={StaticResource valconvYearToString}}"/>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
                                     </ComboBox>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>

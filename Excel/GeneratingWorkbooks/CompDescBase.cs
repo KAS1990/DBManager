@@ -8,10 +8,10 @@ using System.Text;
 
 namespace DBManager.Excel.GeneratingWorkbooks
 {
-    public class CompDesc : ICompDesc, INotifyPropertyChanged
+    public abstract class CompDescBase  : ICompDesc, INotifyPropertyChanged
     {
         #region Name
-        private static readonly string NamePropertyName = GlobalDefines.GetPropertyName<CompDesc>(m => m.Name);
+        private static readonly string NamePropertyName = GlobalDefines.GetPropertyName<CompDescBase>(m => m.Name);
         private string m_Name = null;
         /// <summary>
         /// Название сорев. Выбирается из БД
@@ -29,9 +29,9 @@ namespace DBManager.Excel.GeneratingWorkbooks
             }
         }
         #endregion
-        
+
         #region StartDate
-        private static readonly string StartDatePropertyName = GlobalDefines.GetPropertyName<CompDesc>(m => m.StartDate);
+        public static readonly string StartDatePropertyName = GlobalDefines.GetPropertyName<CompDescBase>(m => m.StartDate);
         private DateTime m_StartDate;
 
         public DateTime StartDate
@@ -46,26 +46,10 @@ namespace DBManager.Excel.GeneratingWorkbooks
                 }
             }
         }
-
-        private DateTime m_RemoteStartDate;
-        /// <summary>
-        /// Start date is read frome remote DB
-        /// </summary>
-        public DateTime RemoteStartDate
-        {
-            get { return m_RemoteStartDate; }
-            set
-            {
-                if (m_RemoteStartDate != value)
-                {
-                    m_RemoteStartDate = value;
-                }
-            }
-        }
         #endregion
 
         #region EndDate
-        private static readonly string EndDatePropertyName = GlobalDefines.GetPropertyName<CompDesc>(m => m.EndDate);
+        public static readonly string EndDatePropertyName = GlobalDefines.GetPropertyName<CompDescBase>(m => m.EndDate);
         private DateTime? m_EndDate = null;
 
         public DateTime? EndDate
@@ -80,26 +64,10 @@ namespace DBManager.Excel.GeneratingWorkbooks
                 }
             }
         }
-
-        private DateTime? m_RemoteEndDate;
-        /// <summary>
-        /// End date is read frome remote DB
-        /// </summary>
-        public DateTime? RemoteEndDate
-        {
-            get { return m_RemoteEndDate; }
-            set
-            {
-                if (m_RemoteEndDate != value)
-                {
-                    m_RemoteEndDate = value;
-                }
-            }
-        }
         #endregion
 
         #region MainJudge
-        private static readonly string MainJudgePropertyName = GlobalDefines.GetPropertyName<CompDesc>(m => m.MainJudge);
+        private static readonly string MainJudgePropertyName = GlobalDefines.GetPropertyName<CompDescBase>(m => m.MainJudge);
         private string m_MainJudge = null;
 
         public string MainJudge
@@ -117,7 +85,7 @@ namespace DBManager.Excel.GeneratingWorkbooks
         #endregion
 
         #region MainSecretary
-        private static readonly string MainSecretaryPropertyName = GlobalDefines.GetPropertyName<CompDesc>(m => m.MainSecretary);
+        private static readonly string MainSecretaryPropertyName = GlobalDefines.GetPropertyName<CompDescBase>(m => m.MainSecretary);
         private string m_MainSecretary = null;
 
         public string MainSecretary
@@ -135,7 +103,7 @@ namespace DBManager.Excel.GeneratingWorkbooks
         #endregion
 
         #region ShowRow6
-        private static readonly string ShowRow6PropertyName = GlobalDefines.GetPropertyName<CompDesc>(m => m.ShowRow6);
+        private static readonly string ShowRow6PropertyName = GlobalDefines.GetPropertyName<CompDescBase>(m => m.ShowRow6);
         private bool m_ShowRow6 = false;
 
         public bool ShowRow6
@@ -153,7 +121,7 @@ namespace DBManager.Excel.GeneratingWorkbooks
         #endregion
 
         #region Row6
-        private static readonly string Row6PropertyName = GlobalDefines.GetPropertyName<CompDesc>(m => m.Row6);
+        private static readonly string Row6PropertyName = GlobalDefines.GetPropertyName<CompDescBase>(m => m.Row6);
         private string m_Row6 = null;
 
         public string Row6
@@ -171,7 +139,7 @@ namespace DBManager.Excel.GeneratingWorkbooks
         #endregion
 
         #region SecondColNameType
-        private static readonly string SecondColNameTypePropertyName = GlobalDefines.GetPropertyName<CompDesc>(m => m.SecondColNameType);
+        private static readonly string SecondColNameTypePropertyName = GlobalDefines.GetPropertyName<CompDescBase>(m => m.SecondColNameType);
         private enSecondColNameType m_SecondColNameType = enSecondColNameType.None;
 
         public enSecondColNameType SecondColNameType
@@ -189,7 +157,7 @@ namespace DBManager.Excel.GeneratingWorkbooks
         #endregion
 
         #region DestCompFolder
-        private static readonly string DestCompFolderName = GlobalDefines.GetPropertyName<CompDesc>(m => m.DestCompFolder);
+        private static readonly string DestCompFolderName = GlobalDefines.GetPropertyName<CompDescBase>(m => m.DestCompFolder);
         private string m_DestCompFolder = null;
         /// <summary>
         /// 
@@ -208,36 +176,7 @@ namespace DBManager.Excel.GeneratingWorkbooks
         }
         #endregion
 
-        #region ID
-        private static readonly string IDPropertyName = GlobalDefines.GetPropertyName<CompDesc>(m => m.ID);
-        private int m_ID = -1;
-
-        public int ID
-        {
-            get { return m_ID; }
-            set
-            {
-                if (m_ID != value)
-                {
-                    m_ID = value;
-                    OnPropertyChanged(IDPropertyName);
-                }
-            }
-        }
-        #endregion
-
-        public CompDesc()
-        {
-        }
-
-
-        public void UpdateDatesFromRemoteOnes()
-        {
-            StartDate = RemoteStartDate;
-            EndDate = RemoteEndDate;
-        }
-
-        public void CopyNonRemoteFields(CompDesc src)
+        public virtual void CopyCompSpecificFields(ICompDesc src)
         {
             MainJudge = src.MainJudge;
             MainSecretary = src.MainSecretary;
@@ -245,6 +184,37 @@ namespace DBManager.Excel.GeneratingWorkbooks
             Row6 = src.Row6;
             SecondColNameType = src.SecondColNameType;
             DestCompFolder = src.DestCompFolder;
+        }
+
+        public virtual string GetDefaultDestCompFolderName()
+        {
+            if (EndDate.HasValue && StartDate != EndDate.Value)
+            {
+                if (StartDate.Month == EndDate.Value.Month)
+                {
+                    return string.Format("{0:D2}-{1:D2}.{2:D2}.{3:D2}",
+                                        StartDate.Day,
+                                        EndDate.Value.Day,
+                                        StartDate.Month,
+                                        StartDate.Year);
+                }
+                else
+                {
+                    return string.Format("{0:D2}.{1:D2}-{2:D2}.{3:D2}.{4:D2}",
+                                        StartDate.Day,
+                                        StartDate.Month,
+                                        EndDate.Value.Day,
+                                        EndDate.Value.Month,
+                                        StartDate.Year);
+                }
+            }
+            else
+            {
+                return string.Format("{0:D2}.{1:D2}.{2:D2}",
+                                    StartDate.Day,
+                                    StartDate.Month,
+                                    StartDate.Year);
+            }
         }
 
         #region OnPropertyChanged and PropertyChanged event

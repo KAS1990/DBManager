@@ -69,5 +69,7 @@ D:\Саша\Документы\Эксель\Для соревнований\Ск
 D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\Скорость Last Edition\DBManager\obj\x86\Release\OnlineResults\CPublishingResultsLogWnd.g.cs
 D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\Скорость Last Edition\DBManager\obj\x86\Release\OnlineResults\CPublishingSettingsWnd.baml
 D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\Скорость Last Edition\DBManager\obj\x86\Release\OnlineResults\CPublishingResultsLogWnd.baml
-D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\Скорость Last Edition\DBManager\obj\x86\Release\Excel\GeneratingWorkbooks\GenerationFromOnlineBDWnd.g.cs
-D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\Скорость Last Edition\DBManager\obj\x86\Release\Excel\GeneratingWorkbooks\GenerationFromOnlineBDWnd.baml
+D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\Скорость Last Edition\DBManager\obj\x86\Release\Excel\GeneratingWorkbooks\LocalWorkbook\GenerationFromLocalWorkbookWnd.g.cs
+D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\Скорость Last Edition\DBManager\obj\x86\Release\Excel\GeneratingWorkbooks\RemoteDB\GenerationFromOnlineBDWnd.g.cs
+D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\Скорость Last Edition\DBManager\obj\x86\Release\Excel\GeneratingWorkbooks\LocalWorkbook\GenerationFromLocalWorkbookWnd.baml
+D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\Скорость Last Edition\DBManager\obj\x86\Release\Excel\GeneratingWorkbooks\RemoteDB\GenerationFromOnlineBDWnd.baml

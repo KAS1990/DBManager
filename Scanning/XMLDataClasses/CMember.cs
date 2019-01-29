@@ -108,72 +108,11 @@ namespace DBManager.Scanning.XMLDataClasses
 			{
 				if (m_Grade != value)
 				{
-					m_Grade = value;
-					GradeInEnum = enGrade.None;
-					if (m_Grade != null)
-					{
-						m_Grade = m_Grade.Trim();
-						// Исправляем ошибки в названии разрядов
-						if (m_Grade.Contains('б') && m_Grade.Contains('р'))
-						{
-							m_Grade = "б/р";
-							GradeInEnum = enGrade.WithoutGrade;
-						}
-						else if (m_Grade.Contains('3'))
-						{
-							if (m_Grade.Contains('ю'))
-							{
-								m_Grade = "3 ю";
-								GradeInEnum = enGrade.Young3;
-							}
-							else
-							{
-								m_Grade = "3";
-								GradeInEnum = enGrade.Adult3;
-							}
-						}
-						else if (m_Grade.Contains('2'))
-						{
-							if (m_Grade.Contains('ю'))
-							{
-								m_Grade = "2 ю";
-								GradeInEnum = enGrade.Young2;
-							}
-							else
-							{
-								m_Grade = "2";
-								GradeInEnum = enGrade.Adult2;
-							}
-						}
-						else if (m_Grade.Contains('1'))
-						{
-							if (m_Grade.Contains('ю'))
-							{
-								m_Grade = "1 ю";
-								GradeInEnum = enGrade.Young1;
-							}
-							else
-							{
-								m_Grade = "1";
-								GradeInEnum = enGrade.Adult1;
-							}
-						}
-						else if (m_Grade.Contains("к", StringComparison.OrdinalIgnoreCase))
-						{
-							m_Grade = "КМС";
-							GradeInEnum = enGrade.BeforeMaster;
-						}
-						else if (m_Grade.Contains("м", StringComparison.OrdinalIgnoreCase))
-						{
-							m_Grade = "МС";
-							GradeInEnum = enGrade.Master;
-						}
-						else // Неизвестный разряд
-						{
-							m_Grade = GlobalDefines.DEFAULT_XML_STRING_VAL;
-						}
-					}
-				}
+                    enGrade gradeInEnum;
+                    m_Grade = GlobalDefines.ParseGrade(value, out gradeInEnum);
+                    GradeInEnum = gradeInEnum;
+
+                }
 			}
 		}
 		public bool ShouldSerializeGrade()

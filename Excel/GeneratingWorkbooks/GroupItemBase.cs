@@ -1,6 +1,6 @@
-﻿using DBManager.Excel.GeneratingWorkbooks.Interfaces;
+﻿using DBManager.Excel.GeneratingWorkbooks.Helpers;
+using DBManager.Excel.GeneratingWorkbooks.Interfaces;
 using DBManager.Global;
-using DBManager.OnlineDB;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,66 +11,22 @@ using static DBManager.Scanning.XMLDataClasses.CAgeGroup;
 
 namespace DBManager.Excel.GeneratingWorkbooks
 {
-    /// <summary>
-    /// Запись в таблице групп
-    /// </summary>
-    public class GroupItemRemoteDB : IGroupItem, INotifyPropertyChanged
+    public abstract class GroupItemBase : IGroupItem, INotifyPropertyChanged
     {
-        #region IsSelected
-        private static readonly string IsSelectedPropertyName = GlobalDefines.GetPropertyName<GroupItemRemoteDB>(m => m.IsSelected);
-        private bool m_IsSelected = false;
-        /// <summary>
-        ///
-        /// </summary>
-        public bool IsSelected
-        {
-            get { return m_IsSelected; }
-            set
-            {
-                if (m_IsSelected != value)
-                {
-                    m_IsSelected = value;
-                    OnPropertyChanged(IsSelectedPropertyName);
-                }
-            }
-        }
-        #endregion
-
-        #region ID
+        #region CompDesc
         /// <summary>
         /// 
         /// </summary>
         public ICompDesc CompDesc { get; } = null;
         #endregion
 
-        #region ID
-        private static readonly string IDPropertyName = GlobalDefines.GetPropertyName<GroupItemRemoteDB>(m => m.ID);
-        private int m_ID = 0;
-        /// <summary>
-        /// ID in remote DB
-        /// </summary>
-        public int ID
-        {
-            get { return m_ID; }
-            set
-            {
-                if (m_ID != value)
-                {
-                    m_ID = value;
-                    RefreshMembersCount();
-                    OnPropertyChanged(IDPropertyName);
-                }
-            }
-        }
-        #endregion
-
         #region Name
-        private static readonly string NamePropertyName = GlobalDefines.GetPropertyName<GroupItemRemoteDB>(m => m.Name);
-        private string m_Name = null;
+        protected static readonly string NamePropertyName = GlobalDefines.GetPropertyName<GroupItemBase>(m => m.Name);
+        protected string m_Name = null;
         /// <summary>
-        /// Название сорев. Выбирается из БД
+        /// 
         /// </summary>
-        public string Name
+        public virtual string Name
         {
             get { return m_Name; }
             set
@@ -79,31 +35,14 @@ namespace DBManager.Excel.GeneratingWorkbooks
                 {
                     m_Name = value;
                     OnPropertyChanged(NamePropertyName);
+                    FillWorkbookName();
                 }
             }
         }
         #endregion
 
-        #region MembersCount
-        private static readonly string MembersCountPropertyName = GlobalDefines.GetPropertyName<GroupItemRemoteDB>(m => m.MembersCount);
-        private int? m_MembersCount = null;
-        /// <summary>
-        /// 
-        /// </summary>
-        public int MembersCount
-        {
-            get
-            {
-                if (m_MembersCount == null)
-                    RefreshMembersCount();
-
-                return m_MembersCount ?? 0;
-            }
-        }
-        #endregion
-
         #region Sex
-        private static readonly string SexPropertyName = GlobalDefines.GetPropertyName<GroupItemRemoteDB>(m => m.Sex);
+        private static readonly string SexPropertyName = GlobalDefines.GetPropertyName<GroupItemBase>(m => m.Sex);
         private enSex m_Sex = enSex.None;
         /// <summary>
         /// 
@@ -123,7 +62,7 @@ namespace DBManager.Excel.GeneratingWorkbooks
         #endregion
 
         #region StartYear
-        private static readonly string StartYearPropertyName = GlobalDefines.GetPropertyName<GroupItemRemoteDB>(m => m.StartYear);
+        private static readonly string StartYearPropertyName = GlobalDefines.GetPropertyName<GroupItemBase>(m => m.StartYear);
         private int m_StartYear = 0;
         /// <summary>
         /// 
@@ -137,15 +76,16 @@ namespace DBManager.Excel.GeneratingWorkbooks
                 {
                     m_StartYear = value;
                     OnPropertyChanged(StartYearPropertyName);
+                    FillWorkbookName();
                 }
             }
         }
 
-        public string StartYearInString => CreateYearInString(m_StartYear);
+        public string StartYearInString => m_StartYear.CreateYearInString();
         #endregion
 
         #region EndYear
-        private static readonly string EndYearPropertyName = GlobalDefines.GetPropertyName<GroupItemRemoteDB>(m => m.EndYear);
+        private static readonly string EndYearPropertyName = GlobalDefines.GetPropertyName<GroupItemBase>(m => m.EndYear);
         private int? m_EndYear = null;
         /// <summary>
         /// 
@@ -159,15 +99,16 @@ namespace DBManager.Excel.GeneratingWorkbooks
                 {
                     m_EndYear = value;
                     OnPropertyChanged(EndYearPropertyName);
+                    FillWorkbookName();
                 }
             }
         }
 
-        public string EndYearInString => CreateYearInString(m_EndYear);
+        public string EndYearInString => m_EndYear.CreateYearInString();
         #endregion
 
         #region StartDate
-        private static readonly string StartDatePropertyName = GlobalDefines.GetPropertyName<GroupItemRemoteDB>(m => m.StartDate);
+        private static readonly string StartDatePropertyName = GlobalDefines.GetPropertyName<GroupItemBase>(m => m.StartDate);
         private DateTime m_StartDate;
         /// <summary>
         /// 
@@ -187,7 +128,7 @@ namespace DBManager.Excel.GeneratingWorkbooks
         #endregion
 
         #region EndDate
-        private static readonly string EndDatePropertyName = GlobalDefines.GetPropertyName<GroupItemRemoteDB>(m => m.EndDate);
+        private static readonly string EndDatePropertyName = GlobalDefines.GetPropertyName<GroupItemBase>(m => m.EndDate);
         private DateTime? m_EndDate = null;
         /// <summary>
         /// 
@@ -207,7 +148,7 @@ namespace DBManager.Excel.GeneratingWorkbooks
         #endregion
 
         #region WorkbookName
-        private static readonly string WorkbookNamePropertyName = GlobalDefines.GetPropertyName<GroupItemRemoteDB>(m => m.WorkbookName);
+        private static readonly string WorkbookNamePropertyName = GlobalDefines.GetPropertyName<GroupItemBase>(m => m.WorkbookName);
         private string m_WorkbookName = null;
         /// <summary>
         /// Название книги, в которой будут храниться результаты участников группы
@@ -236,12 +177,12 @@ namespace DBManager.Excel.GeneratingWorkbooks
         }
         #endregion
 
-        public GroupItemRemoteDB(CompDesc compDesc)
+        public GroupItemBase(ICompDesc compDesc)
         {
             CompDesc = compDesc;
         }
 
-        public GroupItemRemoteDB(GroupItemRemoteDB rhs)
+        public GroupItemBase(GroupItemBase rhs)
         {
             CompDesc = rhs.CompDesc;
             Name = rhs.Name;
@@ -249,7 +190,6 @@ namespace DBManager.Excel.GeneratingWorkbooks
             Sex = rhs.Sex;
             StartYear = rhs.StartYear;
             EndYear = rhs.EndYear;
-            ID = rhs.ID;
             StartDate = rhs.StartDate;
             EndDate = rhs.EndDate;
         }
@@ -261,41 +201,12 @@ namespace DBManager.Excel.GeneratingWorkbooks
                     || string.IsNullOrWhiteSpace(StartYearInString)
                     || string.IsNullOrWhiteSpace(EndYearInString)))
             {
-                result += $" {StartYearInString}-{EndYearInString}{GlobalDefines.MAIN_WBK_EXTENSION}";
+                if (EndYear == (int)enEndYearSpecVals.AndElder || EndYear == (int)enEndYearSpecVals.AndYounger)
+                    result += $" {StartYearInString} {EndYearInString}{GlobalDefines.MAIN_WBK_EXTENSION}";
+                else
+                    result += $" {StartYearInString}-{EndYearInString}{GlobalDefines.MAIN_WBK_EXTENSION}";
             }
             WorkbookName = result;
-        }
-
-        public void RefreshMembersCount()
-        {
-            int compID = (CompDesc as CompDesc)?.ID ?? 0;
-            if (OnlineDBManager.Instance.IsConnectedToRemoteDB && compID != 0)
-            {
-                m_MembersCount = OnlineDBManager
-                    .Instance
-                    .Entities
-                    .participants
-                    .Count(arg => arg.group_id == ID && arg.competition_id == compID);
-                OnPropertyChanged(MembersCountPropertyName);
-            }
-        }
-
-        public static string CreateYearInString(int? year)
-        {
-            if (year == null)
-                return null;
-
-            switch (year.Value)
-            {
-                case (int)enEndYearSpecVals.AndElder:
-                    return Properties.Resources.resAndElder;
-
-                case (int)enEndYearSpecVals.AndYounger:
-                    return Properties.Resources.resAndYounger;
-
-                default:
-                    return year.Value.ToString();
-            }
         }
     }
 }

@@ -6,8 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading;
 using MSExcel = Microsoft.Office.Interop.Excel;
 
 namespace DBManager.Excel.GeneratingWorkbooks
@@ -48,7 +46,7 @@ namespace DBManager.Excel.GeneratingWorkbooks
             return OpenWbk(excelApp, wbkFullPath, out WbkOpened);
         }
         
-        private MSExcel.Workbook OpenWbk(ExcelApplicationEx excelApp, string wbkFullPath, out bool WbkOpened)
+        public static MSExcel.Workbook OpenWbk(ExcelApplicationEx excelApp, string wbkFullPath, out bool WbkOpened)
         {
             MSExcel.Workbook result = null;
 

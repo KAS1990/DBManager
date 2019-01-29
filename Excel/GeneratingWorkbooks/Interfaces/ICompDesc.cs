@@ -17,5 +17,8 @@ namespace DBManager.Excel.GeneratingWorkbooks.Interfaces
         string Row6 { get; }
         enSecondColNameType SecondColNameType { get; }
         string DestCompFolder { get; }
+
+        void CopyCompSpecificFields(ICompDesc src);
+        string GetDefaultDestCompFolderName();
     }
 }

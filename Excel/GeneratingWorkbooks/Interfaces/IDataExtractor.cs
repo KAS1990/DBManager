@@ -10,5 +10,7 @@ namespace DBManager.Excel.GeneratingWorkbooks.Interfaces
     {
         ICompDesc CompDesc { get; }
         List<KeyValuePair<IGroupItem, IEnumerable<CFullMemberInfo>>> GroupsMembers { get; }
+
+        bool Extract(ICompDesc compDesc, IEnumerable<IGroupItem> compGroups, out string message);
     }
 }

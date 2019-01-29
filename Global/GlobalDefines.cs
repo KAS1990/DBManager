@@ -194,8 +194,8 @@ namespace DBManager.Global
 					BALLS_FOR_PLACES.Add(ball.place, ball.value);
 
 				// Заполняем словарь с названиями разрядов
-				foreach (grades grade in DBManagerApp.m_Entities.grades)
-					GRADE_NAMES.Add((enGrade)grade.id_grade, grade.name);
+				foreach (grades result in DBManagerApp.m_Entities.grades)
+					GRADE_NAMES.Add((enGrade)result.id_grade, result.name);
 
 				GRADE_NAMES.Add(enGrade.None, GRADE_NAMES[enGrade.WithoutGrade]);
 
@@ -1554,15 +1554,86 @@ namespace DBManager.Global
 		}
 
 
-		/// <summary>
-		/// Корректируем строку с командой: удаляем лишние пробелы корректируем
-		/// </summary>
-		/// <param name="SurnameAndNameFromXls">
-		/// 
-		/// </param>
-		/// <param name="arrNameAndSurname"></param>
-		/// <returns></returns>
-		public static string CorrectTeam(string value)
+        public static string ParseGrade(string grade, out enGrade gradeInEnum)
+        {
+            string result = grade;
+            gradeInEnum = enGrade.None;
+            if (result != null)
+            {
+                result = result.Trim();
+                // Исправляем ошибки в названии разрядов
+                if (result.Contains('б') && result.Contains('р'))
+                {
+                    result = "б/р";
+                    gradeInEnum = enGrade.WithoutGrade;
+                }
+                else if (result.Contains('3'))
+                {
+                    if (result.Contains('ю'))
+                    {
+                        result = "3 ю";
+                        gradeInEnum = enGrade.Young3;
+                    }
+                    else
+                    {
+                        result = "3";
+                        gradeInEnum = enGrade.Adult3;
+                    }
+                }
+                else if (result.Contains('2'))
+                {
+                    if (result.Contains('ю'))
+                    {
+                        result = "2 ю";
+                        gradeInEnum = enGrade.Young2;
+                    }
+                    else
+                    {
+                        result = "2";
+                        gradeInEnum = enGrade.Adult2;
+                    }
+                }
+                else if (result.Contains('1'))
+                {
+                    if (result.Contains('ю'))
+                    {
+                        result = "1 ю";
+                        gradeInEnum = enGrade.Young1;
+                    }
+                    else
+                    {
+                        result = "1";
+                        gradeInEnum = enGrade.Adult1;
+                    }
+                }
+                else if (result.Contains("к", StringComparison.OrdinalIgnoreCase))
+                {
+                    result = "КМС";
+                    gradeInEnum = enGrade.BeforeMaster;
+                }
+                else if (result.Contains("м", StringComparison.OrdinalIgnoreCase))
+                {
+                    result = "МС";
+                    gradeInEnum = enGrade.Master;
+                }
+                else // Неизвестный разряд
+                {
+                    result = GlobalDefines.DEFAULT_XML_STRING_VAL;
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Корректируем строку с командой: удаляем лишние пробелы корректируем
+        /// </summary>
+        /// <param name="SurnameAndNameFromXls">
+        /// 
+        /// </param>
+        /// <param name="arrNameAndSurname"></param>
+        /// <returns></returns>
+        public static string CorrectTeam(string value)
 		{
 			string result = value;
 			if (result != null)

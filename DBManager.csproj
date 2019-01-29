@@ -184,20 +184,31 @@
       <DependentUpon>CLeadReportInfoTab.xaml</DependentUpon>
     </Compile>
     <Compile Include="Excel\Exporting\Tabs\CExportingTabBase.cs" />
-    <Compile Include="Excel\GeneratingWorkbooks\CompDesc.cs" />
-    <Compile Include="Excel\GeneratingWorkbooks\CompItem.cs" />
+    <Compile Include="Excel\GeneratingWorkbooks\CompDescBase.cs" />
+    <Compile Include="Excel\GeneratingWorkbooks\GroupItemBase.cs" />
+    <Compile Include="Excel\GeneratingWorkbooks\Helpers\CharExtensions.cs" />
+    <Compile Include="Excel\GeneratingWorkbooks\LocalWorkbook\CompDescLocalWorkbook.cs" />
+    <Compile Include="Excel\GeneratingWorkbooks\RemoteDB\CompDescRemoteDB.cs" />
+    <Compile Include="Excel\GeneratingWorkbooks\RemoteDB\CompItemRemoteDB.cs" />
+    <Compile Include="Excel\GeneratingWorkbooks\Converters\SecondColNameType2NullBoolConverter.cs" />
+    <Compile Include="Excel\GeneratingWorkbooks\Converters\YearToStringValueConverter.cs" />
     <Compile Include="Excel\GeneratingWorkbooks\Helpers\DirectoryInfoExtensions.cs" />
     <Compile Include="Excel\GeneratingWorkbooks\Interfaces\IDataExtractor.cs" />
-    <Compile Include="Excel\GeneratingWorkbooks\GenerationFromOnlineBDWnd.xaml.cs">
+    <Compile Include="Excel\GeneratingWorkbooks\LocalWorkbook\GenerationFromLocalWorkbookWnd.xaml.cs">
+      <DependentUpon>GenerationFromLocalWorkbookWnd.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Excel\GeneratingWorkbooks\LocalWorkbook\GroupItemLocalWorkbook.cs" />
+    <Compile Include="Excel\GeneratingWorkbooks\LocalWorkbook\LocalWorkbookDataExtractor.cs" />
+    <Compile Include="Excel\GeneratingWorkbooks\RemoteDB\GenerationFromOnlineBDWnd.xaml.cs">
       <DependentUpon>GenerationFromOnlineBDWnd.xaml</DependentUpon>
     </Compile>
     <Compile Include="Excel\GeneratingWorkbooks\Helpers\GradeExtensions.cs" />
     <Compile Include="Excel\GeneratingWorkbooks\Interfaces\ICompDesc.cs" />
     <Compile Include="Excel\GeneratingWorkbooks\Interfaces\IGroupItem.cs" />
     <Compile Include="Excel\GeneratingWorkbooks\MemberInfo.cs" />
-    <Compile Include="Excel\GeneratingWorkbooks\RemoteDBDataExtractor.cs" />
+    <Compile Include="Excel\GeneratingWorkbooks\RemoteDB\RemoteDBDataExtractor.cs" />
     <Compile Include="Excel\GeneratingWorkbooks\WorkbookGenerator.cs" />
-    <Compile Include="Excel\GeneratingWorkbooks\GroupItemRemoteDB.cs" />
+    <Compile Include="Excel\GeneratingWorkbooks\RemoteDB\GroupItemRemoteDB.cs" />
     <Compile Include="Excel\GeneratingWorkbooks\Helpers\BoolExtensions.cs" />
     <Compile Include="Excel\GeneratingWorkbooks\Helpers\SexExtensions.cs" />
     <Compile Include="Excel\GeneratingWorkbooks\Helpers\StartListWorksheetHelper.cs" />
@@ -433,7 +444,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Excel\GeneratingWorkbooks\GenerationFromOnlineBDWnd.xaml">
+    <Page Include="Excel\GeneratingWorkbooks\LocalWorkbook\GenerationFromLocalWorkbookWnd.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Excel\GeneratingWorkbooks\RemoteDB\GenerationFromOnlineBDWnd.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

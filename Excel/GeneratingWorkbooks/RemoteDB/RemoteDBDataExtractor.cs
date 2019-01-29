@@ -14,21 +14,21 @@ namespace DBManager.Excel.GeneratingWorkbooks
         public ICompDesc CompDesc { get; private set; }
         public List<KeyValuePair<IGroupItem, IEnumerable<CFullMemberInfo>>> GroupsMembers { get; private set; }
 
-        public bool Extract(CompDesc compDesc, IEnumerable<GroupItemRemoteDB> compGroups, out string message)
+        public bool Extract(ICompDesc compDesc, IEnumerable<IGroupItem> compGroups, out string message)
         {
             message = null;
 
             GroupsMembers = new List<KeyValuePair<IGroupItem, IEnumerable<CFullMemberInfo>>>();
             var entities = OnlineDBManager.Instance.Entities;
 
-            foreach (var @group in compGroups.Where(arg => arg.IsSelected))
+            foreach (var @group in compGroups.Cast<GroupItemRemoteDB>().Where(arg => arg.IsSelected))
             {
                 try
                 {
                     var pupils =
                         (from part in entities.participants
                          join pupil in entities.pupil on part.pupil_id equals pupil.id
-                         where part.competition_id == compDesc.ID && part.group_id == @group.ID
+                         where part.competition_id == (compDesc as CompDescRemoteDB).ID && part.group_id == @group.ID
                          select pupil)
                          .ToList();
 

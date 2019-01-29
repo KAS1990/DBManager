@@ -1,4 +1,5 @@
-﻿using DBManager.Global;
+﻿using DBManager.Excel.GeneratingWorkbooks.Interfaces;
+using DBManager.Global;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,19 +12,18 @@ namespace DBManager.Excel.GeneratingWorkbooks
     /// <summary>
     /// Запись в выпадающем списке соревнований
     /// </summary>
-    public class CompItem : INotifyPropertyChanged
+    public class CompItemRemoteDB : INotifyPropertyChanged
     {
         #region Desc
-        private static readonly string DescPropertyName = GlobalDefines.GetPropertyName<CompItem>(m => m.Desc);
-        public CompDesc Desc { get; } = new CompDesc();
+        private static readonly string DescPropertyName = GlobalDefines.GetPropertyName<CompItemRemoteDB>(m => m.Desc);
+        public ICompDesc Desc { get; set; } = null;
         #endregion
-
-
+        
         #region Groups
         public ObservableCollection<GroupItemRemoteDB> Groups { get; private set; } = new ObservableCollection<GroupItemRemoteDB>();
         #endregion
 
-        public CompItem()
+        public CompItemRemoteDB()
         {
         }
 

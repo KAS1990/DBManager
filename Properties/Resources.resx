@@ -628,7 +628,7 @@
     <value>Не выбраны команды</value>
   </data>
   <data name="resAllExcellFilesFilter" xml:space="preserve">
-    <value>Файлы MS Excel 1997-2003 (*.xls)|*.xls|Файлы MS Excel 2007 (*.xlsx)|*.xlsx</value>
+    <value>Файлы MS Excel 1997-2003 (*.xls)|*.xls|Файлы MS Excel 2007 (*.xlsx)|*.xlsx|Файлы MS Excel 2007 с поддержкой макросов (*.xlsm)|*.xlsm</value>
   </data>
   <data name="resCantCreateExcelApp" xml:space="preserve">
     <value>Не удалось создать приложение Excel</value>
@@ -1159,5 +1159,47 @@
   </data>
   <data name="resInvalidGroupDates" xml:space="preserve">
     <value>Соревнования в каждой группе должны проходить в один день</value>
+  </data>
+  <data name="resAdd" xml:space="preserve">
+    <value>Добавить</value>
+  </data>
+  <data name="resDataRange" xml:space="preserve">
+    <value>Диапазон</value>
+  </data>
+  <data name="resDelete" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="resGenerationFromLocalWorkbookWnd" xml:space="preserve">
+    <value>Импорт из книг Excel</value>
+  </data>
+  <data name="resGradeColumnIndexShort" xml:space="preserve">
+    <value>Номер столбца с разрядом</value>
+  </data>
+  <data name="resPersonalDataColumnIndexShort" xml:space="preserve">
+    <value>Номер столбца с ФИ</value>
+  </data>
+  <data name="resTeamColumnIndexShort" xml:space="preserve">
+    <value>Номер столбца с командой</value>
+  </data>
+  <data name="resYearOfBirthColumnIndexShort" xml:space="preserve">
+    <value>Номер столбца с г.р.</value>
+  </data>
+  <data name="resInvalidSourceRangeForExporting" xml:space="preserve">
+    <value>Для одной из групп неверно заданы праметры диапазона, из которого нужно экспортировать данные</value>
+  </data>
+  <data name="resSheetIndex" xml:space="preserve">
+    <value>Номер листа (1 - первый)</value>
+  </data>
+  <data name="resfmtSourceWorkbookCouldNotBeOpened" xml:space="preserve">
+    <value>Не удаётся открыть книгу "{0}" со списками участников</value>
+  </data>
+  <data name="resGettingSheetNames" xml:space="preserve">
+    <value>Получаем названия лисов</value>
+  </data>
+  <data name="resInvalidSourceWorkbookName" xml:space="preserve">
+    <value>Неверный путь к книге со списками участников</value>
+  </data>
+  <data name="resSourceWorkbookName" xml:space="preserve">
+    <value>Путь к книге со списками участников</value>
   </data>
 </root>
