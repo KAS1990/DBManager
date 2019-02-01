@@ -18,6 +18,8 @@ namespace DBManager.Excel.GeneratingWorkbooks
         {
             message = null;
 
+            CompDescRemoteDB remoteCompDesc = compDesc as CompDescRemoteDB;
+
             GroupsMembers = new List<KeyValuePair<IGroupItem, IEnumerable<CFullMemberInfo>>>();
             var entities = OnlineDBManager.Instance.Entities;
 
@@ -28,7 +30,7 @@ namespace DBManager.Excel.GeneratingWorkbooks
                     var pupils =
                         (from part in entities.participants
                          join pupil in entities.pupil on part.pupil_id equals pupil.id
-                         where part.competition_id == (compDesc as CompDescRemoteDB).ID && part.group_id == @group.ID
+                         where part.competition_id == remoteCompDesc.ID && part.group_id == @group.ID
                          select pupil)
                          .ToList();
 

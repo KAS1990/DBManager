@@ -1500,57 +1500,60 @@ namespace DBManager.Global
 		/// <returns></returns>
 		public static string CorrectSurnameAndName(string SurnameAndNameFromXls, out string[] arrNameAndSurname)
 		{
-			string result = DeleteInvalidSpaces(SurnameAndNameFromXls);
-			arrNameAndSurname = new string[2] { "", "" };
+            string result = DeleteInvalidSpaces(SurnameAndNameFromXls);
+            arrNameAndSurname = new string[2] { "", "" };
 
-			if (string.IsNullOrWhiteSpace(result))
-				result = null;
-			else
-			{
-				result = result.Trim();
-				string[] TrimmedNameOrSurnames = result.Split(' '); // В этом массиве в элементах нет пробелов
-				int index = -1;
-				bool IncIndex = true;
-				foreach (string TrimmedNameOrSurname in TrimmedNameOrSurnames)
-				{
-					if (!string.IsNullOrWhiteSpace(TrimmedNameOrSurname))
-					{
-						if (index >= arrNameAndSurname.Length)
-						{
-							break;
-						}
-						if (TrimmedNameOrSurname[0] == '-' || TrimmedNameOrSurname.EndsWith("-"))
-						{	// Двойная фамилия или имя
-							if (TrimmedNameOrSurname.EndsWith("-") && TrimmedNameOrSurname.Length > 1 && IncIndex)
-								index++;
+            if (string.IsNullOrWhiteSpace(result))
+                result = null;
+            else
+            {
+                result = result.Trim();
+                string[] TrimmedNameOrSurnames = result.Split(' '); // В этом массиве в элементах нет пробелов
+                int index = -1;
+                bool IncIndex = true;
+                foreach (string TrimmedNameOrSurname in TrimmedNameOrSurnames)
+                {
+                    if (!string.IsNullOrWhiteSpace(TrimmedNameOrSurname))
+                    {
+                        if (TrimmedNameOrSurname[0] == '-' || TrimmedNameOrSurname.EndsWith("-"))
+                        {   // Двойная фамилия или имя
+                            if (TrimmedNameOrSurname.EndsWith("-") && TrimmedNameOrSurname.Length > 1 && IncIndex)
+                                index++;
 
-							if (index < 0)
-								index = 0;
+                            if (index < 0)
+                                index = 0;
 
-							if (TrimmedNameOrSurname[0] == '-')
-								arrNameAndSurname[index] += TrimmedNameOrSurname.Length > 1 ? TrimmedNameOrSurname.ToUpper(1) : TrimmedNameOrSurname;
-							else
-								arrNameAndSurname[index] += TrimmedNameOrSurname.ToUpper(0);
-							IncIndex = !TrimmedNameOrSurname.EndsWith("-") && TrimmedNameOrSurname.Length > 1;
-						}
-						else
-						{
-							if (IncIndex)
-								index++;
-							arrNameAndSurname[index] += TrimmedNameOrSurname.ToUpper(0);
-							IncIndex = true;
-						}
-					}
-				}
+                            // Эта переменная нужна для поддержки корейцев, например, Сим Ин Ён
+                            var adjustedIndex = Math.Min(index, arrNameAndSurname.Length - 1);
+                            if (TrimmedNameOrSurname[0] == '-')
+                                arrNameAndSurname[adjustedIndex] += TrimmedNameOrSurname.Length > 1 ? TrimmedNameOrSurname.ToUpper(1) : TrimmedNameOrSurname;
+                            else
+                                arrNameAndSurname[adjustedIndex] += TrimmedNameOrSurname.ToUpper(0);
+                            IncIndex = !TrimmedNameOrSurname.EndsWith("-") && TrimmedNameOrSurname.Length > 1;
+                        }
+                        else
+                        {
+                            if (IncIndex)
+                                index++;
 
-				// Удаляем все лишние пробелы из result
-				result = "";
-				foreach (string TrimmedNameOrSurname in arrNameAndSurname)
-					result += " " + TrimmedNameOrSurname;
-				result = result.TrimStart();
-			}
+                            // Эта переменная нужна для поддержки корейцев, например, Сим Ин Ён
+                            var adjustedIndex = Math.Min(index, arrNameAndSurname.Length - 1);
+                            if (!string.IsNullOrEmpty(arrNameAndSurname[adjustedIndex]))
+                                arrNameAndSurname[adjustedIndex] += " ";
+                            arrNameAndSurname[adjustedIndex] += TrimmedNameOrSurname.ToUpper(0);
+                            IncIndex = true;
+                        }
+                    }
+                }
 
-			return result;
+                // Удаляем все лишние пробелы из result
+                result = "";
+                foreach (string TrimmedNameOrSurname in arrNameAndSurname)
+                    result += " " + TrimmedNameOrSurname;
+                result = result.TrimStart();
+            }
+
+            return result;
 		}
 
 

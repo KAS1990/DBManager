@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Settings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <IsRestarting>false</IsRestarting>
-  <CompDir>D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\03.12.17</CompDir>
+  <CompDir>D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\23-24.02.2019</CompDir>
   <DefaultCompSettings>
     <MenInGroup>3</MenInGroup>
     <WomenInGroup>3</WomenInGroup>
@@ -221,11 +221,17 @@
     </ForeColor>
   </FalsestartFontStyle>
   <FileScannerSettings>
-    <item key="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\03.12.17\Подростки мальчики.xml">
-      <CFileScannerSettings FullFilePath="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\03.12.17\Подростки мальчики.xml" GroupId="40" />
+    <item key="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\23-24.02.2019\Младшие юноши 2004-2005.xml">
+      <CFileScannerSettings FullFilePath="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\23-24.02.2019\Младшие юноши 2004-2005.xml" GroupId="58" />
     </item>
-    <item key="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\03.12.17\Подростки девочки.xml">
-      <CFileScannerSettings FullFilePath="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\03.12.17\Подростки девочки.xml" GroupId="39" />
+    <item key="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\23-24.02.2019\Подростки девочки 2006-2009.xml">
+      <CFileScannerSettings FullFilePath="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\23-24.02.2019\Подростки девочки 2006-2009.xml" GroupId="59" />
+    </item>
+    <item key="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\23-24.02.2019\Подростки мальчики 2006-2009.xml">
+      <CFileScannerSettings FullFilePath="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\23-24.02.2019\Подростки мальчики 2006-2009.xml" GroupId="60" />
+    </item>
+    <item key="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\23-24.02.2019\Младшие девушки 2004-2005.xml">
+      <CFileScannerSettings FullFilePath="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\23-24.02.2019\Младшие девушки 2004-2005.xml" GroupId="57" />
     </item>
   </FileScannerSettings>
   <CompSettings />

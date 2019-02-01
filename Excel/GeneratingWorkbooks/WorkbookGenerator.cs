@@ -384,8 +384,14 @@ namespace DBManager.Excel.GeneratingWorkbooks
                             return false;
                     }
 
-                    // Удаляем TemplateWorkbook
+                    // Удаляем TemplateWorkbook и соответствующий xml-файл
                     File.Delete(wbkTemplateFullPath);
+                    try
+                    {
+                        File.Delete(Path.ChangeExtension(wbkTemplateFullPath, ".xml"));
+                    }
+                    catch
+                    { }
                 }
 
                 return true;
