@@ -54,9 +54,9 @@ namespace DBManager.OnlineDB.Data
 
         public void UpdateFromLocalData(COneRoundResults localResults)
         {
-            route1 = localResults.Route1.Time;
-            route2 = localResults.Route2.Time;
-            sum = localResults.Sum.Time;
+            route1 = localResults.Route1.Time.NormalizeMs(true);
+            route2 = localResults.Route2.Time.NormalizeMs(true);
+            sum = localResults.Sum.Time.NormalizeMs(true);
         }
 
         public void UpdateFromLocalData(CMemberAndResults localResult)

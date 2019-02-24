@@ -28,14 +28,8 @@ namespace DBManager.RoundMembers.Converters
 				return Properties.Resources.resFall;
 			else
 			{
-				// Иногда милисекунды приходят в формате 250, а иногда 25. А должно быть 250
-				TimeSpan timeToConvert = new TimeSpan(0,
-													result.Time.Value.Hours,
-													result.Time.Value.Minutes,
-													result.Time.Value.Seconds,
-													result.Time.Value.Milliseconds % 10 != 0
-														? result.Time.Value.Milliseconds * 10 :
-														result.Time.Value.Milliseconds);
+                // Иногда милисекунды приходят в формате 250, а иногда 25. А должно быть 250
+                TimeSpan timeToConvert = result.Time.Value.NormalizeMs(false);
 
 				if (result.Time > GlobalDefines.FALL_ON_ROUTE_2_TIME_SPAN_VAL)
 				{   /* Участник сорвался на второй трассе =>

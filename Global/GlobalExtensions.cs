@@ -296,5 +296,34 @@ namespace DBManager.Global
 					((int)(color.G) << 8) |
 					((int)(color.R));
 		}
-	}
+
+
+        public static TimeSpan? NormalizeMs(this TimeSpan? time, bool forOnlineDB)
+        {
+            return time.HasValue ? NormalizeMs(time.Value, forOnlineDB) : time;
+        }
+
+
+        public static TimeSpan NormalizeMs(this TimeSpan time, bool forOnlineDB)
+        {
+            if (forOnlineDB)
+            {   // Только так на сайте правильно отображается время, если милисекунд меньше 10
+                return new TimeSpan(0,
+                                      time.Hours,
+                                      time.Minutes,
+                                      time.Seconds,
+                                      time.Milliseconds / 10);
+            }
+            else
+            {
+                return new TimeSpan(0,
+                      time.Hours,
+                      time.Minutes,
+                      time.Seconds,
+                      time.Milliseconds % 10 != 0
+                          ? time.Milliseconds * 10 :
+                          time.Milliseconds);
+            }
+        }
+    }
 }
