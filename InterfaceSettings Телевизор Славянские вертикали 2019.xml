@@ -68,25 +68,25 @@
     <BackgroundColor>
       <Color>
         <A>255</A>
-        <R>197</R>
-        <G>217</G>
-        <B>241</B>
+        <R>65</R>
+        <G>105</G>
+        <B>225</B>
         <ScA>1</ScA>
-        <ScR>0.5583404</ScR>
-        <ScG>0.693871737</ScG>
-        <ScB>0.8796224</ScB>
+        <ScR>0.0528606474</ScR>
+        <ScG>0.141263291</ScG>
+        <ScB>0.7529422</ScB>
       </Color>
     </BackgroundColor>
     <ForeColor>
       <Color>
         <A>255</A>
-        <R>0</R>
-        <G>0</G>
-        <B>0</B>
+        <R>255</R>
+        <G>255</G>
+        <B>255</B>
         <ScA>1</ScA>
-        <ScR>0</ScR>
-        <ScG>0</ScG>
-        <ScB>0</ScB>
+        <ScR>1</ScR>
+        <ScG>1</ScG>
+        <ScB>1</ScB>
       </Color>
     </ForeColor>
   </NextRoundMembersCountFontStyle>
@@ -94,25 +94,25 @@
     <BackgroundColor>
       <Color>
         <A>255</A>
-        <R>146</R>
-        <G>208</G>
-        <B>80</B>
+        <R>75</R>
+        <G>0</G>
+        <B>130</B>
         <ScA>1</ScA>
-        <ScR>0.287440836</ScR>
-        <ScG>0.630757153</ScG>
-        <ScB>0.08021982</ScB>
+        <ScR>0.0703600943</ScR>
+        <ScG>0</ScG>
+        <ScB>0.223227963</ScB>
       </Color>
     </BackgroundColor>
     <ForeColor>
       <Color>
         <A>255</A>
-        <R>0</R>
-        <G>0</G>
-        <B>0</B>
+        <R>255</R>
+        <G>255</G>
+        <B>255</B>
         <ScA>1</ScA>
-        <ScR>0</ScR>
-        <ScG>0</ScG>
-        <ScB>0</ScB>
+        <ScR>1</ScR>
+        <ScG>1</ScG>
+        <ScB>1</ScB>
       </Color>
     </ForeColor>
   </InvitedToStartFontStyle>
@@ -172,13 +172,13 @@
     <BackgroundColor>
       <Color>
         <A>255</A>
-        <R>0</R>
-        <G>0</G>
-        <B>255</B>
+        <R>128</R>
+        <G>128</G>
+        <B>128</B>
         <ScA>1</ScA>
-        <ScR>0</ScR>
-        <ScG>0</ScG>
-        <ScB>1</ScB>
+        <ScR>0.2158605</ScR>
+        <ScG>0.2158605</ScG>
+        <ScB>0.2158605</ScB>
       </Color>
     </BackgroundColor>
     <ForeColor>
@@ -220,9 +220,10 @@
       </Color>
     </ForeColor>
   </FalsestartFontStyle>
+  <FontSize>12</FontSize>
   <FileScannerSettings>
     <item key="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\23-24.02.2019\Младшие девушки 2004-2005.xml">
-      <CFileScannerSettings FullFilePath="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\23-24.02.2019\Младшие девушки 2004-2005.xml" GroupId="65" />
+      <CFileScannerSettings FullFilePath="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\23-24.02.2019\Младшие девушки 2004-2005.xml" GroupId="57" />
     </item>
     <item key="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\23-24.02.2019\Младшие юноши 2004-2005.xml">
       <CFileScannerSettings FullFilePath="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\23-24.02.2019\Младшие юноши 2004-2005.xml" GroupId="66" />
@@ -231,7 +232,7 @@
       <CFileScannerSettings FullFilePath="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\23-24.02.2019\Подростки девочки 2006-2009.xml" GroupId="67" />
     </item>
     <item key="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\23-24.02.2019\Подростки мальчики 2006-2009.xml">
-      <CFileScannerSettings FullFilePath="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\23-24.02.2019\Подростки мальчики 2006-2009.xml" GroupId="68" />
+      <CFileScannerSettings FullFilePath="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\23-24.02.2019\Подростки мальчики 2006-2009.xml" GroupId="70" />
     </item>
   </FileScannerSettings>
   <CompSettings>
@@ -239,11 +240,43 @@
       <CCompSpecificSets>
         <CompId>13</CompId>
         <TeamsForTeamReport />
+        <LeadReportXlsPath>D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\23-24.02.2019\Трудность\Итог.xlsx</LeadReportXlsPath>
+        <FirstMemberRow>8</FirstMemberRow>
         <PlaceColumnIndex>1</PlaceColumnIndex>
         <PersonalDataColumnIndex>2</PersonalDataColumnIndex>
-        <YearOfBirthColumnIndex>4</YearOfBirthColumnIndex>
-        <TeamColumnIndex>3</TeamColumnIndex>
-        <GroupsLeadSheetsInfos />
+        <YearOfBirthColumnIndex>3</YearOfBirthColumnIndex>
+        <TeamColumnIndex>5</TeamColumnIndex>
+        <GroupsLeadSheetsInfos>
+          <item key="65">
+            <CLeadSheetInfo>
+              <SheetIndex>2</SheetIndex>
+              <StartDate DD="24" MMMM="1" YYYY="2019" />
+              <EndDate DD="24" MMMM="1" YYYY="2019" />
+            </CLeadSheetInfo>
+          </item>
+          <item key="66">
+            <CLeadSheetInfo>
+              <SheetIndex>1</SheetIndex>
+              <StartDate DD="24" MMMM="1" YYYY="2019" />
+              <EndDate DD="24" MMMM="1" YYYY="2019" />
+            </CLeadSheetInfo>
+          </item>
+          <item key="71">
+            <CLeadSheetInfo>
+              <SheetIndex>3</SheetIndex>
+              <StartDate DD="23" MMMM="1" YYYY="2019" />
+              <EndDate DD="23" MMMM="1" YYYY="2019" />
+            </CLeadSheetInfo>
+          </item>
+          <item key="70">
+            <CLeadSheetInfo>
+              <SheetIndex>0</SheetIndex>
+              <StartDate DD="23" MMMM="1" YYYY="2019" />
+              <EndDate DD="23" MMMM="1" YYYY="2019" />
+            </CLeadSheetInfo>
+          </item>
+        </GroupsLeadSheetsInfos>
+        <PersRepWinnerDetection>LessDifference</PersRepWinnerDetection>
         <GroupsForAutopublish>
           <item key="65">
             <CPublishedGroupItemInSets>

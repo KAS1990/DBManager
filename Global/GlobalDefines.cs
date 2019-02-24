@@ -1736,15 +1736,22 @@ namespace DBManager.Global
 		}
 
 
-		public static string EncodeSpeedResult(TimeSpan? Result)
+		public static string EncodeSpeedResult(TimeSpan? Result, enAdditionalEventTypes? Event)
 		{
 			if (Result.HasValue)
 			{
-				if (Result == GlobalDefines.FALL_TIME_SPAN_VAL)
+                if (Event.HasValue)
+                {
+                    if (Event.Value.HasFlag(enAdditionalEventTypes.Disqualif))
+                        return ADDITIONAL_EVENT_NAMES[enAdditionalEventTypes.Disqualif].short_name;
+                    else if (Event.Value.HasFlag(enAdditionalEventTypes.DontAppear))
+                        return ADDITIONAL_EVENT_NAMES[enAdditionalEventTypes.DontAppear].short_name;
+                }
+				if (Result == FALL_TIME_SPAN_VAL)
 					return Properties.Resources.resFall;
-				else if (Result > GlobalDefines.FALL_ON_ROUTE_2_TIME_SPAN_VAL)
+                else if (Result > FALL_ON_ROUTE_2_TIME_SPAN_VAL)
 				{	/* Участник сорвался на второй трассе =>
-						 * мы конвертируем результат суммы двух трасс, т.к. время больше GlobalDefines.FALL_ON_ROUTE_2_TIME_SPAN_VAL */
+					 * мы конвертируем результат суммы двух трасс, т.к. время больше GlobalDefines.FALL_ON_ROUTE_2_TIME_SPAN_VAL */
 					return Result.Value.ToString(@"mm\:ss\,ff\*");
 				}
 				else

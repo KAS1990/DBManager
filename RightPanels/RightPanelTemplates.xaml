@@ -10,22 +10,22 @@
 	</ResourceDictionary.MergedDictionaries>
 	
 	<Style x:Key="StdLabelStyle" TargetType="{x:Type Label}">
-		<Setter Property="Margin" Value="0,0,0,5" />
+		<Setter Property="Margin" Value="0,0,0,2" />
 		<Setter Property="FontFamily" Value="Arial" />
 		<Setter Property="VerticalAlignment" Value="Center" />
-		<Setter Property="FontSize" Value="20" />
+		<Setter Property="FontSize" Value="16" />
 	</Style>
 	<Style x:Key="StdBoldLabelStyle" TargetType="{x:Type Label}" BasedOn="{StaticResource StdLabelStyle}">
 		<Setter Property="FontWeight" Value="Bold" />
 		<Setter Property="HorizontalAlignment" Value="Right" />
-		<Setter Property="FontSize" Value="28" />
+		<Setter Property="FontSize" Value="24" />
 	</Style>
 	
 	<Style x:Key="FilteredMembersQTextBlockStyle" TargetType="{x:Type TextBlock}">
-		<Setter Property="Margin" Value="0,0,0,5" />
-		<Setter Property="Padding" Value="0,2,2,2" />
+		<Setter Property="Margin" Value="0,0,0,2" />
+        <Setter Property="Padding" Value="0,0.5,0.5,0.5" />
 		<Setter Property="FontFamily" Value="Arial" />
-		<Setter Property="FontSize" Value="28" />
+		<Setter Property="FontSize" Value="24" />
 		<Setter Property="FontWeight" Value="Bold" />
 		<Setter Property="Foreground" Value="Blue" />
 		<Setter Property="Text" Value="{Binding FilteredMembersQ, StringFormat=({0})}" />
@@ -37,13 +37,13 @@
 	</Style>
 
 	<Style x:Key="ColoredLabelStyle" TargetType="{x:Type Label}" BasedOn="{StaticResource StdLabelStyle}">
-		<Setter Property="Margin" Value="5,5,5,5" />
+		<Setter Property="Margin" Value="2,2,2,2" />
 		<Setter Property="HorizontalContentAlignment" Value="Center" />
 		<Setter Property="VerticalContentAlignment" Value="Center" />
 		<Setter Property="VerticalAlignment" Value="Stretch" />
 		<Setter Property="BorderBrush" Value="Black" />
 		<Setter Property="BorderThickness" Value="1" />
-		<Setter Property="Padding" Value="5,2,5,2" />
+		<Setter Property="Padding" Value="2,0.5,2,0.5" />
 	</Style>
 	
 	<Style x:Key="ColoredLabelControl" TargetType="{x:Type Label}">
@@ -51,15 +51,15 @@
 			<Setter.Value>
 				<ControlTemplate TargetType="{x:Type Label}">
 					<Border Name="PART_Border"
-							Margin="5,5,5,5"
-							Padding="5,2,5,2"
+							Margin="2,2,2,2"
+							Padding="2,0.5,2,0.5"
 							BorderBrush="Black"
 							BorderThickness="1"
 							HorizontalAlignment="Center"
 							Background="{TemplateBinding Background}" >
 						<StackPanel Name="PART_Panel" Orientation="Vertical" VerticalAlignment="Center">
 							<Label Name="PART_Title"
-								   Margin="0,3,0,5"
+								   Margin="0,1.5,0,2"
 								   Padding="0"
 								   Content="{TemplateBinding Content}"
 								   HorizontalAlignment="Center"
@@ -68,12 +68,12 @@
 								   FontStyle="{TemplateBinding FontStyle}"
 								   Style="{StaticResource StdLabelStyle}" />
 							<Label Name="PART_Member"
-								   Margin="0,0,0,3"
+								   Margin="0,0,0,1.5"
 								   Padding="0,0,0,0"
 								   Content="{TemplateBinding Tag}"
 								   HorizontalAlignment="Center"
 								   Foreground="{TemplateBinding Foreground}"
-								   FontSize="22"
+								   FontSize="18"
 								   FontWeight="Bold" />
 						</StackPanel>
 					</Border>
@@ -88,7 +88,7 @@
 							<Setter Property="Width" Value="auto" TargetName="PART_Border" />
 							<Setter Property="HorizontalAlignment" Value="Stretch" TargetName="PART_Border" />
 							<Setter Property="Orientation" Value="Horizontal" TargetName="PART_Panel" />
-							<Setter Property="Margin" Value="0,0,10,0" TargetName="PART_Title" />
+							<Setter Property="Margin" Value="0,0,4,0" TargetName="PART_Title" />
 							<Setter Property="Margin" Value="0,0,0,0" TargetName="PART_Member" />
 						</Trigger>
 					</ControlTemplate.Triggers>
@@ -142,7 +142,7 @@
 				Value="{Binding FontStyle}" />
 		<Setter Property="FontWeight"
 				Value="{Binding FontWeight}" />
-		<Setter Property="Padding" Value="20,2,20,2" />
+		<Setter Property="Padding" Value="5,0.5,5,0.5" />
 	</Style>
 	
 	<Style x:Key="StayOnStartLabelStyle" TargetType="{x:Type Label}" BasedOn="{StaticResource ColoredLabelStyle}">
@@ -158,7 +158,7 @@
 				Value="{Binding FontStyle}" />
 		<Setter Property="FontWeight"
 				Value="{Binding FontWeight}" />
-		<Setter Property="Padding" Value="20,2,20,2" />
+        <Setter Property="Padding" Value="5,0.5,5,0.5" />
 	</Style>
 
 	<Style x:Key="FalsestartLabelStyle" TargetType="{x:Type Label}" BasedOn="{StaticResource ColoredLabelStyle}">
@@ -174,7 +174,7 @@
 				Value="{Binding FontStyle}" />
 		<Setter Property="FontWeight"
 				Value="{Binding FontWeight}" />
-		<Setter Property="Padding" Value="20,2,20,2" />
+        <Setter Property="Padding" Value="5,0.5,5,0.5" />
 
         <Setter Property="Visibility" Value="Collapsed" />
     </Style>
@@ -184,25 +184,28 @@
 			<Setter.Value>
 				<ControlTemplate>
 					<StackPanel Orientation="Horizontal">
-						<Border Margin="5,5,15,5"
+						<Border Margin="2,2,7,2"
 								BorderBrush="Black"
 								BorderThickness="1"
 								HorizontalAlignment="Left"
 								DataContext="{Binding NextRoundMembersCountFontStyle, RelativeSource={RelativeSource AncestorType=local:CRightPanelControl}}"
 								Background="{Binding BackgroundColor, Converter={gconvs:ColorToSolidBrushMarkupConverter}}" >
 							<StackPanel Orientation="Horizontal">
-								<Label Margin="0,0,5,0"
+								<Label Margin="0,0,2,0"
+                                       Padding="2,2,2,2"
 									   Content="{Loc resNextRoundMembersCount}"
 									   Foreground="{Binding ForeColor, Converter={gconvs:ColorToSolidBrushMarkupConverter}}"
 									   FontStyle="{Binding FontStyle}"
 									   FontWeight="{Binding FontWeight}"
 									   Style="{StaticResource StdLabelStyle}" />
 								<Label Margin="0,0,0,0"
+                                       Padding="2,2,2,2"
 									   Content="{Binding NextRoundMembersQ, RelativeSource={RelativeSource AncestorType=local:CRightPanelControl}}"
 									   Foreground="{Binding ForeColor, Converter={gconvs:ColorToSolidBrushMarkupConverter}}"
 									   FontStyle="{Binding FontStyle}"
 									   Style="{StaticResource StdBoldLabelStyle}" />
 								<Label Margin="0,0,0,0"
+                                       Padding="2,2,2,2"
 									   Content="{Binding NextRoundMembersQ,
 															RelativeSource={RelativeSource AncestorType=local:CRightPanelControl},
 															Converter={gconvs:PeopleWordMarkupConverter}}"
@@ -213,17 +216,17 @@
 							</StackPanel>
 						</Border>
 
-						<Border Margin="5,5,5,5" BorderBrush="Black" BorderThickness="1">
+                        <Border Margin="2,2,2,2" BorderBrush="Black" BorderThickness="1">
 							<StackPanel Orientation="Horizontal">
 								<Label Content="{Loc resResultsOnSite}"
 									   Style="{StaticResource StdLabelStyle}"
 									   Margin="0,0,0,0"
-									   Padding="5,5,5,5" />
+									   Padding="2,2,2,2" />
 
 								<Label Content="{Loc resSmolclimbSite}"
 									   Style="{StaticResource StdLabelStyle}"
 									   Margin="0,0,0,0"
-									   Padding="5,5,5,5"
+									   Padding="2,2,2,2"
 									   Foreground="Blue" />
 							</StackPanel>
 						</Border>
@@ -235,9 +238,9 @@
 			
 	<!-- Квалификация -->
 	<ControlTemplate x:Key="QualifRightPanel" TargetType="{x:Type local:CRightPanelControl}">
-		<Border BorderBrush="Black" BorderThickness="1" Padding="10">
+		<Border BorderBrush="Black" BorderThickness="1" Padding="2">
 			<StackPanel Orientation="Vertical">
-				<StackPanel Orientation="Horizontal" Margin="5,0,5,0">
+				<StackPanel Orientation="Horizontal" Margin="2,0,2,0">
 					<Label Content="{Loc resWholeMembersCount}" Style="{StaticResource StdLabelStyle}" Padding="0,0,5,0" />
 					<Label Content="{Binding WholeMembersQ}" Style="{StaticResource StdBoldLabelStyle}" Padding="0,0,5,0" />
 					<Label Content="{Binding WholeMembersQ, Converter={gconvs:PeopleWordMarkupConverter}}"
@@ -290,21 +293,23 @@
 
 	<!-- 1/8 - 1/2 -->
 	<ControlTemplate x:Key="MiddleRoundsRightPanel" TargetType="{x:Type local:CRightPanelControl}">
-		<Border BorderBrush="Black" BorderThickness="1" Padding="10">
+		<Border BorderBrush="Black" BorderThickness="1" Padding="2">
 			<StackPanel Orientation="Vertical">
 				<StackPanel Orientation="Horizontal">
-					<Label Content="{Loc resWholeMembersCount}" Style="{StaticResource StdLabelStyle}" Padding="5,2,5,2" />
-					<Label Content="{Binding WholeMembersQ}" Style="{StaticResource StdBoldLabelStyle}" Padding="0,2,5,2"/>
+					<Label Content="{Loc resWholeMembersCount}" Style="{StaticResource StdLabelStyle}" Padding="2,0.5,5,0.5" />
+					<Label Content="{Binding WholeMembersQ}" Style="{StaticResource StdBoldLabelStyle}" Padding="0,0.5,5,0.5"/>
 					<Label Content="{Binding WholeMembersQ, Converter={gconvs:PeopleWordMarkupConverter}}"
 						   Style="{StaticResource StdLabelStyle}"
-						   Padding="0,2,5,2" />
+						   Padding="0,0.5,0,0.5" />
 					
 					<Label Content="{Loc resRoundMembersCount}"
-						   Margin="20,0,0,5"
-						   Style="{StaticResource StdLabelStyle}" />
-					<Label Content="{Binding RoundMembersQ}" Style="{StaticResource StdBoldLabelStyle}" />
+						   Margin="20,0,0,2"
+						   Style="{StaticResource StdLabelStyle}"
+                           Padding="2,0.5,5,0.5" />
+                    <Label Content="{Binding RoundMembersQ}" Style="{StaticResource StdBoldLabelStyle}" Padding="0,0.5,5,0.5" />
 					<Label Content="{Binding RoundMembersQ, Converter={gconvs:PeopleWordMarkupConverter}}"
-						   Style="{StaticResource StdLabelStyle}" />
+						   Style="{StaticResource StdLabelStyle}"
+                           Padding="0,0.5,0,0.5" />
 				</StackPanel>
 
 				<Label Style="{StaticResource NextRoundMembersCountControl}" />
@@ -322,18 +327,20 @@
 		<Border BorderBrush="Black" BorderThickness="1" Padding="10">
 			<StackPanel Orientation="Vertical">
 				<StackPanel Orientation="Horizontal">
-					<Label Content="{Loc resWholeMembersCount}" Style="{StaticResource StdLabelStyle}" Padding="5,2,5,2" />
-					<Label Content="{Binding WholeMembersQ}" Style="{StaticResource StdBoldLabelStyle}" Padding="0,2,5,2" />
+					<Label Content="{Loc resWholeMembersCount}" Style="{StaticResource StdLabelStyle}" Padding="2,0.5,5,0.5" />
+					<Label Content="{Binding WholeMembersQ}" Style="{StaticResource StdBoldLabelStyle}" Padding="0,0.5,5,0.5" />
 					<Label Content="{Binding WholeMembersQ, Converter={gconvs:PeopleWordMarkupConverter}}"
 						   Style="{StaticResource StdLabelStyle}"
-						   Padding="0,2,5,2" />
+						   Padding="0,0.5,0.5,0.5" />
 					
 					<Label Content="{Loc resRoundMembersCount}"
-						   Margin="20,0,0,5"
-						   Style="{StaticResource StdLabelStyle}" />
-					<Label Content="{Binding RoundMembersQ}" Style="{StaticResource StdBoldLabelStyle}" />
+						   Margin="20,0,0,2"
+						   Style="{StaticResource StdLabelStyle}"
+                           Padding="2,0.5,5,0.5" />
+                    <Label Content="{Binding RoundMembersQ}" Style="{StaticResource StdBoldLabelStyle}" Padding="0,0.5,5,0.5" />
 					<Label Content="{Binding RoundMembersQ, Converter={gconvs:PeopleWordMarkupConverter}}"
-						   Style="{StaticResource StdLabelStyle}" />
+						   Style="{StaticResource StdLabelStyle}"
+                           Padding="0,0.5,0,0.5" />
 				</StackPanel>
 
 				<Label Content="{Loc resWinners}"

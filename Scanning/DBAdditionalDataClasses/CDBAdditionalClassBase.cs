@@ -47,7 +47,7 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
 				if (m_PlaceInFilter != value)
 				{
 					m_PlaceInFilter = value;
-					PlaceInFilterForShow = GlobalDefines.PlaceToString(m_Place);
+					PlaceInFilterForShow = GlobalDefines.PlaceToString(m_PlaceInFilter);
 					OnPropertyChanged(PlaceInFilterPropertyName);
 				}
 			}

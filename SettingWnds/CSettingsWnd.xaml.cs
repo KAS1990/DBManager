@@ -590,7 +590,7 @@ namespace DBManager.SettingWnds
 					}
 				}
 
-                if (!Directory.Exists(DBManagerApp.m_AppSettings.m_Settings.WorkbookTemplateFolder))
+                if (!Directory.Exists(txtWorkbookTemplateFolder.Text))
                 {
                     System.Windows.MessageBox.Show(this, Properties.Resources.resInvalidWorkbookTemplateFolder, Title, MessageBoxButton.OK, MessageBoxImage.Error);
                     return false;
@@ -598,7 +598,7 @@ namespace DBManager.SettingWnds
 
                 foreach (var filename in DBManagerApp.m_AppSettings.m_Settings.FilesToCopyFromWorkbookTemplateFolder)
                 {
-                    if (!File.Exists(System.IO.Path.Combine(DBManagerApp.m_AppSettings.m_Settings.WorkbookTemplateFolder, filename)))
+                    if (!File.Exists(System.IO.Path.Combine(txtWorkbookTemplateFolder.Text, filename)))
                     {
                         System.Windows.MessageBox.Show(this,
                             string.Format(Properties.Resources.resfmtInvalidWorkbookTemplateFolder, filename),

@@ -176,9 +176,9 @@ namespace DBManager.Excel.Exporting.ExportingClasses
 																								null,
 																								CultureInfo.GetCultureInfo(GlobalDefines.RUSSIAN_CULTURE_NAME));
 
-				wsh.Cells[Ofs + FirstRow - 1, EXCEL_ROUTE1_COL_NUM].Value = GlobalDefines.EncodeSpeedResult(MemberAndResults.Results.Route1.Time);
-				wsh.Cells[Ofs + FirstRow - 1, EXCEL_ROUTE2_COL_NUM].Value = GlobalDefines.EncodeSpeedResult(MemberAndResults.Results.Route2.Time);
-				wsh.Cells[Ofs + FirstRow - 1, EXCEL_SUM_COL_NUM].Value = GlobalDefines.EncodeSpeedResult(MemberAndResults.Results.Sum.Time);
+				wsh.Cells[Ofs + FirstRow - 1, EXCEL_ROUTE1_COL_NUM].Value = GlobalDefines.EncodeSpeedResult(MemberAndResults.Results.Route1.Time, MemberAndResults.Results.Route1.AdditionalEventTypes);
+				wsh.Cells[Ofs + FirstRow - 1, EXCEL_ROUTE2_COL_NUM].Value = GlobalDefines.EncodeSpeedResult(MemberAndResults.Results.Route2.Time, MemberAndResults.Results.Route2.AdditionalEventTypes);
+				wsh.Cells[Ofs + FirstRow - 1, EXCEL_SUM_COL_NUM].Value = GlobalDefines.EncodeSpeedResult(MemberAndResults.Results.Sum.Time, MemberAndResults.Results.Sum.AdditionalEventTypes);
 			}
 
 			return true;

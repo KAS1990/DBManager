@@ -372,7 +372,7 @@
 						  CanUserSortColumns="False"
 						  CanUserAddRows="False"
 						  CanUserDeleteRows="False"
-						  RowHeaderWidth="20"
+						  RowHeaderWidth="1"
 						  IsReadOnly="True"
 						  ScrollViewer.CanContentScroll="True" 
 						  ScrollViewer.VerticalScrollBarVisibility="Auto"
@@ -408,7 +408,7 @@
 						  CanUserSortColumns="False"
 						  CanUserAddRows="False"
 						  CanUserDeleteRows="False"
-						  RowHeaderWidth="20"
+						  RowHeaderWidth="1"
 						  IsReadOnly="True"
 						  ScrollViewer.CanContentScroll="True" 
 						  ScrollViewer.VerticalScrollBarVisibility="Auto"
@@ -417,7 +417,7 @@
 						  FontSize="14"
 						  FontFamily="Arial"
 						  ColumnHeaderHeight="30"
-						  HorizontalGridLinesBrush="{Binding GridLinesFontStyle.BackgroundColor, Converter={gconvs:ColorToSolidBrushMarkupConverter}}"
+                          HorizontalGridLinesBrush="{Binding GridLinesFontStyle.BackgroundColor, Converter={gconvs:ColorToSolidBrushMarkupConverter}}"
 						  VerticalGridLinesBrush="{Binding GridLinesFontStyle.BackgroundColor, Converter={gconvs:ColorToSolidBrushMarkupConverter}}"
 						  SizeChanged="dgrdRoundMembers2_SizeChanged">
 				</DataGrid>

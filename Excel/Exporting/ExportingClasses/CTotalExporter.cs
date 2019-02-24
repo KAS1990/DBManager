@@ -203,31 +203,31 @@ namespace DBManager.Excel.Exporting.ExportingClasses
 					switch ((enRounds)MemberResult.round)
 					{
 						case enRounds.Qualif:
-							wsh.Range[RN_QUALIF_1].Offset[RowsQ].Cells[1, EXCEL_ROUTE1_COL_OFS].Value = GlobalDefines.EncodeSpeedResult(MemberResult.route1);
-							wsh.Range[RN_QUALIF_1].Offset[RowsQ].Cells[1, EXCEL_ROUTE2_COL_OFS].Value = GlobalDefines.EncodeSpeedResult(MemberResult.route2);
-							wsh.Range[RN_QUALIF_1].Offset[RowsQ].Cells[1, EXCEL_SUM_COL_OFS].Value = GlobalDefines.EncodeSpeedResult(MemberResult.sum);
+							wsh.Range[RN_QUALIF_1].Offset[RowsQ].Cells[1, EXCEL_ROUTE1_COL_OFS].Value = GlobalDefines.EncodeSpeedResult(MemberResult.route1, (enAdditionalEventTypes?)MemberResult.event_1);
+							wsh.Range[RN_QUALIF_1].Offset[RowsQ].Cells[1, EXCEL_ROUTE2_COL_OFS].Value = GlobalDefines.EncodeSpeedResult(MemberResult.route2, (enAdditionalEventTypes?)MemberResult.event_2);
+							wsh.Range[RN_QUALIF_1].Offset[RowsQ].Cells[1, EXCEL_SUM_COL_OFS].Value = GlobalDefines.EncodeSpeedResult(MemberResult.sum, (enAdditionalEventTypes?)MemberResult.event_sum);
 							break;
 
 						case enRounds.Qualif2:
-							wsh.Range[RN_QUALIF_2].Offset[RowsQ].Cells[1, EXCEL_ROUTE1_COL_OFS].Value = GlobalDefines.EncodeSpeedResult(MemberResult.route1);
-							wsh.Range[RN_QUALIF_2].Offset[RowsQ].Cells[1, EXCEL_ROUTE2_COL_OFS].Value = GlobalDefines.EncodeSpeedResult(MemberResult.route2);
-							wsh.Range[RN_QUALIF_2].Offset[RowsQ].Cells[1, EXCEL_SUM_COL_OFS].Value = GlobalDefines.EncodeSpeedResult(MemberResult.sum);
+							wsh.Range[RN_QUALIF_2].Offset[RowsQ].Cells[1, EXCEL_ROUTE1_COL_OFS].Value = GlobalDefines.EncodeSpeedResult(MemberResult.route1, (enAdditionalEventTypes?)MemberResult.event_1);
+							wsh.Range[RN_QUALIF_2].Offset[RowsQ].Cells[1, EXCEL_ROUTE2_COL_OFS].Value = GlobalDefines.EncodeSpeedResult(MemberResult.route2, (enAdditionalEventTypes?)MemberResult.event_2);
+							wsh.Range[RN_QUALIF_2].Offset[RowsQ].Cells[1, EXCEL_SUM_COL_OFS].Value = GlobalDefines.EncodeSpeedResult(MemberResult.sum, (enAdditionalEventTypes?)MemberResult.event_sum);
 							break;
 
 						case enRounds.OneEighthFinal:
-							wsh.Range[RN_ONE_EIGHTH_FINAL].Offset[RowsQ].Value = GlobalDefines.EncodeSpeedResult(MemberResult.sum);
+							wsh.Range[RN_ONE_EIGHTH_FINAL].Offset[RowsQ].Value = GlobalDefines.EncodeSpeedResult(MemberResult.sum, (enAdditionalEventTypes?)MemberResult.event_sum);
 							break;
 
 						case enRounds.QuaterFinal:
-							wsh.Range[RN_QUATERFINAL].Offset[RowsQ].Value = GlobalDefines.EncodeSpeedResult(MemberResult.sum);
+							wsh.Range[RN_QUATERFINAL].Offset[RowsQ].Value = GlobalDefines.EncodeSpeedResult(MemberResult.sum, (enAdditionalEventTypes?)MemberResult.event_sum);
 							break;
 
 						case enRounds.SemiFinal:
-							wsh.Range[RN_SEMIFINAL].Offset[RowsQ].Value = GlobalDefines.EncodeSpeedResult(MemberResult.sum);
+							wsh.Range[RN_SEMIFINAL].Offset[RowsQ].Value = GlobalDefines.EncodeSpeedResult(MemberResult.sum, (enAdditionalEventTypes?)MemberResult.event_sum);
 							break;
 
 						case enRounds.Final:
-							wsh.Range[RN_FINAL].Offset[RowsQ].Value = GlobalDefines.EncodeSpeedResult(MemberResult.sum);
+							wsh.Range[RN_FINAL].Offset[RowsQ].Value = GlobalDefines.EncodeSpeedResult(MemberResult.sum, (enAdditionalEventTypes?)MemberResult.event_sum);
 							break;
 					}
 				}
