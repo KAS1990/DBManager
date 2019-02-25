@@ -119,8 +119,15 @@
 						   TextWrapping="Wrap"
 						   FontWeight="Bold"/>
 			</Grid>
-			
-			<ListView Margin="5,0,5,5" MinHeight="200" MinWidth="500" ItemsSource="{Binding Groups}" SelectionMode="Single">
+
+            <Button DockPanel.Dock="Bottom"
+                    Content="{Loc resSaveLeadReportSettings}"
+                    HorizontalAlignment="Right"
+                    Margin="5"
+                    Padding="5"
+                    Click="btnSaveSettings_Click" />
+
+            <ListView Margin="5,0,5,5" MinHeight="200" MinWidth="500" ItemsSource="{Binding Groups}" SelectionMode="Single">
 				<ListView.View>
 					<GridView  AllowsColumnReorder="False">
 						<GridViewColumn Header="{Loc resGroupName}" DisplayMemberBinding="{Binding Name}" />

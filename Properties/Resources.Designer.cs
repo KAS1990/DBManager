@@ -2487,6 +2487,15 @@ namespace DBManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Сохранить настройки.
+        /// </summary>
+        internal static string resSaveLeadReportSettings {
+            get {
+                return ResourceManager.GetString("resSaveLeadReportSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Сканирование....
         /// </summary>
         internal static string resScanning {

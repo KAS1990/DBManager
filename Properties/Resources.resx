@@ -1202,4 +1202,7 @@
   <data name="resSourceWorkbookName" xml:space="preserve">
     <value>Путь к книге со списками участников</value>
   </data>
+  <data name="resSaveLeadReportSettings" xml:space="preserve">
+    <value>Сохранить настройки</value>
+  </data>
 </root>

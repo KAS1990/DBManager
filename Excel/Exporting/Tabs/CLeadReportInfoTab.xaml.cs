@@ -438,18 +438,19 @@ namespace DBManager.Excel.Exporting.Tabs
 		{
 			if (HasLeadReport && CheckPathSettings())
 			{
-				//if (Groups.FirstOrDefault(arg => arg.LeadSheetIndex < 0) != null)
-				//{	// Все группы должны быть заполнены
-				//    MessageBox.Show(m_ParentWnd,
-				//                    Properties.Resources.resGroupWithoutLeadSheetIndex,
-				//                    Parent == null ? Properties.Resources.resError : (Parent as TabItem).Header.ToString(),
-				//                    MessageBoxButton.OK,
-				//                    MessageBoxImage.Error);
-				//    return false;
-				//}
+                //if (Groups.FirstOrDefault(arg => arg.LeadSheetIndex < 0) != null)
+                //{	// Все группы должны быть заполнены
+                //    MessageBox.Show(m_ParentWnd,
+                //                    Properties.Resources.resGroupWithoutLeadSheetIndex,
+                //                    Parent == null ? Properties.Resources.resError : (Parent as TabItem).Header.ToString(),
+                //                    MessageBoxButton.OK,
+                //                    MessageBoxImage.Error);
+                //    return false;
+                //}
 
-				if ((from gr in Groups
-					 group gr by gr.LeadSheetIndex into LeadSheets
+                if ((from gr in Groups
+                     where gr.LeadSheetIndex >= 0
+                     group gr by gr.LeadSheetIndex into LeadSheets
 					 where LeadSheets.Count() > 1
 					 select LeadSheets.Count()).Count() > 0)
 				{	// Для разных групп выбраны одинаковые листы
@@ -462,9 +463,10 @@ namespace DBManager.Excel.Exporting.Tabs
 				}
 
 				if ((from gr in Groups
-					 where (gr.StartDate.HasValue && gr.EndDate.HasValue && gr.StartDate.Value > gr.EndDate.Value) ||
-							!gr.StartDate.HasValue ||
-							gr.EndDate.Value.Year < GlobalDefines.MIN_GROUP_YEAR
+					 where gr.LeadSheetIndex >= 0
+                            && (gr.StartDate.HasValue && gr.EndDate.HasValue && gr.StartDate.Value > gr.EndDate.Value) ||
+							    !gr.StartDate.HasValue ||
+							    gr.EndDate.Value.Year < GlobalDefines.MIN_GROUP_YEAR
 					 select gr).Count() > 0)
 				{	// Есть группы с неверно заданными датами
 					MessageBox.Show(m_ParentWnd,
@@ -496,57 +498,63 @@ namespace DBManager.Excel.Exporting.Tabs
 
 		public override void BeforeExporting()
 		{
-			if (HasLeadReport)
-			{
-				lock (DBManagerApp.m_AppSettings.m_SettingsSyncObj)
-				{
-					AppSettings settings = DBManagerApp.m_AppSettings.m_Settings;
-
-					CCompSpecificSets CompSettings = null;
-					if (!settings.dictCompSettings.TryGetValue(CompDesc.id_desc, out CompSettings))
-					{
-						CompSettings = new CCompSpecificSets()
-						{
-							CompId = CompDesc.id_desc,
-						};
-					}
-
-					CompSettings.FirstMemberRow = FirstMemberRow;
-					CompSettings.PlaceColumnIndex = PlaceColumnIndex;
-					CompSettings.PersonalDataColumnIndex = PersonalDataColumnIndex;
-					CompSettings.YearOfBirthColumnIndex = YearOfBirthColumnIndex;
-					CompSettings.TeamColumnIndex = TeamColumnIndex;
-					CompSettings.LeadReportXlsPath = XlsPath;
-					CompSettings.dictGroupsLeadSheetsInfos = new SerializableDictionary<long, CLeadSheetInfo>();
-
-					foreach (CGroupItem Group in Groups)
-					{
-						CLeadSheetInfo LeadSheetInfo = new CLeadSheetInfo()
-						{
-							SheetIndex = Group.LeadSheetIndex,
-							StartDate = new CCompDate(),
-							EndDate = new CCompDate()
-						};
-						LeadSheetInfo.StartDate.Day = Group.StartDate.Value.Day;
-						LeadSheetInfo.StartDate.Month = Group.StartDate.Value.Month - 1;
-						LeadSheetInfo.StartDate.Year = Group.StartDate.Value.Year;
-
-						LeadSheetInfo.EndDate.Day = Group.EndDate.Value.Day;
-						LeadSheetInfo.EndDate.Month = Group.EndDate.Value.Month - 1;
-						LeadSheetInfo.EndDate.Year = Group.EndDate.Value.Year;
-
-						CompSettings.dictGroupsLeadSheetsInfos.Add(Group.id, LeadSheetInfo);
-					}
-					
-					settings.dictCompSettings.TryAddValue(CompSettings.CompId, CompSettings);
-				}
-
-				DBManagerApp.m_AppSettings.Write();
-			}
-		}
+            SaveSettings();
+        }
 
 
-		private void btnBrowseLeadReport_Click(object sender, RoutedEventArgs e)
+        private void SaveSettings()
+        {
+            if (HasLeadReport)
+            {
+                lock (DBManagerApp.m_AppSettings.m_SettingsSyncObj)
+                {
+                    AppSettings settings = DBManagerApp.m_AppSettings.m_Settings;
+
+                    CCompSpecificSets CompSettings = null;
+                    if (!settings.dictCompSettings.TryGetValue(CompDesc.id_desc, out CompSettings))
+                    {
+                        CompSettings = new CCompSpecificSets()
+                        {
+                            CompId = CompDesc.id_desc,
+                        };
+                    }
+
+                    CompSettings.FirstMemberRow = FirstMemberRow;
+                    CompSettings.PlaceColumnIndex = PlaceColumnIndex;
+                    CompSettings.PersonalDataColumnIndex = PersonalDataColumnIndex;
+                    CompSettings.YearOfBirthColumnIndex = YearOfBirthColumnIndex;
+                    CompSettings.TeamColumnIndex = TeamColumnIndex;
+                    CompSettings.LeadReportXlsPath = XlsPath;
+                    CompSettings.dictGroupsLeadSheetsInfos = new SerializableDictionary<long, CLeadSheetInfo>();
+
+                    foreach (CGroupItem Group in Groups)
+                    {
+                        CLeadSheetInfo LeadSheetInfo = new CLeadSheetInfo()
+                        {
+                            SheetIndex = Group.LeadSheetIndex,
+                            StartDate = new CCompDate(),
+                            EndDate = new CCompDate()
+                        };
+                        LeadSheetInfo.StartDate.Day = Group.StartDate.Value.Day;
+                        LeadSheetInfo.StartDate.Month = Group.StartDate.Value.Month - 1;
+                        LeadSheetInfo.StartDate.Year = Group.StartDate.Value.Year;
+
+                        LeadSheetInfo.EndDate.Day = Group.EndDate.Value.Day;
+                        LeadSheetInfo.EndDate.Month = Group.EndDate.Value.Month - 1;
+                        LeadSheetInfo.EndDate.Year = Group.EndDate.Value.Year;
+
+                        CompSettings.dictGroupsLeadSheetsInfos.Add(Group.id, LeadSheetInfo);
+                    }
+
+                    settings.dictCompSettings.TryAddValue(CompSettings.CompId, CompSettings);
+                }
+
+                DBManagerApp.m_AppSettings.Write();
+            }
+        }
+
+
+        private void btnBrowseLeadReport_Click(object sender, RoutedEventArgs e)
 		{
 			string SelectedPath;
 
@@ -568,5 +576,11 @@ namespace DBManager.Excel.Exporting.Tabs
 			}
 			base.OnPropertyChanged(info);
 		}
-	}
+
+        private void btnSaveSettings_Click(object sender, RoutedEventArgs e)
+        {
+            if (CheckSettings())
+                SaveSettings();
+        }
+    }
 }
