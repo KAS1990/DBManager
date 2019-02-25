@@ -278,13 +278,16 @@ namespace DBManager.SettingsWriter
 		[DefaultValue(enPersRepPlacesAggregationMethod.Sum)]
 		public enPersRepPlacesAggregationMethod PersRepPlaceAggregationMethod = enPersRepPlacesAggregationMethod.Sum;
 
-		[DefaultValue(enPersRepWinnerDetection.LeadPriority)]
-		public enPersRepWinnerDetection PersRepWinnerDetection = enPersRepWinnerDetection.LeadPriority;
+		[DefaultValue(enPersRepWinnerDetection.LessDifference)]
+		public enPersRepWinnerDetection PersRepWinnerDetection = enPersRepWinnerDetection.LessDifference;
 
-		/// <summary>
-		/// Настройки групп, связанные с публикацией данных на сайте
-		/// </summary>
-		[XmlElement("GroupsForAutopublish")]
+        [DefaultValue(enPriorityCompetitionKind.Lead)]
+        public enPriorityCompetitionKind PriorityCompetitionKind = enPriorityCompetitionKind.Lead;
+
+        /// <summary>
+        /// Настройки групп, связанные с публикацией данных на сайте
+        /// </summary>
+        [XmlElement("GroupsForAutopublish")]
 		[DefaultValue(null)]
 		public SerializableDictionary<long, CPublishedGroupItemInSets> dictGroupsForAutopublish = null;
 
@@ -335,9 +338,9 @@ namespace DBManager.SettingsWriter
 				PlaceColumnIndex = 1;
 			if (PersonalDataColumnIndex < 1)
 				PersonalDataColumnIndex = 2;
-			if (YearOfBirthColumnIndex < 4)
+			if (YearOfBirthColumnIndex < 1)
 				YearOfBirthColumnIndex = 4;
-			if (TeamColumnIndex < 3)
+			if (TeamColumnIndex < 1)
 				TeamColumnIndex = 3;
 		}
 	}

@@ -469,7 +469,8 @@ namespace DBManager.Excel.Exporting
 								m_Groups = PersonalExportTab.SelectedGroups,
 								m_PlaceAggregationMethod = PersonalExportTab.PlaceAggregationMethod,
 								m_WinnerDetection = PersonalExportTab.WinnerDetection,
-							};
+                                m_PriorityCompetitionKind = PersonalExportTab.PriorityCompetitionKind
+                            };
 							if (PersonalExportTab.HasLeadReport)
 							{
 								Task.m_LeadReportInfo.m_wbkLeadReport = OpenWbkLeadReport(excelApp, NewAppCreated, LeadReportInfoTab.XlsPath, out WbkLeadReportOpened);

@@ -43,8 +43,7 @@ namespace DBManager.Excel.Exporting.Tabs
 			}
 		}
 		#endregion
-
-		
+        		
 		#region WinnerDetection
 		private static readonly string WinnerDetectionPropertyName = GlobalDefines.GetPropertyName<CPersonalExportTab>(m => m.WinnerDetection);
 
@@ -64,19 +63,38 @@ namespace DBManager.Excel.Exporting.Tabs
 				}
 			}
 		}
-		#endregion
-		
-				
-		#region GroupsForReport
-		private ObservableCollection<CGroupItem> m_GroupsForReport = new ObservableCollection<CGroupItem>();
+        #endregion
+
+        #region PriorityCompetitionKind
+        private static readonly string PriorityCompetitionKindPropertyName = GlobalDefines.GetPropertyName<CPersonalExportTab>(m => m.PriorityCompetitionKind);
+
+        private enPriorityCompetitionKind m_PriorityCompetitionKind = enPriorityCompetitionKind.Lead;
+        /// <summary>
+        /// Метод определения победителя при равенстве мест
+        /// </summary>
+        public enPriorityCompetitionKind PriorityCompetitionKind
+        {
+            get { return m_PriorityCompetitionKind; }
+            set
+            {
+                if (m_PriorityCompetitionKind != value)
+                {
+                    m_PriorityCompetitionKind = value;
+                    OnPropertyChanged(PriorityCompetitionKindPropertyName);
+                }
+            }
+        }
+        #endregion
+        
+        #region GroupsForReport
+        private ObservableCollection<CGroupItem> m_GroupsForReport = new ObservableCollection<CGroupItem>();
 
 		public ObservableCollection<CGroupItem> GroupsForReport
 		{
 			get { return m_GroupsForReport; }
 		}
 		#endregion
-
-				
+        				
 		public List<CGroupItem> SelectedGroups
 		{
 			get
@@ -169,12 +187,14 @@ namespace DBManager.Excel.Exporting.Tabs
 				{
 					PlaceAggregationMethod = CompSettings.PersRepPlaceAggregationMethod;
 					WinnerDetection = CompSettings.PersRepWinnerDetection;
-				}
+                    PriorityCompetitionKind = CompSettings.PriorityCompetitionKind;
+                }
 				else
 				{
 					PlaceAggregationMethod = settings.DefaultCompSettings.PersRepPlaceAggregationMethod;
 					WinnerDetection = settings.DefaultCompSettings.PersRepWinnerDetection;
-				}
+                    PriorityCompetitionKind = settings.DefaultCompSettings.PriorityCompetitionKind;
+                }
 			}
 
 			GlobalDefines.TuneComboboxWidth2(cmbPlaceAggregationMethod);
@@ -263,7 +283,8 @@ namespace DBManager.Excel.Exporting.Tabs
 
 					CompSettings.PersRepPlaceAggregationMethod = PlaceAggregationMethod;
 					CompSettings.PersRepWinnerDetection = WinnerDetection;
-				}
+                    CompSettings.PriorityCompetitionKind = PriorityCompetitionKind;
+                }
 
 				DBManagerApp.m_AppSettings.Write();
 			}

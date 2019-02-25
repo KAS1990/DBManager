@@ -32,7 +32,8 @@ namespace DBManager.Excel.Exporting.ExportingClasses
 		{
 			public enPersRepPlacesAggregationMethod m_PlaceAggregationMethod;
 			public enPersRepWinnerDetection m_WinnerDetection;
-			public List<CGroupItem> m_Groups;
+            public enPriorityCompetitionKind m_PriorityCompetitionKind;
+            public List<CGroupItem> m_Groups;
 
 			/// <summary>
 			/// Настройки протокола трудности
@@ -80,8 +81,9 @@ namespace DBManager.Excel.Exporting.ExportingClasses
 		{
 			CPersonalResultsComparer Comparer = new CPersonalResultsComparer()
 			{
-				CompareProperty = CurTask.m_WinnerDetection
-			};
+				CompareProperty = CurTask.m_WinnerDetection,
+                CompareProperty1 = CurTask.m_PriorityCompetitionKind
+            };
 
 			foreach (CGroupItem GroupItem in CurTask.m_Groups)
 			{
@@ -116,11 +118,10 @@ namespace DBManager.Excel.Exporting.ExportingClasses
 																					out SelectedEndYear));
 
 				// Формируем список спортсменов, принявших участие в соревновании в данной возрастной группе
+
 				List<CPersonalItem> lstResults = (from member in DBManagerApp.m_Entities.members
 												  join part in DBManagerApp.m_Entities.participations on member.id_member equals part.member
 												  where part.Group == GroupInDB.id_group &&
-														member.year_of_birth >= SelectedStartYear &&
-														member.year_of_birth <= SelectedEndYear &&
 														part.result_place.HasValue
 												  orderby part.result_place
 												  select new CPersonalItem
@@ -128,11 +129,25 @@ namespace DBManager.Excel.Exporting.ExportingClasses
 													  m_SurnameAndName = member.surname + " " + member.name,
 													  m_Team = CompSettings.SecondColNameType == enSecondColNameType.Coach ? part.coach : part.team,
 													  m_YearOfBirth = member.year_of_birth,
-													  m_Grade = part.init_grade,
-													  m_SpeedPlace = (int)part.result_place
+													  m_Grade = part.init_grade
 												  }).ToList();
 
-				bool HasGroupInLead = CurTask.m_LeadReportInfo.m_wbkLeadReport != null &&
+                /* Расставляем места в скорости:
+                 * при фильтрации по годам рождения места должны быть не общими, а в рамках выбранных годов рождения */
+                for (int i = 0; i < lstResults.Count;)
+                {
+                    if (lstResults[i].m_YearOfBirth >= SelectedStartYear && lstResults[i].m_YearOfBirth <= SelectedEndYear)
+                    {
+                        lstResults[i].m_SpeedPlace = i + 1;
+                        i++;
+                    }
+                    else
+                    {
+                        lstResults.RemoveAt(i);
+                    }
+                }
+
+                bool HasGroupInLead = CurTask.m_LeadReportInfo.m_wbkLeadReport != null &&
 										CurTask.m_LeadReportInfo.m_dictLeadGroupInfos.TryGetValue(GroupItem.id, out LeadGroupItem) &&
 										LeadGroupItem.LeadSheetIndex >= 0 &&
 										LeadGroupItem.LeadSheetIndex < CurTask.m_LeadReportInfo.m_LeadSheets.Count;
@@ -160,17 +175,19 @@ namespace DBManager.Excel.Exporting.ExportingClasses
 					}
 
 					MSExcel.Worksheet wshLead = CurTask.m_LeadReportInfo.m_wbkLeadReport.Worksheets[LeadGroupItem.LeadSheetIndex + 1];
-					
-					// Просматриваем всех участников трудности и ищем их в скорости
-					for (int Row = 0;
+
+                    // Просматриваем всех участников трудности и ищем их в скорости
+                    int skippedQ = 0;
+                    for (int Row = 0;
 						wshLead.Cells[Row + CurTask.m_LeadReportInfo.m_FirstMemberRow, CurTask.m_LeadReportInfo.m_PlaceColumnIndex].Value != null &&
 						!string.IsNullOrWhiteSpace(wshLead.Cells[Row + CurTask.m_LeadReportInfo.m_FirstMemberRow, CurTask.m_LeadReportInfo.m_PlaceColumnIndex].Value.ToString());
 						Row++)
 					{
 						int PlaceInLead;
 						if (!int.TryParse(wshLead.Cells[Row + CurTask.m_LeadReportInfo.m_FirstMemberRow, CurTask.m_LeadReportInfo.m_PlaceColumnIndex].Value.ToString(), out PlaceInLead))
-						{	// У участника какое-то неонятное место => пропускаем
-							continue;
+						{   // У участника какое-то неонятное место => пропускаем
+                            skippedQ++;
+                            continue;
 						}
 
 						// Ищем участника в скорости
@@ -181,8 +198,9 @@ namespace DBManager.Excel.Exporting.ExportingClasses
 						string strYoBInLead = wshLead.Cells[Row + CurTask.m_LeadReportInfo.m_FirstMemberRow, CurTask.m_LeadReportInfo.m_YearOfBirthColumnIndex].Value.ToString();
 						CPersonalItem item = null;
 						if (!int.TryParse(strYoBInLead, out YoBInLead))
-						{	// Какой-то неверный год рождения => пропускаем
-							MessageBox.Show(string.Format(Properties.Resources.resfmtInvalidYoBInLead,
+						{   // Какой-то неверный год рождения => пропускаем
+                            skippedQ++;
+                            MessageBox.Show(string.Format(Properties.Resources.resfmtInvalidYoBInLead,
 															NameAndSurnameInLead,
 															strYoBInLead),
 											DBManagerApp.MainWnd.Title,
@@ -193,10 +211,12 @@ namespace DBManager.Excel.Exporting.ExportingClasses
 						
 						item = lstResults.Find(arg => arg.m_SurnameAndName == NameAndSurnameInLead && arg.m_YearOfBirth == YoBInLead);
 						if (item == null)
-						{	// Не нашли => он не может участвовать в многоборье
-							continue;
+						{   // Не нашли => он не может участвовать в многоборье
+                            if (!(YoBInLead >= SelectedStartYear && YoBInLead <= SelectedEndYear))
+                                skippedQ++;
+                            continue;
 						}
-						item.m_LeadPlace = PlaceInLead;
+						item.m_LeadPlace = PlaceInLead - skippedQ;
 
 						// Определяем m_ResultPlace
 						switch (CurTask.m_PlaceAggregationMethod)

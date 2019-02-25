@@ -1640,6 +1640,15 @@ namespace DBManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Трудность.
+        /// </summary>
+        internal static string resLead {
+            get {
+                return ResourceManager.GetString("resLead", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Даты проведения соревнований.
         /// </summary>
         internal static string resLeadCompDates {
@@ -1965,6 +1974,15 @@ namespace DBManager.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Нет.
+        /// </summary>
+        internal static string resNoPriorityCompKind {
+            get {
+                return ResourceManager.GetString("resNoPriorityCompKind", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Нет выбранных раундов.
         /// </summary>
         internal static string resNoRoundsToExport {
@@ -2231,6 +2249,15 @@ namespace DBManager.Properties {
         internal static string resPrevNumber {
             get {
                 return ResourceManager.GetString("resPrevNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Приоритетный вид.
+        /// </summary>
+        internal static string resPriorityCompetitionKind {
+            get {
+                return ResourceManager.GetString("resPriorityCompetitionKind", resourceCulture);
             }
         }
         

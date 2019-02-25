@@ -1202,6 +1202,15 @@
   <data name="resSourceWorkbookName" xml:space="preserve">
     <value>Путь к книге со списками участников</value>
   </data>
+  <data name="resLead" xml:space="preserve">
+    <value>Трудность</value>
+  </data>
+  <data name="resNoPriorityCompKind" xml:space="preserve">
+    <value>Нет</value>
+  </data>
+  <data name="resPriorityCompetitionKind" xml:space="preserve">
+    <value>Приоритетный вид</value>
+  </data>
   <data name="resSaveLeadReportSettings" xml:space="preserve">
     <value>Сохранить настройки</value>
   </data>

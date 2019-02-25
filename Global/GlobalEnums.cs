@@ -297,8 +297,18 @@ namespace DBManager.Global
 		LeadPriority,
 	}
 
-    	
-	public enum enOnlineResultsLogItemType
+    /// <summary>
+	/// Метод определения победителя в личном зачёте при равенстве мест и равенстве мест согласно enPersRepWinnerDetection
+	/// </summary>
+	public enum enPriorityCompetitionKind
+    {
+        None,
+        Speed,
+        Lead,
+    }
+
+
+    public enum enOnlineResultsLogItemType
 	{
 		None,
 		Error,

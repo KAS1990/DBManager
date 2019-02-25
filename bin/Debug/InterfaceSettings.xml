@@ -240,35 +240,38 @@
         <CompId>13</CompId>
         <TeamsForTeamReport />
         <LeadReportXlsPath>D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\23-24.02.2019\Трудность\Итог.xlsx</LeadReportXlsPath>
-        <FirstMemberRow>10</FirstMemberRow>
-        <PlaceColumnIndex>11</PlaceColumnIndex>
-        <PersonalDataColumnIndex>12</PersonalDataColumnIndex>
-        <YearOfBirthColumnIndex>13</YearOfBirthColumnIndex>
-        <TeamColumnIndex>14</TeamColumnIndex>
+        <FirstMemberRow>8</FirstMemberRow>
+        <PlaceColumnIndex>1</PlaceColumnIndex>
+        <PersonalDataColumnIndex>2</PersonalDataColumnIndex>
+        <YearOfBirthColumnIndex>3</YearOfBirthColumnIndex>
+        <TeamColumnIndex>5</TeamColumnIndex>
         <GroupsLeadSheetsInfos>
           <item key="65">
             <CLeadSheetInfo>
+              <SheetIndex>2</SheetIndex>
               <StartDate DD="24" MMMM="1" YYYY="2019" />
               <EndDate DD="24" MMMM="1" YYYY="2019" />
             </CLeadSheetInfo>
           </item>
           <item key="66">
             <CLeadSheetInfo>
-              <StartDate DD="25" MMMM="1" YYYY="2019" />
-              <EndDate DD="25" MMMM="1" YYYY="2019" />
+              <SheetIndex>1</SheetIndex>
+              <StartDate DD="24" MMMM="1" YYYY="2019" />
+              <EndDate DD="24" MMMM="1" YYYY="2019" />
             </CLeadSheetInfo>
           </item>
           <item key="71">
             <CLeadSheetInfo>
               <SheetIndex>3</SheetIndex>
-              <StartDate DD="12" MMMM="1" YYYY="2019" />
-              <EndDate DD="25" MMMM="1" YYYY="2019" />
+              <StartDate DD="23" MMMM="1" YYYY="2019" />
+              <EndDate DD="23" MMMM="1" YYYY="2019" />
             </CLeadSheetInfo>
           </item>
           <item key="70">
             <CLeadSheetInfo>
-              <StartDate DD="25" MMMM="1" YYYY="2019" />
-              <EndDate DD="25" MMMM="1" YYYY="2019" />
+              <SheetIndex>0</SheetIndex>
+              <StartDate DD="23" MMMM="1" YYYY="2019" />
+              <EndDate DD="23" MMMM="1" YYYY="2019" />
             </CLeadSheetInfo>
           </item>
         </GroupsLeadSheetsInfos>

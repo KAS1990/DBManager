@@ -11,8 +11,9 @@ namespace DBManager.ReportGenerators
 	{
 		public ListSortDirection SortDir = ListSortDirection.Ascending;
 		public enPersRepWinnerDetection CompareProperty = enPersRepWinnerDetection.BestPlace;
+        public enPriorityCompetitionKind CompareProperty1 = enPriorityCompetitionKind.None;
 
-		public int Compare(CPersonalItem x, CPersonalItem y)
+        public int Compare(CPersonalItem x, CPersonalItem y)
 		{
 			if (SortDir == ListSortDirection.Ascending)
 			{
@@ -53,6 +54,22 @@ namespace DBManager.ReportGenerators
 					rhs = y.m_SpeedPlace;
 					break;
 			}
+
+            if (lhs.CompareTo(rhs) == 0)
+            {
+                switch (CompareProperty1)
+                {
+                    case enPriorityCompetitionKind.Speed:
+                        lhs = x.m_SpeedPlace;
+                        rhs = y.m_SpeedPlace;
+                        break;
+
+                    case enPriorityCompetitionKind.Lead:
+                        lhs = x.m_LeadPlace;
+                        rhs = y.m_LeadPlace;
+                        break;
+                }
+            }
 
 			return SortDir == ListSortDirection.Ascending ? lhs.CompareTo(rhs) : rhs.CompareTo(lhs);
 		}
