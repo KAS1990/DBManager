@@ -96,7 +96,9 @@ namespace DBManager.Excel.GeneratingWorkbooks
                     .Instance
                     .Entities
                     .participants
-                    .Count(arg => arg.group_id == ID && arg.competition_id == compID);
+                    .Count(arg => arg.group_id == ID
+                            && arg.competition_id == compID
+                            && arg.participants_kind.Any(kind => kind.kind_id == (int)enOnlineDBKind.Speed));
                 OnPropertyChanged(MembersCountPropertyName);
             }
         }

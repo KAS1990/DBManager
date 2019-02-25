@@ -30,8 +30,17 @@ namespace DBManager.Excel.GeneratingWorkbooks
                     var pupils =
                         (from part in entities.participants
                          join pupil in entities.pupil on part.pupil_id equals pupil.id
-                         where part.competition_id == remoteCompDesc.ID && part.group_id == @group.ID
-                         select pupil)
+                         where part.competition_id == remoteCompDesc.ID
+                                && part.group_id == @group.ID
+                                && part.participants_kind.Any(kind => kind.kind_id == (int)enOnlineDBKind.Speed)
+                         select new
+                         {
+                             pupil.lastname,
+                             pupil.firstname,
+                             pupil.age,
+                             pupil.team,
+                             part.rang_id
+                         })
                          .ToList();
 
                     var members = pupils
