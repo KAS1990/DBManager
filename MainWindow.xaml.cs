@@ -1991,7 +1991,8 @@ namespace DBManager
 									break;
 
 								case enDataChangesTypes.Changing:
-									PublishRoundResults(true,
+                                case enDataChangesTypes.OnlySomeRowsChanged:
+                                    PublishRoundResults(true,
 													m_DirScanner.CompId,
 													(Changing.ChangedObjects == enDataChangedObjects.Results) ? (enRounds)(Changing.ID) : enRounds.Qualif,
 													CurrentGroups[Changing.GroupID].Value,

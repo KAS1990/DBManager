@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Settings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <IsRestarting>false</IsRestarting>
-  <CompDir>D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\23-24.02.2019</CompDir>
+  <CompDir>D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\Скорость Last Edition</CompDir>
   <DefaultCompSettings>
     <MenInGroup>3</MenInGroup>
     <WomenInGroup>3</WomenInGroup>
@@ -221,17 +221,8 @@
     </ForeColor>
   </FalsestartFontStyle>
   <FileScannerSettings>
-    <item key="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\23-24.02.2019\Младшие девушки 2004-2005.xml">
-      <CFileScannerSettings FullFilePath="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\23-24.02.2019\Младшие девушки 2004-2005.xml" GroupId="65" />
-    </item>
-    <item key="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\23-24.02.2019\Младшие юноши 2004-2005.xml">
-      <CFileScannerSettings FullFilePath="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\23-24.02.2019\Младшие юноши 2004-2005.xml" GroupId="66" />
-    </item>
-    <item key="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\23-24.02.2019\Подростки девочки 2006-2009.xml">
-      <CFileScannerSettings FullFilePath="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\23-24.02.2019\Подростки девочки 2006-2009.xml" GroupId="67" />
-    </item>
-    <item key="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\23-24.02.2019\Подростки мальчики 2006-2009.xml">
-      <CFileScannerSettings FullFilePath="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\23-24.02.2019\Подростки мальчики 2006-2009.xml" GroupId="68" />
+    <item key="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\Скорость Last Edition\Таблица Скорость Новая.xml">
+      <CFileScannerSettings FullFilePath="D:\Саша\Документы\Эксель\Для соревнований\Скалолазание\Скорость Last Edition\Таблица Скорость Новая.xml" GroupId="63" />
     </item>
   </FileScannerSettings>
   <CompSettings>
@@ -298,6 +289,18 @@
             <CPublishedGroupItemInSets>
               <GroupId>70</GroupId>
               <IsSelected>true</IsSelected>
+            </CPublishedGroupItemInSets>
+          </item>
+        </GroupsForAutopublish>
+      </CCompSpecificSets>
+    </item>
+    <item key="14">
+      <CCompSpecificSets>
+        <CompId>14</CompId>
+        <GroupsForAutopublish>
+          <item key="72">
+            <CPublishedGroupItemInSets>
+              <GroupId>72</GroupId>
             </CPublishedGroupItemInSets>
           </item>
         </GroupsForAutopublish>
