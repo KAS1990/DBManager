@@ -690,57 +690,59 @@ namespace DBManager.Scanning
 																				 Grade = (enGrade?)MembersGrades.Key,
 																				 MembersWithGrade = MembersGrades.Count(arg => arg.init_grade == MembersGrades.Key)
 																			 }).ToDictionary(key => key.Grade, item => item.MembersWithGrade);
-									int tmp = 0;
-									
+																		
 									for (enGrade grade = enGrade.WithoutGrade; grade <= enGrade.Master; grade++)
 									{
-										if (!GradesStat.TryGetValue(grade, out tmp))
+										if (!GradesStat.TryGetValue(grade, out _))
 											GradesStat[grade] = 0;
 									}
 
+									double placeRaw = 0;
+									var calcMethod = DBManagerApp.m_AppSettings.m_Settings.ResultGradeCalcMethod;
+									
 									List<KeyValuePair<enGrade, int>> MinPlaceForNewGrade = new List<KeyValuePair<enGrade, int>>();
 									// 1 разряд
-									tmp = GlobalDefines.CalcMinPlaceForNewGrade(DBManagerApp.m_AppSettings.m_Settings.ResultGradeCalcMethod, 
-																				1.0 * GradesStat[enGrade.Master] +
-																				0.8 * GradesStat[enGrade.BeforeMaster] +
-																				0.4 * GradesStat[enGrade.Adult1] +
-																				0.2 * GradesStat[enGrade.Adult2]);
-									MinPlaceForNewGrade.Add(new KeyValuePair<enGrade, int>(enGrade.Adult1, tmp));
+									placeRaw =  1.0 * GradesStat[enGrade.Master] +
+												0.8 * GradesStat[enGrade.BeforeMaster] +
+												0.4 * GradesStat[enGrade.Adult1] +
+												0.2 * GradesStat[enGrade.Adult2];
+									MinPlaceForNewGrade
+										.Add(new KeyValuePair<enGrade, int>(enGrade.Adult1, GlobalDefines.CalcMinPlaceForNewGrade(calcMethod, placeRaw)));
 
 									// 2 разряд
-									tmp += GlobalDefines.CalcMinPlaceForNewGrade(DBManagerApp.m_AppSettings.m_Settings.ResultGradeCalcMethod, 
-																				0.2 * GradesStat[enGrade.Adult1] +
-																				0.4 * GradesStat[enGrade.Adult2] +
-																				0.2 * GradesStat[enGrade.Adult3]);
-									MinPlaceForNewGrade.Add(new KeyValuePair<enGrade, int>(enGrade.Adult2, tmp));
+									placeRaw += 0.2 * GradesStat[enGrade.Adult1] +
+												0.4 * GradesStat[enGrade.Adult2] +
+												0.2 * GradesStat[enGrade.Adult3];
+									MinPlaceForNewGrade
+										.Add(new KeyValuePair<enGrade, int>(enGrade.Adult2, GlobalDefines.CalcMinPlaceForNewGrade(calcMethod, placeRaw)));
 
 									// 3 разряд
-									tmp += GlobalDefines.CalcMinPlaceForNewGrade(DBManagerApp.m_AppSettings.m_Settings.ResultGradeCalcMethod, 
-																				0.2 * GradesStat[enGrade.Adult2] +
-																				0.4 * GradesStat[enGrade.Adult3] +
-																				0.3 * GradesStat[enGrade.Young1]);
-									MinPlaceForNewGrade.Add(new KeyValuePair<enGrade, int>(enGrade.Adult3, tmp));
+									placeRaw += 0.2 * GradesStat[enGrade.Adult2] +
+												0.4 * GradesStat[enGrade.Adult3] +
+												0.3 * GradesStat[enGrade.Young1];
+									MinPlaceForNewGrade
+										.Add(new KeyValuePair<enGrade, int>(enGrade.Adult3, GlobalDefines.CalcMinPlaceForNewGrade(calcMethod, placeRaw)));
 
 									// 1 ю разряд
-									tmp += GlobalDefines.CalcMinPlaceForNewGrade(DBManagerApp.m_AppSettings.m_Settings.ResultGradeCalcMethod, 
-																				0.2 * GradesStat[enGrade.Adult3] +
-																				0.4 * GradesStat[enGrade.Young1] +
-																				0.2 * GradesStat[enGrade.Young2]);
-									MinPlaceForNewGrade.Add(new KeyValuePair<enGrade, int>(enGrade.Young1, tmp));
+									placeRaw += 0.2 * GradesStat[enGrade.Adult3] +
+												0.4 * GradesStat[enGrade.Young1] +
+												0.2 * GradesStat[enGrade.Young2];
+									MinPlaceForNewGrade
+										.Add(new KeyValuePair<enGrade, int>(enGrade.Young1, GlobalDefines.CalcMinPlaceForNewGrade(calcMethod, placeRaw)));
 
 									// 2 ю разряд
-									tmp += GlobalDefines.CalcMinPlaceForNewGrade(DBManagerApp.m_AppSettings.m_Settings.ResultGradeCalcMethod, 
-																				0.2 * GradesStat[enGrade.Young1] +
-																				0.4 * GradesStat[enGrade.Young2] +
-																				0.2 * GradesStat[enGrade.Young3]);
-									MinPlaceForNewGrade.Add(new KeyValuePair<enGrade, int>(enGrade.Young2, tmp));
+									placeRaw += 0.2 * GradesStat[enGrade.Young1] +
+												0.4 * GradesStat[enGrade.Young2] +
+												0.2 * GradesStat[enGrade.Young3];
+									MinPlaceForNewGrade
+										.Add(new KeyValuePair<enGrade, int>(enGrade.Young2, GlobalDefines.CalcMinPlaceForNewGrade(calcMethod, placeRaw)));
 
 									// 3 ю разряд
-									tmp += GlobalDefines.CalcMinPlaceForNewGrade(DBManagerApp.m_AppSettings.m_Settings.ResultGradeCalcMethod, 
-																				0.2 * GradesStat[enGrade.Young2] +
-																				0.4 * GradesStat[enGrade.Young3] +
-																				0.3 * GradesStat[enGrade.WithoutGrade]);
-									MinPlaceForNewGrade.Add(new KeyValuePair<enGrade, int>(enGrade.Young3, tmp));
+									placeRaw += 0.2 * GradesStat[enGrade.Young2] +
+												0.4 * GradesStat[enGrade.Young3] +
+												0.3 * GradesStat[enGrade.WithoutGrade];
+									MinPlaceForNewGrade
+										.Add(new KeyValuePair<enGrade, int>(enGrade.Young3, GlobalDefines.CalcMinPlaceForNewGrade(calcMethod, placeRaw)));
 
 									List<participations> Members = (from member in DBManagerApp.m_Entities.members
 																	 join part in DBManagerApp.m_Entities.participations on member.id_member equals part.member
@@ -1454,7 +1456,7 @@ namespace DBManager.Scanning
 					return false;
 
 				if (result.sum != PrevResult)
-					CurPlace = ResultIndex;
+					CurPlace = (byte)(FirstPlace + ResultIndex - 1);
 
 				result.place = CurPlace;
 				PrevResult = result.sum.Value;

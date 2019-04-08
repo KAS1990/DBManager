@@ -223,7 +223,7 @@ namespace DBManager.Stuff
 			}
 			Dictionary<enGrade?, int> GradesStat = (from member in MembersForGradesCalc
 													group member by member.MemberInfo.InitGrade into MembersGrades
-													select new DBManager.Scanning.CGroupResultsManager.CGradeStat
+													select new Scanning.CGroupResultsManager.CGradeStat
 													{
 														Grade = (enGrade?)MembersGrades.Key,
 														MembersWithGrade = MembersGrades.Count(arg => arg.MemberInfo.InitGrade == MembersGrades.Key)
