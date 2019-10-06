@@ -9,8 +9,8 @@ using DBManager.Scanning.XMLDataClasses;
 
 namespace DBManager.OnlineResults
 {
-	public class CQueueItem
-	{
+    public class CQueueItem
+    {
         #region PCWbkFullPath
         private string m_PCWbkFullPath = null;
 

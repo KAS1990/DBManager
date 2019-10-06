@@ -1,175 +1,175 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-					xmlns:rmconvs="clr-namespace:DBManager.RoundMembers.Converters"
-					xmlns:mainwnd="clr-namespace:DBManager"
-					xmlns:attachedprops="clr-namespace:DBManager.AttachedProperties"
-					xmlns:sys="clr-namespace:System;assembly=mscorlib"
-					xmlns:glob="clr-namespace:DBManager.Global"
-					xmlns:gconvs="clr-namespace:DBManager.Global.Converters">
-	<ResourceDictionary.MergedDictionaries>
-		<ResourceDictionary Source="..\Global\GlobalResources.xaml" />
-	</ResourceDictionary.MergedDictionaries>
-		
-	<Style x:Key="RndResStdTextBlockStyle" TargetType="TextBlock">
-		<Setter Property="Padding" Value="5,4,5,0" />
-		<Setter Property="TextAlignment" Value="Center" />
-	</Style>
-	
-	<Style x:Key="RndResBorderedLabelBaseStyle" TargetType="Label">
-		<Setter Property="Margin" Value="0" />
-		<Setter Property="Padding" Value="6,5,6,1" />
-		<Setter Property="HorizontalContentAlignment" Value="Center" />
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:rmconvs="clr-namespace:DBManager.RoundMembers.Converters"
+                    xmlns:mainwnd="clr-namespace:DBManager"
+                    xmlns:attachedprops="clr-namespace:DBManager.AttachedProperties"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                    xmlns:glob="clr-namespace:DBManager.Global"
+                    xmlns:gconvs="clr-namespace:DBManager.Global.Converters">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="..\Global\GlobalResources.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+        
+    <Style x:Key="RndResStdTextBlockStyle" TargetType="TextBlock">
+        <Setter Property="Padding" Value="5,4,5,0" />
+        <Setter Property="TextAlignment" Value="Center" />
+    </Style>
+    
+    <Style x:Key="RndResBorderedLabelBaseStyle" TargetType="Label">
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="Padding" Value="6,5,6,1" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="BorderBrush"
                 Value="{Binding GridLinesFontStyle.BackgroundColor,
                                 Converter={gconvs:ColorToSolidBrushMarkupConverter},
                                 RelativeSource={RelativeSource AncestorType={x:Type mainwnd:MainWindow}}}" />
-	</Style>
-	
-	<Style x:Key="RndResBorderedLabel1stStyle" TargetType="Label" BasedOn="{StaticResource RndResBorderedLabelBaseStyle}">
-		<Setter Property="Grid.Row" Value="0" />
-		<Setter Property="BorderThickness" Value="0,1,0,1" />
-		
-		<Setter Property="Background" Value="{Binding First.BackgroundForShow}" />
-		<Setter Property="Foreground" Value="{Binding First.ForegroundForShow}" />
-		<Setter Property="FontWeight" Value="{Binding First.FontWeightForShow}" />
-		<Setter Property="FontStyle" Value="{Binding First.FontStyleForShow}" />
-	</Style>
-	
-	<Style x:Key="RndResBorderedLabel2ndStyle" TargetType="Label" BasedOn="{StaticResource RndResBorderedLabelBaseStyle}">
-		<Setter Property="Grid.Row" Value="1" />
-		
-		<Setter Property="Background" Value="{Binding Second.BackgroundForShow}" />
-		<Setter Property="Foreground" Value="{Binding Second.ForegroundForShow}" />
-		<Setter Property="FontWeight" Value="{Binding Second.FontWeightForShow}" />
-		<Setter Property="FontStyle" Value="{Binding Second.FontStyleForShow}" />
-	</Style>
-	
-	<Style x:Key="RndResBorderedBorder1stStyle" TargetType="Border">
-		<Setter Property="Background" Value="{Binding First.BackgroundForShow}" />
-	</Style>
-	
-	<Style x:Key="RndResBorderedBorder2ndStyle" TargetType="Border">
-		<Setter Property="Background" Value="{Binding Second.BackgroundForShow}" />
-	</Style>
-					
-	<Style x:Key="RndResDataGridColumnHeaderStyle" TargetType="DataGridColumnHeader">
-		<Setter Property="HorizontalContentAlignment" Value="Center" />
+    </Style>
+    
+    <Style x:Key="RndResBorderedLabel1stStyle" TargetType="Label" BasedOn="{StaticResource RndResBorderedLabelBaseStyle}">
+        <Setter Property="Grid.Row" Value="0" />
+        <Setter Property="BorderThickness" Value="0,1,0,1" />
+        
+        <Setter Property="Background" Value="{Binding First.BackgroundForShow}" />
+        <Setter Property="Foreground" Value="{Binding First.ForegroundForShow}" />
+        <Setter Property="FontWeight" Value="{Binding First.FontWeightForShow}" />
+        <Setter Property="FontStyle" Value="{Binding First.FontStyleForShow}" />
+    </Style>
+    
+    <Style x:Key="RndResBorderedLabel2ndStyle" TargetType="Label" BasedOn="{StaticResource RndResBorderedLabelBaseStyle}">
+        <Setter Property="Grid.Row" Value="1" />
+        
+        <Setter Property="Background" Value="{Binding Second.BackgroundForShow}" />
+        <Setter Property="Foreground" Value="{Binding Second.ForegroundForShow}" />
+        <Setter Property="FontWeight" Value="{Binding Second.FontWeightForShow}" />
+        <Setter Property="FontStyle" Value="{Binding Second.FontStyleForShow}" />
+    </Style>
+    
+    <Style x:Key="RndResBorderedBorder1stStyle" TargetType="Border">
+        <Setter Property="Background" Value="{Binding First.BackgroundForShow}" />
+    </Style>
+    
+    <Style x:Key="RndResBorderedBorder2ndStyle" TargetType="Border">
+        <Setter Property="Background" Value="{Binding Second.BackgroundForShow}" />
+    </Style>
+                    
+    <Style x:Key="RndResDataGridColumnHeaderStyle" TargetType="DataGridColumnHeader">
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="FontSize" Value="12" />
-	</Style>
-		
-	<!-- Стиль для Border, который отображается при выделении строки-->
-	<Style x:Key="RndResBorderHighlightSelectionStyle" TargetType="Border">
-		<Setter Property="Grid.RowSpan" Value="10" />
-		<Setter Property="BorderThickness" Value="1" />
-		<Setter Property="BorderBrush" Value="Transparent" />
-									
-		<Style.Triggers>
-			<DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridCell}}}"
-							Value="true" >
-				<Setter Property="BorderBrush" Value="{x:Static SystemColors.HighlightBrush}" />
-			</DataTrigger>
-		</Style.Triggers>
-	</Style>
-	
-	<Geometry x:Key="FilterPopupArrowGeometry">M 0 0 L 2.5 3 L 5 0 Z</Geometry>
-	
-	<sys:Double x:Key="FilterPopupButtonSideSize">20</sys:Double>
-	<SolidColorBrush x:Key="FilterPopupFocusedBorderBrush" Color="#FF00B7FF" />
-	<LinearGradientBrush x:Key="FilterPopupFocusedBackgroundBrush" EndPoint="0,1">
-		<GradientStop Color="#C8F4FBFE" Offset="0" />
-		<GradientStop Color="#C8CEE7FD" Offset="0.19" />
-		<GradientStop Color="#C8B8DEFD" Offset="0.39" />
-		<GradientStop Color="#C86BCEFF" Offset="0.39" />
-		<GradientStop Color="#C89ADEFF" Offset="0.79" />
-		<GradientStop Color="#C8AAEBFF" Offset="1" />
-	</LinearGradientBrush>
-		
-	<Style x:Key="FilterPopupCheckBoxStyle" TargetType="CheckBox">
-		<Setter Property="Grid.Column" Value="1" />
-		<Setter Property="Width" Value="{StaticResource FilterPopupButtonSideSize}" />
-		<Setter Property="Height" Value="{StaticResource FilterPopupButtonSideSize}" />
-		<Setter Property="VerticalAlignment" Value="Bottom" />
-		<Setter Property="Command" Value="{x:Static mainwnd:MainWindow.cmdOpenFilterPopup}" />
-		<Setter Property="Template">
-			<Setter.Value>
-				<ControlTemplate TargetType="CheckBox">
-					<Border Name="PART_Border"
-							VerticalAlignment="Stretch"
-							HorizontalAlignment="Stretch"
-							BorderThickness="1"
-							BorderBrush="Transparent"
-							CornerRadius="2"
-							Width="{TemplateBinding Width}"
-							Height="{TemplateBinding Height}">
+    </Style>
+        
+    <!-- Стиль для Border, который отображается при выделении строки-->
+    <Style x:Key="RndResBorderHighlightSelectionStyle" TargetType="Border">
+        <Setter Property="Grid.RowSpan" Value="10" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+                                    
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridCell}}}"
+                            Value="true" >
+                <Setter Property="BorderBrush" Value="{x:Static SystemColors.HighlightBrush}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    
+    <Geometry x:Key="FilterPopupArrowGeometry">M 0 0 L 2.5 3 L 5 0 Z</Geometry>
+    
+    <sys:Double x:Key="FilterPopupButtonSideSize">20</sys:Double>
+    <SolidColorBrush x:Key="FilterPopupFocusedBorderBrush" Color="#FF00B7FF" />
+    <LinearGradientBrush x:Key="FilterPopupFocusedBackgroundBrush" EndPoint="0,1">
+        <GradientStop Color="#C8F4FBFE" Offset="0" />
+        <GradientStop Color="#C8CEE7FD" Offset="0.19" />
+        <GradientStop Color="#C8B8DEFD" Offset="0.39" />
+        <GradientStop Color="#C86BCEFF" Offset="0.39" />
+        <GradientStop Color="#C89ADEFF" Offset="0.79" />
+        <GradientStop Color="#C8AAEBFF" Offset="1" />
+    </LinearGradientBrush>
+        
+    <Style x:Key="FilterPopupCheckBoxStyle" TargetType="CheckBox">
+        <Setter Property="Grid.Column" Value="1" />
+        <Setter Property="Width" Value="{StaticResource FilterPopupButtonSideSize}" />
+        <Setter Property="Height" Value="{StaticResource FilterPopupButtonSideSize}" />
+        <Setter Property="VerticalAlignment" Value="Bottom" />
+        <Setter Property="Command" Value="{x:Static mainwnd:MainWindow.cmdOpenFilterPopup}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="CheckBox">
+                    <Border Name="PART_Border"
+                            VerticalAlignment="Stretch"
+                            HorizontalAlignment="Stretch"
+                            BorderThickness="1"
+                            BorderBrush="Transparent"
+                            CornerRadius="2"
+                            Width="{TemplateBinding Width}"
+                            Height="{TemplateBinding Height}">
 
-						<Path VerticalAlignment="Center"
-							  HorizontalAlignment="Center"
-							  Margin="0,2,0,0"
-							  StrokeThickness="1"
-							  Fill="Black"
-							  Stroke="Black"
-							  Data="{StaticResource FilterPopupArrowGeometry}" />
-					</Border>
-					
-					<ControlTemplate.Triggers>
-						<Trigger Property="IsMouseOver" Value="true" >
-							<Setter TargetName="PART_Border"
-									Property="BorderBrush"
-									Value="{StaticResource FilterPopupFocusedBorderBrush}" />
-							<Setter TargetName="PART_Border"
-									Property="Background"
-									Value="{StaticResource FilterPopupFocusedBackgroundBrush}" />
-						</Trigger>
-						
-						<Trigger Property="IsChecked" Value="true">
-							<Setter TargetName="PART_Border"
-									Property="BorderBrush"
-									Value="{StaticResource FilterPopupFocusedBorderBrush}" />
-							<Setter TargetName="PART_Border"
-									Property="Background"
-									Value="{StaticResource FilterPopupFocusedBackgroundBrush}" />
-						</Trigger>
-					</ControlTemplate.Triggers>
-				</ControlTemplate>
-			</Setter.Value>
-		</Setter>
-	</Style>
-	
-	<Style x:Key="FilterPopupStyle" TargetType="Popup">
-		<Setter Property="StaysOpen" Value="False" />
-		<Setter Property="VerticalOffset" Value="{StaticResource FilterPopupButtonSideSize}" />
-		<Setter Property="HorizontalOffset" Value="{StaticResource FilterPopupButtonSideSize}" />
-		<Setter Property="PopupAnimation" Value="Fade" />
-		<Setter Property="AllowsTransparency" Value="True" />
-		<Setter Property="Placement" Value="Left" />
-	</Style>
-			
-	<Style x:Key="TextBlockInHeaderWithFilterStyle" TargetType="TextBlock">
-		<Setter Property="Grid.ColumnSpan" Value="2" />
-		<Setter Property="Grid.Column" Value="0" />
-		<Setter Property="HorizontalAlignment" Value="Stretch" />
-		<Setter Property="TextAlignment" Value="Center" />
-		<Setter Property="Padding" Value="0,0,15,0" />
+                        <Path VerticalAlignment="Center"
+                              HorizontalAlignment="Center"
+                              Margin="0,2,0,0"
+                              StrokeThickness="1"
+                              Fill="Black"
+                              Stroke="Black"
+                              Data="{StaticResource FilterPopupArrowGeometry}" />
+                    </Border>
+                    
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true" >
+                            <Setter TargetName="PART_Border"
+                                    Property="BorderBrush"
+                                    Value="{StaticResource FilterPopupFocusedBorderBrush}" />
+                            <Setter TargetName="PART_Border"
+                                    Property="Background"
+                                    Value="{StaticResource FilterPopupFocusedBackgroundBrush}" />
+                        </Trigger>
+                        
+                        <Trigger Property="IsChecked" Value="true">
+                            <Setter TargetName="PART_Border"
+                                    Property="BorderBrush"
+                                    Value="{StaticResource FilterPopupFocusedBorderBrush}" />
+                            <Setter TargetName="PART_Border"
+                                    Property="Background"
+                                    Value="{StaticResource FilterPopupFocusedBackgroundBrush}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <Style x:Key="FilterPopupStyle" TargetType="Popup">
+        <Setter Property="StaysOpen" Value="False" />
+        <Setter Property="VerticalOffset" Value="{StaticResource FilterPopupButtonSideSize}" />
+        <Setter Property="HorizontalOffset" Value="{StaticResource FilterPopupButtonSideSize}" />
+        <Setter Property="PopupAnimation" Value="Fade" />
+        <Setter Property="AllowsTransparency" Value="True" />
+        <Setter Property="Placement" Value="Left" />
+    </Style>
+            
+    <Style x:Key="TextBlockInHeaderWithFilterStyle" TargetType="TextBlock">
+        <Setter Property="Grid.ColumnSpan" Value="2" />
+        <Setter Property="Grid.Column" Value="0" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="TextAlignment" Value="Center" />
+        <Setter Property="Padding" Value="0,0,15,0" />
         <Setter Property="FontSize" Value="12" />
-		
-		<Style.Triggers>
-			<DataTrigger Value="true">
-				<DataTrigger.Binding>
-					<MultiBinding Converter="{rmconvs:IsActiveFilterColumnMarkupConverter}">
-						<Binding Path="(attachedprops:RoundResultsAttachedProps.FilterTarget)" RelativeSource="{RelativeSource Self}" />
-						<Binding Path="DataContext.ActiveFilters" RelativeSource="{RelativeSource AncestorType={x:Type mainwnd:MainWindow}}" />
-					</MultiBinding>
-				</DataTrigger.Binding>
+        
+        <Style.Triggers>
+            <DataTrigger Value="true">
+                <DataTrigger.Binding>
+                    <MultiBinding Converter="{rmconvs:IsActiveFilterColumnMarkupConverter}">
+                        <Binding Path="(attachedprops:RoundResultsAttachedProps.FilterTarget)" RelativeSource="{RelativeSource Self}" />
+                        <Binding Path="DataContext.ActiveFilters" RelativeSource="{RelativeSource AncestorType={x:Type mainwnd:MainWindow}}" />
+                    </MultiBinding>
+                </DataTrigger.Binding>
 
-				<Setter Property="Foreground" Value="Blue" />
-			</DataTrigger>
-		</Style.Triggers>
-	</Style>
-	
-	<Style x:Key="DataGridColumnHeaderWithFilterStyle" TargetType="DataGridColumnHeader">
-		<Setter Property="HorizontalAlignment" Value="Stretch" />
-		<Setter Property="HorizontalContentAlignment" Value="Stretch" />
-	</Style>
+                <Setter Property="Foreground" Value="Blue" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    
+    <Style x:Key="DataGridColumnHeaderWithFilterStyle" TargetType="DataGridColumnHeader">
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+    </Style>
 
     <Style x:Key="GridWithFilterStyle" TargetType="Grid">
         <Setter Property="HorizontalAlignment" Value="Stretch" />
@@ -178,1468 +178,1468 @@
 
 
     <!-- Квалификация -->
-	<Style x:Key="RndResDataGridCellQualifStyle" TargetType="{x:Type DataGridCell}">
-		<Setter Property="BorderBrush" Value="{Binding Background, RelativeSource={RelativeSource Self}}" />
-		<Setter Property="Background" Value="Transparent" />
-		<Setter Property="Foreground" Value="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type DataGridRow}}}" />
-		<Style.Triggers>
-			<Trigger Property="IsSelected" Value="true">
-				<Setter Property="BorderBrush" Value="{x:Static SystemColors.HighlightBrush}" />
-			</Trigger>
-		</Style.Triggers>
-	</Style>
-	
-	<Style x:Key="RndResQualifRowStyle" TargetType="{x:Type DataGridRow}">
-		<Setter Property="Template">
-			<Setter.Value>
-				<ControlTemplate TargetType="{x:Type DataGridRow}">
-					<Border x:Name="DGR_Border"
-							BorderBrush="{TemplateBinding BorderBrush}"
-							BorderThickness="{TemplateBinding BorderThickness}"
-							Background="{TemplateBinding Background}"
-							Visibility="{Binding VisibilityInMainTable}"
-							SnapsToDevicePixels="True">
-						<SelectiveScrollingGrid>
-							<SelectiveScrollingGrid.ColumnDefinitions>
-								<ColumnDefinition Width="Auto" />
-								<ColumnDefinition Width="Auto" />
-							</SelectiveScrollingGrid.ColumnDefinitions>
-							
-							<SelectiveScrollingGrid.RowDefinitions>
-								<RowDefinition Height="*" />
-								<RowDefinition Height="Auto" />
-							</SelectiveScrollingGrid.RowDefinitions>
-							
-							<DataGridCellsPresenter Grid.Row="0"
-													Grid.Column="1"
-													ItemsPanel="{TemplateBinding ItemsPanel}"
-													SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-							
-							<DataGridDetailsPresenter Grid.Row="2" Grid.Column="1" Visibility="Collapsed" />
-							
-							<DataGridRowHeader Grid.RowSpan="2"
-												SelectiveScrollingGrid.SelectiveScrollingOrientation="Vertical"
-												Visibility="{Binding HeadersVisibility,
-																		ConverterParameter={x:Static DataGridHeadersVisibility.Row},
-																		Converter={x:Static DataGrid.HeadersVisibilityConverter},
-																		RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
-						</SelectiveScrollingGrid>
-					</Border>
-				</ControlTemplate>
-			</Setter.Value>
-		</Setter>
-		<Setter Property="Background" Value="{Binding BackgroundForShow}" />
-		<Setter Property="Foreground" Value="{Binding ForegroundForShow}" />
-		<Setter Property="FontWeight" Value="{Binding FontWeightForShow}" />
-		<Setter Property="FontStyle" Value="{Binding FontStyleForShow}" />
-	</Style>
-	
-	<!-- Стиль для правого Grid, т.е. того, у которого есть полоса прокрутки -->
-	<Style x:Key="RndResQualifRowStyle2" TargetType="{x:Type DataGridRow}">
-		<Setter Property="Template">
-			<Setter.Value>
-				<ControlTemplate TargetType="{x:Type DataGridRow}">
-					<Border x:Name="DGR_Border"
-							BorderBrush="{TemplateBinding BorderBrush}"
-							BorderThickness="{TemplateBinding BorderThickness}"
-							Background="{TemplateBinding Background}"
-							SnapsToDevicePixels="True">
-						<SelectiveScrollingGrid>
-							<SelectiveScrollingGrid.ColumnDefinitions>
-								<ColumnDefinition Width="Auto" />
-								<ColumnDefinition Width="Auto" />
-							</SelectiveScrollingGrid.ColumnDefinitions>
+    <Style x:Key="RndResDataGridCellQualifStyle" TargetType="{x:Type DataGridCell}">
+        <Setter Property="BorderBrush" Value="{Binding Background, RelativeSource={RelativeSource Self}}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type DataGridRow}}}" />
+        <Style.Triggers>
+            <Trigger Property="IsSelected" Value="true">
+                <Setter Property="BorderBrush" Value="{x:Static SystemColors.HighlightBrush}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    
+    <Style x:Key="RndResQualifRowStyle" TargetType="{x:Type DataGridRow}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type DataGridRow}">
+                    <Border x:Name="DGR_Border"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Background="{TemplateBinding Background}"
+                            Visibility="{Binding VisibilityInMainTable}"
+                            SnapsToDevicePixels="True">
+                        <SelectiveScrollingGrid>
+                            <SelectiveScrollingGrid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </SelectiveScrollingGrid.ColumnDefinitions>
+                            
+                            <SelectiveScrollingGrid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
+                            </SelectiveScrollingGrid.RowDefinitions>
+                            
+                            <DataGridCellsPresenter Grid.Row="0"
+                                                    Grid.Column="1"
+                                                    ItemsPanel="{TemplateBinding ItemsPanel}"
+                                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                            
+                            <DataGridDetailsPresenter Grid.Row="2" Grid.Column="1" Visibility="Collapsed" />
+                            
+                            <DataGridRowHeader Grid.RowSpan="2"
+                                                SelectiveScrollingGrid.SelectiveScrollingOrientation="Vertical"
+                                                Visibility="{Binding HeadersVisibility,
+                                                                        ConverterParameter={x:Static DataGridHeadersVisibility.Row},
+                                                                        Converter={x:Static DataGrid.HeadersVisibilityConverter},
+                                                                        RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                        </SelectiveScrollingGrid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Background" Value="{Binding BackgroundForShow}" />
+        <Setter Property="Foreground" Value="{Binding ForegroundForShow}" />
+        <Setter Property="FontWeight" Value="{Binding FontWeightForShow}" />
+        <Setter Property="FontStyle" Value="{Binding FontStyleForShow}" />
+    </Style>
+    
+    <!-- Стиль для правого Grid, т.е. того, у которого есть полоса прокрутки -->
+    <Style x:Key="RndResQualifRowStyle2" TargetType="{x:Type DataGridRow}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type DataGridRow}">
+                    <Border x:Name="DGR_Border"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Background="{TemplateBinding Background}"
+                            SnapsToDevicePixels="True">
+                        <SelectiveScrollingGrid>
+                            <SelectiveScrollingGrid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </SelectiveScrollingGrid.ColumnDefinitions>
 
-							<SelectiveScrollingGrid.RowDefinitions>
-								<RowDefinition Height="*" />
-								<RowDefinition Height="Auto" />
-							</SelectiveScrollingGrid.RowDefinitions>
-							
-							<DataGridCellsPresenter Grid.Row="0"
-													Grid.Column="1"
-													ItemsPanel="{TemplateBinding ItemsPanel}"
-													SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-							
-							<DataGridDetailsPresenter Grid.Row="2" Grid.Column="1" Visibility="Collapsed" />
-							
-							<DataGridRowHeader Grid.RowSpan="2"
-												SelectiveScrollingGrid.SelectiveScrollingOrientation="Vertical"
-												Visibility="{Binding HeadersVisibility,
-																		ConverterParameter={x:Static DataGridHeadersVisibility.Row},
-																		Converter={x:Static DataGrid.HeadersVisibilityConverter},
-																		RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
-						</SelectiveScrollingGrid>
-					</Border>
-				</ControlTemplate>
-			</Setter.Value>
-		</Setter>
-		<Setter Property="Background" Value="{Binding BackgroundForShow}" />
-		<Setter Property="Foreground" Value="{Binding ForegroundForShow}" />
-		<Setter Property="FontWeight" Value="{Binding FontWeightForShow}" />
-		<Setter Property="FontStyle" Value="{Binding FontStyleForShow}" />
-	</Style>
-	
-	<x:Array x:Key="QualifColumns" Type="{x:Type DataGridColumn}">
-		<DataGridTextColumn Header="{Loc resNumber}" Binding="{Binding StartNumber}" >
-			<DataGridTextColumn.ElementStyle>
-				<Style TargetType="TextBlock" BasedOn="{StaticResource RndResStdTextBlockStyle}">
-					<Setter Property="Background" Value="{Binding Results.ResultsForShow.StartNumber.Background}" />
-					<Setter Property="Foreground" Value="{Binding Results.ResultsForShow.StartNumber.Foreground}" />
-					<Setter Property="FontWeight" Value="{Binding Results.ResultsForShow.StartNumber.FontWeight}" />
-					<Setter Property="FontStyle" Value="{Binding Results.ResultsForShow.StartNumber.FontStyle}" />
-				</Style>
-			</DataGridTextColumn.ElementStyle>
-		</DataGridTextColumn>
-					
-		<DataGridTemplateColumn Header="{Loc resPlace}" >
-			<DataGridTemplateColumn.CellTemplate>
-				<DataTemplate>
-					<TextBlock Name="PART_TextBlock"
-							   Text="{Binding Tag, RelativeSource={RelativeSource Self}}"
-							   Tag="{x:Null}"
-							   Style="{StaticResource RndResStdTextBlockStyle}"
-							   FontWeight="Bold">
-						<Run Text="{Binding PlaceForShow}" />
-						<Run Text=" (" Foreground="Blue" />
-						<Run Text="{Binding PlaceInFilterForShow}" Foreground="Blue" />
-						<Run Text=")" Foreground="Blue" />
-					</TextBlock>
-					
-					<DataTemplate.Triggers>
-						<!-- Т.к. в триггере нет условия "не равно", то триггер реализует обычный вариант вывода места.
-							Так же этот триггер нельзя добавлять в стиль TextBlock, т.к. тогда он не будет работать.
-							И нужно обязательно использовать свойство Tag! -->
-						<DataTrigger Binding="{Binding PlaceInFilter}" Value="{x:Null}">
-							<Setter Property="Tag" Value="{Binding PlaceForShow}" TargetName="PART_TextBlock" />
-						</DataTrigger>
-					</DataTemplate.Triggers>
-				</DataTemplate>
-			</DataGridTemplateColumn.CellTemplate>
-		</DataGridTemplateColumn>
-					
-		<DataGridTextColumn Header="{Loc resSurnameAndName}" Binding="{Binding MemberInfo.SurnameAndName}">
-			<DataGridTextColumn.ElementStyle>
-				<Style TargetType="TextBlock" BasedOn="{StaticResource RndResStdTextBlockStyle}">
-					<Setter Property="Padding" Value="2,4,5,0" />
-					<Setter Property="TextAlignment" Value="Left" />
-					<Setter Property="Background" Value="{Binding Results.ResultsForShow.SurnameAndName.Background}" />
-					<Setter Property="Foreground" Value="{Binding Results.ResultsForShow.SurnameAndName.Foreground}" />
-					<Setter Property="FontWeight" Value="{Binding Results.ResultsForShow.SurnameAndName.FontWeight}" />
-					<Setter Property="FontStyle" Value="{Binding Results.ResultsForShow.SurnameAndName.FontStyle}" />
-				</Style>
-			</DataGridTextColumn.ElementStyle>
-		</DataGridTextColumn>
-					
-		<DataGridTextColumn Binding="{Binding MemberInfo.SecondCol}" ElementStyle="{StaticResource RndResStdTextBlockStyle}" >
-			<DataGridTextColumn.HeaderStyle>
-				<Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGridColumnHeaderWithFilterStyle}">
-					<Setter Property="Content" >
-						<Setter.Value>
+                            <SelectiveScrollingGrid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
+                            </SelectiveScrollingGrid.RowDefinitions>
+                            
+                            <DataGridCellsPresenter Grid.Row="0"
+                                                    Grid.Column="1"
+                                                    ItemsPanel="{TemplateBinding ItemsPanel}"
+                                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                            
+                            <DataGridDetailsPresenter Grid.Row="2" Grid.Column="1" Visibility="Collapsed" />
+                            
+                            <DataGridRowHeader Grid.RowSpan="2"
+                                                SelectiveScrollingGrid.SelectiveScrollingOrientation="Vertical"
+                                                Visibility="{Binding HeadersVisibility,
+                                                                        ConverterParameter={x:Static DataGridHeadersVisibility.Row},
+                                                                        Converter={x:Static DataGrid.HeadersVisibilityConverter},
+                                                                        RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                        </SelectiveScrollingGrid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Background" Value="{Binding BackgroundForShow}" />
+        <Setter Property="Foreground" Value="{Binding ForegroundForShow}" />
+        <Setter Property="FontWeight" Value="{Binding FontWeightForShow}" />
+        <Setter Property="FontStyle" Value="{Binding FontStyleForShow}" />
+    </Style>
+    
+    <x:Array x:Key="QualifColumns" Type="{x:Type DataGridColumn}">
+        <DataGridTextColumn Header="{Loc resNumber}" Binding="{Binding StartNumber}" >
+            <DataGridTextColumn.ElementStyle>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource RndResStdTextBlockStyle}">
+                    <Setter Property="Background" Value="{Binding Results.ResultsForShow.StartNumber.Background}" />
+                    <Setter Property="Foreground" Value="{Binding Results.ResultsForShow.StartNumber.Foreground}" />
+                    <Setter Property="FontWeight" Value="{Binding Results.ResultsForShow.StartNumber.FontWeight}" />
+                    <Setter Property="FontStyle" Value="{Binding Results.ResultsForShow.StartNumber.FontStyle}" />
+                </Style>
+            </DataGridTextColumn.ElementStyle>
+        </DataGridTextColumn>
+                    
+        <DataGridTemplateColumn Header="{Loc resPlace}" >
+            <DataGridTemplateColumn.CellTemplate>
+                <DataTemplate>
+                    <TextBlock Name="PART_TextBlock"
+                               Text="{Binding Tag, RelativeSource={RelativeSource Self}}"
+                               Tag="{x:Null}"
+                               Style="{StaticResource RndResStdTextBlockStyle}"
+                               FontWeight="Bold">
+                        <Run Text="{Binding PlaceForShow}" />
+                        <Run Text=" (" Foreground="Blue" />
+                        <Run Text="{Binding PlaceInFilterForShow}" Foreground="Blue" />
+                        <Run Text=")" Foreground="Blue" />
+                    </TextBlock>
+                    
+                    <DataTemplate.Triggers>
+                        <!-- Т.к. в триггере нет условия "не равно", то триггер реализует обычный вариант вывода места.
+                            Так же этот триггер нельзя добавлять в стиль TextBlock, т.к. тогда он не будет работать.
+                            И нужно обязательно использовать свойство Tag! -->
+                        <DataTrigger Binding="{Binding PlaceInFilter}" Value="{x:Null}">
+                            <Setter Property="Tag" Value="{Binding PlaceForShow}" TargetName="PART_TextBlock" />
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
+                </DataTemplate>
+            </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
+                    
+        <DataGridTextColumn Header="{Loc resSurnameAndName}" Binding="{Binding MemberInfo.SurnameAndName}">
+            <DataGridTextColumn.ElementStyle>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource RndResStdTextBlockStyle}">
+                    <Setter Property="Padding" Value="2,4,5,0" />
+                    <Setter Property="TextAlignment" Value="Left" />
+                    <Setter Property="Background" Value="{Binding Results.ResultsForShow.SurnameAndName.Background}" />
+                    <Setter Property="Foreground" Value="{Binding Results.ResultsForShow.SurnameAndName.Foreground}" />
+                    <Setter Property="FontWeight" Value="{Binding Results.ResultsForShow.SurnameAndName.FontWeight}" />
+                    <Setter Property="FontStyle" Value="{Binding Results.ResultsForShow.SurnameAndName.FontStyle}" />
+                </Style>
+            </DataGridTextColumn.ElementStyle>
+        </DataGridTextColumn>
+                    
+        <DataGridTextColumn Binding="{Binding MemberInfo.SecondCol}" ElementStyle="{StaticResource RndResStdTextBlockStyle}" >
+            <DataGridTextColumn.HeaderStyle>
+                <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGridColumnHeaderWithFilterStyle}">
+                    <Setter Property="Content" >
+                        <Setter.Value>
                             <Grid Style="{StaticResource GridWithFilterStyle}">
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition />
-									<ColumnDefinition Width="auto"/>
-								</Grid.ColumnDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
 
-								<TextBlock Text="{Binding SecondColName, RelativeSource={RelativeSource AncestorType={x:Type mainwnd:MainWindow}}}"
-										   attachedprops:RoundResultsAttachedProps.FilterTarget="SecondCol"
-										   Style="{StaticResource TextBlockInHeaderWithFilterStyle}" />
-								<CheckBox Style="{StaticResource FilterPopupCheckBoxStyle}"
-										  CommandParameter="{x:Static glob:enFilterTarget.SecondCol}"/>
-								<Popup Style="{StaticResource FilterPopupStyle}" />
-							</Grid>
-						</Setter.Value>
-					</Setter>
-				</Style>
-			</DataGridTextColumn.HeaderStyle>
-		</DataGridTextColumn>
+                                <TextBlock Text="{Binding SecondColName, RelativeSource={RelativeSource AncestorType={x:Type mainwnd:MainWindow}}}"
+                                           attachedprops:RoundResultsAttachedProps.FilterTarget="SecondCol"
+                                           Style="{StaticResource TextBlockInHeaderWithFilterStyle}" />
+                                <CheckBox Style="{StaticResource FilterPopupCheckBoxStyle}"
+                                          CommandParameter="{x:Static glob:enFilterTarget.SecondCol}"/>
+                                <Popup Style="{StaticResource FilterPopupStyle}" />
+                            </Grid>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </DataGridTextColumn.HeaderStyle>
+        </DataGridTextColumn>
 
-		<DataGridTextColumn Binding="{Binding MemberInfo.YearOfBirthForShow}"
-							ElementStyle="{StaticResource RndResStdTextBlockStyle}" >
-			<DataGridTextColumn.HeaderStyle>
-				<Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGridColumnHeaderWithFilterStyle}">
-					<Setter Property="Content" >
-						<Setter.Value>
+        <DataGridTextColumn Binding="{Binding MemberInfo.YearOfBirthForShow}"
+                            ElementStyle="{StaticResource RndResStdTextBlockStyle}" >
+            <DataGridTextColumn.HeaderStyle>
+                <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGridColumnHeaderWithFilterStyle}">
+                    <Setter Property="Content" >
+                        <Setter.Value>
                             <Grid Style="{StaticResource GridWithFilterStyle}">
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition />
-									<ColumnDefinition Width="auto"/>
-								</Grid.ColumnDefinitions>
-								
-								<TextBlock Text="{Loc resYoB}"
-										   attachedprops:RoundResultsAttachedProps.FilterTarget="YearOfBirth"
-										   Style="{StaticResource TextBlockInHeaderWithFilterStyle}" />
-								<CheckBox Style="{StaticResource FilterPopupCheckBoxStyle}"
-										  CommandParameter="{x:Static glob:enFilterTarget.YearOfBirth}" />
-								<Popup Style="{StaticResource FilterPopupStyle}" />
-							</Grid>
-						</Setter.Value>
-					</Setter>
-				</Style>
-			</DataGridTextColumn.HeaderStyle>
-		</DataGridTextColumn>
-															
-		<DataGridTextColumn Binding="{Binding MemberInfo.InitGradeForShow}"
-							ElementStyle="{StaticResource RndResStdTextBlockStyle}" >
-			<DataGridTextColumn.HeaderStyle>
-				<Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGridColumnHeaderWithFilterStyle}">
-					<Setter Property="Content" >
-						<Setter.Value>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+                                
+                                <TextBlock Text="{Loc resYoB}"
+                                           attachedprops:RoundResultsAttachedProps.FilterTarget="YearOfBirth"
+                                           Style="{StaticResource TextBlockInHeaderWithFilterStyle}" />
+                                <CheckBox Style="{StaticResource FilterPopupCheckBoxStyle}"
+                                          CommandParameter="{x:Static glob:enFilterTarget.YearOfBirth}" />
+                                <Popup Style="{StaticResource FilterPopupStyle}" />
+                            </Grid>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </DataGridTextColumn.HeaderStyle>
+        </DataGridTextColumn>
+                                                            
+        <DataGridTextColumn Binding="{Binding MemberInfo.InitGradeForShow}"
+                            ElementStyle="{StaticResource RndResStdTextBlockStyle}" >
+            <DataGridTextColumn.HeaderStyle>
+                <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGridColumnHeaderWithFilterStyle}">
+                    <Setter Property="Content" >
+                        <Setter.Value>
                             <Grid Style="{StaticResource GridWithFilterStyle}">
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition />
-									<ColumnDefinition Width="auto"/>
-								</Grid.ColumnDefinitions>
-								
-								<TextBlock Text="{Loc resGrade}"
-										   attachedprops:RoundResultsAttachedProps.FilterTarget="Grade"
-										   Style="{StaticResource TextBlockInHeaderWithFilterStyle}" />
-								<CheckBox Style="{StaticResource FilterPopupCheckBoxStyle}"
-										  CommandParameter="{x:Static glob:enFilterTarget.Grade}" />
-								<Popup Style="{StaticResource FilterPopupStyle}" />
-							</Grid>
-						</Setter.Value>
-					</Setter>
-				</Style>
-			</DataGridTextColumn.HeaderStyle>
-		</DataGridTextColumn>
-					
-		<DataGridTextColumn Header="{Loc resRoute1}" Binding="{Binding Results.Route1.ResultForShow}" >
-			<DataGridTextColumn.ElementStyle>
-				<Style TargetType="TextBlock" BasedOn="{StaticResource RndResStdTextBlockStyle}">
-					<Setter Property="Background" Value="{Binding Results.ResultsForShow.Route1.Background}" />
-					<Setter Property="Foreground" Value="{Binding Results.ResultsForShow.Route1.Foreground}" />
-					<Setter Property="FontWeight" Value="{Binding Results.ResultsForShow.Route1.FontWeight}" />
-					<Setter Property="FontStyle" Value="{Binding Results.ResultsForShow.Route1.FontStyle}" />
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+                                
+                                <TextBlock Text="{Loc resGrade}"
+                                           attachedprops:RoundResultsAttachedProps.FilterTarget="Grade"
+                                           Style="{StaticResource TextBlockInHeaderWithFilterStyle}" />
+                                <CheckBox Style="{StaticResource FilterPopupCheckBoxStyle}"
+                                          CommandParameter="{x:Static glob:enFilterTarget.Grade}" />
+                                <Popup Style="{StaticResource FilterPopupStyle}" />
+                            </Grid>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </DataGridTextColumn.HeaderStyle>
+        </DataGridTextColumn>
+                    
+        <DataGridTextColumn Header="{Loc resRoute1}" Binding="{Binding Results.Route1.ResultForShow}" >
+            <DataGridTextColumn.ElementStyle>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource RndResStdTextBlockStyle}">
+                    <Setter Property="Background" Value="{Binding Results.ResultsForShow.Route1.Background}" />
+                    <Setter Property="Foreground" Value="{Binding Results.ResultsForShow.Route1.Foreground}" />
+                    <Setter Property="FontWeight" Value="{Binding Results.ResultsForShow.Route1.FontWeight}" />
+                    <Setter Property="FontStyle" Value="{Binding Results.ResultsForShow.Route1.FontStyle}" />
 
-					<Setter Property="ContextMenu">
-						<Setter.Value>
-							<ContextMenu>
-								<MenuItem Header="{Loc resRemoveFalsestart}" Command="{Binding Results.Route1.RemoveFalsestart}" />
-							</ContextMenu>
-						</Setter.Value>
-					</Setter>
-				</Style>
-			</DataGridTextColumn.ElementStyle>
-		</DataGridTextColumn>
-					
-		<DataGridTextColumn Header="{Loc resRoute2}" Binding="{Binding Results.Route2.ResultForShow}" >
-			<DataGridTextColumn.ElementStyle>
-				<Style TargetType="TextBlock" BasedOn="{StaticResource RndResStdTextBlockStyle}">
-					<Setter Property="Background" Value="{Binding Results.ResultsForShow.Route2.Background}" />
-					<Setter Property="Foreground" Value="{Binding Results.ResultsForShow.Route2.Foreground}" />
-					<Setter Property="FontWeight" Value="{Binding Results.ResultsForShow.Route2.FontWeight}" />
-					<Setter Property="FontStyle" Value="{Binding Results.ResultsForShow.Route2.FontStyle}" />
+                    <Setter Property="ContextMenu">
+                        <Setter.Value>
+                            <ContextMenu>
+                                <MenuItem Header="{Loc resRemoveFalsestart}" Command="{Binding Results.Route1.RemoveFalsestart}" />
+                            </ContextMenu>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </DataGridTextColumn.ElementStyle>
+        </DataGridTextColumn>
+                    
+        <DataGridTextColumn Header="{Loc resRoute2}" Binding="{Binding Results.Route2.ResultForShow}" >
+            <DataGridTextColumn.ElementStyle>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource RndResStdTextBlockStyle}">
+                    <Setter Property="Background" Value="{Binding Results.ResultsForShow.Route2.Background}" />
+                    <Setter Property="Foreground" Value="{Binding Results.ResultsForShow.Route2.Foreground}" />
+                    <Setter Property="FontWeight" Value="{Binding Results.ResultsForShow.Route2.FontWeight}" />
+                    <Setter Property="FontStyle" Value="{Binding Results.ResultsForShow.Route2.FontStyle}" />
 
-					<Setter Property="ContextMenu">
-						<Setter.Value>
-							<ContextMenu>
-								<MenuItem Header="{Loc resRemoveFalsestart}" Command="{Binding Results.Route2.RemoveFalsestart}" />
-							</ContextMenu>
-						</Setter.Value>
-					</Setter>
-				</Style>
-			</DataGridTextColumn.ElementStyle>
-		</DataGridTextColumn>
-					
-		<DataGridTextColumn Header="{Loc resSum}" Binding="{Binding Results.Sum.ResultForShow}" >
-			<DataGridTextColumn.ElementStyle>
-				<Style TargetType="TextBlock" BasedOn="{StaticResource RndResStdTextBlockStyle}">
-					<Setter Property="Background" Value="{Binding Results.ResultsForShow.Sum.Background}" />
-					<Setter Property="Foreground" Value="{Binding Results.ResultsForShow.Sum.Foreground}" />
-					<Setter Property="FontWeight" Value="{Binding Results.ResultsForShow.Sum.FontWeight}" />
-					<Setter Property="FontStyle" Value="{Binding Results.ResultsForShow.Sum.FontStyle}" />
-				</Style>
-			</DataGridTextColumn.ElementStyle>
-		</DataGridTextColumn>
-	</x:Array>
-	
-	<x:Array x:Key="QualifColumns2" Type="{x:Type DataGridColumn}">
-		<DataGridTextColumn Header="{Loc resNumber}" Binding="{Binding StartNumber}" >
-			<DataGridTextColumn.ElementStyle>
-				<Style TargetType="TextBlock" BasedOn="{StaticResource RndResStdTextBlockStyle}">
-					<Setter Property="Background" Value="{Binding Results.ResultsForShow.StartNumber.Background}" />
-					<Setter Property="Foreground" Value="{Binding Results.ResultsForShow.StartNumber.Foreground}" />
-					<Setter Property="FontWeight" Value="{Binding Results.ResultsForShow.StartNumber.FontWeight}" />
-					<Setter Property="FontStyle" Value="{Binding Results.ResultsForShow.StartNumber.FontStyle}" />
-				</Style>
-			</DataGridTextColumn.ElementStyle>
-		</DataGridTextColumn>
-					
-		<DataGridTextColumn Binding="{Binding PlaceForShow}"
-							Header="{Loc resPlace}" >
-			<DataGridTextColumn.ElementStyle>
-				<Style TargetType="TextBlock" BasedOn="{StaticResource RndResStdTextBlockStyle}">
-					<Setter Property="FontWeight" Value="Bold" />
-				</Style>
-			</DataGridTextColumn.ElementStyle>
-		</DataGridTextColumn>
-					
-		<DataGridTextColumn Header="{Loc resSurnameAndName}" Binding="{Binding MemberInfo.SurnameAndName}">
-			<DataGridTextColumn.ElementStyle>
-				<Style TargetType="TextBlock" BasedOn="{StaticResource RndResStdTextBlockStyle}">
-					<Setter Property="Padding" Value="2,4,5,0" />
-					<Setter Property="TextAlignment" Value="Left" />
-					<Setter Property="Background" Value="{Binding Results.ResultsForShow.SurnameAndName.Background}" />
-					<Setter Property="Foreground" Value="{Binding Results.ResultsForShow.SurnameAndName.Foreground}" />
-					<Setter Property="FontWeight" Value="{Binding Results.ResultsForShow.SurnameAndName.FontWeight}" />
-					<Setter Property="FontStyle" Value="{Binding Results.ResultsForShow.SurnameAndName.FontStyle}" />
-				</Style>
-			</DataGridTextColumn.ElementStyle>
-		</DataGridTextColumn>
-					
-		<DataGridTextColumn Binding="{Binding MemberInfo.SecondCol}"
-							ElementStyle="{StaticResource RndResStdTextBlockStyle}" >
-			<DataGridTextColumn.Header>
-				<TextBlock Text="{Binding SecondColName, RelativeSource={RelativeSource AncestorType={x:Type mainwnd:MainWindow}}}" />
-			</DataGridTextColumn.Header>
-		</DataGridTextColumn>
+                    <Setter Property="ContextMenu">
+                        <Setter.Value>
+                            <ContextMenu>
+                                <MenuItem Header="{Loc resRemoveFalsestart}" Command="{Binding Results.Route2.RemoveFalsestart}" />
+                            </ContextMenu>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </DataGridTextColumn.ElementStyle>
+        </DataGridTextColumn>
+                    
+        <DataGridTextColumn Header="{Loc resSum}" Binding="{Binding Results.Sum.ResultForShow}" >
+            <DataGridTextColumn.ElementStyle>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource RndResStdTextBlockStyle}">
+                    <Setter Property="Background" Value="{Binding Results.ResultsForShow.Sum.Background}" />
+                    <Setter Property="Foreground" Value="{Binding Results.ResultsForShow.Sum.Foreground}" />
+                    <Setter Property="FontWeight" Value="{Binding Results.ResultsForShow.Sum.FontWeight}" />
+                    <Setter Property="FontStyle" Value="{Binding Results.ResultsForShow.Sum.FontStyle}" />
+                </Style>
+            </DataGridTextColumn.ElementStyle>
+        </DataGridTextColumn>
+    </x:Array>
+    
+    <x:Array x:Key="QualifColumns2" Type="{x:Type DataGridColumn}">
+        <DataGridTextColumn Header="{Loc resNumber}" Binding="{Binding StartNumber}" >
+            <DataGridTextColumn.ElementStyle>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource RndResStdTextBlockStyle}">
+                    <Setter Property="Background" Value="{Binding Results.ResultsForShow.StartNumber.Background}" />
+                    <Setter Property="Foreground" Value="{Binding Results.ResultsForShow.StartNumber.Foreground}" />
+                    <Setter Property="FontWeight" Value="{Binding Results.ResultsForShow.StartNumber.FontWeight}" />
+                    <Setter Property="FontStyle" Value="{Binding Results.ResultsForShow.StartNumber.FontStyle}" />
+                </Style>
+            </DataGridTextColumn.ElementStyle>
+        </DataGridTextColumn>
+                    
+        <DataGridTextColumn Binding="{Binding PlaceForShow}"
+                            Header="{Loc resPlace}" >
+            <DataGridTextColumn.ElementStyle>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource RndResStdTextBlockStyle}">
+                    <Setter Property="FontWeight" Value="Bold" />
+                </Style>
+            </DataGridTextColumn.ElementStyle>
+        </DataGridTextColumn>
+                    
+        <DataGridTextColumn Header="{Loc resSurnameAndName}" Binding="{Binding MemberInfo.SurnameAndName}">
+            <DataGridTextColumn.ElementStyle>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource RndResStdTextBlockStyle}">
+                    <Setter Property="Padding" Value="2,4,5,0" />
+                    <Setter Property="TextAlignment" Value="Left" />
+                    <Setter Property="Background" Value="{Binding Results.ResultsForShow.SurnameAndName.Background}" />
+                    <Setter Property="Foreground" Value="{Binding Results.ResultsForShow.SurnameAndName.Foreground}" />
+                    <Setter Property="FontWeight" Value="{Binding Results.ResultsForShow.SurnameAndName.FontWeight}" />
+                    <Setter Property="FontStyle" Value="{Binding Results.ResultsForShow.SurnameAndName.FontStyle}" />
+                </Style>
+            </DataGridTextColumn.ElementStyle>
+        </DataGridTextColumn>
+                    
+        <DataGridTextColumn Binding="{Binding MemberInfo.SecondCol}"
+                            ElementStyle="{StaticResource RndResStdTextBlockStyle}" >
+            <DataGridTextColumn.Header>
+                <TextBlock Text="{Binding SecondColName, RelativeSource={RelativeSource AncestorType={x:Type mainwnd:MainWindow}}}" />
+            </DataGridTextColumn.Header>
+        </DataGridTextColumn>
 
-		<DataGridTextColumn Binding="{Binding MemberInfo.YearOfBirthForShow}"
-							ElementStyle="{StaticResource RndResStdTextBlockStyle}" 
-							Header="{Loc resYoB}" />
-																		
-		<DataGridTextColumn Binding="{Binding MemberInfo.InitGradeForShow}"
-							ElementStyle="{StaticResource RndResStdTextBlockStyle}"
-							Header="{Loc resGrade}" />
-								
-		<DataGridTextColumn Header="{Loc resRoute1}" Binding="{Binding Results.Route1.ResultForShow}" >
-			<DataGridTextColumn.ElementStyle>
-				<Style TargetType="TextBlock" BasedOn="{StaticResource RndResStdTextBlockStyle}">
-					<Setter Property="Background" Value="{Binding Results.ResultsForShow.Route1.Background}" />
-					<Setter Property="Foreground" Value="{Binding Results.ResultsForShow.Route1.Foreground}" />
-					<Setter Property="FontWeight" Value="{Binding Results.ResultsForShow.Route1.FontWeight}" />
-					<Setter Property="FontStyle" Value="{Binding Results.ResultsForShow.Route1.FontStyle}" />
+        <DataGridTextColumn Binding="{Binding MemberInfo.YearOfBirthForShow}"
+                            ElementStyle="{StaticResource RndResStdTextBlockStyle}" 
+                            Header="{Loc resYoB}" />
+                                                                        
+        <DataGridTextColumn Binding="{Binding MemberInfo.InitGradeForShow}"
+                            ElementStyle="{StaticResource RndResStdTextBlockStyle}"
+                            Header="{Loc resGrade}" />
+                                
+        <DataGridTextColumn Header="{Loc resRoute1}" Binding="{Binding Results.Route1.ResultForShow}" >
+            <DataGridTextColumn.ElementStyle>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource RndResStdTextBlockStyle}">
+                    <Setter Property="Background" Value="{Binding Results.ResultsForShow.Route1.Background}" />
+                    <Setter Property="Foreground" Value="{Binding Results.ResultsForShow.Route1.Foreground}" />
+                    <Setter Property="FontWeight" Value="{Binding Results.ResultsForShow.Route1.FontWeight}" />
+                    <Setter Property="FontStyle" Value="{Binding Results.ResultsForShow.Route1.FontStyle}" />
 
-					<Setter Property="ContextMenu">
-						<Setter.Value>
-							<ContextMenu>
-								<MenuItem Header="{Loc resRemoveFalsestart}" Command="{Binding Results.Route1.RemoveFalsestart}" />
-							</ContextMenu>
-						</Setter.Value>
-					</Setter>
-				</Style>
-			</DataGridTextColumn.ElementStyle>
-		</DataGridTextColumn>
-					
-		<DataGridTextColumn Header="{Loc resRoute2}" Binding="{Binding Results.Route2.ResultForShow}" >
-			<DataGridTextColumn.ElementStyle>
-				<Style TargetType="TextBlock" BasedOn="{StaticResource RndResStdTextBlockStyle}">
-					<Setter Property="Background" Value="{Binding Results.ResultsForShow.Route2.Background}" />
-					<Setter Property="Foreground" Value="{Binding Results.ResultsForShow.Route2.Foreground}" />
-					<Setter Property="FontWeight" Value="{Binding Results.ResultsForShow.Route2.FontWeight}" />
-					<Setter Property="FontStyle" Value="{Binding Results.ResultsForShow.Route2.FontStyle}" />
+                    <Setter Property="ContextMenu">
+                        <Setter.Value>
+                            <ContextMenu>
+                                <MenuItem Header="{Loc resRemoveFalsestart}" Command="{Binding Results.Route1.RemoveFalsestart}" />
+                            </ContextMenu>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </DataGridTextColumn.ElementStyle>
+        </DataGridTextColumn>
+                    
+        <DataGridTextColumn Header="{Loc resRoute2}" Binding="{Binding Results.Route2.ResultForShow}" >
+            <DataGridTextColumn.ElementStyle>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource RndResStdTextBlockStyle}">
+                    <Setter Property="Background" Value="{Binding Results.ResultsForShow.Route2.Background}" />
+                    <Setter Property="Foreground" Value="{Binding Results.ResultsForShow.Route2.Foreground}" />
+                    <Setter Property="FontWeight" Value="{Binding Results.ResultsForShow.Route2.FontWeight}" />
+                    <Setter Property="FontStyle" Value="{Binding Results.ResultsForShow.Route2.FontStyle}" />
 
-					<Setter Property="ContextMenu">
-						<Setter.Value>
-							<ContextMenu>
-								<MenuItem Header="{Loc resRemoveFalsestart}" Command="{Binding Results.Route2.RemoveFalsestart}" />
-							</ContextMenu>
-						</Setter.Value>
-					</Setter>
-				</Style>
-			</DataGridTextColumn.ElementStyle>
-		</DataGridTextColumn>
-					
-		<DataGridTextColumn Header="{Loc resSum}" Binding="{Binding Results.Sum.ResultForShow}" >
-			<DataGridTextColumn.ElementStyle>
-				<Style TargetType="TextBlock" BasedOn="{StaticResource RndResStdTextBlockStyle}">
-					<Setter Property="Background" Value="{Binding Results.ResultsForShow.Sum.Background}" />
-					<Setter Property="Foreground" Value="{Binding Results.ResultsForShow.Sum.Foreground}" />
-					<Setter Property="FontWeight" Value="{Binding Results.ResultsForShow.Sum.FontWeight}" />
-					<Setter Property="FontStyle" Value="{Binding Results.ResultsForShow.Sum.FontStyle}" />
-				</Style>
-			</DataGridTextColumn.ElementStyle>
-		</DataGridTextColumn>
-	</x:Array>
-	
-	<Style x:Key="RoundResultsQualifStyle" TargetType="{x:Type DataGrid}">
-		<Setter Property="RowHeight" Value="25" />
-		<Setter Property="CellStyle" Value="{StaticResource RndResDataGridCellQualifStyle}" />
-		<Setter Property="ColumnHeaderStyle" Value="{StaticResource RndResDataGridColumnHeaderStyle}" />
-		<Setter Property="RowStyle" Value="{StaticResource RndResQualifRowStyle}" />
-	</Style>
-	
-	<Style x:Key="RoundResultsQualifStyle2" TargetType="{x:Type DataGrid}">
-		<Setter Property="RowHeight" Value="25" />
-		<Setter Property="CellStyle" Value="{StaticResource RndResDataGridCellQualifStyle}" />
-		<Setter Property="ColumnHeaderStyle" Value="{StaticResource RndResDataGridColumnHeaderStyle}" />
-		<Setter Property="RowStyle" Value="{StaticResource RndResQualifRowStyle2}" />
-	</Style>
-	
-	
-	<!-- 1/8, 1/4, 1/2 -->		
-	<Style x:Key="RndResDataGridCellMiddleSheetsStyle" TargetType="{x:Type DataGridCell}">
-		<Setter Property="Background" Value="Transparent" />
-		<Setter Property="BorderThickness" Value="0" />
-		<Setter Property="Foreground" Value="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type DataGridRow}}}" />
-	</Style>
-	
-	<Style x:Key="RndResMiddleSheetsRowStyle" TargetType="{x:Type DataGridRow}">
-		<Setter Property="Template">
-			<Setter.Value>
-				<ControlTemplate TargetType="{x:Type DataGridRow}">
-					<Border x:Name="DGR_Border"
-							BorderBrush="{TemplateBinding BorderBrush}"
-							BorderThickness="{TemplateBinding BorderThickness}"
-							Background="{TemplateBinding Background}"
-							SnapsToDevicePixels="True">
-						<SelectiveScrollingGrid>
-							<SelectiveScrollingGrid.ColumnDefinitions>
-								<ColumnDefinition Width="Auto" />
-								<ColumnDefinition Width="Auto" />
-							</SelectiveScrollingGrid.ColumnDefinitions>
-							
-							<SelectiveScrollingGrid.RowDefinitions>
-								<RowDefinition Height="Auto" />
-								<RowDefinition Height="*" />
-								<RowDefinition Height="Auto" />
-							</SelectiveScrollingGrid.RowDefinitions>
-							
-							<!-- Отступ в верхней части строки -->
-							<Border Grid.ColumnSpan="2"
-									Padding="0,10,0,0"
-									BorderThickness="0,0,1,0"
-									Background="LightGray"
-									BorderBrush="{Binding GridLinesFontStyle.BackgroundColor,
+                    <Setter Property="ContextMenu">
+                        <Setter.Value>
+                            <ContextMenu>
+                                <MenuItem Header="{Loc resRemoveFalsestart}" Command="{Binding Results.Route2.RemoveFalsestart}" />
+                            </ContextMenu>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </DataGridTextColumn.ElementStyle>
+        </DataGridTextColumn>
+                    
+        <DataGridTextColumn Header="{Loc resSum}" Binding="{Binding Results.Sum.ResultForShow}" >
+            <DataGridTextColumn.ElementStyle>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource RndResStdTextBlockStyle}">
+                    <Setter Property="Background" Value="{Binding Results.ResultsForShow.Sum.Background}" />
+                    <Setter Property="Foreground" Value="{Binding Results.ResultsForShow.Sum.Foreground}" />
+                    <Setter Property="FontWeight" Value="{Binding Results.ResultsForShow.Sum.FontWeight}" />
+                    <Setter Property="FontStyle" Value="{Binding Results.ResultsForShow.Sum.FontStyle}" />
+                </Style>
+            </DataGridTextColumn.ElementStyle>
+        </DataGridTextColumn>
+    </x:Array>
+    
+    <Style x:Key="RoundResultsQualifStyle" TargetType="{x:Type DataGrid}">
+        <Setter Property="RowHeight" Value="25" />
+        <Setter Property="CellStyle" Value="{StaticResource RndResDataGridCellQualifStyle}" />
+        <Setter Property="ColumnHeaderStyle" Value="{StaticResource RndResDataGridColumnHeaderStyle}" />
+        <Setter Property="RowStyle" Value="{StaticResource RndResQualifRowStyle}" />
+    </Style>
+    
+    <Style x:Key="RoundResultsQualifStyle2" TargetType="{x:Type DataGrid}">
+        <Setter Property="RowHeight" Value="25" />
+        <Setter Property="CellStyle" Value="{StaticResource RndResDataGridCellQualifStyle}" />
+        <Setter Property="ColumnHeaderStyle" Value="{StaticResource RndResDataGridColumnHeaderStyle}" />
+        <Setter Property="RowStyle" Value="{StaticResource RndResQualifRowStyle2}" />
+    </Style>
+    
+    
+    <!-- 1/8, 1/4, 1/2 -->		
+    <Style x:Key="RndResDataGridCellMiddleSheetsStyle" TargetType="{x:Type DataGridCell}">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Foreground" Value="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type DataGridRow}}}" />
+    </Style>
+    
+    <Style x:Key="RndResMiddleSheetsRowStyle" TargetType="{x:Type DataGridRow}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type DataGridRow}">
+                    <Border x:Name="DGR_Border"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Background="{TemplateBinding Background}"
+                            SnapsToDevicePixels="True">
+                        <SelectiveScrollingGrid>
+                            <SelectiveScrollingGrid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </SelectiveScrollingGrid.ColumnDefinitions>
+                            
+                            <SelectiveScrollingGrid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
+                            </SelectiveScrollingGrid.RowDefinitions>
+                            
+                            <!-- Отступ в верхней части строки -->
+                            <Border Grid.ColumnSpan="2"
+                                    Padding="0,10,0,0"
+                                    BorderThickness="0,0,1,0"
+                                    Background="LightGray"
+                                    BorderBrush="{Binding GridLinesFontStyle.BackgroundColor,
                                                             Converter={gconvs:ColorToSolidBrushMarkupConverter},
                                                             RelativeSource={RelativeSource AncestorType={x:Type mainwnd:MainWindow}}}" />
-							
-							<DataGridCellsPresenter Grid.Row="1"
-													Grid.Column="1"
-													ItemsPanel="{TemplateBinding ItemsPanel}"
-													SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-							
-							<DataGridDetailsPresenter Grid.Row="2" Grid.Column="1" Visibility="Collapsed" />
-							
-							<DataGridRowHeader Grid.RowSpan="2"
-												SelectiveScrollingGrid.SelectiveScrollingOrientation="Vertical"
-												Visibility="{Binding HeadersVisibility,
-																		ConverterParameter={x:Static DataGridHeadersVisibility.Row},
-																		Converter={x:Static DataGrid.HeadersVisibilityConverter},
-																		RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
-						</SelectiveScrollingGrid>
-					</Border>
-				</ControlTemplate>
-			</Setter.Value>
-		</Setter>
-		<Setter Property="Background" Value="{Binding BackgroundForShow}" />
-		<Setter Property="Foreground" Value="{Binding ForegroundForShow}" />
-	</Style>
-					
-	<x:Array x:Key="MiddleSheetsColumns" Type="{x:Type DataGridColumn}">
-		<DataGridTemplateColumn Header="{Loc resNumber}" >
-			<DataGridTemplateColumn.CellTemplate>
-				<DataTemplate>
-					<Grid>
-						<Grid.RowDefinitions>
-							<RowDefinition />
-							<RowDefinition />
-						</Grid.RowDefinitions>
+                            
+                            <DataGridCellsPresenter Grid.Row="1"
+                                                    Grid.Column="1"
+                                                    ItemsPanel="{TemplateBinding ItemsPanel}"
+                                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                            
+                            <DataGridDetailsPresenter Grid.Row="2" Grid.Column="1" Visibility="Collapsed" />
+                            
+                            <DataGridRowHeader Grid.RowSpan="2"
+                                                SelectiveScrollingGrid.SelectiveScrollingOrientation="Vertical"
+                                                Visibility="{Binding HeadersVisibility,
+                                                                        ConverterParameter={x:Static DataGridHeadersVisibility.Row},
+                                                                        Converter={x:Static DataGrid.HeadersVisibilityConverter},
+                                                                        RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                        </SelectiveScrollingGrid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Background" Value="{Binding BackgroundForShow}" />
+        <Setter Property="Foreground" Value="{Binding ForegroundForShow}" />
+    </Style>
+                    
+    <x:Array x:Key="MiddleSheetsColumns" Type="{x:Type DataGridColumn}">
+        <DataGridTemplateColumn Header="{Loc resNumber}" >
+            <DataGridTemplateColumn.CellTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
 
-						<Label Content="{Binding First.StartNumber}" Style="{StaticResource RndResBorderedLabel1stStyle}" />
-						<Label Content="{Binding Second.StartNumber}" Style="{StaticResource RndResBorderedLabel2ndStyle}" />
-						
-						<Border Style="{StaticResource RndResBorderHighlightSelectionStyle}" />
-					</Grid>
-				</DataTemplate>
-			</DataGridTemplateColumn.CellTemplate>
-		</DataGridTemplateColumn>
-		
-		<DataGridTextColumn Header="{Loc resPair}" Binding="{Binding PairNumber}" >
-			<DataGridTextColumn.CellStyle>
-				<Style TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource RndResDataGridCellMiddleSheetsStyle}">
+                        <Label Content="{Binding First.StartNumber}" Style="{StaticResource RndResBorderedLabel1stStyle}" />
+                        <Label Content="{Binding Second.StartNumber}" Style="{StaticResource RndResBorderedLabel2ndStyle}" />
+                        
+                        <Border Style="{StaticResource RndResBorderHighlightSelectionStyle}" />
+                    </Grid>
+                </DataTemplate>
+            </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
+        
+        <DataGridTextColumn Header="{Loc resPair}" Binding="{Binding PairNumber}" >
+            <DataGridTextColumn.CellStyle>
+                <Style TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource RndResDataGridCellMiddleSheetsStyle}">
                     <Setter Property="BorderBrush"
                             Value="{Binding GridLinesFontStyle.BackgroundColor,
                                             Converter={gconvs:ColorToSolidBrushMarkupConverter},
                                             RelativeSource={RelativeSource AncestorType={x:Type mainwnd:MainWindow}}}" />
-					<Setter Property="BorderThickness" Value="0,1,0,0" />
-					
-					<Style.Triggers>
-						<Trigger Property="IsSelected" Value="true">
-							<Setter Property="BorderBrush" Value="{x:Static SystemColors.HighlightBrush}" />
-							<Setter Property="BorderThickness" Value="1" />
-						</Trigger>
-					</Style.Triggers>
-				</Style>
-			</DataGridTextColumn.CellStyle>
-			
-			<DataGridTextColumn.ElementStyle>
-				<Style TargetType="TextBlock" BasedOn="{StaticResource RndResStdTextBlockStyle}">
-					<Setter Property="VerticalAlignment" Value="Center" />
-				</Style>
-			</DataGridTextColumn.ElementStyle>
-		</DataGridTextColumn>
-							
-		<DataGridTemplateColumn Header="{Loc resPrevNumber}" >
-			<DataGridTemplateColumn.CellTemplate>
-				<DataTemplate>
-					<Grid>
-						<Grid.RowDefinitions>
-							<RowDefinition />
-							<RowDefinition />
-						</Grid.RowDefinitions>
-						
-						<Label Content="{Binding First.PrevNumber}"
-							   FontWeight="Bold"
-							   Style="{StaticResource RndResBorderedLabel1stStyle}" />
-						<Label Content="{Binding Second.PrevNumber}" Style="{StaticResource RndResBorderedLabel2ndStyle}" />
-						
-						<Border Style="{StaticResource RndResBorderHighlightSelectionStyle}" />
-					</Grid>
-				</DataTemplate>
-			</DataGridTemplateColumn.CellTemplate>
-		</DataGridTemplateColumn>
-		
-		<DataGridTemplateColumn Header="{Loc resSurnameAndName}" >
-			<DataGridTemplateColumn.CellTemplate>
-				<DataTemplate>
-					<Grid>
-						<Grid.RowDefinitions>
-							<RowDefinition />
-							<RowDefinition />
-						</Grid.RowDefinitions>
+                    <Setter Property="BorderThickness" Value="0,1,0,0" />
+                    
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="true">
+                            <Setter Property="BorderBrush" Value="{x:Static SystemColors.HighlightBrush}" />
+                            <Setter Property="BorderThickness" Value="1" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGridTextColumn.CellStyle>
+            
+            <DataGridTextColumn.ElementStyle>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource RndResStdTextBlockStyle}">
+                    <Setter Property="VerticalAlignment" Value="Center" />
+                </Style>
+            </DataGridTextColumn.ElementStyle>
+        </DataGridTextColumn>
+                            
+        <DataGridTemplateColumn Header="{Loc resPrevNumber}" >
+            <DataGridTemplateColumn.CellTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        
+                        <Label Content="{Binding First.PrevNumber}"
+                               FontWeight="Bold"
+                               Style="{StaticResource RndResBorderedLabel1stStyle}" />
+                        <Label Content="{Binding Second.PrevNumber}" Style="{StaticResource RndResBorderedLabel2ndStyle}" />
+                        
+                        <Border Style="{StaticResource RndResBorderHighlightSelectionStyle}" />
+                    </Grid>
+                </DataTemplate>
+            </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
+        
+        <DataGridTemplateColumn Header="{Loc resSurnameAndName}" >
+            <DataGridTemplateColumn.CellTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
 
-						<Label Content="{Binding First.MemberInfo.SurnameAndName}"
-							   Padding="3,5,5,1"
-							   HorizontalContentAlignment="Left" >
-							<Label.Style>
-								<Style TargetType="{x:Type Label}" BasedOn="{StaticResource RndResBorderedLabel1stStyle}">
-									<Setter Property="Background" Value="{Binding First.Results.ResultsForShow.SurnameAndName.Background}" />
-									<Setter Property="Foreground" Value="{Binding First.Results.ResultsForShow.SurnameAndName.Foreground}" />
-									<Setter Property="FontWeight" Value="{Binding First.Results.ResultsForShow.SurnameAndName.FontWeight}" />
-									<Setter Property="FontStyle" Value="{Binding First.Results.ResultsForShow.SurnameAndName.FontStyle}" />
-								</Style>
-							</Label.Style>
-						</Label>
-						<Label Content="{Binding Second.MemberInfo.SurnameAndName}"
-							   Padding="3,5,5,1"
-							   HorizontalContentAlignment="Left" >
-							<Label.Style>
-								<Style TargetType="{x:Type Label}" BasedOn="{StaticResource RndResBorderedLabel2ndStyle}">
-									<Setter Property="Background" Value="{Binding Second.Results.ResultsForShow.SurnameAndName.Background}" />
-									<Setter Property="Foreground" Value="{Binding Second.Results.ResultsForShow.SurnameAndName.Foreground}" />
-									<Setter Property="FontWeight" Value="{Binding Second.Results.ResultsForShow.SurnameAndName.FontWeight}" />
-									<Setter Property="FontStyle" Value="{Binding Second.Results.ResultsForShow.SurnameAndName.FontStyle}" />
-								</Style>
-							</Label.Style>
-						</Label>
+                        <Label Content="{Binding First.MemberInfo.SurnameAndName}"
+                               Padding="3,5,5,1"
+                               HorizontalContentAlignment="Left" >
+                            <Label.Style>
+                                <Style TargetType="{x:Type Label}" BasedOn="{StaticResource RndResBorderedLabel1stStyle}">
+                                    <Setter Property="Background" Value="{Binding First.Results.ResultsForShow.SurnameAndName.Background}" />
+                                    <Setter Property="Foreground" Value="{Binding First.Results.ResultsForShow.SurnameAndName.Foreground}" />
+                                    <Setter Property="FontWeight" Value="{Binding First.Results.ResultsForShow.SurnameAndName.FontWeight}" />
+                                    <Setter Property="FontStyle" Value="{Binding First.Results.ResultsForShow.SurnameAndName.FontStyle}" />
+                                </Style>
+                            </Label.Style>
+                        </Label>
+                        <Label Content="{Binding Second.MemberInfo.SurnameAndName}"
+                               Padding="3,5,5,1"
+                               HorizontalContentAlignment="Left" >
+                            <Label.Style>
+                                <Style TargetType="{x:Type Label}" BasedOn="{StaticResource RndResBorderedLabel2ndStyle}">
+                                    <Setter Property="Background" Value="{Binding Second.Results.ResultsForShow.SurnameAndName.Background}" />
+                                    <Setter Property="Foreground" Value="{Binding Second.Results.ResultsForShow.SurnameAndName.Foreground}" />
+                                    <Setter Property="FontWeight" Value="{Binding Second.Results.ResultsForShow.SurnameAndName.FontWeight}" />
+                                    <Setter Property="FontStyle" Value="{Binding Second.Results.ResultsForShow.SurnameAndName.FontStyle}" />
+                                </Style>
+                            </Label.Style>
+                        </Label>
 
-						<Border Style="{StaticResource RndResBorderHighlightSelectionStyle}" />
-					</Grid>
-				</DataTemplate>
-			</DataGridTemplateColumn.CellTemplate>
-		</DataGridTemplateColumn>
-					
-		<DataGridTemplateColumn>
-			<DataGridTemplateColumn.HeaderStyle>
-				<Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource RndResDataGridColumnHeaderStyle}">
-					<Setter Property="Content"
-							Value="{Binding SecondColName, RelativeSource={RelativeSource AncestorType={x:Type mainwnd:MainWindow}}}" />
-				</Style>
-			</DataGridTemplateColumn.HeaderStyle>
-			
-			<DataGridTemplateColumn.CellTemplate>
-				<DataTemplate>
-					<Grid>
-						<Grid.RowDefinitions>
-							<RowDefinition />
-							<RowDefinition />
-						</Grid.RowDefinitions>
-						
-						<Label Content="{Binding First.MemberInfo.SecondCol}"
-							   Style="{StaticResource RndResBorderedLabel1stStyle}" />
-						<Label Content="{Binding Second.MemberInfo.SecondCol}"
-							   Style="{StaticResource RndResBorderedLabel2ndStyle}" />
-						
-						<Border Style="{StaticResource RndResBorderHighlightSelectionStyle}" />
-					</Grid>
-				</DataTemplate>
-			</DataGridTemplateColumn.CellTemplate>
-		</DataGridTemplateColumn>
-		
-		<DataGridTemplateColumn Header="{Loc resYoB}" >
-			<DataGridTemplateColumn.CellTemplate>
-				<DataTemplate>
-					<Grid>
-						<Grid.RowDefinitions>
-							<RowDefinition />
-							<RowDefinition />
-						</Grid.RowDefinitions>
-						
-						<Label Content="{Binding First.MemberInfo.YearOfBirthForShow}"
-							   Style="{StaticResource RndResBorderedLabel1stStyle}" />
-						<Label Content="{Binding Second.MemberInfo.YearOfBirthForShow}"
-							   Style="{StaticResource RndResBorderedLabel2ndStyle}" />
-						
-						<Border Style="{StaticResource RndResBorderHighlightSelectionStyle}" />
-					</Grid>
-				</DataTemplate>
-			</DataGridTemplateColumn.CellTemplate>
-		</DataGridTemplateColumn>
-		
-		<DataGridTemplateColumn Header="{Loc resGrade}" >
-			<DataGridTemplateColumn.CellTemplate>
-				<DataTemplate>
-					<Grid>
-						<Grid.RowDefinitions>
-							<RowDefinition />
-							<RowDefinition />
-						</Grid.RowDefinitions>
-						
-						<Label Content="{Binding First.MemberInfo.InitGradeForShow}"
-							   Style="{StaticResource RndResBorderedLabel1stStyle}" />
-						<Label Content="{Binding Second.MemberInfo.InitGradeForShow}"
-							   Style="{StaticResource RndResBorderedLabel2ndStyle}" />
-						
-						<Border Style="{StaticResource RndResBorderHighlightSelectionStyle}" />
-					</Grid>
-				</DataTemplate>
-			</DataGridTemplateColumn.CellTemplate>
-		</DataGridTemplateColumn>
-		
-		<DataGridTemplateColumn Header="{Loc resRoute1}" >
-			<DataGridTemplateColumn.CellTemplate>
-				<DataTemplate>
-					<Grid>
-						<Grid.RowDefinitions>
-							<RowDefinition />
-							<RowDefinition />
-						</Grid.RowDefinitions>
-						
-						<Border Grid.Row="0" BorderThickness="0" Style="{StaticResource RndResBorderedBorder1stStyle}">
-							<Label Content="{Binding First.Results.Route1.ResultForShow}" >
-								<Label.Style>
-									<Style TargetType="{x:Type Label}" BasedOn="{StaticResource RndResBorderedLabel1stStyle}">
-										<Setter Property="Background" Value="{Binding First.Results.ResultsForShow.Route1.Background}" />
-										<Setter Property="Foreground" Value="{Binding First.Results.ResultsForShow.Route1.Foreground}" />
-										<Setter Property="FontWeight" Value="{Binding First.Results.ResultsForShow.Route1.FontWeight}" />
-										<Setter Property="FontStyle" Value="{Binding First.Results.ResultsForShow.Route1.FontStyle}" />
+                        <Border Style="{StaticResource RndResBorderHighlightSelectionStyle}" />
+                    </Grid>
+                </DataTemplate>
+            </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
+                    
+        <DataGridTemplateColumn>
+            <DataGridTemplateColumn.HeaderStyle>
+                <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource RndResDataGridColumnHeaderStyle}">
+                    <Setter Property="Content"
+                            Value="{Binding SecondColName, RelativeSource={RelativeSource AncestorType={x:Type mainwnd:MainWindow}}}" />
+                </Style>
+            </DataGridTemplateColumn.HeaderStyle>
+            
+            <DataGridTemplateColumn.CellTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        
+                        <Label Content="{Binding First.MemberInfo.SecondCol}"
+                               Style="{StaticResource RndResBorderedLabel1stStyle}" />
+                        <Label Content="{Binding Second.MemberInfo.SecondCol}"
+                               Style="{StaticResource RndResBorderedLabel2ndStyle}" />
+                        
+                        <Border Style="{StaticResource RndResBorderHighlightSelectionStyle}" />
+                    </Grid>
+                </DataTemplate>
+            </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
+        
+        <DataGridTemplateColumn Header="{Loc resYoB}" >
+            <DataGridTemplateColumn.CellTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        
+                        <Label Content="{Binding First.MemberInfo.YearOfBirthForShow}"
+                               Style="{StaticResource RndResBorderedLabel1stStyle}" />
+                        <Label Content="{Binding Second.MemberInfo.YearOfBirthForShow}"
+                               Style="{StaticResource RndResBorderedLabel2ndStyle}" />
+                        
+                        <Border Style="{StaticResource RndResBorderHighlightSelectionStyle}" />
+                    </Grid>
+                </DataTemplate>
+            </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
+        
+        <DataGridTemplateColumn Header="{Loc resGrade}" >
+            <DataGridTemplateColumn.CellTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        
+                        <Label Content="{Binding First.MemberInfo.InitGradeForShow}"
+                               Style="{StaticResource RndResBorderedLabel1stStyle}" />
+                        <Label Content="{Binding Second.MemberInfo.InitGradeForShow}"
+                               Style="{StaticResource RndResBorderedLabel2ndStyle}" />
+                        
+                        <Border Style="{StaticResource RndResBorderHighlightSelectionStyle}" />
+                    </Grid>
+                </DataTemplate>
+            </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
+        
+        <DataGridTemplateColumn Header="{Loc resRoute1}" >
+            <DataGridTemplateColumn.CellTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        
+                        <Border Grid.Row="0" BorderThickness="0" Style="{StaticResource RndResBorderedBorder1stStyle}">
+                            <Label Content="{Binding First.Results.Route1.ResultForShow}" >
+                                <Label.Style>
+                                    <Style TargetType="{x:Type Label}" BasedOn="{StaticResource RndResBorderedLabel1stStyle}">
+                                        <Setter Property="Background" Value="{Binding First.Results.ResultsForShow.Route1.Background}" />
+                                        <Setter Property="Foreground" Value="{Binding First.Results.ResultsForShow.Route1.Foreground}" />
+                                        <Setter Property="FontWeight" Value="{Binding First.Results.ResultsForShow.Route1.FontWeight}" />
+                                        <Setter Property="FontStyle" Value="{Binding First.Results.ResultsForShow.Route1.FontStyle}" />
 
-										<Setter Property="ContextMenu">
-											<Setter.Value>
-												<ContextMenu>
-													<MenuItem Header="{Loc resRemoveFalsestart}"
-															  Command="{Binding First.Results.Route1.RemoveFalsestart}"/>
-												</ContextMenu>
-											</Setter.Value>
-										</Setter>
-									</Style>
-								</Label.Style>
-							</Label>
-						</Border>
-						
-						<Border Grid.Row="1" BorderThickness="0" Style="{StaticResource RndResBorderedBorder2ndStyle}">
-							<Label Content="{Binding Second.Results.Route1.ResultForShow}" >
-								<Label.Style>
-									<Style TargetType="{x:Type Label}" BasedOn="{StaticResource RndResBorderedLabel2ndStyle}">
-										<Setter Property="Background" Value="{Binding Second.Results.ResultsForShow.Route1.Background}" />
-										<Setter Property="Foreground" Value="{Binding Second.Results.ResultsForShow.Route1.Foreground}" />
-										<Setter Property="FontWeight" Value="{Binding Second.Results.ResultsForShow.Route1.FontWeight}" />
-										<Setter Property="FontStyle" Value="{Binding Second.Results.ResultsForShow.Route1.FontStyle}" />
+                                        <Setter Property="ContextMenu">
+                                            <Setter.Value>
+                                                <ContextMenu>
+                                                    <MenuItem Header="{Loc resRemoveFalsestart}"
+                                                              Command="{Binding First.Results.Route1.RemoveFalsestart}"/>
+                                                </ContextMenu>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </Label.Style>
+                            </Label>
+                        </Border>
+                        
+                        <Border Grid.Row="1" BorderThickness="0" Style="{StaticResource RndResBorderedBorder2ndStyle}">
+                            <Label Content="{Binding Second.Results.Route1.ResultForShow}" >
+                                <Label.Style>
+                                    <Style TargetType="{x:Type Label}" BasedOn="{StaticResource RndResBorderedLabel2ndStyle}">
+                                        <Setter Property="Background" Value="{Binding Second.Results.ResultsForShow.Route1.Background}" />
+                                        <Setter Property="Foreground" Value="{Binding Second.Results.ResultsForShow.Route1.Foreground}" />
+                                        <Setter Property="FontWeight" Value="{Binding Second.Results.ResultsForShow.Route1.FontWeight}" />
+                                        <Setter Property="FontStyle" Value="{Binding Second.Results.ResultsForShow.Route1.FontStyle}" />
 
-										<Setter Property="ContextMenu">
-											<Setter.Value>
-												<ContextMenu>
-													<MenuItem Header="{Loc resRemoveFalsestart}"
-															  Command="{Binding Second.Results.Route1.RemoveFalsestart}"/>
-												</ContextMenu>
-											</Setter.Value>
-										</Setter>
-									</Style>
-								</Label.Style>
-							</Label>
-						</Border>
-						
-						<Border Style="{StaticResource RndResBorderHighlightSelectionStyle}" />
-					</Grid>
-				</DataTemplate>
-			</DataGridTemplateColumn.CellTemplate>
-		</DataGridTemplateColumn>
-		
-		<DataGridTemplateColumn Header="{Loc resRoute2}" >
-			<DataGridTemplateColumn.CellTemplate>
-				<DataTemplate>
-					<Grid>
-						<Grid.RowDefinitions>
-							<RowDefinition />
-							<RowDefinition />
-						</Grid.RowDefinitions>
-						
-						<Border Grid.Row="0" BorderThickness="0" Style="{StaticResource RndResBorderedBorder1stStyle}">
-							<Label Content="{Binding First.Results.Route2.ResultForShow}" >
-								<Label.Style>
-									<Style TargetType="{x:Type Label}" BasedOn="{StaticResource RndResBorderedLabel1stStyle}">
-										<Setter Property="Background" Value="{Binding First.Results.ResultsForShow.Route2.Background}" />
-										<Setter Property="Foreground" Value="{Binding First.Results.ResultsForShow.Route2.Foreground}" />
-										<Setter Property="FontWeight" Value="{Binding First.Results.ResultsForShow.Route2.FontWeight}" />
-										<Setter Property="FontStyle" Value="{Binding First.Results.ResultsForShow.Route2.FontStyle}" />
+                                        <Setter Property="ContextMenu">
+                                            <Setter.Value>
+                                                <ContextMenu>
+                                                    <MenuItem Header="{Loc resRemoveFalsestart}"
+                                                              Command="{Binding Second.Results.Route1.RemoveFalsestart}"/>
+                                                </ContextMenu>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </Label.Style>
+                            </Label>
+                        </Border>
+                        
+                        <Border Style="{StaticResource RndResBorderHighlightSelectionStyle}" />
+                    </Grid>
+                </DataTemplate>
+            </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
+        
+        <DataGridTemplateColumn Header="{Loc resRoute2}" >
+            <DataGridTemplateColumn.CellTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        
+                        <Border Grid.Row="0" BorderThickness="0" Style="{StaticResource RndResBorderedBorder1stStyle}">
+                            <Label Content="{Binding First.Results.Route2.ResultForShow}" >
+                                <Label.Style>
+                                    <Style TargetType="{x:Type Label}" BasedOn="{StaticResource RndResBorderedLabel1stStyle}">
+                                        <Setter Property="Background" Value="{Binding First.Results.ResultsForShow.Route2.Background}" />
+                                        <Setter Property="Foreground" Value="{Binding First.Results.ResultsForShow.Route2.Foreground}" />
+                                        <Setter Property="FontWeight" Value="{Binding First.Results.ResultsForShow.Route2.FontWeight}" />
+                                        <Setter Property="FontStyle" Value="{Binding First.Results.ResultsForShow.Route2.FontStyle}" />
 
-										<Setter Property="ContextMenu">
-											<Setter.Value>
-												<ContextMenu>
-													<MenuItem Header="{Loc resRemoveFalsestart}"
-															  Command="{Binding First.Results.Route2.RemoveFalsestart}"/>
-												</ContextMenu>
-											</Setter.Value>
-										</Setter>
-									</Style>
-								</Label.Style>
-							</Label>
-						</Border>
-						
-						<Border Grid.Row="1" BorderThickness="0" Style="{StaticResource RndResBorderedBorder2ndStyle}">
-							<Label Content="{Binding Second.Results.Route2.ResultForShow}" >
-								<Label.Style>
-									<Style TargetType="{x:Type Label}" BasedOn="{StaticResource RndResBorderedLabel2ndStyle}">
-										<Setter Property="Background" Value="{Binding Second.Results.ResultsForShow.Route2.Background}" />
-										<Setter Property="Foreground" Value="{Binding Second.Results.ResultsForShow.Route2.Foreground}" />
-										<Setter Property="FontWeight" Value="{Binding Second.Results.ResultsForShow.Route2.FontWeight}" />
-										<Setter Property="FontStyle" Value="{Binding Second.Results.ResultsForShow.Route2.FontStyle}" />
+                                        <Setter Property="ContextMenu">
+                                            <Setter.Value>
+                                                <ContextMenu>
+                                                    <MenuItem Header="{Loc resRemoveFalsestart}"
+                                                              Command="{Binding First.Results.Route2.RemoveFalsestart}"/>
+                                                </ContextMenu>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </Label.Style>
+                            </Label>
+                        </Border>
+                        
+                        <Border Grid.Row="1" BorderThickness="0" Style="{StaticResource RndResBorderedBorder2ndStyle}">
+                            <Label Content="{Binding Second.Results.Route2.ResultForShow}" >
+                                <Label.Style>
+                                    <Style TargetType="{x:Type Label}" BasedOn="{StaticResource RndResBorderedLabel2ndStyle}">
+                                        <Setter Property="Background" Value="{Binding Second.Results.ResultsForShow.Route2.Background}" />
+                                        <Setter Property="Foreground" Value="{Binding Second.Results.ResultsForShow.Route2.Foreground}" />
+                                        <Setter Property="FontWeight" Value="{Binding Second.Results.ResultsForShow.Route2.FontWeight}" />
+                                        <Setter Property="FontStyle" Value="{Binding Second.Results.ResultsForShow.Route2.FontStyle}" />
 
-										<Setter Property="ContextMenu">
-											<Setter.Value>
-												<ContextMenu>
-													<MenuItem Header="{Loc resRemoveFalsestart}"
-															  Command="{Binding Second.Results.Route2.RemoveFalsestart}"/>
-												</ContextMenu>
-											</Setter.Value>
-										</Setter>
-									</Style>
-								</Label.Style>
-							</Label>
-						</Border>
-						
-						<Border Style="{StaticResource RndResBorderHighlightSelectionStyle}" />
-					</Grid>
-				</DataTemplate>
-			</DataGridTemplateColumn.CellTemplate>
-		</DataGridTemplateColumn>
-		
-		<DataGridTemplateColumn Header="{Loc resSum}" >
-			<DataGridTemplateColumn.CellTemplate>
-				<DataTemplate>
-					<Grid>
-						<Grid.RowDefinitions>
-							<RowDefinition />
-							<RowDefinition />
-						</Grid.RowDefinitions>
-						
-						<Border Grid.Row="0" BorderThickness="0" Style="{StaticResource RndResBorderedBorder1stStyle}">
-							<Label Content="{Binding First.Results.Sum.ResultForShow}" >
-								<Label.Style>
-									<Style TargetType="{x:Type Label}" BasedOn="{StaticResource RndResBorderedLabel1stStyle}">
-										<Setter Property="Background" Value="{Binding First.Results.ResultsForShow.Sum.Background}" />
-										<Setter Property="Foreground" Value="{Binding First.Results.ResultsForShow.Sum.Foreground}" />
-										<Setter Property="FontWeight" Value="{Binding First.Results.ResultsForShow.Sum.FontWeight}" />
-										<Setter Property="FontStyle" Value="{Binding First.Results.ResultsForShow.Sum.FontStyle}" />
-									</Style>
-								</Label.Style>
-							</Label>
-						</Border>
-						
-						<Border Grid.Row="1" BorderThickness="0" Style="{StaticResource RndResBorderedBorder2ndStyle}">
-							<Label Content="{Binding Second.Results.Sum.ResultForShow}" >
-								<Label.Style>
-									<Style TargetType="{x:Type Label}" BasedOn="{StaticResource RndResBorderedLabel2ndStyle}">
-										<Setter Property="Background" Value="{Binding Second.Results.ResultsForShow.Sum.Background}" />
-										<Setter Property="Foreground" Value="{Binding Second.Results.ResultsForShow.Sum.Foreground}" />
-										<Setter Property="FontWeight" Value="{Binding Second.Results.ResultsForShow.Sum.FontWeight}" />
-										<Setter Property="FontStyle" Value="{Binding Second.Results.ResultsForShow.Sum.FontStyle}" />
-									</Style>
-								</Label.Style>
-							</Label>
-						</Border>
-						
-						<Border Style="{StaticResource RndResBorderHighlightSelectionStyle}" />
-					</Grid>
-				</DataTemplate>
-			</DataGridTemplateColumn.CellTemplate>
-		</DataGridTemplateColumn>		
-	</x:Array>
-	
-	<Style x:Key="RoundResultsMiddleSheetsStyle" TargetType="{x:Type DataGrid}">
-		<Setter Property="RowHeight" Value="50" />
-		<Setter Property="CellStyle" Value="{StaticResource RndResDataGridCellMiddleSheetsStyle}" />
-		<Setter Property="ColumnHeaderStyle" Value="{StaticResource RndResDataGridColumnHeaderStyle}" />
-		<Setter Property="RowStyle" Value="{StaticResource RndResMiddleSheetsRowStyle}" />
-	</Style>
-	
-	
-	<!-- Финал -->		
-	<Style x:Key="RndResDataGridCellFinalStyle" TargetType="{x:Type DataGridCell}">
-		<Setter Property="Background" Value="Transparent" />
-		<Setter Property="BorderThickness" Value="0" />
-		<Setter Property="Foreground" Value="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type DataGridRow}}}" />
-	</Style>
-	
-	<Style x:Key="RndResFinalRowStyle" TargetType="{x:Type DataGridRow}">
-		<Setter Property="BorderThickness" Value="0" />
-		
-		<Setter Property="Template">
-			<Setter.Value>
-				<ControlTemplate TargetType="{x:Type DataGridRow}">
-					<Border x:Name="DGR_Border"
-							BorderBrush="{TemplateBinding BorderBrush}"
-							BorderThickness="{TemplateBinding BorderThickness}"
-							Background="{TemplateBinding Background}"
-							SnapsToDevicePixels="True">
-						<SelectiveScrollingGrid>
-							<SelectiveScrollingGrid.ColumnDefinitions>
-								<ColumnDefinition Width="Auto" />
-								<ColumnDefinition Width="Auto" />
-							</SelectiveScrollingGrid.ColumnDefinitions>
-							
-							<SelectiveScrollingGrid.RowDefinitions>
-								<RowDefinition Height="Auto" />
-								<RowDefinition Height="*" />
-								<RowDefinition Height="Auto" />
-							</SelectiveScrollingGrid.RowDefinitions>
-							
-							<!-- Название финала -->
-							<Label Grid.ColumnSpan="2"
-								   Content="{Binding Converter={rmconvs:FinalNameConverter}}"
-								   Foreground="{Binding DataContext.PlainResultsFontStyle.ForeColor,
-													RelativeSource={RelativeSource AncestorType={x:Type mainwnd:MainWindow}},
-													Converter={gconvs:ColorToSolidBrushMarkupConverter}}"
-								   Padding="5,15,5,5"
-								   BorderThickness="0,0,1,0"
-								   BorderBrush="{Binding GridLinesFontStyle.BackgroundColor,
+                                        <Setter Property="ContextMenu">
+                                            <Setter.Value>
+                                                <ContextMenu>
+                                                    <MenuItem Header="{Loc resRemoveFalsestart}"
+                                                              Command="{Binding Second.Results.Route2.RemoveFalsestart}"/>
+                                                </ContextMenu>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </Label.Style>
+                            </Label>
+                        </Border>
+                        
+                        <Border Style="{StaticResource RndResBorderHighlightSelectionStyle}" />
+                    </Grid>
+                </DataTemplate>
+            </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
+        
+        <DataGridTemplateColumn Header="{Loc resSum}" >
+            <DataGridTemplateColumn.CellTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        
+                        <Border Grid.Row="0" BorderThickness="0" Style="{StaticResource RndResBorderedBorder1stStyle}">
+                            <Label Content="{Binding First.Results.Sum.ResultForShow}" >
+                                <Label.Style>
+                                    <Style TargetType="{x:Type Label}" BasedOn="{StaticResource RndResBorderedLabel1stStyle}">
+                                        <Setter Property="Background" Value="{Binding First.Results.ResultsForShow.Sum.Background}" />
+                                        <Setter Property="Foreground" Value="{Binding First.Results.ResultsForShow.Sum.Foreground}" />
+                                        <Setter Property="FontWeight" Value="{Binding First.Results.ResultsForShow.Sum.FontWeight}" />
+                                        <Setter Property="FontStyle" Value="{Binding First.Results.ResultsForShow.Sum.FontStyle}" />
+                                    </Style>
+                                </Label.Style>
+                            </Label>
+                        </Border>
+                        
+                        <Border Grid.Row="1" BorderThickness="0" Style="{StaticResource RndResBorderedBorder2ndStyle}">
+                            <Label Content="{Binding Second.Results.Sum.ResultForShow}" >
+                                <Label.Style>
+                                    <Style TargetType="{x:Type Label}" BasedOn="{StaticResource RndResBorderedLabel2ndStyle}">
+                                        <Setter Property="Background" Value="{Binding Second.Results.ResultsForShow.Sum.Background}" />
+                                        <Setter Property="Foreground" Value="{Binding Second.Results.ResultsForShow.Sum.Foreground}" />
+                                        <Setter Property="FontWeight" Value="{Binding Second.Results.ResultsForShow.Sum.FontWeight}" />
+                                        <Setter Property="FontStyle" Value="{Binding Second.Results.ResultsForShow.Sum.FontStyle}" />
+                                    </Style>
+                                </Label.Style>
+                            </Label>
+                        </Border>
+                        
+                        <Border Style="{StaticResource RndResBorderHighlightSelectionStyle}" />
+                    </Grid>
+                </DataTemplate>
+            </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>		
+    </x:Array>
+    
+    <Style x:Key="RoundResultsMiddleSheetsStyle" TargetType="{x:Type DataGrid}">
+        <Setter Property="RowHeight" Value="50" />
+        <Setter Property="CellStyle" Value="{StaticResource RndResDataGridCellMiddleSheetsStyle}" />
+        <Setter Property="ColumnHeaderStyle" Value="{StaticResource RndResDataGridColumnHeaderStyle}" />
+        <Setter Property="RowStyle" Value="{StaticResource RndResMiddleSheetsRowStyle}" />
+    </Style>
+    
+    
+    <!-- Финал -->		
+    <Style x:Key="RndResDataGridCellFinalStyle" TargetType="{x:Type DataGridCell}">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Foreground" Value="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type DataGridRow}}}" />
+    </Style>
+    
+    <Style x:Key="RndResFinalRowStyle" TargetType="{x:Type DataGridRow}">
+        <Setter Property="BorderThickness" Value="0" />
+        
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type DataGridRow}">
+                    <Border x:Name="DGR_Border"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Background="{TemplateBinding Background}"
+                            SnapsToDevicePixels="True">
+                        <SelectiveScrollingGrid>
+                            <SelectiveScrollingGrid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </SelectiveScrollingGrid.ColumnDefinitions>
+                            
+                            <SelectiveScrollingGrid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
+                            </SelectiveScrollingGrid.RowDefinitions>
+                            
+                            <!-- Название финала -->
+                            <Label Grid.ColumnSpan="2"
+                                   Content="{Binding Converter={rmconvs:FinalNameConverter}}"
+                                   Foreground="{Binding DataContext.PlainResultsFontStyle.ForeColor,
+                                                    RelativeSource={RelativeSource AncestorType={x:Type mainwnd:MainWindow}},
+                                                    Converter={gconvs:ColorToSolidBrushMarkupConverter}}"
+                                   Padding="5,15,5,5"
+                                   BorderThickness="0,0,1,0"
+                                   BorderBrush="{Binding GridLinesFontStyle.BackgroundColor,
                                                             Converter={gconvs:ColorToSolidBrushMarkupConverter},
                                                             RelativeSource={RelativeSource AncestorType={x:Type mainwnd:MainWindow}}}"
-								   HorizontalContentAlignment="Center" />
-							
-							<DataGridCellsPresenter Grid.Row="1"
-													Grid.Column="1"
-													ItemsPanel="{TemplateBinding ItemsPanel}"
-													SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-							
-							<DataGridDetailsPresenter Grid.Row="2" Grid.Column="1" Visibility="Collapsed" />
-							
-							<DataGridRowHeader Grid.RowSpan="2"
-												SelectiveScrollingGrid.SelectiveScrollingOrientation="Vertical"
-												Visibility="{Binding HeadersVisibility,
-																		ConverterParameter={x:Static DataGridHeadersVisibility.Row},
-																		Converter={x:Static DataGrid.HeadersVisibilityConverter},
-																		RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
-						</SelectiveScrollingGrid>
-					</Border>
-				</ControlTemplate>
-			</Setter.Value>
-		</Setter>
-		<Setter Property="Background" Value="{Binding BackgroundForShow}" />
-		<Setter Property="Foreground" Value="{Binding ForegroundForShow}" />
-	</Style>
-	
-	<x:Array x:Key="FinalColumns" Type="{x:Type DataGridColumn}">
-		<DataGridTemplateColumn Header="{Loc resNumber}" >
-			<DataGridTemplateColumn.CellTemplate>
-				<DataTemplate>
-					<Grid>
-						<Grid.RowDefinitions>
-							<RowDefinition />
-							<RowDefinition />
-						</Grid.RowDefinitions>
+                                   HorizontalContentAlignment="Center" />
+                            
+                            <DataGridCellsPresenter Grid.Row="1"
+                                                    Grid.Column="1"
+                                                    ItemsPanel="{TemplateBinding ItemsPanel}"
+                                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                            
+                            <DataGridDetailsPresenter Grid.Row="2" Grid.Column="1" Visibility="Collapsed" />
+                            
+                            <DataGridRowHeader Grid.RowSpan="2"
+                                                SelectiveScrollingGrid.SelectiveScrollingOrientation="Vertical"
+                                                Visibility="{Binding HeadersVisibility,
+                                                                        ConverterParameter={x:Static DataGridHeadersVisibility.Row},
+                                                                        Converter={x:Static DataGrid.HeadersVisibilityConverter},
+                                                                        RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                        </SelectiveScrollingGrid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Background" Value="{Binding BackgroundForShow}" />
+        <Setter Property="Foreground" Value="{Binding ForegroundForShow}" />
+    </Style>
+    
+    <x:Array x:Key="FinalColumns" Type="{x:Type DataGridColumn}">
+        <DataGridTemplateColumn Header="{Loc resNumber}" >
+            <DataGridTemplateColumn.CellTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
 
-						<Label Content="{Binding First.StartNumber}" >
-							<Label.Style>
-								<Style TargetType="{x:Type Label}" BasedOn="{StaticResource RndResBorderedLabel1stStyle}">
-									<Setter Property="Background" Value="{Binding First.Results.ResultsForShow.StartNumber.Background}" />
-									<Setter Property="Foreground" Value="{Binding First.Results.ResultsForShow.StartNumber.Foreground}" />
-									<Setter Property="FontWeight" Value="{Binding First.Results.ResultsForShow.StartNumber.FontWeight}" />
-									<Setter Property="FontStyle" Value="{Binding First.Results.ResultsForShow.StartNumber.FontStyle}" />
-								</Style>
-							</Label.Style>
-						</Label>
-						<Label Content="{Binding Second.StartNumber}" >
-							<Label.Style>
-								<Style TargetType="{x:Type Label}" BasedOn="{StaticResource RndResBorderedLabel2ndStyle}">
-									<Setter Property="Background" Value="{Binding Second.Results.ResultsForShow.StartNumber.Background}" />
-									<Setter Property="Foreground" Value="{Binding Second.Results.ResultsForShow.StartNumber.Foreground}" />
-									<Setter Property="FontWeight" Value="{Binding Second.Results.ResultsForShow.StartNumber.FontWeight}" />
-									<Setter Property="FontStyle" Value="{Binding Second.Results.ResultsForShow.StartNumber.FontStyle}" />
-								</Style>
-							</Label.Style>
-						</Label>
-						
-						<Border Style="{StaticResource RndResBorderHighlightSelectionStyle}" />
-					</Grid>
-				</DataTemplate>
-			</DataGridTemplateColumn.CellTemplate>
-		</DataGridTemplateColumn>
-						
-		<DataGridTemplateColumn Header="{Loc resSurnameAndName}" >
-			<DataGridTemplateColumn.CellTemplate>
-				<DataTemplate>
-					<Grid>
-						<Grid.RowDefinitions>
-							<RowDefinition />
-							<RowDefinition />
-						</Grid.RowDefinitions>
+                        <Label Content="{Binding First.StartNumber}" >
+                            <Label.Style>
+                                <Style TargetType="{x:Type Label}" BasedOn="{StaticResource RndResBorderedLabel1stStyle}">
+                                    <Setter Property="Background" Value="{Binding First.Results.ResultsForShow.StartNumber.Background}" />
+                                    <Setter Property="Foreground" Value="{Binding First.Results.ResultsForShow.StartNumber.Foreground}" />
+                                    <Setter Property="FontWeight" Value="{Binding First.Results.ResultsForShow.StartNumber.FontWeight}" />
+                                    <Setter Property="FontStyle" Value="{Binding First.Results.ResultsForShow.StartNumber.FontStyle}" />
+                                </Style>
+                            </Label.Style>
+                        </Label>
+                        <Label Content="{Binding Second.StartNumber}" >
+                            <Label.Style>
+                                <Style TargetType="{x:Type Label}" BasedOn="{StaticResource RndResBorderedLabel2ndStyle}">
+                                    <Setter Property="Background" Value="{Binding Second.Results.ResultsForShow.StartNumber.Background}" />
+                                    <Setter Property="Foreground" Value="{Binding Second.Results.ResultsForShow.StartNumber.Foreground}" />
+                                    <Setter Property="FontWeight" Value="{Binding Second.Results.ResultsForShow.StartNumber.FontWeight}" />
+                                    <Setter Property="FontStyle" Value="{Binding Second.Results.ResultsForShow.StartNumber.FontStyle}" />
+                                </Style>
+                            </Label.Style>
+                        </Label>
+                        
+                        <Border Style="{StaticResource RndResBorderHighlightSelectionStyle}" />
+                    </Grid>
+                </DataTemplate>
+            </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
+                        
+        <DataGridTemplateColumn Header="{Loc resSurnameAndName}" >
+            <DataGridTemplateColumn.CellTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
 
-						<Label Content="{Binding First.MemberInfo.SurnameAndName}"
-							   Padding="3,5,5,1"
-							   HorizontalContentAlignment="Left" >
-							<Label.Style>
-								<Style TargetType="{x:Type Label}" BasedOn="{StaticResource RndResBorderedLabel1stStyle}">
-									<Setter Property="Background" Value="{Binding First.Results.ResultsForShow.SurnameAndName.Background}" />
-									<Setter Property="Foreground" Value="{Binding First.Results.ResultsForShow.SurnameAndName.Foreground}" />
-									<Setter Property="FontWeight" Value="{Binding First.Results.ResultsForShow.SurnameAndName.FontWeight}" />
-									<Setter Property="FontStyle" Value="{Binding First.Results.ResultsForShow.SurnameAndName.FontStyle}" />
-								</Style>
-							</Label.Style>
-						</Label>
-						<Label Content="{Binding Second.MemberInfo.SurnameAndName}"
-							   Padding="3,5,5,1"
-							   HorizontalContentAlignment="Left" >
-							<Label.Style>
-								<Style TargetType="{x:Type Label}" BasedOn="{StaticResource RndResBorderedLabel2ndStyle}">
-									<Setter Property="Background" Value="{Binding Second.Results.ResultsForShow.SurnameAndName.Background}" />
-									<Setter Property="Foreground" Value="{Binding Second.Results.ResultsForShow.SurnameAndName.Foreground}" />
-									<Setter Property="FontWeight" Value="{Binding Second.Results.ResultsForShow.SurnameAndName.FontWeight}" />
-									<Setter Property="FontStyle" Value="{Binding Second.Results.ResultsForShow.SurnameAndName.FontStyle}" />
-								</Style>
-							</Label.Style>
-						</Label>
-						
-						<Border Style="{StaticResource RndResBorderHighlightSelectionStyle}" />
-					</Grid>
-				</DataTemplate>
-			</DataGridTemplateColumn.CellTemplate>
-		</DataGridTemplateColumn>
-					
-		<DataGridTemplateColumn>
-			<DataGridTemplateColumn.HeaderStyle>
-				<Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource RndResDataGridColumnHeaderStyle}">
-					<Setter Property="Content"
-							Value="{Binding SecondColName, RelativeSource={RelativeSource AncestorType={x:Type mainwnd:MainWindow}}}" />
-				</Style>
-			</DataGridTemplateColumn.HeaderStyle>
-			
-			<DataGridTemplateColumn.CellTemplate>
-				<DataTemplate>
-					<Grid>
-						<Grid.RowDefinitions>
-							<RowDefinition />
-							<RowDefinition />
-						</Grid.RowDefinitions>
-						
-						<Label Content="{Binding First.MemberInfo.SecondCol}"
-							   Style="{StaticResource RndResBorderedLabel1stStyle}" />
-						<Label Content="{Binding Second.MemberInfo.SecondCol}"
-							   Style="{StaticResource RndResBorderedLabel2ndStyle}" />
-						
-						<Border Style="{StaticResource RndResBorderHighlightSelectionStyle}" />
-					</Grid>
-				</DataTemplate>
-			</DataGridTemplateColumn.CellTemplate>
-		</DataGridTemplateColumn>
-		
-		<DataGridTemplateColumn Header="{Loc resYoB}" >
-			<DataGridTemplateColumn.CellTemplate>
-				<DataTemplate>
-					<Grid>
-						<Grid.RowDefinitions>
-							<RowDefinition />
-							<RowDefinition />
-						</Grid.RowDefinitions>
-						
-						<Label Content="{Binding First.MemberInfo.YearOfBirthForShow}"
-							   Style="{StaticResource RndResBorderedLabel1stStyle}" />
-						<Label Content="{Binding Second.MemberInfo.YearOfBirthForShow}"
-							   Style="{StaticResource RndResBorderedLabel2ndStyle}" />
-						
-						<Border Style="{StaticResource RndResBorderHighlightSelectionStyle}" />
-					</Grid>
-				</DataTemplate>
-			</DataGridTemplateColumn.CellTemplate>
-		</DataGridTemplateColumn>
-		
-		<DataGridTemplateColumn Header="{Loc resGrade}" >
-			<DataGridTemplateColumn.CellTemplate>
-				<DataTemplate>
-					<Grid>
-						<Grid.RowDefinitions>
-							<RowDefinition />
-							<RowDefinition />
-						</Grid.RowDefinitions>
-						
-						<Label Content="{Binding First.MemberInfo.InitGradeForShow}"
-							   Style="{StaticResource RndResBorderedLabel1stStyle}" />
-						<Label Content="{Binding Second.MemberInfo.InitGradeForShow}"
-							   Style="{StaticResource RndResBorderedLabel2ndStyle}" />
-						
-						<Border Style="{StaticResource RndResBorderHighlightSelectionStyle}" />
-					</Grid>
-				</DataTemplate>
-			</DataGridTemplateColumn.CellTemplate>
-		</DataGridTemplateColumn>
-		
-		<DataGridTemplateColumn Header="{Loc resRoute1}" >
-			<DataGridTemplateColumn.CellTemplate>
-				<DataTemplate>
-					<Grid>
-						<Grid.RowDefinitions>
-							<RowDefinition />
-							<RowDefinition />
-						</Grid.RowDefinitions>
-						
-						<Border Grid.Row="0" BorderThickness="0" Style="{StaticResource RndResBorderedBorder1stStyle}">
-							<Label Content="{Binding First.Results.Route1.ResultForShow}" >
-								<Label.Style>
-									<Style TargetType="{x:Type Label}" BasedOn="{StaticResource RndResBorderedLabel1stStyle}">
-										<Setter Property="Background" Value="{Binding First.Results.ResultsForShow.Route1.Background}" />
-										<Setter Property="Foreground" Value="{Binding First.Results.ResultsForShow.Route1.Foreground}" />
-										<Setter Property="FontWeight" Value="{Binding First.Results.ResultsForShow.Route1.FontWeight}" />
-										<Setter Property="FontStyle" Value="{Binding First.Results.ResultsForShow.Route1.FontStyle}" />
+                        <Label Content="{Binding First.MemberInfo.SurnameAndName}"
+                               Padding="3,5,5,1"
+                               HorizontalContentAlignment="Left" >
+                            <Label.Style>
+                                <Style TargetType="{x:Type Label}" BasedOn="{StaticResource RndResBorderedLabel1stStyle}">
+                                    <Setter Property="Background" Value="{Binding First.Results.ResultsForShow.SurnameAndName.Background}" />
+                                    <Setter Property="Foreground" Value="{Binding First.Results.ResultsForShow.SurnameAndName.Foreground}" />
+                                    <Setter Property="FontWeight" Value="{Binding First.Results.ResultsForShow.SurnameAndName.FontWeight}" />
+                                    <Setter Property="FontStyle" Value="{Binding First.Results.ResultsForShow.SurnameAndName.FontStyle}" />
+                                </Style>
+                            </Label.Style>
+                        </Label>
+                        <Label Content="{Binding Second.MemberInfo.SurnameAndName}"
+                               Padding="3,5,5,1"
+                               HorizontalContentAlignment="Left" >
+                            <Label.Style>
+                                <Style TargetType="{x:Type Label}" BasedOn="{StaticResource RndResBorderedLabel2ndStyle}">
+                                    <Setter Property="Background" Value="{Binding Second.Results.ResultsForShow.SurnameAndName.Background}" />
+                                    <Setter Property="Foreground" Value="{Binding Second.Results.ResultsForShow.SurnameAndName.Foreground}" />
+                                    <Setter Property="FontWeight" Value="{Binding Second.Results.ResultsForShow.SurnameAndName.FontWeight}" />
+                                    <Setter Property="FontStyle" Value="{Binding Second.Results.ResultsForShow.SurnameAndName.FontStyle}" />
+                                </Style>
+                            </Label.Style>
+                        </Label>
+                        
+                        <Border Style="{StaticResource RndResBorderHighlightSelectionStyle}" />
+                    </Grid>
+                </DataTemplate>
+            </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
+                    
+        <DataGridTemplateColumn>
+            <DataGridTemplateColumn.HeaderStyle>
+                <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource RndResDataGridColumnHeaderStyle}">
+                    <Setter Property="Content"
+                            Value="{Binding SecondColName, RelativeSource={RelativeSource AncestorType={x:Type mainwnd:MainWindow}}}" />
+                </Style>
+            </DataGridTemplateColumn.HeaderStyle>
+            
+            <DataGridTemplateColumn.CellTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        
+                        <Label Content="{Binding First.MemberInfo.SecondCol}"
+                               Style="{StaticResource RndResBorderedLabel1stStyle}" />
+                        <Label Content="{Binding Second.MemberInfo.SecondCol}"
+                               Style="{StaticResource RndResBorderedLabel2ndStyle}" />
+                        
+                        <Border Style="{StaticResource RndResBorderHighlightSelectionStyle}" />
+                    </Grid>
+                </DataTemplate>
+            </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
+        
+        <DataGridTemplateColumn Header="{Loc resYoB}" >
+            <DataGridTemplateColumn.CellTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        
+                        <Label Content="{Binding First.MemberInfo.YearOfBirthForShow}"
+                               Style="{StaticResource RndResBorderedLabel1stStyle}" />
+                        <Label Content="{Binding Second.MemberInfo.YearOfBirthForShow}"
+                               Style="{StaticResource RndResBorderedLabel2ndStyle}" />
+                        
+                        <Border Style="{StaticResource RndResBorderHighlightSelectionStyle}" />
+                    </Grid>
+                </DataTemplate>
+            </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
+        
+        <DataGridTemplateColumn Header="{Loc resGrade}" >
+            <DataGridTemplateColumn.CellTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        
+                        <Label Content="{Binding First.MemberInfo.InitGradeForShow}"
+                               Style="{StaticResource RndResBorderedLabel1stStyle}" />
+                        <Label Content="{Binding Second.MemberInfo.InitGradeForShow}"
+                               Style="{StaticResource RndResBorderedLabel2ndStyle}" />
+                        
+                        <Border Style="{StaticResource RndResBorderHighlightSelectionStyle}" />
+                    </Grid>
+                </DataTemplate>
+            </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
+        
+        <DataGridTemplateColumn Header="{Loc resRoute1}" >
+            <DataGridTemplateColumn.CellTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        
+                        <Border Grid.Row="0" BorderThickness="0" Style="{StaticResource RndResBorderedBorder1stStyle}">
+                            <Label Content="{Binding First.Results.Route1.ResultForShow}" >
+                                <Label.Style>
+                                    <Style TargetType="{x:Type Label}" BasedOn="{StaticResource RndResBorderedLabel1stStyle}">
+                                        <Setter Property="Background" Value="{Binding First.Results.ResultsForShow.Route1.Background}" />
+                                        <Setter Property="Foreground" Value="{Binding First.Results.ResultsForShow.Route1.Foreground}" />
+                                        <Setter Property="FontWeight" Value="{Binding First.Results.ResultsForShow.Route1.FontWeight}" />
+                                        <Setter Property="FontStyle" Value="{Binding First.Results.ResultsForShow.Route1.FontStyle}" />
 
-										<Setter Property="ContextMenu">
-											<Setter.Value>
-												<ContextMenu>
-													<MenuItem Header="{Loc resRemoveFalsestart}"
-															  Command="{Binding First.Results.Route1.RemoveFalsestart}"/>
-												</ContextMenu>
-											</Setter.Value>
-										</Setter>
-									</Style>
-								</Label.Style>
-							</Label>
-						</Border>
-						
-						<Border Grid.Row="1" BorderThickness="0" Style="{StaticResource RndResBorderedBorder2ndStyle}">
-							<Label Content="{Binding Second.Results.Route1.ResultForShow}" >
-								<Label.Style>
-									<Style TargetType="{x:Type Label}" BasedOn="{StaticResource RndResBorderedLabel2ndStyle}">
-										<Setter Property="Background" Value="{Binding Second.Results.ResultsForShow.Route1.Background}" />
-										<Setter Property="Foreground" Value="{Binding Second.Results.ResultsForShow.Route1.Foreground}" />
-										<Setter Property="FontWeight" Value="{Binding Second.Results.ResultsForShow.Route1.FontWeight}" />
-										<Setter Property="FontStyle" Value="{Binding Second.Results.ResultsForShow.Route1.FontStyle}" />
+                                        <Setter Property="ContextMenu">
+                                            <Setter.Value>
+                                                <ContextMenu>
+                                                    <MenuItem Header="{Loc resRemoveFalsestart}"
+                                                              Command="{Binding First.Results.Route1.RemoveFalsestart}"/>
+                                                </ContextMenu>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </Label.Style>
+                            </Label>
+                        </Border>
+                        
+                        <Border Grid.Row="1" BorderThickness="0" Style="{StaticResource RndResBorderedBorder2ndStyle}">
+                            <Label Content="{Binding Second.Results.Route1.ResultForShow}" >
+                                <Label.Style>
+                                    <Style TargetType="{x:Type Label}" BasedOn="{StaticResource RndResBorderedLabel2ndStyle}">
+                                        <Setter Property="Background" Value="{Binding Second.Results.ResultsForShow.Route1.Background}" />
+                                        <Setter Property="Foreground" Value="{Binding Second.Results.ResultsForShow.Route1.Foreground}" />
+                                        <Setter Property="FontWeight" Value="{Binding Second.Results.ResultsForShow.Route1.FontWeight}" />
+                                        <Setter Property="FontStyle" Value="{Binding Second.Results.ResultsForShow.Route1.FontStyle}" />
 
-										<Setter Property="ContextMenu">
-											<Setter.Value>
-												<ContextMenu>
-													<MenuItem Header="{Loc resRemoveFalsestart}"
-															  Command="{Binding Second.Results.Route1.RemoveFalsestart}"/>
-												</ContextMenu>
-											</Setter.Value>
-										</Setter>
-									</Style>
-								</Label.Style>
-							</Label>
-						</Border>
-						
-						<Border Style="{StaticResource RndResBorderHighlightSelectionStyle}" />
-					</Grid>
-				</DataTemplate>
-			</DataGridTemplateColumn.CellTemplate>
-		</DataGridTemplateColumn>
-		
-		<DataGridTemplateColumn Header="{Loc resRoute2}" >
-			<DataGridTemplateColumn.CellTemplate>
-				<DataTemplate>
-					<Grid>
-						<Grid.RowDefinitions>
-							<RowDefinition />
-							<RowDefinition />
-						</Grid.RowDefinitions>
-						
-						<Border Grid.Row="0" BorderThickness="0" Style="{StaticResource RndResBorderedBorder1stStyle}">
-							<Label Content="{Binding First.Results.Route2.ResultForShow}" >
-								<Label.Style>
-									<Style TargetType="{x:Type Label}" BasedOn="{StaticResource RndResBorderedLabel1stStyle}">
-										<Setter Property="Background" Value="{Binding First.Results.ResultsForShow.Route2.Background}" />
-										<Setter Property="Foreground" Value="{Binding First.Results.ResultsForShow.Route2.Foreground}" />
-										<Setter Property="FontWeight" Value="{Binding First.Results.ResultsForShow.Route2.FontWeight}" />
-										<Setter Property="FontStyle" Value="{Binding First.Results.ResultsForShow.Route2.FontStyle}" />
+                                        <Setter Property="ContextMenu">
+                                            <Setter.Value>
+                                                <ContextMenu>
+                                                    <MenuItem Header="{Loc resRemoveFalsestart}"
+                                                              Command="{Binding Second.Results.Route1.RemoveFalsestart}"/>
+                                                </ContextMenu>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </Label.Style>
+                            </Label>
+                        </Border>
+                        
+                        <Border Style="{StaticResource RndResBorderHighlightSelectionStyle}" />
+                    </Grid>
+                </DataTemplate>
+            </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
+        
+        <DataGridTemplateColumn Header="{Loc resRoute2}" >
+            <DataGridTemplateColumn.CellTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        
+                        <Border Grid.Row="0" BorderThickness="0" Style="{StaticResource RndResBorderedBorder1stStyle}">
+                            <Label Content="{Binding First.Results.Route2.ResultForShow}" >
+                                <Label.Style>
+                                    <Style TargetType="{x:Type Label}" BasedOn="{StaticResource RndResBorderedLabel1stStyle}">
+                                        <Setter Property="Background" Value="{Binding First.Results.ResultsForShow.Route2.Background}" />
+                                        <Setter Property="Foreground" Value="{Binding First.Results.ResultsForShow.Route2.Foreground}" />
+                                        <Setter Property="FontWeight" Value="{Binding First.Results.ResultsForShow.Route2.FontWeight}" />
+                                        <Setter Property="FontStyle" Value="{Binding First.Results.ResultsForShow.Route2.FontStyle}" />
 
-										<Setter Property="ContextMenu">
-											<Setter.Value>
-												<ContextMenu>
-													<MenuItem Header="{Loc resRemoveFalsestart}"
-															  Command="{Binding First.Results.Route2.RemoveFalsestart}"/>
-												</ContextMenu>
-											</Setter.Value>
-										</Setter>
-									</Style>
-								</Label.Style>
-							</Label>
-						</Border>
-						
-						<Border Grid.Row="1" BorderThickness="0" Style="{StaticResource RndResBorderedBorder2ndStyle}">
-							<Label Content="{Binding Second.Results.Route2.ResultForShow}" >
-								<Label.Style>
-									<Style TargetType="{x:Type Label}" BasedOn="{StaticResource RndResBorderedLabel2ndStyle}">
-										<Setter Property="Background" Value="{Binding Second.Results.ResultsForShow.Route2.Background}" />
-										<Setter Property="Foreground" Value="{Binding Second.Results.ResultsForShow.Route2.Foreground}" />
-										<Setter Property="FontWeight" Value="{Binding Second.Results.ResultsForShow.Route2.FontWeight}" />
-										<Setter Property="FontStyle" Value="{Binding Second.Results.ResultsForShow.Route2.FontStyle}" />
+                                        <Setter Property="ContextMenu">
+                                            <Setter.Value>
+                                                <ContextMenu>
+                                                    <MenuItem Header="{Loc resRemoveFalsestart}"
+                                                              Command="{Binding First.Results.Route2.RemoveFalsestart}"/>
+                                                </ContextMenu>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </Label.Style>
+                            </Label>
+                        </Border>
+                        
+                        <Border Grid.Row="1" BorderThickness="0" Style="{StaticResource RndResBorderedBorder2ndStyle}">
+                            <Label Content="{Binding Second.Results.Route2.ResultForShow}" >
+                                <Label.Style>
+                                    <Style TargetType="{x:Type Label}" BasedOn="{StaticResource RndResBorderedLabel2ndStyle}">
+                                        <Setter Property="Background" Value="{Binding Second.Results.ResultsForShow.Route2.Background}" />
+                                        <Setter Property="Foreground" Value="{Binding Second.Results.ResultsForShow.Route2.Foreground}" />
+                                        <Setter Property="FontWeight" Value="{Binding Second.Results.ResultsForShow.Route2.FontWeight}" />
+                                        <Setter Property="FontStyle" Value="{Binding Second.Results.ResultsForShow.Route2.FontStyle}" />
 
-										<Setter Property="ContextMenu">
-											<Setter.Value>
-												<ContextMenu>
-													<MenuItem Header="{Loc resRemoveFalsestart}"
-															  Command="{Binding Second.Results.Route2.RemoveFalsestart}"/>
-												</ContextMenu>
-											</Setter.Value>
-										</Setter>
-									</Style>
-								</Label.Style>
-							</Label>
-						</Border>
-						
-						<Border Style="{StaticResource RndResBorderHighlightSelectionStyle}" />
-					</Grid>
-				</DataTemplate>
-			</DataGridTemplateColumn.CellTemplate>
-		</DataGridTemplateColumn>
-		
-		<DataGridTemplateColumn Header="{Loc resSum}" >
-			<DataGridTemplateColumn.CellTemplate>
-				<DataTemplate>
-					<Grid>
-						<Grid.RowDefinitions>
-							<RowDefinition />
-							<RowDefinition />
-						</Grid.RowDefinitions>
-						
-						<Border Grid.Row="0" BorderThickness="0" Style="{StaticResource RndResBorderedBorder1stStyle}">
-							<Label Content="{Binding First.Results.Sum.ResultForShow}" >
-								<Label.Style>
-									<Style TargetType="{x:Type Label}" BasedOn="{StaticResource RndResBorderedLabel1stStyle}">
-										<Setter Property="Background" Value="{Binding First.Results.ResultsForShow.Sum.Background}" />
-										<Setter Property="Foreground" Value="{Binding First.Results.ResultsForShow.Sum.Foreground}" />
-										<Setter Property="FontWeight" Value="{Binding First.Results.ResultsForShow.Sum.FontWeight}" />
-										<Setter Property="FontStyle" Value="{Binding First.Results.ResultsForShow.Sum.FontStyle}" />
-									</Style>
-								</Label.Style>
-							</Label>
-						</Border>
-						
-						<Border Grid.Row="1" BorderThickness="0" Style="{StaticResource RndResBorderedBorder2ndStyle}">
-							<Label Content="{Binding Second.Results.Sum.ResultForShow}" >
-								<Label.Style>
-									<Style TargetType="{x:Type Label}" BasedOn="{StaticResource RndResBorderedLabel2ndStyle}">
-										<Setter Property="Background" Value="{Binding Second.Results.ResultsForShow.Sum.Background}" />
-										<Setter Property="Foreground" Value="{Binding Second.Results.ResultsForShow.Sum.Foreground}" />
-										<Setter Property="FontWeight" Value="{Binding Second.Results.ResultsForShow.Sum.FontWeight}" />
-										<Setter Property="FontStyle" Value="{Binding Second.Results.ResultsForShow.Sum.FontStyle}" />
-									</Style>
-								</Label.Style>
-							</Label>
-						</Border>
-						
-						<Border Style="{StaticResource RndResBorderHighlightSelectionStyle}" />
-					</Grid>
-				</DataTemplate>
-			</DataGridTemplateColumn.CellTemplate>
-		</DataGridTemplateColumn>
-		
-		<DataGridTemplateColumn Header="{Loc resPlace}" >
-			<DataGridTemplateColumn.CellTemplate>
-				<DataTemplate>
-					<Grid>
-						<Grid.RowDefinitions>
-							<RowDefinition />
-							<RowDefinition />
-						</Grid.RowDefinitions>
-												
-						<Label Content="{Binding First.PlaceForShow}"
-							   FontWeight="Bold"
-							   Foreground="{Binding First.Place, Converter={rmconvs:FinalPlaceForegroundBrushMarkupConverter}}"
-							   Style="{StaticResource RndResBorderedLabel1stStyle}" />
-						<Label Content="{Binding Second.PlaceForShow}"
-							   FontWeight="Bold"
-							   Foreground="{Binding Second.Place, Converter={rmconvs:FinalPlaceForegroundBrushMarkupConverter}}"
-							   Style="{StaticResource RndResBorderedLabel2ndStyle}" />
-						
-						<Border Style="{StaticResource RndResBorderHighlightSelectionStyle}" />
-					</Grid>
-				</DataTemplate>
-			</DataGridTemplateColumn.CellTemplate>
-		</DataGridTemplateColumn>
-	</x:Array>
-	
-	<Style x:Key="RoundResultsFinalStyle" TargetType="{x:Type DataGrid}">
-		<Setter Property="RowHeight" Value="50" />
-		<Setter Property="CellStyle" Value="{StaticResource RndResDataGridCellFinalStyle}" />
-		<Setter Property="ColumnHeaderStyle" Value="{StaticResource RndResDataGridColumnHeaderStyle}" />
-		<Setter Property="RowStyle" Value="{StaticResource RndResFinalRowStyle}" />
-	</Style>
-	
-	
-	<!-- Итоговый протокол -->		
-	<Style x:Key="RndResDataGridCellTotalStyle" TargetType="{x:Type DataGridCell}">
-		<Setter Property="Background" Value="Transparent" />
-		<Setter Property="BorderThickness" Value="1,0,0,1" />
+                                        <Setter Property="ContextMenu">
+                                            <Setter.Value>
+                                                <ContextMenu>
+                                                    <MenuItem Header="{Loc resRemoveFalsestart}"
+                                                              Command="{Binding Second.Results.Route2.RemoveFalsestart}"/>
+                                                </ContextMenu>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </Label.Style>
+                            </Label>
+                        </Border>
+                        
+                        <Border Style="{StaticResource RndResBorderHighlightSelectionStyle}" />
+                    </Grid>
+                </DataTemplate>
+            </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
+        
+        <DataGridTemplateColumn Header="{Loc resSum}" >
+            <DataGridTemplateColumn.CellTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        
+                        <Border Grid.Row="0" BorderThickness="0" Style="{StaticResource RndResBorderedBorder1stStyle}">
+                            <Label Content="{Binding First.Results.Sum.ResultForShow}" >
+                                <Label.Style>
+                                    <Style TargetType="{x:Type Label}" BasedOn="{StaticResource RndResBorderedLabel1stStyle}">
+                                        <Setter Property="Background" Value="{Binding First.Results.ResultsForShow.Sum.Background}" />
+                                        <Setter Property="Foreground" Value="{Binding First.Results.ResultsForShow.Sum.Foreground}" />
+                                        <Setter Property="FontWeight" Value="{Binding First.Results.ResultsForShow.Sum.FontWeight}" />
+                                        <Setter Property="FontStyle" Value="{Binding First.Results.ResultsForShow.Sum.FontStyle}" />
+                                    </Style>
+                                </Label.Style>
+                            </Label>
+                        </Border>
+                        
+                        <Border Grid.Row="1" BorderThickness="0" Style="{StaticResource RndResBorderedBorder2ndStyle}">
+                            <Label Content="{Binding Second.Results.Sum.ResultForShow}" >
+                                <Label.Style>
+                                    <Style TargetType="{x:Type Label}" BasedOn="{StaticResource RndResBorderedLabel2ndStyle}">
+                                        <Setter Property="Background" Value="{Binding Second.Results.ResultsForShow.Sum.Background}" />
+                                        <Setter Property="Foreground" Value="{Binding Second.Results.ResultsForShow.Sum.Foreground}" />
+                                        <Setter Property="FontWeight" Value="{Binding Second.Results.ResultsForShow.Sum.FontWeight}" />
+                                        <Setter Property="FontStyle" Value="{Binding Second.Results.ResultsForShow.Sum.FontStyle}" />
+                                    </Style>
+                                </Label.Style>
+                            </Label>
+                        </Border>
+                        
+                        <Border Style="{StaticResource RndResBorderHighlightSelectionStyle}" />
+                    </Grid>
+                </DataTemplate>
+            </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
+        
+        <DataGridTemplateColumn Header="{Loc resPlace}" >
+            <DataGridTemplateColumn.CellTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                                                
+                        <Label Content="{Binding First.PlaceForShow}"
+                               FontWeight="Bold"
+                               Foreground="{Binding First.Place, Converter={rmconvs:FinalPlaceForegroundBrushMarkupConverter}}"
+                               Style="{StaticResource RndResBorderedLabel1stStyle}" />
+                        <Label Content="{Binding Second.PlaceForShow}"
+                               FontWeight="Bold"
+                               Foreground="{Binding Second.Place, Converter={rmconvs:FinalPlaceForegroundBrushMarkupConverter}}"
+                               Style="{StaticResource RndResBorderedLabel2ndStyle}" />
+                        
+                        <Border Style="{StaticResource RndResBorderHighlightSelectionStyle}" />
+                    </Grid>
+                </DataTemplate>
+            </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
+    </x:Array>
+    
+    <Style x:Key="RoundResultsFinalStyle" TargetType="{x:Type DataGrid}">
+        <Setter Property="RowHeight" Value="50" />
+        <Setter Property="CellStyle" Value="{StaticResource RndResDataGridCellFinalStyle}" />
+        <Setter Property="ColumnHeaderStyle" Value="{StaticResource RndResDataGridColumnHeaderStyle}" />
+        <Setter Property="RowStyle" Value="{StaticResource RndResFinalRowStyle}" />
+    </Style>
+    
+    
+    <!-- Итоговый протокол -->		
+    <Style x:Key="RndResDataGridCellTotalStyle" TargetType="{x:Type DataGridCell}">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="1,0,0,1" />
         <Setter Property="BorderBrush"
                 Value="{Binding GridLinesFontStyle.BackgroundColor,
                                 Converter={gconvs:ColorToSolidBrushMarkupConverter},
                                 RelativeSource={RelativeSource AncestorType={x:Type mainwnd:MainWindow}}}" />
-		<Setter Property="Margin" Value="0" />
-		<Setter Property="HorizontalContentAlignment" Value="Center" />
-		<Setter Property="VerticalContentAlignment" Value="Center" />
-		<Setter Property="Padding" Value="4,3,3,0" />
-		<Setter Property="attachedprops:RoundResultsAttachedProps.ExtraBorderBrush" Value="Transparent" />
-		<Setter Property="Foreground" Value="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type DataGridRow}}}" />
-		
-		<Setter Property="Template">
-			<Setter.Value>
-				<ControlTemplate TargetType="{x:Type DataGridCell}">
-					<Border BorderBrush="{TemplateBinding BorderBrush}"
-							BorderThickness="{TemplateBinding BorderThickness}"
-							Margin="{TemplateBinding Margin}"
-							Background="{TemplateBinding Background}">
-						<Border BorderBrush="{TemplateBinding attachedprops:RoundResultsAttachedProps.ExtraBorderBrush}"
-								BorderThickness="1">
-							<ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-											  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-											  Margin="{TemplateBinding Padding}"
-											  Content="{TemplateBinding Content}"/>
-						</Border>
-					</Border>
-					<ControlTemplate.Triggers>
-						<DataTrigger Binding="{Binding IsLastMemberInAnyRound}" Value="true">
-							<Setter Property="BorderThickness" Value="1,0,0,3" />
-						</DataTrigger>
-					</ControlTemplate.Triggers>
-				</ControlTemplate>
-			</Setter.Value>
-		</Setter>
-		
-		<Style.Triggers>
-			<Trigger Property="IsSelected" Value="true">
-				<Setter Property="attachedprops:RoundResultsAttachedProps.ExtraBorderBrush" Value="{x:Static SystemColors.HighlightBrush}" />
-			</Trigger>
-		</Style.Triggers>
-	</Style>
-	
-	<ControlTemplate x:Key="RndResDataCellWithLRBordersTotalTemplate" TargetType="{x:Type DataGridCell}">
-		<Border BorderBrush="{TemplateBinding BorderBrush}"
-				BorderThickness="{TemplateBinding BorderThickness}"
-				Margin="{TemplateBinding Margin}"
-				Background="{TemplateBinding Background}" >
-			<Border BorderBrush="{TemplateBinding attachedprops:RoundResultsAttachedProps.ExtraBorderBrush}"
-					BorderThickness="1">
-				<ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-									VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-									Margin="{TemplateBinding Padding}"
-									Content="{TemplateBinding Content}"/>
-			</Border>
-		</Border>
-		<ControlTemplate.Triggers>
-			<DataTrigger Binding="{Binding IsLastMemberInAnyRound}" Value="true">
-				<Setter Property="BorderThickness" Value="1,0,1,3" />
-			</DataTrigger>
-		</ControlTemplate.Triggers>
-	</ControlTemplate>
-	
-	<Style x:Key="RndResTotalRowStyle" TargetType="{x:Type DataGridRow}">
-		<Setter Property="Template">
-			<Setter.Value>
-				<ControlTemplate TargetType="{x:Type DataGridRow}">
-					<Border x:Name="DGR_Border"
-							BorderBrush="{TemplateBinding BorderBrush}"
-							BorderThickness="{TemplateBinding BorderThickness}"
-							Background="{TemplateBinding Background}"
-							SnapsToDevicePixels="True">
-						<SelectiveScrollingGrid>
-							<SelectiveScrollingGrid.ColumnDefinitions>
-								<ColumnDefinition Width="Auto" />
-								<ColumnDefinition Width="Auto" />
-							</SelectiveScrollingGrid.ColumnDefinitions>
-							
-							<SelectiveScrollingGrid.RowDefinitions>
-								<RowDefinition Height="*" />
-								<RowDefinition Height="Auto" />
-							</SelectiveScrollingGrid.RowDefinitions>
-							
-							<DataGridCellsPresenter Grid.Row="0"
-													Grid.Column="1"
-													ItemsPanel="{TemplateBinding ItemsPanel}"
-													SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" >
-								<DataGridCellsPresenter.Style>
-									<Style TargetType="DataGridCellsPresenter">
-										<Style.Triggers>
-											<!-- Делаем всех призёров жирными -->
-											<DataTrigger Binding="{Binding IsWinnerForShow}" Value="true">
-												<Setter Property="FontWeight" Value="Bold" />
-											</DataTrigger>
-										</Style.Triggers>
-									</Style>
-								</DataGridCellsPresenter.Style>
-							</DataGridCellsPresenter>
-							
-							<DataGridDetailsPresenter Grid.Row="2" Grid.Column="1" Visibility="Collapsed" />
-							
-							<DataGridRowHeader Grid.RowSpan="2"
-												SelectiveScrollingGrid.SelectiveScrollingOrientation="Vertical"
-												Visibility="{Binding HeadersVisibility,
-																		ConverterParameter={x:Static DataGridHeadersVisibility.Row},
-																		Converter={x:Static DataGrid.HeadersVisibilityConverter},
-																		RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
-						</SelectiveScrollingGrid>
-					</Border>
-				</ControlTemplate>
-			</Setter.Value>
-		</Setter>
-		<Setter Property="Background" >
-			<Setter.Value>
-				<MultiBinding Converter="{rmconvs:HighlightResultGradesConverter}">
-					<Binding />
-					<Binding Path="DataContext.CurHighlightGradesType" RelativeSource="{RelativeSource AncestorType={x:Type mainwnd:MainWindow}}"/>
-				</MultiBinding>
-			</Setter.Value>
-		</Setter>
-		<Setter Property="Foreground"
-				Value="{Binding DataContext.PlainResultsFontStyle.ForeColor,
-						RelativeSource={RelativeSource AncestorType={x:Type mainwnd:MainWindow}},
-						Converter={gconvs:ColorToSolidBrushMarkupConverter}}" />
-		<Setter Property="ContextMenu">
-			<Setter.Value>
-				<ContextMenu>
-					<MenuItem Header="{Loc resEditMember}" Command="{Binding MemberInfo.EditMember}" />
-				</ContextMenu>
-			</Setter.Value>
-		</Setter>
-	</Style>
-		
-	<DataGridTemplateColumn x:Key="TotalColumnsPlace" Header="{Loc resPlace}" >
-		<DataGridTemplateColumn.CellTemplate>
-			<DataTemplate>
-				<TextBlock Name="PART_TextBlock"
-							Text="{Binding Tag, RelativeSource={RelativeSource Self}}"
-							Tag="{x:Null}">
-					<Run Text="{Binding PlaceForShow}" />
-					<Run Text=" (" Foreground="Blue" />
-					<Run Text="{Binding PlaceInFilterForShow}" Foreground="Blue" />
-					<Run Text=")" Foreground="Blue" />
-				</TextBlock>
-					
-				<DataTemplate.Triggers>
-					<!-- Т.к. в триггере нет условия "не равно", то триггер реализует обычный вариант вывода места.
-						Так же этот триггер нельзя добавлять в стиль TextBlock, т.к. тогда он не будет работать.
-						И нужно обязательно использовать свойство Tag! -->
-					<DataTrigger Binding="{Binding PlaceInFilter}" Value="{x:Null}">
-						<Setter Property="Tag" Value="{Binding PlaceForShow}" TargetName="PART_TextBlock" />
-					</DataTrigger>
-				</DataTemplate.Triggers>
-			</DataTemplate>
-		</DataGridTemplateColumn.CellTemplate>
-	</DataGridTemplateColumn>
-					
-	<DataGridTextColumn x:Key="TotalColumnsSurnameAndName" Header="{Loc resSurnameAndName}" Binding="{Binding MemberInfo.SurnameAndName}">
-		<DataGridTextColumn.CellStyle>
-			<Style TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource RndResDataGridCellTotalStyle}">
-				<Setter Property="HorizontalContentAlignment" Value="Left" />
-				<Setter Property="Padding" Value="2,3,2,0" />
-			</Style>
-		</DataGridTextColumn.CellStyle>
-	</DataGridTextColumn>
-	
-	<DataGridTextColumn x:Key="TotalColumnsSecondCol"
-						Binding="{Binding MemberInfo.SecondCol}" >
-		<DataGridTextColumn.HeaderStyle>
-			<Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGridColumnHeaderWithFilterStyle}">
-				<Setter Property="Content" >
-					<Setter.Value>
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Padding" Value="4,3,3,0" />
+        <Setter Property="attachedprops:RoundResultsAttachedProps.ExtraBorderBrush" Value="Transparent" />
+        <Setter Property="Foreground" Value="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type DataGridRow}}}" />
+        
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type DataGridCell}">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Margin="{TemplateBinding Margin}"
+                            Background="{TemplateBinding Background}">
+                        <Border BorderBrush="{TemplateBinding attachedprops:RoundResultsAttachedProps.ExtraBorderBrush}"
+                                BorderThickness="1">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              Margin="{TemplateBinding Padding}"
+                                              Content="{TemplateBinding Content}"/>
+                        </Border>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding IsLastMemberInAnyRound}" Value="true">
+                            <Setter Property="BorderThickness" Value="1,0,0,3" />
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        
+        <Style.Triggers>
+            <Trigger Property="IsSelected" Value="true">
+                <Setter Property="attachedprops:RoundResultsAttachedProps.ExtraBorderBrush" Value="{x:Static SystemColors.HighlightBrush}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    
+    <ControlTemplate x:Key="RndResDataCellWithLRBordersTotalTemplate" TargetType="{x:Type DataGridCell}">
+        <Border BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                Margin="{TemplateBinding Margin}"
+                Background="{TemplateBinding Background}" >
+            <Border BorderBrush="{TemplateBinding attachedprops:RoundResultsAttachedProps.ExtraBorderBrush}"
+                    BorderThickness="1">
+                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                    Margin="{TemplateBinding Padding}"
+                                    Content="{TemplateBinding Content}"/>
+            </Border>
+        </Border>
+        <ControlTemplate.Triggers>
+            <DataTrigger Binding="{Binding IsLastMemberInAnyRound}" Value="true">
+                <Setter Property="BorderThickness" Value="1,0,1,3" />
+            </DataTrigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+    
+    <Style x:Key="RndResTotalRowStyle" TargetType="{x:Type DataGridRow}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type DataGridRow}">
+                    <Border x:Name="DGR_Border"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Background="{TemplateBinding Background}"
+                            SnapsToDevicePixels="True">
+                        <SelectiveScrollingGrid>
+                            <SelectiveScrollingGrid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </SelectiveScrollingGrid.ColumnDefinitions>
+                            
+                            <SelectiveScrollingGrid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
+                            </SelectiveScrollingGrid.RowDefinitions>
+                            
+                            <DataGridCellsPresenter Grid.Row="0"
+                                                    Grid.Column="1"
+                                                    ItemsPanel="{TemplateBinding ItemsPanel}"
+                                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" >
+                                <DataGridCellsPresenter.Style>
+                                    <Style TargetType="DataGridCellsPresenter">
+                                        <Style.Triggers>
+                                            <!-- Делаем всех призёров жирными -->
+                                            <DataTrigger Binding="{Binding IsWinnerForShow}" Value="true">
+                                                <Setter Property="FontWeight" Value="Bold" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </DataGridCellsPresenter.Style>
+                            </DataGridCellsPresenter>
+                            
+                            <DataGridDetailsPresenter Grid.Row="2" Grid.Column="1" Visibility="Collapsed" />
+                            
+                            <DataGridRowHeader Grid.RowSpan="2"
+                                                SelectiveScrollingGrid.SelectiveScrollingOrientation="Vertical"
+                                                Visibility="{Binding HeadersVisibility,
+                                                                        ConverterParameter={x:Static DataGridHeadersVisibility.Row},
+                                                                        Converter={x:Static DataGrid.HeadersVisibilityConverter},
+                                                                        RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" />
+                        </SelectiveScrollingGrid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Background" >
+            <Setter.Value>
+                <MultiBinding Converter="{rmconvs:HighlightResultGradesConverter}">
+                    <Binding />
+                    <Binding Path="DataContext.CurHighlightGradesType" RelativeSource="{RelativeSource AncestorType={x:Type mainwnd:MainWindow}}"/>
+                </MultiBinding>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Foreground"
+                Value="{Binding DataContext.PlainResultsFontStyle.ForeColor,
+                        RelativeSource={RelativeSource AncestorType={x:Type mainwnd:MainWindow}},
+                        Converter={gconvs:ColorToSolidBrushMarkupConverter}}" />
+        <Setter Property="ContextMenu">
+            <Setter.Value>
+                <ContextMenu>
+                    <MenuItem Header="{Loc resEditMember}" Command="{Binding MemberInfo.EditMember}" />
+                </ContextMenu>
+            </Setter.Value>
+        </Setter>
+    </Style>
+        
+    <DataGridTemplateColumn x:Key="TotalColumnsPlace" Header="{Loc resPlace}" >
+        <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+                <TextBlock Name="PART_TextBlock"
+                            Text="{Binding Tag, RelativeSource={RelativeSource Self}}"
+                            Tag="{x:Null}">
+                    <Run Text="{Binding PlaceForShow}" />
+                    <Run Text=" (" Foreground="Blue" />
+                    <Run Text="{Binding PlaceInFilterForShow}" Foreground="Blue" />
+                    <Run Text=")" Foreground="Blue" />
+                </TextBlock>
+                    
+                <DataTemplate.Triggers>
+                    <!-- Т.к. в триггере нет условия "не равно", то триггер реализует обычный вариант вывода места.
+                        Так же этот триггер нельзя добавлять в стиль TextBlock, т.к. тогда он не будет работать.
+                        И нужно обязательно использовать свойство Tag! -->
+                    <DataTrigger Binding="{Binding PlaceInFilter}" Value="{x:Null}">
+                        <Setter Property="Tag" Value="{Binding PlaceForShow}" TargetName="PART_TextBlock" />
+                    </DataTrigger>
+                </DataTemplate.Triggers>
+            </DataTemplate>
+        </DataGridTemplateColumn.CellTemplate>
+    </DataGridTemplateColumn>
+                    
+    <DataGridTextColumn x:Key="TotalColumnsSurnameAndName" Header="{Loc resSurnameAndName}" Binding="{Binding MemberInfo.SurnameAndName}">
+        <DataGridTextColumn.CellStyle>
+            <Style TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource RndResDataGridCellTotalStyle}">
+                <Setter Property="HorizontalContentAlignment" Value="Left" />
+                <Setter Property="Padding" Value="2,3,2,0" />
+            </Style>
+        </DataGridTextColumn.CellStyle>
+    </DataGridTextColumn>
+    
+    <DataGridTextColumn x:Key="TotalColumnsSecondCol"
+                        Binding="{Binding MemberInfo.SecondCol}" >
+        <DataGridTextColumn.HeaderStyle>
+            <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGridColumnHeaderWithFilterStyle}">
+                <Setter Property="Content" >
+                    <Setter.Value>
                         <Grid Style="{StaticResource GridWithFilterStyle}">
-							<Grid.ColumnDefinitions>
-								<ColumnDefinition />
-								<ColumnDefinition Width="auto"/>
-							</Grid.ColumnDefinitions>
-								
-							<TextBlock Text="{Binding SecondColName, RelativeSource={RelativeSource AncestorType={x:Type mainwnd:MainWindow}}}"
-									   attachedprops:RoundResultsAttachedProps.FilterTarget="SecondCol"
-									   Style="{StaticResource TextBlockInHeaderWithFilterStyle}" />
-							<CheckBox Style="{StaticResource FilterPopupCheckBoxStyle}"
-									  CommandParameter="{x:Static glob:enFilterTarget.SecondCol}" />
-							<Popup Style="{StaticResource FilterPopupStyle}" />
-						</Grid>
-					</Setter.Value>
-				</Setter>
-			</Style>
-		</DataGridTextColumn.HeaderStyle>
-	</DataGridTextColumn>
-	
-	<DataGridTextColumn x:Key="TotalColumnsYearOfBirth"
-						Binding="{Binding MemberInfo.YearOfBirthForShow}" >
-		<DataGridTextColumn.HeaderStyle>
-			<Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGridColumnHeaderWithFilterStyle}">
-				<Setter Property="Content" >
-					<Setter.Value>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                                
+                            <TextBlock Text="{Binding SecondColName, RelativeSource={RelativeSource AncestorType={x:Type mainwnd:MainWindow}}}"
+                                       attachedprops:RoundResultsAttachedProps.FilterTarget="SecondCol"
+                                       Style="{StaticResource TextBlockInHeaderWithFilterStyle}" />
+                            <CheckBox Style="{StaticResource FilterPopupCheckBoxStyle}"
+                                      CommandParameter="{x:Static glob:enFilterTarget.SecondCol}" />
+                            <Popup Style="{StaticResource FilterPopupStyle}" />
+                        </Grid>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </DataGridTextColumn.HeaderStyle>
+    </DataGridTextColumn>
+    
+    <DataGridTextColumn x:Key="TotalColumnsYearOfBirth"
+                        Binding="{Binding MemberInfo.YearOfBirthForShow}" >
+        <DataGridTextColumn.HeaderStyle>
+            <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGridColumnHeaderWithFilterStyle}">
+                <Setter Property="Content" >
+                    <Setter.Value>
                         <Grid Style="{StaticResource GridWithFilterStyle}">
-							<Grid.ColumnDefinitions>
-								<ColumnDefinition />
-								<ColumnDefinition Width="auto"/>
-							</Grid.ColumnDefinitions>
-								
-							<TextBlock Text="{Loc resYoB}"
-									   attachedprops:RoundResultsAttachedProps.FilterTarget="YearOfBirth"
-									   Style="{StaticResource TextBlockInHeaderWithFilterStyle}" />
-							<CheckBox Style="{StaticResource FilterPopupCheckBoxStyle}"
-									  CommandParameter="{x:Static glob:enFilterTarget.YearOfBirth}" />
-							<Popup Style="{StaticResource FilterPopupStyle}" />
-						</Grid>
-					</Setter.Value>
-				</Setter>
-			</Style>
-		</DataGridTextColumn.HeaderStyle>
-	</DataGridTextColumn>
-			
-	<DataGridTextColumn x:Key="TotalColumnsInitGrade"
-						Binding="{Binding MemberInfo.InitGradeForShow}" >
-		<DataGridTextColumn.HeaderStyle>
-			<Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGridColumnHeaderWithFilterStyle}">
-				<Setter Property="Content" >
-					<Setter.Value>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                                
+                            <TextBlock Text="{Loc resYoB}"
+                                       attachedprops:RoundResultsAttachedProps.FilterTarget="YearOfBirth"
+                                       Style="{StaticResource TextBlockInHeaderWithFilterStyle}" />
+                            <CheckBox Style="{StaticResource FilterPopupCheckBoxStyle}"
+                                      CommandParameter="{x:Static glob:enFilterTarget.YearOfBirth}" />
+                            <Popup Style="{StaticResource FilterPopupStyle}" />
+                        </Grid>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </DataGridTextColumn.HeaderStyle>
+    </DataGridTextColumn>
+            
+    <DataGridTextColumn x:Key="TotalColumnsInitGrade"
+                        Binding="{Binding MemberInfo.InitGradeForShow}" >
+        <DataGridTextColumn.HeaderStyle>
+            <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGridColumnHeaderWithFilterStyle}">
+                <Setter Property="Content" >
+                    <Setter.Value>
                         <Grid Style="{StaticResource GridWithFilterStyle}">
-							<Grid.ColumnDefinitions>
-								<ColumnDefinition />
-								<ColumnDefinition Width="auto"/>
-							</Grid.ColumnDefinitions>
-								
-							<TextBlock Text="{Loc resGrade}"
-									   attachedprops:RoundResultsAttachedProps.FilterTarget="Grade"
-									   Style="{StaticResource TextBlockInHeaderWithFilterStyle}" />
-							<CheckBox Style="{StaticResource FilterPopupCheckBoxStyle}"
-									  CommandParameter="{x:Static glob:enFilterTarget.Grade}" />
-							<Popup Style="{StaticResource FilterPopupStyle}" />
-						</Grid>
-					</Setter.Value>
-				</Setter>
-			</Style>
-		</DataGridTextColumn.HeaderStyle>
-		
-		<DataGridTextColumn.CellStyle>
-			<Style TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource RndResDataGridCellTotalStyle}">
-				<Setter Property="BorderThickness" Value="1,0,1,1" />
-				<Setter Property="Template" Value="{StaticResource RndResDataCellWithLRBordersTotalTemplate}" />
-			</Style>
-		</DataGridTextColumn.CellStyle>
-	</DataGridTextColumn>
-			
-	<DataGridTextColumn x:Key="TotalColumnsTotalGrade"
-						Header="{Loc resTotalGrade}"
-						Binding="{Binding TotalGradeForShow}">
-	</DataGridTextColumn>
-	
-	<DataGridTextColumn x:Key="TotalColumnsBalls"
-						Header="{Loc resBallsForPlaces}"
-						Binding="{Binding BallsForPlaces, StringFormat={}{0:F1}}">
-		<DataGridTextColumn.CellStyle>
-			<Style TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource RndResDataGridCellTotalStyle}">
-				<Setter Property="BorderThickness" Value="1,0,1,1" />
-				<Setter Property="Padding" Value="4,3,3,0" />
-				<Setter Property="Template" Value="{StaticResource RndResDataCellWithLRBordersTotalTemplate}" />
-			</Style>
-		</DataGridTextColumn.CellStyle>
-	</DataGridTextColumn>
-	
-	<Style x:Key="RoundResultsTotalStyle" TargetType="{x:Type DataGrid}">
-		<Setter Property="RowHeight" Value="25" />
-		<Setter Property="GridLinesVisibility" Value="None" />
-		<Setter Property="CellStyle" Value="{StaticResource RndResDataGridCellTotalStyle}" />
-		<Setter Property="ColumnHeaderStyle" Value="{StaticResource RndResDataGridColumnHeaderStyle}" />
-		<Setter Property="RowStyle" Value="{StaticResource RndResTotalRowStyle}" />
-	</Style>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                                
+                            <TextBlock Text="{Loc resGrade}"
+                                       attachedprops:RoundResultsAttachedProps.FilterTarget="Grade"
+                                       Style="{StaticResource TextBlockInHeaderWithFilterStyle}" />
+                            <CheckBox Style="{StaticResource FilterPopupCheckBoxStyle}"
+                                      CommandParameter="{x:Static glob:enFilterTarget.Grade}" />
+                            <Popup Style="{StaticResource FilterPopupStyle}" />
+                        </Grid>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </DataGridTextColumn.HeaderStyle>
+        
+        <DataGridTextColumn.CellStyle>
+            <Style TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource RndResDataGridCellTotalStyle}">
+                <Setter Property="BorderThickness" Value="1,0,1,1" />
+                <Setter Property="Template" Value="{StaticResource RndResDataCellWithLRBordersTotalTemplate}" />
+            </Style>
+        </DataGridTextColumn.CellStyle>
+    </DataGridTextColumn>
+            
+    <DataGridTextColumn x:Key="TotalColumnsTotalGrade"
+                        Header="{Loc resTotalGrade}"
+                        Binding="{Binding TotalGradeForShow}">
+    </DataGridTextColumn>
+    
+    <DataGridTextColumn x:Key="TotalColumnsBalls"
+                        Header="{Loc resBallsForPlaces}"
+                        Binding="{Binding BallsForPlaces, StringFormat={}{0:F1}}">
+        <DataGridTextColumn.CellStyle>
+            <Style TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource RndResDataGridCellTotalStyle}">
+                <Setter Property="BorderThickness" Value="1,0,1,1" />
+                <Setter Property="Padding" Value="4,3,3,0" />
+                <Setter Property="Template" Value="{StaticResource RndResDataCellWithLRBordersTotalTemplate}" />
+            </Style>
+        </DataGridTextColumn.CellStyle>
+    </DataGridTextColumn>
+    
+    <Style x:Key="RoundResultsTotalStyle" TargetType="{x:Type DataGrid}">
+        <Setter Property="RowHeight" Value="25" />
+        <Setter Property="GridLinesVisibility" Value="None" />
+        <Setter Property="CellStyle" Value="{StaticResource RndResDataGridCellTotalStyle}" />
+        <Setter Property="ColumnHeaderStyle" Value="{StaticResource RndResDataGridColumnHeaderStyle}" />
+        <Setter Property="RowStyle" Value="{StaticResource RndResTotalRowStyle}" />
+    </Style>
 </ResourceDictionary>

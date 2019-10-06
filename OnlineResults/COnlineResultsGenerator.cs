@@ -15,139 +15,139 @@ using DBManager.OnlineDB;
 
 namespace DBManager.OnlineResults
 {
-	public class COnlineResultsGenerator : IDisposable
-	{
-		const int REQUEST_TIMEOUT_MS = 3000;
+    public class COnlineResultsGenerator : IDisposable
+    {
+        const int REQUEST_TIMEOUT_MS = 3000;
 
-		private bool m_Disposed = false;
-		
-		object m_csTasksToExport = new object();
-		
-		Queue<CQueueItem> m_quTasksToExport = new Queue<CQueueItem>();
+        private bool m_Disposed = false;
+        
+        object m_csTasksToExport = new object();
+        
+        Queue<CQueueItem> m_quTasksToExport = new Queue<CQueueItem>();
 
         OnlineDBManager m_DBManager = OnlineDBManager.Instance;
 
         Thread m_thExporter = null;
 
-		volatile bool m_ThreadGo = false;
-		ManualResetEvent m_evHasData = new ManualResetEvent(false);
+        volatile bool m_ThreadGo = false;
+        ManualResetEvent m_evHasData = new ManualResetEvent(false);
 
-		public int MaxQueueLength { get; set; }
+        public int MaxQueueLength { get; set; }
 
         public bool IsStarted { get; private set; } = false;
 
         void IDisposable.Dispose()
-		{
-			Dispose(true);
-			GC.SuppressFinalize(this);
-		}
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
-		protected virtual void Dispose(bool disposing)
-		{
-			if (!m_Disposed)
-			{
-				if (disposing)
-				{
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!m_Disposed)
+            {
+                if (disposing)
+                {
                     // Free other state (managed objects).
                     StopThread();
                 }
-								
-				// Free your own state (unmanaged objects).
-				// Set large fields to null.
-				m_Disposed = true;
-			}
-		}
+                                
+                // Free your own state (unmanaged objects).
+                // Set large fields to null.
+                m_Disposed = true;
+            }
+        }
 
 
-		public COnlineResultsGenerator()
-		{
-			m_thExporter = new Thread(m_thExporter_ThreadProc)
-			{
-				IsBackground = false,
-			};
-			MaxQueueLength = 1;
+        public COnlineResultsGenerator()
+        {
+            m_thExporter = new Thread(m_thExporter_ThreadProc)
+            {
+                IsBackground = false,
+            };
+            MaxQueueLength = 1;
 
-			m_ThreadGo = true;
-			m_thExporter.Start();
-		}
+            m_ThreadGo = true;
+            m_thExporter.Start();
+        }
 
 
-		~COnlineResultsGenerator()
-		{
-			Dispose(false);
-		}
+        ~COnlineResultsGenerator()
+        {
+            Dispose(false);
+        }
         
         void m_thExporter_ThreadProc()
-		{
-			while (m_ThreadGo)
-			{
-				m_evHasData.WaitOne();
-				if (!m_ThreadGo)
-					break;
+        {
+            while (m_ThreadGo)
+            {
+                m_evHasData.WaitOne();
+                if (!m_ThreadGo)
+                    break;
 
-				CQueueItem Item = null;
+                CQueueItem Item = null;
 
-				lock (m_csTasksToExport)
-				{
-					if (m_quTasksToExport.Count == 0)
-					{
-						m_evHasData.Reset();
-						continue;
-					}
+                lock (m_csTasksToExport)
+                {
+                    if (m_quTasksToExport.Count == 0)
+                    {
+                        m_evHasData.Reset();
+                        continue;
+                    }
 
-					Item = m_quTasksToExport.Dequeue();
-				}
-                					
-				// Обработка полученного из очереди элемента
-				HandleItem(Item);
+                    Item = m_quTasksToExport.Dequeue();
+                }
+                                    
+                // Обработка полученного из очереди элемента
+                HandleItem(Item);
 
-				lock (m_csTasksToExport)
-				{					
-					if (m_quTasksToExport.Count == 0)
-						m_evHasData.Reset();
-				}
-			}
+                lock (m_csTasksToExport)
+                {					
+                    if (m_quTasksToExport.Count == 0)
+                        m_evHasData.Reset();
+                }
+            }
 
-			m_evHasData.Reset();
-		}
-
-
-		/// <summary>
-		/// Эту функцию нужно обязательно вызывать перед закрытием приложения.
-		/// Без этого поток нормально не завершится
-		/// </summary>
-		void StopThread()
-		{
-			Stop();
-			m_ThreadGo = IsStarted = false;
-			m_evHasData.Set();
-			m_thExporter.Join();
-		}
+            m_evHasData.Reset();
+        }
 
 
-		public void Start()
-		{
-			ClearQueue();
-			IsStarted = true;
-		}
+        /// <summary>
+        /// Эту функцию нужно обязательно вызывать перед закрытием приложения.
+        /// Без этого поток нормально не завершится
+        /// </summary>
+        void StopThread()
+        {
+            Stop();
+            m_ThreadGo = IsStarted = false;
+            m_evHasData.Set();
+            m_thExporter.Join();
+        }
 
 
-		public void Stop()
-		{
-			lock (m_csTasksToExport)
-			{
-				ClearQueue();
-			}
-			IsStarted = false;
-		}
+        public void Start()
+        {
+            ClearQueue();
+            IsStarted = true;
+        }
 
 
-		/// <summary>
-		/// Обработка 1 элемента
-		/// </summary>
-		/// <param name="Item"></param>
-		public bool HandleItem(CQueueItem Item)
-		{
+        public void Stop()
+        {
+            lock (m_csTasksToExport)
+            {
+                ClearQueue();
+            }
+            IsStarted = false;
+        }
+
+
+        /// <summary>
+        /// Обработка 1 элемента
+        /// </summary>
+        /// <param name="Item"></param>
+        public bool HandleItem(CQueueItem Item)
+        {
             CLogItem LogItem = new CLogItem()
             {
                 CreationDate = DateTime.Now,
@@ -324,8 +324,8 @@ namespace DBManager.OnlineResults
                 }
                 m_DBManager.Entities.SaveChanges();
             }
-			catch (Exception ex)
-			{
+            catch (Exception ex)
+            {
                 LogItem.Type = enOnlineResultsLogItemType.Error;
                 LogItem.Text = string.Format("Error in HandleItem:\n{0}", ex.Message);
                 AddItemToLog(LogItem, Item);
@@ -341,58 +341,58 @@ namespace DBManager.OnlineResults
 
             DBManagerApp.MainWnd.PublishingNow = false;
             return true;
-		}
+        }
 
 
-		public bool AddItemToQueue(CQueueItem Item)
-		{
-			lock (m_csTasksToExport)
-			{
-				if (m_quTasksToExport.Count < MaxQueueLength)
-				{
-					m_quTasksToExport.Enqueue(Item);
-					m_evHasData.Set();
-					return true;
-				}
-				else
-					return false;
-			}
-		}
+        public bool AddItemToQueue(CQueueItem Item)
+        {
+            lock (m_csTasksToExport)
+            {
+                if (m_quTasksToExport.Count < MaxQueueLength)
+                {
+                    m_quTasksToExport.Enqueue(Item);
+                    m_evHasData.Set();
+                    return true;
+                }
+                else
+                    return false;
+            }
+        }
 
 
-		public void ClearQueue()
-		{
-			lock (m_csTasksToExport)
-			{
-				m_evHasData.Reset();
-				m_quTasksToExport.Clear();
-			}
-		}
+        public void ClearQueue()
+        {
+            lock (m_csTasksToExport)
+            {
+                m_evHasData.Reset();
+                m_quTasksToExport.Clear();
+            }
+        }
 
 
-		void AddItemToLog(CLogItem LogItem, CQueueItem Item)
-		{
-			GlobalDefines.CheckPublishingDirExists();
+        void AddItemToLog(CLogItem LogItem, CQueueItem Item)
+        {
+            GlobalDefines.CheckPublishingDirExists();
 
-			string Dir = GlobalDefines.STD_PUBLISHING_LOG_DIR + Item.CompId.ToString() + "\\";
-			if (!Directory.Exists(Dir))
-				Directory.CreateDirectory(Dir);
+            string Dir = GlobalDefines.STD_PUBLISHING_LOG_DIR + Item.CompId.ToString() + "\\";
+            if (!Directory.Exists(Dir))
+                Directory.CreateDirectory(Dir);
 
-			try
-			{
-				using (TextWriter tw = new StreamWriter(string.Format("{0}{1}\\{2}{3}",
-																	GlobalDefines.STD_PUBLISHING_LOG_DIR,
-																	Item.CompId,
-																	Item.GroupId,
-																	GlobalDefines.PUBLISHING_LOG_FILE_EXTENSION), true))
-				{
-					tw.WriteLine(LogItem.ToLogFileString());
-				}
-			}
-			catch (Exception ex)
-			{
-				ex.ToString(); // make compiler happy
-			}
-		}
-	}
+            try
+            {
+                using (TextWriter tw = new StreamWriter(string.Format("{0}{1}\\{2}{3}",
+                                                                    GlobalDefines.STD_PUBLISHING_LOG_DIR,
+                                                                    Item.CompId,
+                                                                    Item.GroupId,
+                                                                    GlobalDefines.PUBLISHING_LOG_FILE_EXTENSION), true))
+                {
+                    tw.WriteLine(LogItem.ToLogFileString());
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.ToString(); // make compiler happy
+            }
+        }
+    }
 }

@@ -19,7 +19,7 @@ namespace DBManager.Excel.Exporting.ExportingClasses
 		protected const string RN_MAIN_JUDGE = "MainJudge";
 		protected const string RN_MAIN_SECRETARY = "MainSecretary";
 		protected const string RN_REPORT_NAME = "ReportName";
-        protected const string RN_ROW_6 = "RowSix";
+		protected const string RN_ROW_6 = "RowSix";
 		protected const string RN_SECOND_COL_NAME = "SecondColName";
 		#endregion
 
@@ -103,8 +103,12 @@ namespace DBManager.Excel.Exporting.ExportingClasses
 										out int SelectedStartYear,
 										out int SelectedEndYear)
 		{
-			SelectedStartYear = GroupItem.YearsOfBirth[GroupItem.StartYearIndToExport];
-			SelectedEndYear = GroupItem.YearsOfBirth[GroupItem.EndYearIndToExport];
+			SelectedStartYear = GroupItem.StartYearIndToExport < 0
+									? GlobalDefines.MIN_GROUP_YEAR
+									: GroupItem.YearsOfBirth[GroupItem.StartYearIndToExport];
+			SelectedEndYear = GroupItem.EndYearIndToExport < 0
+									? GlobalDefines.MAX_GROUP_YEAR
+									: GroupItem.YearsOfBirth[GroupItem.EndYearIndToExport];
 
 			if (GroupItem.StartYearIndToExport == 0 &&
 				GroupItem.EndYearIndToExport == GroupItem.YearsOfBirth.Count - 1)

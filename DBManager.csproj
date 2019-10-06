@@ -205,7 +205,6 @@
     <Compile Include="Excel\GeneratingWorkbooks\Helpers\GradeExtensions.cs" />
     <Compile Include="Excel\GeneratingWorkbooks\Interfaces\ICompDesc.cs" />
     <Compile Include="Excel\GeneratingWorkbooks\Interfaces\IGroupItem.cs" />
-    <Compile Include="Excel\GeneratingWorkbooks\MemberInfo.cs" />
     <Compile Include="Excel\GeneratingWorkbooks\RemoteDB\RemoteDBDataExtractor.cs" />
     <Compile Include="Excel\GeneratingWorkbooks\WorkbookGenerator.cs" />
     <Compile Include="Excel\GeneratingWorkbooks\RemoteDB\GroupItemRemoteDB.cs" />

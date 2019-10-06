@@ -18,34 +18,34 @@ using System.Collections;
 
 namespace DBManager
 {
-	/// <summary>
-	/// Interaction logic for App.xaml
-	/// </summary>
-	public partial class DBManagerApp : Application
-	{
-		/// <summary>
-		/// Mutex, который запрещает повторный запуск приложения.
-		/// Он должен быть объявлен глобально, иначе будет закрыт после выхода из процедуры, где был объявлен
-		/// </summary>
-		Mutex m_SyncMutex = null;
+    /// <summary>
+    /// Interaction logic for App.xaml
+    /// </summary>
+    public partial class DBManagerApp : Application
+    {
+        /// <summary>
+        /// Mutex, который запрещает повторный запуск приложения.
+        /// Он должен быть объявлен глобально, иначе будет закрыт после выхода из процедуры, где был объявлен
+        /// </summary>
+        Mutex m_SyncMutex = null;
 
-		public static DBManagerApp m_App = null;
+        public static DBManagerApp m_App = null;
 
-		public static MainWindow MainWnd = null;
+        public static MainWindow MainWnd = null;
 
-		public static XMLSettingsWriter m_AppSettings = null;
+        public static XMLSettingsWriter m_AppSettings = null;
 
-		public static compdbEntities m_Entities = null;
+        public static compdbEntities m_Entities = null;
 
-		/// <summary>
-		/// Коэффиенты пересчета стандартных dpi (96) в текущие 
-		/// </summary>
-		public static System.Windows.Point m_DPIScale = new System.Windows.Point(1, 1);
+        /// <summary>
+        /// Коэффиенты пересчета стандартных dpi (96) в текущие 
+        /// </summary>
+        public static System.Windows.Point m_DPIScale = new System.Windows.Point(1, 1);
 
-		public static TaskbarIcon m_NotifyIcon = null;
+        public static TaskbarIcon m_NotifyIcon = null;
 
-		protected override void OnStartup(StartupEventArgs e)
-		{
+        protected override void OnStartup(StartupEventArgs e)
+        {
             m_App = this;
 
             bool createdNew;
@@ -137,97 +137,97 @@ namespace DBManager
             base.OnStartup(e);
         }
 
-		void CloseWndOwnedWnds(Window wnd)
-		{
-			if (wnd == null)
-				return;
+        void CloseWndOwnedWnds(Window wnd)
+        {
+            if (wnd == null)
+                return;
 
-			while (wnd.OwnedWindows.Count > 0)
-			{
-				CloseWndOwnedWnds(wnd.OwnedWindows[0]);
-				wnd.OwnedWindows[0].Close();
-			}
-		}
+            while (wnd.OwnedWindows.Count > 0)
+            {
+                CloseWndOwnedWnds(wnd.OwnedWindows[0]);
+                wnd.OwnedWindows[0].Close();
+            }
+        }
 
 
-		private void ctrlNotifyIcon_TrayBalloonTipClicked(object sender, RoutedEventArgs e)
-		{
-			CActivateMainWndCommand ActivateMainWndCommand = new CActivateMainWndCommand();
-			if (ActivateMainWndCommand.CanExecute(null))
-				ActivateMainWndCommand.Execute(null);
-		}
-	}
-	
+        private void ctrlNotifyIcon_TrayBalloonTipClicked(object sender, RoutedEventArgs e)
+        {
+            CActivateMainWndCommand ActivateMainWndCommand = new CActivateMainWndCommand();
+            if (ActivateMainWndCommand.CanExecute(null))
+                ActivateMainWndCommand.Execute(null);
+        }
+    }
+    
 
-	static class AppAttributes
-	{
-		static readonly Assembly m_Assembly = null;
+    static class AppAttributes
+    {
+        static readonly Assembly m_Assembly = null;
 
-		static readonly AssemblyTitleAttribute m_Title = null;
-		static readonly AssemblyCompanyAttribute m_Company = null;
-		static readonly AssemblyCopyrightAttribute m_Copyright = null;
-		static readonly AssemblyProductAttribute m_Product = null;
-		static readonly Icon m_Icon = null;
+        static readonly AssemblyTitleAttribute m_Title = null;
+        static readonly AssemblyCompanyAttribute m_Company = null;
+        static readonly AssemblyCopyrightAttribute m_Copyright = null;
+        static readonly AssemblyProductAttribute m_Product = null;
+        static readonly Icon m_Icon = null;
 
-		public static string Title { get; private set; }
-		public static string CompanyName { get; private set; }
-		public static string Copyright { get; private set; }
-		public static string ProductName { get; private set; }
-		public static Icon AppIcon { get; private set; }
+        public static string Title { get; private set; }
+        public static string CompanyName { get; private set; }
+        public static string Copyright { get; private set; }
+        public static string ProductName { get; private set; }
+        public static Icon AppIcon { get; private set; }
 
-		static Version m_Version = null;
-		public static string Version
-		{
-			get { return m_Version == null ? "" : m_Version.ToString(); }
-		}
+        static Version m_Version = null;
+        public static string Version
+        {
+            get { return m_Version == null ? "" : m_Version.ToString(); }
+        }
 
-		static AppAttributes()
-		{
-			try
-			{
-				Title = "";
-				CompanyName = "";
-				Copyright = "";
-				ProductName = "";
-				m_Version = null;
-				AppIcon = null;
+        static AppAttributes()
+        {
+            try
+            {
+                Title = "";
+                CompanyName = "";
+                Copyright = "";
+                ProductName = "";
+                m_Version = null;
+                AppIcon = null;
 
-				m_Assembly = Assembly.GetEntryAssembly();
+                m_Assembly = Assembly.GetEntryAssembly();
 
-				if (m_Assembly != null)
-				{
-					object[] attributes = m_Assembly.GetCustomAttributes(false);
+                if (m_Assembly != null)
+                {
+                    object[] attributes = m_Assembly.GetCustomAttributes(false);
 
-					foreach (object attribute in attributes)
-					{
-						Type type = attribute.GetType();
+                    foreach (object attribute in attributes)
+                    {
+                        Type type = attribute.GetType();
 
-						if (type == typeof(AssemblyTitleAttribute)) m_Title = (AssemblyTitleAttribute)attribute;
-						if (type == typeof(AssemblyCompanyAttribute)) m_Company = (AssemblyCompanyAttribute)attribute;
-						if (type == typeof(AssemblyCopyrightAttribute)) m_Copyright = (AssemblyCopyrightAttribute)attribute;
-						if (type == typeof(AssemblyProductAttribute)) m_Product = (AssemblyProductAttribute)attribute;
-					}
+                        if (type == typeof(AssemblyTitleAttribute)) m_Title = (AssemblyTitleAttribute)attribute;
+                        if (type == typeof(AssemblyCompanyAttribute)) m_Company = (AssemblyCompanyAttribute)attribute;
+                        if (type == typeof(AssemblyCopyrightAttribute)) m_Copyright = (AssemblyCopyrightAttribute)attribute;
+                        if (type == typeof(AssemblyProductAttribute)) m_Product = (AssemblyProductAttribute)attribute;
+                    }
 
-					m_Version = m_Assembly.GetName().Version;
+                    m_Version = m_Assembly.GetName().Version;
 
-					m_Icon = System.Drawing.Icon.ExtractAssociatedIcon(m_Assembly.ManifestModule.FullyQualifiedName);
-				}
+                    m_Icon = System.Drawing.Icon.ExtractAssociatedIcon(m_Assembly.ManifestModule.FullyQualifiedName);
+                }
 
-				if (m_Title != null)
-					Title = m_Title.Title;
-				if (m_Company != null)
-					CompanyName = m_Company.Company;
-				if (m_Copyright != null)
-					Copyright = m_Copyright.Copyright;
-				if (m_Product != null)
-					ProductName = m_Product.Product;
-				
-				if (m_Icon != null)
-					AppIcon = m_Icon;
-			}
-			catch
-			{
-			}
-		}
-	}
+                if (m_Title != null)
+                    Title = m_Title.Title;
+                if (m_Company != null)
+                    CompanyName = m_Company.Company;
+                if (m_Copyright != null)
+                    Copyright = m_Copyright.Copyright;
+                if (m_Product != null)
+                    ProductName = m_Product.Product;
+                
+                if (m_Icon != null)
+                    AppIcon = m_Icon;
+            }
+            catch
+            {
+            }
+        }
+    }
 }
