@@ -12,7 +12,7 @@ namespace DBManager.Excel.GeneratingWorkbooks
 {
     public class WorkbookGenerator
     {
-        class RunWbkActionResult<TResult> where TResult : IComparable
+        private class RunWbkActionResult<TResult> where TResult : IComparable
         {
             public TResult Result { get; }
             public string ErrorMessage { get; } = null;
@@ -45,7 +45,7 @@ namespace DBManager.Excel.GeneratingWorkbooks
             bool WbkOpened;
             return OpenWbk(excelApp, wbkFullPath, out WbkOpened);
         }
-        
+
         public static MSExcel.Workbook OpenWbk(ExcelApplicationEx excelApp, string wbkFullPath, out bool WbkOpened)
         {
             MSExcel.Workbook result = null;
@@ -135,7 +135,7 @@ namespace DBManager.Excel.GeneratingWorkbooks
         }
 
         private bool CopyFilesToNewFolder(string destFolderFullPath,
-            string sourceFolderFullPath, 
+            string sourceFolderFullPath,
             string[] sourceFileRelativePaths,
             out string message)
         {

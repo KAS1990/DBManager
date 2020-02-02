@@ -1,27 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using DBManager.Excel.Exporting.ExportingClasses;
+using DBManager.Excel.Exporting.Tabs;
+using DBManager.Global;
+using DBManager.ReportGenerators;
+using DBManager.Scanning.XMLDataClasses;
+using DBManager.Stuff;
+using System;
+using System.IO;
 using System.Linq;
-using System.Text;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using DBManager.Global;
-using System.ComponentModel;
-using System.Collections.ObjectModel;
-using DBManager.Scanning.XMLDataClasses;
-using System.IO;
 using System.Windows.Threading;
-using System.Threading;
-using DBManager.Stuff;
-using DBManager.Excel.Exporting.Tabs;
 using MSExcel = Microsoft.Office.Interop.Excel;
-using DBManager.Excel.Exporting.ExportingClasses;
-using DBManager.ReportGenerators;
 
 namespace DBManager.Excel.Exporting
 {
@@ -32,7 +22,7 @@ namespace DBManager.Excel.Exporting
     {
         public readonly descriptions m_CompDesc = null;
 
-        
+
         #region ShowWbkAfterExport
         private static readonly string ShowWbkAfterExportPropertyName = GlobalDefines.GetPropertyName<CExportToExcelWnd>(m => m.ShowWbkAfterExport);
 
@@ -51,7 +41,7 @@ namespace DBManager.Excel.Exporting
             }
         }
         #endregion
-                
+
 
         private static readonly string MaxSheetNameLenPropertyName = GlobalDefines.GetPropertyName<CExportToExcelWnd>(m => m.MaxSheetNameLen);
         public int MaxSheetNameLen
@@ -59,31 +49,27 @@ namespace DBManager.Excel.Exporting
             get { return DBManagerApp.m_AppSettings.m_Settings.ExcelSettings.MaxSheetNameLen; }
         }
 
-
-        CMainExportTab MainExportTab
+        private CMainExportTab MainExportTab
         {
             get { return (tbctrlTabs.Items[0] as TabItem).Content as CMainExportTab; }
         }
 
-
-        CTeamExportTab TeamExportTab
+        private CTeamExportTab TeamExportTab
         {
             get { return (tbctrlTabs.Items[1] as TabItem).Content as CTeamExportTab; }
         }
 
-
-        CPersonalExportTab PersonalExportTab
+        private CPersonalExportTab PersonalExportTab
         {
             get { return (tbctrlTabs.Items[2] as TabItem).Content as CPersonalExportTab; }
         }
 
-
-        CLeadReportInfoTab LeadReportInfoTab
+        private CLeadReportInfoTab LeadReportInfoTab
         {
             get { return (tbctrlTabs.Items[3] as TabItem).Content as CLeadReportInfoTab; }
         }
-        
-                
+
+
         public CExportToExcelWnd()
         {
             InitializeComponent();
@@ -95,14 +81,14 @@ namespace DBManager.Excel.Exporting
             InitializeComponent();
 
             OnPropertyChanged(MaxSheetNameLenPropertyName);
-                        
+
             m_CompDesc = DBManagerApp.m_Entities.descriptions.Where(arg => arg.id_desc == CompId).FirstOrDefault();
 
             tbctrlTabs.Items.Add(new TabItem()
-                {
-                    Header = Properties.Resources.resMainExportTab,
-                    Content = new CMainExportTab(this, CompGroups)
-                });
+            {
+                Header = Properties.Resources.resMainExportTab,
+                Content = new CMainExportTab(this, CompGroups)
+            });
             tbctrlTabs.Items.Add(new TabItem()
             {
                 Header = Properties.Resources.resTeamExportTab,
@@ -189,7 +175,7 @@ namespace DBManager.Excel.Exporting
 
             foreach (TabItem ti in tbctrlTabs.Items)
                 (ti.Content as CExportingTabBase).BeforeExporting();
-            
+
             AutoResetEvent hFinishedSearchEvent = null;
             Thread th = null;
             if ((DBManagerApp.MainWnd as DispatcherObject).CheckAccess())
@@ -213,7 +199,7 @@ namespace DBManager.Excel.Exporting
                 bool WbkTemplatesOpened = false;
 
                 string WbkTargetPath = txtXlsPath.Text;
-                
+
                 try
                 {
                     if (MainExportTab.CreateReport)
@@ -252,7 +238,7 @@ namespace DBManager.Excel.Exporting
                                             m_GroupToExport = GroupItem
                                         };
                                         break;
-                                    
+
                                     case enReportTypes.OneEighthFinal:
                                     case enReportTypes.QuaterFinal:
                                     case enReportTypes.SemiFinal:
@@ -263,7 +249,7 @@ namespace DBManager.Excel.Exporting
                                             m_GroupToExport = GroupItem
                                         };
                                         break;
-                                    
+
                                     case enReportTypes.Final:
                                         Task = new CFinalExporter.CFinalTask()
                                         {
@@ -272,7 +258,7 @@ namespace DBManager.Excel.Exporting
                                             m_GroupToExport = GroupItem
                                         };
                                         break;
-                                    
+
                                     case enReportTypes.Total:
                                         Task = new CTotalExporter.CTotalTask()
                                         {
@@ -573,7 +559,7 @@ namespace DBManager.Excel.Exporting
                                 MessageBoxButton.OK,
                                 MessageBoxImage.Error);
             }
-                        
+
             if (hFinishedSearchEvent != null)
                 hFinishedSearchEvent.Set();
 

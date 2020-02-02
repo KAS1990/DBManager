@@ -4,7 +4,6 @@ using DBManager.Scanning.DBAdditionalDataClasses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using MSExcel = Microsoft.Office.Interop.Excel;
 
 namespace DBManager.Excel.GeneratingWorkbooks

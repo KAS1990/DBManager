@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace DBManager.OnlineDB
+﻿namespace DBManager.OnlineDB
 {
     public enum enOnlineDBKind
     {
@@ -22,7 +17,7 @@ namespace DBManager.OnlineDB
     public enum enOnlineGrade
     {
         None = -1,
-        
+
         /// <summary> б/р </summary>
         WithoutGrade = 1,
 

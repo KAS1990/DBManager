@@ -1,22 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.IO;
-using DBManager.Global;
-using DBManager.Stuff;
-using System.Windows.Threading;
-using System.Collections.ObjectModel;
+﻿using DBManager.Global;
 using DBManager.SettingsWriter;
-using System.Diagnostics;
+using DBManager.Stuff;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading;
+using System.Windows.Threading;
 
 namespace DBManager.Scanning
 {
     /// <summary>
     /// Поток, который ищет изменения в папке, содержащей все книги, в которых содержатся результаты участников
     /// </summary>
-    public class CDirScanner: CScannerBase
+    public class CDirScanner : CScannerBase
     {
         public class CSyncParam : CScannerBase.CSyncParamBase
         {
@@ -38,7 +35,7 @@ namespace DBManager.Scanning
         /// Все изменения отслеживаются с помощью событий, которые вызываются не в потоке интерфейса,
         /// а в каком-то отдельном, созданном FileSystemWatcher
         /// </summary>
-        private FileSystemWatcher m_PathWatcher = new FileSystemWatcher()
+        private readonly FileSystemWatcher m_PathWatcher = new FileSystemWatcher()
         {
             NotifyFilter = NotifyFilters.FileName | NotifyFilters.LastWrite, /* нас интересует только изменение названия файла,
                                                                               * а также дата последнего изменения */
@@ -51,7 +48,7 @@ namespace DBManager.Scanning
         /// Словарь, содержащий все сканеры файлов, в которых есть результаты участнокиков, относящихся к соревам
         /// Ключ - полный путь к файлу
         /// </summary>
-        private Dictionary<string, CFileScanner> m_FileScanners = new Dictionary<string, CFileScanner>();
+        private readonly Dictionary<string, CFileScanner> m_FileScanners = new Dictionary<string, CFileScanner>();
         public Dictionary<string, CFileScanner> FileScanners
         {
             get { return m_FileScanners; }
@@ -78,8 +75,8 @@ namespace DBManager.Scanning
                         try
                         {
                             IEnumerable<descriptions> DescInDB = (from desc in DBManagerApp.m_Entities.descriptions
-                                                                 where (CompId == desc.id_desc)
-                                                                 select desc).ToList();
+                                                                  where (CompId == desc.id_desc)
+                                                                  select desc).ToList();
                             if (DescInDB.Count() > 0)
                             {
                                 DescInDB.First().id_desc = value;
@@ -148,10 +145,10 @@ namespace DBManager.Scanning
                 return false;
 
             ScanningPath = ScanningDir;
-                        
+
             // Пытаемся запустить все все сканеры файлов
             List<string> ScannersPaths = m_FileScanners.Keys.ToList();
-            for (int i = 0; i < ScannersPaths.Count; )
+            for (int i = 0; i < ScannersPaths.Count;)
             {
                 CFileScanner scanner = m_FileScanners[ScannersPaths[i]];
                 scanner.ScanningPath = ScannersPaths[i];
@@ -206,7 +203,7 @@ namespace DBManager.Scanning
 
                     foreach (KeyValuePair<string, CFileScanner> Scanner in m_FileScanners)
                         Scanner.Value.Stop(false);
-                    
+
                     State = enScanningThreadState.Stopped;
                 }
 
@@ -382,7 +379,7 @@ namespace DBManager.Scanning
                         m_PathWatcher.EnableRaisingEvents = true;
                 }
             }
-            
+
             return true;
         }
 
@@ -420,7 +417,7 @@ namespace DBManager.Scanning
                     if (Scanner.State == enScanningThreadState.Worked)
                         m_FileScanners.Add(e.FullPath, Scanner);
                 }
-                                
+
                 DBManagerApp.m_Entities.SaveChanges();
 
                 m_PathWatcher.EnableRaisingEvents = true;
@@ -518,7 +515,7 @@ namespace DBManager.Scanning
                 if (m_FileScanners.TryGetValue(e.FullPath, out Scanner))
                 {
                     m_PathWatcher.EnableRaisingEvents = false; // т.к. в XMLFileChanged может быть перезапись файла, обрабатывать которую не нужно
-                    
+
                     List<CDataChangedInfo> MadeChanges = Scanner.XMLFileChanged();
                     if (MadeChanges != null)
                     {

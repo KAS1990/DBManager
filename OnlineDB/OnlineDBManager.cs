@@ -1,14 +1,11 @@
 ﻿using DBManager.OnlineDB.Data;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace DBManager.OnlineDB
 {
     public class OnlineDBManager
     {
-        static OnlineDBManager m_Instance = null;
+        private static OnlineDBManager m_Instance = null;
         public static OnlineDBManager Instance
         {
             get
@@ -17,8 +14,7 @@ namespace DBManager.OnlineDB
             }
         }
 
-
-        onlineEntities m_Entities = null;
+        private onlineEntities m_Entities = null;
 
         public onlineEntities Entities
         {
@@ -46,7 +42,7 @@ namespace DBManager.OnlineDB
             DisconnectFromRemoteDB();
         }
 
-        void DisconnectFromRemoteDB()
+        private void DisconnectFromRemoteDB()
         {
             m_Entities?.Dispose();
             m_Entities = null;
@@ -56,7 +52,7 @@ namespace DBManager.OnlineDB
         {
             if (IsConnectedToRemoteDB)
                 return true;
-                        
+
             m_Entities = new onlineEntities();
 
             try

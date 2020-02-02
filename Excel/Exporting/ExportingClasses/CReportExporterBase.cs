@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using DBManager.Excel.Exporting.Tabs;
 using DBManager.Global;
-using MSExcel = Microsoft.Office.Interop.Excel;
-using DBManager.Excel.Exporting.Tabs;
 using DBManager.Scanning.XMLDataClasses;
-using System.Windows;
+using MSExcel = Microsoft.Office.Interop.Excel;
 
 namespace DBManager.Excel.Exporting.ExportingClasses
 {
@@ -25,7 +20,7 @@ namespace DBManager.Excel.Exporting.ExportingClasses
 
 
 		protected int EXCEL_MAX_LINES_IN_REPORTS = 150;
-		
+
 
 		public class CTask
 		{
@@ -37,7 +32,7 @@ namespace DBManager.Excel.Exporting.ExportingClasses
 
 		public CReportExporterBase()
 		{
-		
+
 		}
 
 		public CReportExporterBase(CTask Task)
@@ -53,24 +48,24 @@ namespace DBManager.Excel.Exporting.ExportingClasses
 				case enReportTypes.Qualif:
 				case enReportTypes.Qualif2:
 					return new CQualifExporter(Task);
-				
+
 				case enReportTypes.OneEighthFinal:
 				case enReportTypes.QuaterFinal:
 				case enReportTypes.SemiFinal:
 					return new CMiddleSheetsExporter(Task);
-				
+
 				case enReportTypes.Final:
 					return new CFinalExporter(Task);
-				
+
 				case enReportTypes.Total:
 					return new CTotalExporter(Task);
-				
+
 				case enReportTypes.Team:
 					return new CTeamExporter(Task);
-				
+
 				case enReportTypes.Personal:
 					return new CPersonalExporter(Task);
-				
+
 				default:
 					return null;
 			}
@@ -97,7 +92,7 @@ namespace DBManager.Excel.Exporting.ExportingClasses
 			return false;
 		}
 
-								
+
 		protected string CreateGroupName(CGroupItem GroupItem,
 										CAgeGroup AgeGroup,
 										out int SelectedStartYear,
@@ -112,7 +107,7 @@ namespace DBManager.Excel.Exporting.ExportingClasses
 
 			if (GroupItem.StartYearIndToExport == 0 &&
 				GroupItem.EndYearIndToExport == GroupItem.YearsOfBirth.Count - 1)
-			{	// Нужно вывести всех спорсменов группы => название равно CompSettings.AgeGroup.FullGroupName
+			{   // Нужно вывести всех спорсменов группы => название равно CompSettings.AgeGroup.FullGroupName
 				return AgeGroup.FullGroupName;
 			}
 			else if (SelectedStartYear != GlobalDefines.MIN_GROUP_YEAR &&

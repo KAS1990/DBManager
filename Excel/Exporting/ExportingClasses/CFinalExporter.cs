@@ -1,28 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using DBManager.Excel.Exporting.Tabs;
-using MSExcel = Microsoft.Office.Interop.Excel;
-using DBManager.Scanning.XMLDataClasses;
+﻿using DBManager.Excel.Exporting.Tabs;
 using DBManager.Global;
-using DBManager.Scanning.DBAdditionalDataClasses;
 using DBManager.RoundMembers.Converters;
+using DBManager.Scanning.DBAdditionalDataClasses;
+using DBManager.Scanning.XMLDataClasses;
+using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
+using MSExcel = Microsoft.Office.Interop.Excel;
 
 namespace DBManager.Excel.Exporting.ExportingClasses
 {
 	public class CFinalExporter : CReportExporterBase
 	{
 		#region Номера столбцов в листе Excel
-		private int EXCEL_PERSONAL_COL_NUM = 2;
-		private int EXCEL_TEAM_COL_NUM = 3;
-		private int EXCEL_YEAR_OF_BIRTH_COL_NUM = 4;
-		private int EXCEL_GRADE_COL_NUM = 5;
-		private int EXCEL_ROUTE1_COL_NUM = 6;
-		private int EXCEL_ROUTE2_COL_NUM = 7;
-		private int EXCEL_SUM_COL_NUM = 8;
-		private int EXCEL_PLACE_COL_NUM = 9;
+		private readonly int EXCEL_PERSONAL_COL_NUM = 2;
+		private readonly int EXCEL_TEAM_COL_NUM = 3;
+		private readonly int EXCEL_YEAR_OF_BIRTH_COL_NUM = 4;
+		private readonly int EXCEL_GRADE_COL_NUM = 5;
+		private readonly int EXCEL_ROUTE1_COL_NUM = 6;
+		private readonly int EXCEL_ROUTE2_COL_NUM = 7;
+		private readonly int EXCEL_SUM_COL_NUM = 8;
+		private readonly int EXCEL_PLACE_COL_NUM = 9;
 		#endregion
 
 		protected string RN_FIRST_DATA_ROW_12 = "FirstDataRow12";
@@ -34,8 +33,7 @@ namespace DBManager.Excel.Exporting.ExportingClasses
 			public CGroupItem m_GroupToExport;
 		}
 
-
-		CFinalTask CurTask
+		private CFinalTask CurTask
 		{
 			get
 			{
@@ -50,7 +48,7 @@ namespace DBManager.Excel.Exporting.ExportingClasses
 		public CFinalExporter(CTask Task) :
 			base(Task)
 		{
-			
+
 		}
 
 
@@ -110,11 +108,11 @@ namespace DBManager.Excel.Exporting.ExportingClasses
 																				CompSettings.AgeGroup,
 																				out SelectedStartYear,
 																				out SelectedEndYear));
-			
+
 			// Выводим участников соревнования
 			List<enRounds> CompRounds = (from round in CurTask.m_GroupToExport.Rounds
-										orderby round.id
-										select round.id).ToList();
+										 orderby round.id
+										 select round.id).ToList();
 			enRounds PrevRound = CompRounds[CompRounds.IndexOf(enRounds.Final) - 1];
 
 			List<CMemberAndResults> lstResults = (from member in DBManagerApp.m_Entities.members
@@ -126,43 +124,43 @@ namespace DBManager.Excel.Exporting.ExportingClasses
 														  member.year_of_birth <= SelectedEndYear &&
 														  result.place.HasValue
 												  orderby result.number
-														select new CMemberAndResults
-														{
-															MemberInfo = new CFullMemberInfo()
-															{
-																IDMember = member.id_member,
-																Surname = member.surname,
-																Name = member.name,
-																YearOfBirth = member.year_of_birth,
-																Coach = part.coach,
-																Team = part.team,
-																InitGrade = part.init_grade,
-															},
+												  select new CMemberAndResults
+												  {
+													  MemberInfo = new CFullMemberInfo()
+													  {
+														  IDMember = member.id_member,
+														  Surname = member.surname,
+														  Name = member.name,
+														  YearOfBirth = member.year_of_birth,
+														  Coach = part.coach,
+														  Team = part.team,
+														  InitGrade = part.init_grade,
+													  },
 
-															Results = new COneRoundResults()
-															{
-																m_Round = (enRounds)result.round,
-																Route1 = new CResult()
-																{
-																	ResultInDB = result,
-																	Time = result.route1,
-																},
-																Route2 = new CResult()
-																{
-																	ResultInDB = result,
-																	Time = result.route2,
-																},
-																Sum = new CResult()
-																{
-																	ResultInDB = result,
-																	Time = result.sum,
-																},
-															},
+													  Results = new COneRoundResults()
+													  {
+														  m_Round = (enRounds)result.round,
+														  Route1 = new CResult()
+														  {
+															  ResultInDB = result,
+															  Time = result.route1,
+														  },
+														  Route2 = new CResult()
+														  {
+															  ResultInDB = result,
+															  Time = result.route2,
+														  },
+														  Sum = new CResult()
+														  {
+															  ResultInDB = result,
+															  Time = result.sum,
+														  },
+													  },
 
-															StartNumber = result.number,
-															Place = result.place
-														}).ToList();
-			
+													  StartNumber = result.number,
+													  Place = result.place
+												  }).ToList();
+
 			foreach (CMemberAndResults MemberAndResults in lstResults)
 			{
 				int Row = 0;

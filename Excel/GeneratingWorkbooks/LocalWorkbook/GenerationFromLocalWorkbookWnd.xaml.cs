@@ -7,17 +7,11 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using MSExcel = Microsoft.Office.Interop.Excel;
 using static DBManager.Scanning.XMLDataClasses.CAgeGroup;
+using MSExcel = Microsoft.Office.Interop.Excel;
 
 namespace DBManager.Excel.GeneratingWorkbooks
 {
@@ -30,7 +24,7 @@ namespace DBManager.Excel.GeneratingWorkbooks
 
         #region SecectedCompGroups
         private static readonly string SecectedCompGroupsPropertyName = GlobalDefines.GetPropertyName<GenerationFromLocalWorkbookWnd>(m => m.CompGroups);
-        private ObservableCollection<GroupItemLocalWorkbook> m_CompGroups = new ObservableCollection<GroupItemLocalWorkbook>();
+        private readonly ObservableCollection<GroupItemLocalWorkbook> m_CompGroups = new ObservableCollection<GroupItemLocalWorkbook>();
         /// <summary>
         /// 
         /// </summary>
@@ -55,7 +49,7 @@ namespace DBManager.Excel.GeneratingWorkbooks
                 {
                     m_SelectedCompName = value;
                     if (m_PrevSelectedComp != null && SelectedComp == null)
-                    {   
+                    {
                         /* Создали название соревнования, которого ещё нет
                          * => нужно создать соревнование и добавить его в LocalDBComps */
                         var compDesc = new CompDescLocalWorkbook()
@@ -190,7 +184,7 @@ namespace DBManager.Excel.GeneratingWorkbooks
         {
             InitializeComponent();
         }
-        
+
         public bool InitWndControls()
         {
             using (var wrapper = new DisposableWrapper<ShowAsyncResult>(CWaitingWnd.ShowAsync(Title,
@@ -225,7 +219,7 @@ namespace DBManager.Excel.GeneratingWorkbooks
 
                 // Заполняем выпадающие списки текущими значениями
                 LocalDBComps.Clear();
-                
+
                 try
                 {
                     foreach (var comp in DBManagerApp.m_Entities.descriptions.ToList())
@@ -570,7 +564,7 @@ namespace DBManager.Excel.GeneratingWorkbooks
             }
         }
 
-        void comp_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void comp_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == CompDescLocalWorkbook.StartDatePropertyName
                 || e.PropertyName == CompDescLocalWorkbook.EndDatePropertyName)

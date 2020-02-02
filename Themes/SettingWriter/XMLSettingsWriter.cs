@@ -17,7 +17,7 @@ namespace DBManager.SettingsWriter
         /// Путь к файлу настроек
         /// </summary>
         private string m_FileName = Directory.GetCurrentDirectory() + "\\InterfaceSettings.xml";
-        
+
 
         public XMLSettingsWriter()
         {
@@ -31,7 +31,7 @@ namespace DBManager.SettingsWriter
              * т.к. сохранение уже сделано перед перезагрузкой, и если тут выполнять сохранение, то выпадим с ошибкой "Файл настроек занят" */
             if (!m_Settings.IsRestarting)
                 Write();
-        }        
+        }
 
 
         /// <summary>
@@ -118,8 +118,8 @@ namespace DBManager.SettingsWriter
                 else
                     /* Заполняем непрочитанные поля значениями по умолчанию */
                     m_Settings.CheckAndToDefault();
-            }            
-        }        
+            }
+        }
 
 
         /// <summary>

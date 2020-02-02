@@ -1,95 +1,91 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace DBManager.InterfaceElements
 {
-	public class ButtonWithPicture : Button
-	{
-		#region ButtonText
-		
-		/// <summary>
-		/// Текст, отображаемый на кнопке
-		/// </summary>
-		public string ButtonText
-		{
-			get { return (string)GetValue(ButtonTextProperty); }
-			set { SetValue(ButtonTextProperty, value); }
-		}
+    public class ButtonWithPicture : Button
+    {
+        #region ButtonText
 
-		/// <summary>
-		/// Текст, отображаемый на кнопке
-		/// </summary>
-		public static readonly DependencyProperty ButtonTextProperty =
-			DependencyProperty.Register("ButtonText", typeof(string), typeof(ButtonWithPicture), new FrameworkPropertyMetadata(null));
-		#endregion
+        /// <summary>
+        /// Текст, отображаемый на кнопке
+        /// </summary>
+        public string ButtonText
+        {
+            get { return (string)GetValue(ButtonTextProperty); }
+            set { SetValue(ButtonTextProperty, value); }
+        }
 
-		#region ButtonImage
+        /// <summary>
+        /// Текст, отображаемый на кнопке
+        /// </summary>
+        public static readonly DependencyProperty ButtonTextProperty =
+            DependencyProperty.Register("ButtonText", typeof(string), typeof(ButtonWithPicture), new FrameworkPropertyMetadata(null));
+        #endregion
 
-		/// <summary>
-		/// Картика, отображаемая на кнопке
-		/// </summary>
-		public ImageSource ButtonImage
-		{
-			get { return (ImageSource)GetValue(ButtonImageProperty); }
-			set { SetValue(ButtonImageProperty, value); }
-		}
+        #region ButtonImage
 
-		/// <summary>
-		/// Картика, отображаемая на кнопке
-		/// </summary>
-		public static readonly DependencyProperty ButtonImageProperty =
-			DependencyProperty.Register("ButtonImage", typeof(ImageSource), typeof(ButtonWithPicture), new FrameworkPropertyMetadata(null));
+        /// <summary>
+        /// Картика, отображаемая на кнопке
+        /// </summary>
+        public ImageSource ButtonImage
+        {
+            get { return (ImageSource)GetValue(ButtonImageProperty); }
+            set { SetValue(ButtonImageProperty, value); }
+        }
 
-		#endregion
+        /// <summary>
+        /// Картика, отображаемая на кнопке
+        /// </summary>
+        public static readonly DependencyProperty ButtonImageProperty =
+            DependencyProperty.Register("ButtonImage", typeof(ImageSource), typeof(ButtonWithPicture), new FrameworkPropertyMetadata(null));
 
-		#region ImageLocation
+        #endregion
 
-		/// <summary>
-		/// Позиция картинки
-		/// </summary>
-		public ButtonImageLocation ImageLocation
-		{
-			get { return (ButtonImageLocation)GetValue(ImageLocationProperty); }
-			set { SetValue(ImageLocationProperty, value); }
-		}
+        #region ImageLocation
 
-		/// <summary>
-		/// Позиция картинки
-		/// </summary>
-		public static readonly DependencyProperty ImageLocationProperty =
-			DependencyProperty.Register("ImageLocation", typeof(ButtonImageLocation), typeof(ButtonWithPicture), new FrameworkPropertyMetadata(ButtonImageLocation.Top));
+        /// <summary>
+        /// Позиция картинки
+        /// </summary>
+        public ButtonImageLocation ImageLocation
+        {
+            get { return (ButtonImageLocation)GetValue(ImageLocationProperty); }
+            set { SetValue(ImageLocationProperty, value); }
+        }
 
-		#endregion
+        /// <summary>
+        /// Позиция картинки
+        /// </summary>
+        public static readonly DependencyProperty ImageLocationProperty =
+            DependencyProperty.Register("ImageLocation", typeof(ButtonImageLocation), typeof(ButtonWithPicture), new FrameworkPropertyMetadata(ButtonImageLocation.Top));
 
-		#region MaxTextWidth
+        #endregion
 
-		/// <summary>
-		/// Максимальная ширина текста
-		/// </summary>
-		public double MaxTextWidth
-		{
-			get { return (double)GetValue(MaxTextWidthProperty); }
-			set { SetValue(MaxTextWidthProperty, value); }
-		}
+        #region MaxTextWidth
 
-		/// <summary>
-		/// Максимальная ширина текста
-		/// </summary>
-		public static readonly DependencyProperty MaxTextWidthProperty =
-			DependencyProperty.Register("MaxTextWidth", typeof(double), typeof(ButtonWithPicture), new FrameworkPropertyMetadata(double.PositiveInfinity));
+        /// <summary>
+        /// Максимальная ширина текста
+        /// </summary>
+        public double MaxTextWidth
+        {
+            get { return (double)GetValue(MaxTextWidthProperty); }
+            set { SetValue(MaxTextWidthProperty, value); }
+        }
 
-		#endregion
-	}
+        /// <summary>
+        /// Максимальная ширина текста
+        /// </summary>
+        public static readonly DependencyProperty MaxTextWidthProperty =
+            DependencyProperty.Register("MaxTextWidth", typeof(double), typeof(ButtonWithPicture), new FrameworkPropertyMetadata(double.PositiveInfinity));
+
+        #endregion
+    }
 
 
-	public enum ButtonImageLocation
-	{
-		Left,
-		Top,
-	}
+    public enum ButtonImageLocation
+    {
+        Left,
+        Top,
+    }
 }

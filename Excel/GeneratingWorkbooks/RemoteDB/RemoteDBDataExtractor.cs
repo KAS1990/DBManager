@@ -5,7 +5,6 @@ using DBManager.Scanning.DBAdditionalDataClasses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace DBManager.Excel.GeneratingWorkbooks
 {
@@ -54,14 +53,14 @@ namespace DBManager.Excel.GeneratingWorkbooks
                                                 InitGrade = (byte)((enOnlineGrade)pupil.rang_id).ToLocalGradeValue()
                                             })
                                     .ToList();
-                    
+
                     GroupsMembers.Add(new KeyValuePair<IGroupItem, IEnumerable<CFullMemberInfo>>(@group, members));
                 }
                 catch (Exception ex)
                 {
                     message = ex.Message;
                     return false;
-                }                
+                }
             }
 
             if (GroupsMembers.Count == 0)

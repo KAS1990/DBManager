@@ -1,21 +1,13 @@
-﻿using System;
+﻿using DBManager.Global;
+using DBManager.Scanning.XMLDataClasses;
+using DBManager.SettingsWriter;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using DBManager.Global;
-using DBManager.SettingsWriter;
-using System.IO;
-using System.Collections.ObjectModel;
-using DBManager.Scanning.XMLDataClasses;
 
 
 namespace DBManager.Excel.Exporting.Tabs
@@ -43,7 +35,7 @@ namespace DBManager.Excel.Exporting.Tabs
             }
         }
         #endregion
-                
+
         #region WinnerDetection
         private static readonly string WinnerDetectionPropertyName = GlobalDefines.GetPropertyName<CPersonalExportTab>(m => m.WinnerDetection);
 
@@ -85,16 +77,16 @@ namespace DBManager.Excel.Exporting.Tabs
             }
         }
         #endregion
-        
+
         #region GroupsForReport
-        private ObservableCollection<CGroupItem> m_GroupsForReport = new ObservableCollection<CGroupItem>();
+        private readonly ObservableCollection<CGroupItem> m_GroupsForReport = new ObservableCollection<CGroupItem>();
 
         public ObservableCollection<CGroupItem> GroupsForReport
         {
             get { return m_GroupsForReport; }
         }
         #endregion
-                        
+
         public List<CGroupItem> SelectedGroups
         {
             get
@@ -103,8 +95,7 @@ namespace DBManager.Excel.Exporting.Tabs
             }
         }
 
-
-        descriptions CompDesc
+        private descriptions CompDesc
         {
             get { return m_ParentWnd == null ? null : m_ParentWnd.m_CompDesc; }
         }
@@ -177,7 +168,7 @@ namespace DBManager.Excel.Exporting.Tabs
                             GroupItem.StartYearIndToExport = 0;
                             GroupItem.EndYearIndToExport = GroupItem.YearsOfBirth.Count - 1;
                         }
-                        
+
                         GroupsForReport.Add(GroupItem);
                     }
                 }
@@ -278,7 +269,7 @@ namespace DBManager.Excel.Exporting.Tabs
                             CompId = CompDesc.id_desc,
                         };
                     }
-                                        
+
                     settings.dictCompSettings.TryAddValue(CompSettings.CompId, CompSettings);
 
                     CompSettings.PersRepPlaceAggregationMethod = PlaceAggregationMethod;
@@ -289,7 +280,7 @@ namespace DBManager.Excel.Exporting.Tabs
                 DBManagerApp.m_AppSettings.Write();
             }
         }
-        
+
 
         private void btnBrowse_Click(object sender, RoutedEventArgs e)
         {

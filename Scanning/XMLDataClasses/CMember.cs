@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml.Serialization;
+﻿using DBManager.Global;
+using System;
 using System.ComponentModel;
-using DBManager.Global;
+using System.Xml.Serialization;
 
 namespace DBManager.Scanning.XMLDataClasses
 {
@@ -28,7 +25,7 @@ namespace DBManager.Scanning.XMLDataClasses
         #region Информация об участнике
 
         #region SurnameAndName
-        string m_SurnameAndName = GlobalDefines.DEFAULT_XML_STRING_VAL;
+        private string m_SurnameAndName = GlobalDefines.DEFAULT_XML_STRING_VAL;
         /// <summary>
         /// Имя и фамилия
         /// </summary>
@@ -50,7 +47,7 @@ namespace DBManager.Scanning.XMLDataClasses
         #endregion
 
         #region SecondCol
-        string m_SecondCol = GlobalDefines.DEFAULT_XML_STRING_VAL;
+        private string m_SecondCol = GlobalDefines.DEFAULT_XML_STRING_VAL;
         [XmlAttribute(AttributeName = "Team")]
         [DefaultValue(GlobalDefines.DEFAULT_XML_STRING_VAL)]
         public string SecondCol
@@ -69,7 +66,7 @@ namespace DBManager.Scanning.XMLDataClasses
         #endregion
 
         #region YearOfBirth
-        string m_YearOfBirth = GlobalDefines.DEFAULT_XML_STRING_VAL;
+        private string m_YearOfBirth = GlobalDefines.DEFAULT_XML_STRING_VAL;
         [XmlAttribute()]
         [DefaultValue(GlobalDefines.DEFAULT_XML_STRING_VAL)]
         public string YearOfBirth
@@ -98,7 +95,7 @@ namespace DBManager.Scanning.XMLDataClasses
         #endregion
 
         #region Grade
-        string m_Grade = GlobalDefines.DEFAULT_XML_STRING_VAL;
+        private string m_Grade = GlobalDefines.DEFAULT_XML_STRING_VAL;
         [XmlAttribute()]
         [DefaultValue(GlobalDefines.DEFAULT_XML_STRING_VAL)]
         public string Grade
@@ -134,7 +131,7 @@ namespace DBManager.Scanning.XMLDataClasses
 
         #region Результаты участника
         #region Route1
-        string m_Route1 = GlobalDefines.DEFAULT_XML_STRING_VAL;
+        private string m_Route1 = GlobalDefines.DEFAULT_XML_STRING_VAL;
         /// <summary>
         /// Результат на первой трассе.
         /// Т.к. может быть "срыв", то используем string
@@ -157,7 +154,7 @@ namespace DBManager.Scanning.XMLDataClasses
                             ResultColumnNumber = enResultColumnNumber.Route1
                         };
                     }
-                    
+
                     if (string.IsNullOrWhiteSpace(m_Route1))
                         Route1Ext.ClearTime();
                     else
@@ -172,7 +169,7 @@ namespace DBManager.Scanning.XMLDataClasses
         #endregion
 
         #region Route2
-        string m_Route2 = GlobalDefines.DEFAULT_XML_STRING_VAL;
+        private string m_Route2 = GlobalDefines.DEFAULT_XML_STRING_VAL;
         /// <summary>
         /// Результат на второй трассе.
         /// Т.к. может быть "срыв", то используем string
@@ -210,7 +207,7 @@ namespace DBManager.Scanning.XMLDataClasses
         #endregion
 
         #region Sum
-        string m_Sum = GlobalDefines.DEFAULT_XML_STRING_VAL;
+        private string m_Sum = GlobalDefines.DEFAULT_XML_STRING_VAL;
         /// <summary>
         /// Сумма результатов на двух трассах.
         /// Т.к. может быть "срыв", то используем string
@@ -268,7 +265,7 @@ namespace DBManager.Scanning.XMLDataClasses
 
         #region Для выделения участника цветом
         #region CondFormatingRoute1
-        string m_CondFormatingRoute1 = GlobalDefines.DEFAULT_XML_STRING_VAL;
+        private string m_CondFormatingRoute1 = GlobalDefines.DEFAULT_XML_STRING_VAL;
         [XmlAttribute()]
         [DefaultValue(GlobalDefines.DEFAULT_XML_STRING_VAL)]
         public string CondFormatingRoute1
@@ -299,7 +296,7 @@ namespace DBManager.Scanning.XMLDataClasses
         #endregion
 
         #region CondFormatingRoute2
-        string m_CondFormatingRoute2 = GlobalDefines.DEFAULT_XML_STRING_VAL;
+        private string m_CondFormatingRoute2 = GlobalDefines.DEFAULT_XML_STRING_VAL;
         [XmlAttribute()]
         [DefaultValue(GlobalDefines.DEFAULT_XML_STRING_VAL)]
         public string CondFormatingRoute2
@@ -330,7 +327,7 @@ namespace DBManager.Scanning.XMLDataClasses
         #endregion
 
         #region CondFormatingSum
-        string m_CondFormatingSum = GlobalDefines.DEFAULT_XML_STRING_VAL;
+        private string m_CondFormatingSum = GlobalDefines.DEFAULT_XML_STRING_VAL;
         [XmlAttribute()]
         [DefaultValue(GlobalDefines.DEFAULT_XML_STRING_VAL)]
         public string CondFormatingSum
@@ -367,7 +364,7 @@ namespace DBManager.Scanning.XMLDataClasses
         /// Фамилия и имя участника в виде массива из двух элементов
         /// Если этой информации в xml-файле нет, то поле будет иметь значение null.
         /// </summary>
-        string[] m_arrNameAndSurname = null;
+        private string[] m_arrNameAndSurname = null;
 
         #region Name
         /// <summary>
@@ -406,7 +403,7 @@ namespace DBManager.Scanning.XMLDataClasses
         #endregion
 
         #region Number
-        byte m_Number = GlobalDefines.DEFAULT_XML_BYTE_VAL;
+        private byte m_Number = GlobalDefines.DEFAULT_XML_BYTE_VAL;
         /// <summary>
         /// Номер участника
         /// </summary>
@@ -431,7 +428,7 @@ namespace DBManager.Scanning.XMLDataClasses
         #endregion
 
         #region Route1Ext
-        CResult m_Route1Ext = null;
+        private CResult m_Route1Ext = null;
         /// <summary>
         /// Результат участника на первой трассе.
         [XmlIgnore]
@@ -446,7 +443,7 @@ namespace DBManager.Scanning.XMLDataClasses
         /// <summary>
         /// Результат участника на второй трассе.
         /// </summary>
-        CResult m_Route2Ext = null;
+        private CResult m_Route2Ext = null;
         [XmlIgnore]
         public CResult Route2Ext
         {
@@ -459,7 +456,7 @@ namespace DBManager.Scanning.XMLDataClasses
         /// <summary>
         /// Сумма рузультатов участника на двух трассах.
         /// </summary>
-        CResult m_SumExt = null;
+        private CResult m_SumExt = null;
         [XmlIgnore]
         public CResult SumExt
         {
@@ -467,9 +464,9 @@ namespace DBManager.Scanning.XMLDataClasses
             private set { m_SumExt = value; }
         }
         #endregion
-        
+
         #region YearOfBirthInShort
-        short m_YearOfBirthInShort = GlobalDefines.DEFAULT_XML_INT_VAL;
+        private short m_YearOfBirthInShort = GlobalDefines.DEFAULT_XML_INT_VAL;
         [XmlIgnore]
         public short YearOfBirthInShort
         {
@@ -479,7 +476,7 @@ namespace DBManager.Scanning.XMLDataClasses
         #endregion
 
         #region GradeInEnum
-        enGrade m_GradeInEnum = enGrade.None;
+        private enGrade m_GradeInEnum = enGrade.None;
         [XmlIgnore]
         public enGrade GradeInEnum
         {

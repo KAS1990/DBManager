@@ -17,9 +17,9 @@ namespace DBManager.Excel.GeneratingWorkbooks.Helpers
             Row6 = 4
         }
 
-        class FileItem : IEquatable<FileItem>
+        private class FileItem : IEquatable<FileItem>
         {
-            const string DELIMETER = "=+";
+            private const string DELIMETER = "=+";
 
             public string Text = null;
             public enWorkbookDataFileHelperItemType Type = 0;
@@ -50,10 +50,9 @@ namespace DBManager.Excel.GeneratingWorkbooks.Helpers
             }
         }
 
-        const string WORKBOOK_DATA_FILE_NAME = "data.txt";
-
-        readonly string m_FilePath = null;
-        readonly List<FileItem> m_FileItems = new List<FileItem>();
+        private const string WORKBOOK_DATA_FILE_NAME = "data.txt";
+        private readonly string m_FilePath = null;
+        private readonly List<FileItem> m_FileItems = new List<FileItem>();
 
 
         public WorkbookDataFileWrapper(string dirFullPath)

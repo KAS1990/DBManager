@@ -1,31 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.ComponentModel;
 using System.Windows;
-using System.ComponentModel;
 
 namespace DBManager.Global
 {
-	/// <summary>
-	/// Базовый класс для всех окон, у которых необходимо реализовать интерфейс INotifyPropertyChanged
-	/// </summary>
-	public class CNotifyPropertyChangedWnd : Window, INotifyPropertyChanged
-	{
-		public CNotifyPropertyChangedWnd()
-		{
-			DataContext = this;
-		}
+    /// <summary>
+    /// Базовый класс для всех окон, у которых необходимо реализовать интерфейс INotifyPropertyChanged
+    /// </summary>
+    public class CNotifyPropertyChangedWnd : Window, INotifyPropertyChanged
+    {
+        public CNotifyPropertyChangedWnd()
+        {
+            DataContext = this;
+        }
 
 
-		#region OnPropertyChanged and PropertyChanged event
-		public event PropertyChangedEventHandler PropertyChanged;
+        #region OnPropertyChanged and PropertyChanged event
+        public event PropertyChangedEventHandler PropertyChanged;
 
 
-		public virtual void OnPropertyChanged(string info)
-		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
-		}
-		#endregion
-	}
+        public virtual void OnPropertyChanged(string info)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
+        }
+        #endregion
+    }
 }

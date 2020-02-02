@@ -1,35 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Controls;
-using System.Globalization;
-using System.Windows.Media;
-using System.Windows;
-using System.IO;
-using System.Windows.Threading;
-using System.Windows.Controls.Primitives;
-using System.Collections.ObjectModel;
-using System.Windows.Interop;
-using System.Threading;
-using System.Linq.Expressions;
-using System.Diagnostics;
-using MSExcel = Microsoft.Office.Interop.Excel;
-using System.Runtime.InteropServices;
+﻿using DBManager.DAL;
 using DBManager.SettingsWriter;
-using DBManager.DAL;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
+using System.Runtime.InteropServices;
+using System.Threading;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Interop;
+using System.Windows.Media;
+using System.Windows.Threading;
+using MSExcel = Microsoft.Office.Interop.Excel;
 
 namespace DBManager.Global
 {
     public static class GlobalDefines
     {
-#region Поля
-        
+        #region Поля
+
         public static readonly string STD_APP_CONFIGS_DIR = "";
         public static readonly string STD_ERROR_LOG_FILE_PATH = "";
         public static readonly string STD_PUBLISHING_LOG_DIR = "";
-        
+
         /// <summary>
         /// Аргумент для функции FrameworkElement.Measure()
         /// </summary>
@@ -40,7 +38,7 @@ namespace DBManager.Global
         public const double MIN_FLOAT_VAL = 1e-8;
 
         public const string STD_FLOAT_FORMAT = "F2";
-                
+
         /// <summary>
         /// Если CDirScanner.CompId имеет это значение, то в БД ещё не добавлены соревы
         /// </summary>
@@ -51,7 +49,7 @@ namespace DBManager.Global
         public const string DEFAULT_XML_STRING_VAL = null;
         public const double DEFAULT_XML_DOUBLE_VAL = 0;
         public static readonly DateTime DEFAULT_XML_DATE_TIME_VAL = DateTime.MinValue;
-        
+
         public static readonly TimeSpan FALL_TIME_SPAN_VAL = new TimeSpan(20, 00, 0);
         public static readonly TimeSpan DISQUALIF_TIME_SPAN_VAL = new TimeSpan(30, 00, 0);
         public static readonly TimeSpan DONT_APPEAR_TIME_SPAN_VAL = new TimeSpan(40, 00, 0);
@@ -104,7 +102,7 @@ namespace DBManager.Global
         /// Баллы за места
         /// </summary>
         public static readonly Dictionary<int, byte> BALLS_FOR_PLACES = new Dictionary<int, byte>();
-        
+
         /// <summary>
         /// Все названия разрядов
         /// </summary>
@@ -125,7 +123,7 @@ namespace DBManager.Global
 
         public const string LOG_EXCEPTION_TERMINAL_LINE = "...";
         public const string LOG_EXCEPTION_START_LINE = "Exception №";
-        
+
         public const string XLSX_EXTENSION = ".xlsx";
         public const string XLS_EXTENSION = ".xls";
         public const string MAIN_WBK_EXTENSION = ".xlsm";
@@ -135,7 +133,7 @@ namespace DBManager.Global
         public const char PUBLISHING_LOG_FIELDS_SEPARATOR = ';';
         public const char PUBLISHING_LOG_LFCR_SYMBOL = '#';
         public const string PUBLISHING_LOG_FILE_EXTENSION = ".publog";
-        public const int PUBLISHING_LOG_FILE_SIZE = 10*1024*1024;
+        public const int PUBLISHING_LOG_FILE_SIZE = 10 * 1024 * 1024;
 
         public static string[] MONTHS_IN_GENITIVE = {
                                                         "Января",
@@ -155,7 +153,7 @@ namespace DBManager.Global
 
 
         public static Stopwatch m_swchGlobal = new Stopwatch();
-#endregion
+        #endregion
 
 
         static GlobalDefines()
@@ -163,7 +161,7 @@ namespace DBManager.Global
             STD_APP_CONFIGS_DIR = Environment.CurrentDirectory;
             STD_ERROR_LOG_FILE_PATH = STD_APP_CONFIGS_DIR + "\\ErrLog.txt";
             STD_PUBLISHING_LOG_DIR = STD_APP_CONFIGS_DIR + "\\PublishingLog\\";
-            
+
             MIN_YEAR_OF_BIRTH = (short)(DateTime.Today.Year - 100);
             MIN_GROUP_YEAR = DateTime.Today.Year - 100;
             MAX_GROUP_YEAR = DateTime.Today.Year - 4;
@@ -211,7 +209,7 @@ namespace DBManager.Global
             ROW_SEQUENCE.Add(enRounds.Final, new byte[] { 3, 4, 1, 2 });
         }
 
-                
+
         #region Функции
         #region Сравнение чисел double и float с нулём и проверка на равенство
         /// <summary>
@@ -693,9 +691,9 @@ namespace DBManager.Global
                 return false;
             else
                 if (!float.TryParse(Text.Replace('.', ','), out val) && !float.TryParse(Text.Replace(',', '.'), out val))
-                    return false;
-                else
-                    return result && !float.IsNaN(val) && !float.IsInfinity(val) && Math.Sign(val) > 0;
+                return false;
+            else
+                return result && !float.IsNaN(val) && !float.IsInfinity(val) && Math.Sign(val) > 0;
         }
 
 
@@ -718,9 +716,9 @@ namespace DBManager.Global
                 return false;
             else
                 if (!float.TryParse(Text.Replace('.', ','), out val) && !float.TryParse(Text.Replace(',', '.'), out val))
-                    return false;
-                else
-                    return result && !float.IsNaN(val) && !float.IsInfinity(val) && Math.Sign(val) >= 0;
+                return false;
+            else
+                return result && !float.IsNaN(val) && !float.IsInfinity(val) && Math.Sign(val) >= 0;
         }
 
 
@@ -747,9 +745,9 @@ namespace DBManager.Global
                 return false;
             else
                 if (!float.TryParse(Text.Replace('.', ','), out val) && !float.TryParse(Text.Replace(',', '.'), out val))
-                    return false;
-                else
-                    return result && !float.IsNaN(val) && !float.IsInfinity(val) && Math.Sign(val) >= 0;
+                return false;
+            else
+                return result && !float.IsNaN(val) && !float.IsInfinity(val) && Math.Sign(val) >= 0;
         }
 
 
@@ -776,9 +774,9 @@ namespace DBManager.Global
                 return false;
             else
                 if (!float.TryParse(Text.Replace('.', ','), out val) && float.TryParse(Text.Replace(',', '.'), out val))
-                    return false;
-                else
-                    return result && !float.IsNaN(val) && !float.IsInfinity(val) && Math.Sign(val) > 0;
+                return false;
+            else
+                return result && !float.IsNaN(val) && !float.IsInfinity(val) && Math.Sign(val) > 0;
         }
 
 
@@ -906,8 +904,7 @@ namespace DBManager.Global
                 exitOperation.Abort();
         }
 
-
-        static object ExitFrame(object state)
+        private static object ExitFrame(object state)
         {
             DispatcherFrame frame = state as DispatcherFrame;
 
@@ -928,8 +925,8 @@ namespace DBManager.Global
 
             return null;
         }
-        
-        
+
+
         public static double GetVerticalScrollBarWidth(ScrollViewer viewer)
         {
             ScrollBar sbar = VisualTreeHelper.GetChild(VisualTreeHelper.GetChild(viewer, 0) as Grid, 2) as ScrollBar;
@@ -978,42 +975,42 @@ namespace DBManager.Global
             }
             else
                 if (WidthPatternTab == null)
-                {	/* HeightPatternTab != null => определяем ширину как максимум из всех, а высоту - высоту вкладки HeightPatternTab */
-                    HeightPatternTab.Measure(GlobalDefines.STD_SIZE_FOR_MEASURE);
-                    MaxHeight = HeightPatternTab.DesiredSize.Height;
-                    for (int tabIndex = 0; tabIndex < tbctrl.Items.Count; tabIndex++)
+            {   /* HeightPatternTab != null => определяем ширину как максимум из всех, а высоту - высоту вкладки HeightPatternTab */
+                HeightPatternTab.Measure(GlobalDefines.STD_SIZE_FOR_MEASURE);
+                MaxHeight = HeightPatternTab.DesiredSize.Height;
+                for (int tabIndex = 0; tabIndex < tbctrl.Items.Count; tabIndex++)
+                {
+                    if ((tbctrl.Items[tabIndex] as TabItem).Content != null)
                     {
-                        if ((tbctrl.Items[tabIndex] as TabItem).Content != null)
-                        {
-                            ((tbctrl.Items[tabIndex] as TabItem).Content as FrameworkElement).Measure(GlobalDefines.STD_SIZE_FOR_MEASURE);
-                            if (MaxWidth < ((tbctrl.Items[tabIndex] as TabItem).Content as FrameworkElement).DesiredSize.Width)
-                                MaxWidth = ((tbctrl.Items[tabIndex] as TabItem).Content as FrameworkElement).DesiredSize.Width;
-                        }
+                        ((tbctrl.Items[tabIndex] as TabItem).Content as FrameworkElement).Measure(GlobalDefines.STD_SIZE_FOR_MEASURE);
+                        if (MaxWidth < ((tbctrl.Items[tabIndex] as TabItem).Content as FrameworkElement).DesiredSize.Width)
+                            MaxWidth = ((tbctrl.Items[tabIndex] as TabItem).Content as FrameworkElement).DesiredSize.Width;
                     }
                 }
-                else
+            }
+            else
                     if (HeightPatternTab == null)
-                    {	/* WidthPatternTab != null => определяем высоту как максимум из всех, а ширину - ширину вкладки HeightPatternTab */
-                        WidthPatternTab.Measure(GlobalDefines.STD_SIZE_FOR_MEASURE);
-                        MaxWidth = WidthPatternTab.DesiredSize.Height;
-                        for (int tabIndex = 0; tabIndex < tbctrl.Items.Count; tabIndex++)
-                        {
-                            if ((tbctrl.Items[tabIndex] as TabItem).Content != null)
-                            {
-                                ((tbctrl.Items[tabIndex] as TabItem).Content as FrameworkElement).Measure(GlobalDefines.STD_SIZE_FOR_MEASURE);
-                                if (MaxHeight < ((tbctrl.Items[tabIndex] as TabItem).Content as FrameworkElement).DesiredSize.Height)
-                                    MaxHeight = ((tbctrl.Items[tabIndex] as TabItem).Content as FrameworkElement).DesiredSize.Height;
-                            }
-                        }
+            {   /* WidthPatternTab != null => определяем высоту как максимум из всех, а ширину - ширину вкладки HeightPatternTab */
+                WidthPatternTab.Measure(GlobalDefines.STD_SIZE_FOR_MEASURE);
+                MaxWidth = WidthPatternTab.DesiredSize.Height;
+                for (int tabIndex = 0; tabIndex < tbctrl.Items.Count; tabIndex++)
+                {
+                    if ((tbctrl.Items[tabIndex] as TabItem).Content != null)
+                    {
+                        ((tbctrl.Items[tabIndex] as TabItem).Content as FrameworkElement).Measure(GlobalDefines.STD_SIZE_FOR_MEASURE);
+                        if (MaxHeight < ((tbctrl.Items[tabIndex] as TabItem).Content as FrameworkElement).DesiredSize.Height)
+                            MaxHeight = ((tbctrl.Items[tabIndex] as TabItem).Content as FrameworkElement).DesiredSize.Height;
                     }
-                    else
-                    {	/* (WidthPatternTab != null && HeightPatternTab != null) */
-                        HeightPatternTab.Measure(GlobalDefines.STD_SIZE_FOR_MEASURE);
-                        MaxHeight = HeightPatternTab.DesiredSize.Height;
-                        if (HeightPatternTab != WidthPatternTab)
-                            WidthPatternTab.Measure(GlobalDefines.STD_SIZE_FOR_MEASURE);
-                        MaxWidth = WidthPatternTab.DesiredSize.Width;
-                    }
+                }
+            }
+            else
+            {   /* (WidthPatternTab != null && HeightPatternTab != null) */
+                HeightPatternTab.Measure(GlobalDefines.STD_SIZE_FOR_MEASURE);
+                MaxHeight = HeightPatternTab.DesiredSize.Height;
+                if (HeightPatternTab != WidthPatternTab)
+                    WidthPatternTab.Measure(GlobalDefines.STD_SIZE_FOR_MEASURE);
+                MaxWidth = WidthPatternTab.DesiredSize.Width;
+            }
 
             if (!((MaxWidth < double.MinValue) || (MaxHeight < double.MinValue)))// если измерения были произведены
                 for (int tabIndex = 0; tabIndex < tbctrl.Items.Count; tabIndex++)
@@ -1070,7 +1067,7 @@ namespace DBManager.Global
                 case WindowStartupLocation.CenterScreen:
                     wnd.Left = (System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width * DBManagerApp.m_DPIScale.X) / 2 - wnd.Width / 2;
                     wnd.Top = (System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height * DBManagerApp.m_DPIScale.Y) / 2 - wnd.Height / 2;
-                    break;						 
+                    break;
             }
             wnd.SizeToContent = SizeToContent.Manual;
         }
@@ -1082,7 +1079,7 @@ namespace DBManager.Global
         /// <typeparam name="T"></typeparam>
         /// <param name="ctrl"></param>
         /// <returns></returns>
-        public static T GetNeedParentOfType<T>(FrameworkElement ctrl) where T: FrameworkElement
+        public static T GetNeedParentOfType<T>(FrameworkElement ctrl) where T : FrameworkElement
         {
             FrameworkElement result = ctrl;
             while (result != null && !(result is T))
@@ -1100,10 +1097,10 @@ namespace DBManager.Global
             {
                 case 0:
                     return enSex.Male;
-                        
+
                 case 1:
                     return enSex.Female;
-                        
+
                 case GlobalDefines.DEFAULT_XML_BYTE_VAL:
                 default:
                     return enSex.None;
@@ -1130,7 +1127,7 @@ namespace DBManager.Global
             {
                 AdditionalEventType = enAdditionalEventTypes.Disqualif;
                 return DISQUALIF_TIME_SPAN_VAL;
-            }			
+            }
 
             double ResInDbl;
             if (!double.TryParse(ResInStr, out ResInDbl))
@@ -1187,7 +1184,7 @@ namespace DBManager.Global
         {
             // Ищем тренера в таблице
             IEnumerable<coaches> CoachIdInDB = DBManagerApp.m_Entities.coaches.Where(arg => arg.name == CoachName);
-            
+
             if (CoachIdInDB.Count() > 0)
                 return CoachIdInDB.First().id_coach;
             else
@@ -1389,11 +1386,11 @@ namespace DBManager.Global
         /// <param name="DescendantLevel"></param>
         /// <param name="MaxDescendantLevel"></param>
         /// <returns></returns>
-        static ScrollViewer GetChildScrollViewer(FrameworkElement ctrl, int DescendantLevel, int MaxDescendantLevel)
+        private static ScrollViewer GetChildScrollViewer(FrameworkElement ctrl, int DescendantLevel, int MaxDescendantLevel)
         {
             if (DescendantLevel == MaxDescendantLevel)
                 return null;
-            
+
             for (int i = 0; i < VisualTreeHelper.GetChildrenCount(ctrl); i++)
             {
                 FrameworkElement child = VisualTreeHelper.GetChild(ctrl, i) as FrameworkElement;

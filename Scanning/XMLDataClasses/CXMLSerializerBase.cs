@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml.Serialization;
-using System.Xml.Schema;
-using System.Xml;
-using System.Reflection;
 using System.ComponentModel;
+using System.Reflection;
+using System.Xml.Serialization;
 
 namespace DBManager.Scanning.XMLDataClasses
 {
@@ -14,7 +9,7 @@ namespace DBManager.Scanning.XMLDataClasses
     /// Базовый класс для всех классов, которые должны заполняться данными, находящимися в xml-файле
     /// </summary>
     [Serializable]
-    public abstract class CXMLSerializerBase: INotifyPropertyChanged
+    public abstract class CXMLSerializerBase : INotifyPropertyChanged
     {
         public CXMLSerializerBase()
         {
@@ -50,7 +45,7 @@ namespace DBManager.Scanning.XMLDataClasses
                 }
             }
         }
-        
+
 
         /// <summary>
         /// Устанавливает для всех свойств значения по умолчанию, взятые из атрибута DefaultValue
@@ -68,7 +63,7 @@ namespace DBManager.Scanning.XMLDataClasses
             }
         }
 
-        
+
         /// <summary>
         /// Стандартные пространства имён для сериализатора.
         /// Функция задаёт для них пустые названия, тем самым исключает добавление 

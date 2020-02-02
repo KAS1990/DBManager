@@ -1,9 +1,7 @@
-﻿using System;
+﻿using DBManager.Global;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.ComponentModel;
-using DBManager.Global;
 
 namespace DBManager.ReportGenerators
 {

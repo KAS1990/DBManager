@@ -1,22 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using DBManager.Scanning.XMLDataClasses;
+﻿using DBManager.Commands;
 using DBManager.Global;
-using System.ComponentModel;
-using System.Globalization;
 using DBManager.RoundMembers.Converters;
-using DBManager.Commands;
+using DBManager.Scanning.XMLDataClasses;
 using DBManager.Stuff;
+using System.Globalization;
 
 namespace DBManager.Scanning.DBAdditionalDataClasses
 {
     public class CFullMemberInfo : CDBAdditionalClassBase, ICanRefreshFrom
     {
-        static YearOfBirthMarkupConverter m_convYearOfBirth = new YearOfBirthMarkupConverter();
-        static GradeMarkupConverter m_convGrade = new GradeMarkupConverter();
-        
+        private static readonly YearOfBirthMarkupConverter m_convYearOfBirth = new YearOfBirthMarkupConverter();
+        private static readonly GradeMarkupConverter m_convGrade = new GradeMarkupConverter();
+
         #region IDMember
         private static readonly string IDMemberPropertyName = GlobalDefines.GetPropertyName<CFullMemberInfo>(m => m.IDMember);
 
@@ -34,7 +29,7 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
             }
         }
         #endregion
-                
+
         #region Name
         private static readonly string NamePropertyName = GlobalDefines.GetPropertyName<CFullMemberInfo>(m => m.Name);
 
@@ -54,7 +49,7 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
             }
         }
         #endregion
-                
+
         #region Surname
         private static readonly string SurnamePropertyName = GlobalDefines.GetPropertyName<CFullMemberInfo>(m => m.Surname);
 
@@ -74,7 +69,7 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
             }
         }
         #endregion
-                
+
         #region YearOfBirth
         private static readonly string YearOfBirthPropertyName = GlobalDefines.GetPropertyName<CFullMemberInfo>(m => m.YearOfBirth);
 
@@ -90,13 +85,13 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
                     m_YearOfBirth = value;
 
                     YearOfBirthForShow = m_convYearOfBirth.Convert(m_YearOfBirth, YearOfBirthForShow.GetType(), null, CultureInfo.CurrentCulture) as string;
-                    
+
                     OnPropertyChanged(YearOfBirthPropertyName);
                 }
             }
         }
         #endregion
-        
+
         #region Coach
         private static readonly string CoachPropertyName = GlobalDefines.GetPropertyName<CFullMemberInfo>(m => m.Coach);
 
@@ -115,7 +110,7 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
             }
         }
         #endregion
-        
+
         #region Team
         private static readonly string TeamPropertyName = GlobalDefines.GetPropertyName<CFullMemberInfo>(m => m.Team);
 
@@ -134,7 +129,7 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
             }
         }
         #endregion
-        
+
         #region InitGrade
         private static readonly string InitGradePropertyName = GlobalDefines.GetPropertyName<CFullMemberInfo>(m => m.InitGrade);
 
@@ -150,19 +145,19 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
                     m_InitGrade = value;
 
                     InitGradeForShow = m_convGrade.Convert(m_InitGrade, InitGradeForShow.GetType(), null, CultureInfo.CurrentCulture) as string;
-                    
+
                     OnPropertyChanged(InitGradePropertyName);
                 }
             }
         }
         #endregion
-                                
+
         private static readonly string SurnameAndNamePropertyName = GlobalDefines.GetPropertyName<CFullMemberInfo>(m => m.SurnameAndName);
         public string SurnameAndName
         {
             get { return GlobalDefines.CreateSurnameAndName(Surname, Name); }
         }
-        
+
         #region SecondCol
         private static readonly string SecondColPropertyName = GlobalDefines.GetPropertyName<CFullMemberInfo>(m => m.SecondCol);
 
@@ -307,7 +302,7 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
             if (o is CFullMemberInfo)
                 return this == (o as CFullMemberInfo);
             else if (o is CMember)
-                    return this == (o as CMember);
+                return this == (o as CMember);
 
             return false;
         }
@@ -320,7 +315,7 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
         }
 
 
-        public static bool operator == (CFullMemberInfo lhs, CMember rhs)
+        public static bool operator ==(CFullMemberInfo lhs, CMember rhs)
         {
             switch (GlobalDefines.ObjectBaseEquals(lhs, rhs))
             {
@@ -331,27 +326,27 @@ namespace DBManager.Scanning.DBAdditionalDataClasses
                     return false;
 
                 default:
-                {
-                    bool result = lhs.Name == rhs.Name &&
-                                    lhs.Surname == rhs.Surname &&
-                                    lhs.YearOfBirth == (rhs.YearOfBirthInShort < 0 ? (short)0 : rhs.YearOfBirthInShort);
-
-                    if (result)
-                        result = ((lhs.InitGrade == null && rhs.GradeInEnum == enGrade.None) || (lhs.InitGrade.Value == (byte)rhs.GradeInEnum));
-                    
-                    if (result)
                     {
-                        // Т.к. тип второй колонки здесь поменяться не может, то делаем так
-                        if (lhs.Coach == null)
-                            result = ((lhs.Team == null && string.IsNullOrEmpty(rhs.SecondCol)) ||
-                                        (lhs.Team == GlobalDefines.GetTeamId(rhs.SecondCol, false)));
-                        else
-                            result = ((lhs.Coach == null && string.IsNullOrEmpty(rhs.SecondCol)) ||
-                                        (lhs.Coach == GlobalDefines.GetCoachId(rhs.SecondCol, false)));
-                    }
+                        bool result = lhs.Name == rhs.Name &&
+                                        lhs.Surname == rhs.Surname &&
+                                        lhs.YearOfBirth == (rhs.YearOfBirthInShort < 0 ? (short)0 : rhs.YearOfBirthInShort);
 
-                    return result;
-                }
+                        if (result)
+                            result = ((lhs.InitGrade == null && rhs.GradeInEnum == enGrade.None) || (lhs.InitGrade.Value == (byte)rhs.GradeInEnum));
+
+                        if (result)
+                        {
+                            // Т.к. тип второй колонки здесь поменяться не может, то делаем так
+                            if (lhs.Coach == null)
+                                result = ((lhs.Team == null && string.IsNullOrEmpty(rhs.SecondCol)) ||
+                                            (lhs.Team == GlobalDefines.GetTeamId(rhs.SecondCol, false)));
+                            else
+                                result = ((lhs.Coach == null && string.IsNullOrEmpty(rhs.SecondCol)) ||
+                                            (lhs.Coach == GlobalDefines.GetCoachId(rhs.SecondCol, false)));
+                        }
+
+                        return result;
+                    }
             }
         }
 

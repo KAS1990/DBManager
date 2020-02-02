@@ -1,14 +1,8 @@
 ﻿using DBManager.Excel.GeneratingWorkbooks.Helpers;
-using DBManager.Excel.GeneratingWorkbooks.Interfaces;
 using DBManager.Global;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using static DBManager.Scanning.XMLDataClasses.CAgeGroup;
 
 namespace DBManager.Excel.GeneratingWorkbooks
 {
@@ -183,15 +177,15 @@ namespace DBManager.Excel.GeneratingWorkbooks
             StringBuilder sb = new StringBuilder();
             foreach (var ch in address)
             {
-                sb.Append(ch.ToCapitalLatinLetter()); 
+                sb.Append(ch.ToCapitalLatinLetter());
             }
             return sb.ToString();
         }
 
-        public GroupItemLocalWorkbook(CompDescLocalWorkbook compDesc):
+        public GroupItemLocalWorkbook(CompDescLocalWorkbook compDesc) :
             base(compDesc)
         {
-            
+
         }
     }
 }

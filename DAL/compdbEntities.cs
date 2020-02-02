@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Text;
 
 namespace DBManager
 {
@@ -59,7 +57,7 @@ namespace DBManager
             foreach (var change in modifiedEntities)
             {
                 OneEntityChanging entityHasBeenChanged = new OneEntityChanging(change.Entity);
-                
+
                 foreach (var propertyName in change.OriginalValues.PropertyNames)
                 {
                     OnePropertyChanging propValues = new OnePropertyChanging(change.OriginalValues[propertyName], change.OriginalValues[propertyName]);

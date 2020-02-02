@@ -6,21 +6,13 @@ using DBManager.Stuff;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using static DBManager.Scanning.XMLDataClasses.CAgeGroup;
 
 namespace DBManager.Excel.GeneratingWorkbooks
@@ -29,14 +21,14 @@ namespace DBManager.Excel.GeneratingWorkbooks
     /// Interaction logic for GenerationFromOnlineBDWnd.xaml
     /// </summary>
     public partial class GenerationFromOnlineBDWnd : CNotifyPropertyChangedWnd
-    {                        
-        OnlineDBManager m_DBManager = OnlineDBManager.Instance;
+    {
+        private readonly OnlineDBManager m_DBManager = OnlineDBManager.Instance;
 
         public ObservableCollectionEx<CompItemRemoteDB> RemoteDBComps { get; set; } = new ObservableCollectionEx<CompItemRemoteDB>();
 
         #region SecectedCompGroups
         private static readonly string SecectedCompGroupsPropertyName = GlobalDefines.GetPropertyName<GenerationFromOnlineBDWnd>(m => m.SecectedCompGroups);
-        private ObservableCollection<GroupItemRemoteDB> m_SecectedCompGroups = new ObservableCollection<GroupItemRemoteDB>();
+        private readonly ObservableCollection<GroupItemRemoteDB> m_SecectedCompGroups = new ObservableCollection<GroupItemRemoteDB>();
         /// <summary>
         /// 
         /// </summary>
@@ -88,7 +80,7 @@ namespace DBManager.Excel.GeneratingWorkbooks
             }
         }
         #endregion
-                
+
         public List<int> StartYears { get; set; } = new List<int>();
         public List<int> EndYears { get; set; } = new List<int>();
 
@@ -242,7 +234,7 @@ namespace DBManager.Excel.GeneratingWorkbooks
                 MessageBox.Show(this, Properties.Resources.resDuplicateWorkbookNames, Title, MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
             }
-                        
+
             if (SecectedCompGroups.Any(
                 arg =>
                     arg.IsSelected
@@ -363,7 +355,7 @@ namespace DBManager.Excel.GeneratingWorkbooks
                         MessageBoxImage.Error);
                     return;
                 }
-                
+
                 if (!generator.Generate(out errorMessage,
                         arg =>
                             CWaitingWnd.SetPrompt(((ShowAsyncResult)wrapper).WndID,
@@ -400,7 +392,7 @@ namespace DBManager.Excel.GeneratingWorkbooks
         }
     }
 
-                
+
     [ValueConversion(typeof(int), typeof(SolidColorBrush))]
     public class MembersCountToBrushValueConverter : IValueConverter
     {

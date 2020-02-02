@@ -1,36 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using DBManager.Scanning.DBAdditionalDataClasses;
-using System.Threading;
-using System.ComponentModel;
-using System.Net;
-using MSExcel = Microsoft.Office.Interop.Excel;
-using DBManager.Global;
-using System.IO;
-using System.Windows;
-using DBManager.Scanning.XMLDataClasses;
+﻿using DBManager.Global;
 using DBManager.OnlineDB;
+using DBManager.Scanning.DBAdditionalDataClasses;
+using DBManager.Scanning.XMLDataClasses;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading;
+using System.Windows;
 
 namespace DBManager.OnlineResults
 {
     public class COnlineResultsGenerator : IDisposable
     {
-        const int REQUEST_TIMEOUT_MS = 3000;
+        private const int REQUEST_TIMEOUT_MS = 3000;
 
         private bool m_Disposed = false;
-        
-        object m_csTasksToExport = new object();
-        
-        Queue<CQueueItem> m_quTasksToExport = new Queue<CQueueItem>();
-
-        OnlineDBManager m_DBManager = OnlineDBManager.Instance;
-
-        Thread m_thExporter = null;
-
-        volatile bool m_ThreadGo = false;
-        ManualResetEvent m_evHasData = new ManualResetEvent(false);
+        private readonly object m_csTasksToExport = new object();
+        private readonly Queue<CQueueItem> m_quTasksToExport = new Queue<CQueueItem>();
+        private readonly OnlineDBManager m_DBManager = OnlineDBManager.Instance;
+        private readonly Thread m_thExporter = null;
+        private bool m_ThreadGo = false;
+        private readonly ManualResetEvent m_evHasData = new ManualResetEvent(false);
 
         public int MaxQueueLength { get; set; }
 
@@ -51,7 +42,7 @@ namespace DBManager.OnlineResults
                     // Free other state (managed objects).
                     StopThread();
                 }
-                                
+
                 // Free your own state (unmanaged objects).
                 // Set large fields to null.
                 m_Disposed = true;
@@ -76,8 +67,8 @@ namespace DBManager.OnlineResults
         {
             Dispose(false);
         }
-        
-        void m_thExporter_ThreadProc()
+
+        private void m_thExporter_ThreadProc()
         {
             while (m_ThreadGo)
             {
@@ -97,12 +88,12 @@ namespace DBManager.OnlineResults
 
                     Item = m_quTasksToExport.Dequeue();
                 }
-                                    
+
                 // Обработка полученного из очереди элемента
                 HandleItem(Item);
 
                 lock (m_csTasksToExport)
-                {					
+                {
                     if (m_quTasksToExport.Count == 0)
                         m_evHasData.Reset();
                 }
@@ -116,7 +107,7 @@ namespace DBManager.OnlineResults
         /// Эту функцию нужно обязательно вызывать перед закрытием приложения.
         /// Без этого поток нормально не завершится
         /// </summary>
-        void StopThread()
+        private void StopThread()
         {
             Stop();
             m_ThreadGo = IsStarted = false;
@@ -369,8 +360,7 @@ namespace DBManager.OnlineResults
             }
         }
 
-
-        void AddItemToLog(CLogItem LogItem, CQueueItem Item)
+        private void AddItemToLog(CLogItem LogItem, CQueueItem Item)
         {
             GlobalDefines.CheckPublishingDirExists();
 

@@ -1,22 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using DBManager.Global;
-using System.Collections.ObjectModel;
-using MSExcel = Microsoft.Office.Interop.Excel;
-using System.IO;
+﻿using DBManager.Global;
 using DBManager.Scanning.XMLDataClasses;
 using DBManager.SettingsWriter;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
+using MSExcel = Microsoft.Office.Interop.Excel;
 
 namespace DBManager.Excel.Exporting.Tabs
 {
@@ -116,7 +108,7 @@ namespace DBManager.Excel.Exporting.Tabs
         }
         #endregion
 
-        
+
         #region TeamColumnIndex
         private static readonly string TeamColumnIndexPropertyName = GlobalDefines.GetPropertyName<CLeadReportInfoTab>(m => m.TeamColumnIndex);
 
@@ -135,10 +127,10 @@ namespace DBManager.Excel.Exporting.Tabs
             }
         }
         #endregion
-                
-        
+
+
         #region Groups
-        private ObservableCollection<CGroupItem> m_Groups = new ObservableCollection<CGroupItem>();
+        private readonly ObservableCollection<CGroupItem> m_Groups = new ObservableCollection<CGroupItem>();
 
         public ObservableCollection<CGroupItem> Groups
         {
@@ -148,7 +140,7 @@ namespace DBManager.Excel.Exporting.Tabs
 
 
         #region LeadSheets
-        private ObservableCollection<string> m_LeadSheets = new ObservableCollection<string>();
+        private readonly ObservableCollection<string> m_LeadSheets = new ObservableCollection<string>();
 
         public ObservableCollection<string> LeadSheets
         {
@@ -157,11 +149,11 @@ namespace DBManager.Excel.Exporting.Tabs
         #endregion
 
 
-        descriptions CompDesc
+        private descriptions CompDesc
         {
             get { return m_ParentWnd == null ? null : m_ParentWnd.m_CompDesc; }
         }
-        
+
 
         public CLeadReportInfoTab()
         {
@@ -176,7 +168,7 @@ namespace DBManager.Excel.Exporting.Tabs
             lock (DBManagerApp.m_AppSettings.m_SettingsSyncObj)
             {
                 AppSettings settings = DBManagerApp.m_AppSettings.m_Settings;
-                                
+
                 if (CompDesc != null)
                 {
                     CCompSpecificSets CompSettings = null;
@@ -206,7 +198,7 @@ namespace DBManager.Excel.Exporting.Tabs
                             TeamColumnIndex = CompSettings.TeamColumnIndex;
                         else
                             TeamColumnIndex = settings.DefaultCompSettings.TeamColumnIndex;
-                        
+
                         if (CompSettings.LeadReportXlsPath != GlobalDefines.DEFAULT_XML_STRING_VAL)
                             XlsPath = CompSettings.LeadReportXlsPath;
                         else
@@ -272,13 +264,13 @@ namespace DBManager.Excel.Exporting.Tabs
                             GroupItem.StartYearIndToExport = 0;
                             GroupItem.EndYearIndToExport = GroupItem.YearsOfBirth.Count - 1;
                         }
-                                                                        
+
                         Groups.Add(GroupItem);
                     }
 
                     if (CompSettings != null && CompSettings.dictGroupsLeadSheetsInfos != null)
                     {
-                        List<long> Keys = CompSettings.dictGroupsLeadSheetsInfos.Keys.ToList(); 
+                        List<long> Keys = CompSettings.dictGroupsLeadSheetsInfos.Keys.ToList();
                         foreach (long Key in Keys)
                         {
                             if (Groups.FirstOrDefault(arg => arg.id == Key) == null)
@@ -287,7 +279,7 @@ namespace DBManager.Excel.Exporting.Tabs
                             }
                         }
                     }
-                                        
+
                     OnLeadReportRefreshed();
 
                     // Присваивать LeadSheetIndex нужно только после OnLeadReportRefreshed
@@ -325,7 +317,7 @@ namespace DBManager.Excel.Exporting.Tabs
             {
                 bool NewAppCreated;
                 MSExcel.Application excelApp = GlobalDefines.StartExcel(out NewAppCreated);
-                
+
                 if (excelApp != null)
                 {
                     MSExcel.Workbook wbk = null;
@@ -351,7 +343,7 @@ namespace DBManager.Excel.Exporting.Tabs
                             wbk = excelApp.Workbooks.Open(XlsPath);
                             if (NewAppCreated)
                                 excelApp.Visible = false;
-                            
+
                             NewWbkCreated = true;
                         }
 
@@ -399,8 +391,7 @@ namespace DBManager.Excel.Exporting.Tabs
             }
         }
 
-
-        bool CheckPathSettings()
+        private bool CheckPathSettings()
         {
             if (HasLeadReport)
             {

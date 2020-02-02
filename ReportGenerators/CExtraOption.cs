@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using DBManager.Global;
 using System.ComponentModel;
-using DBManager.Global;
 
 namespace DBManager.ReportGenerators
 {
@@ -17,8 +13,8 @@ namespace DBManager.ReportGenerators
 			get { return m_id; }
 		}
 		#endregion
-		
-		
+
+
 		#region Value
 		private static readonly string ValuePropertyName = GlobalDefines.GetPropertyName<CExtraOption>(m => m.Value);
 
@@ -39,7 +35,7 @@ namespace DBManager.ReportGenerators
 		#endregion
 
 
-		
+
 		#region Show
 		private static readonly string ShowPropertyName = GlobalDefines.GetPropertyName<CExtraOption>(m => m.Show);
 
@@ -71,7 +67,7 @@ namespace DBManager.ReportGenerators
 			}
 		}
 		#endregion
-				
+
 
 
 		#region Name

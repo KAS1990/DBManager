@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace DBManager.Global
 {
     public class DisposableWrapper<T> : IDisposable
     {
-        bool m_Disposed = false;
-        bool m_Attached = false;
+        private bool m_Disposed = false;
+        private bool m_Attached = false;
 
         public T Object { get; private set; } = default(T);
         public Action<T> OnDispose { get; private set; } = null;

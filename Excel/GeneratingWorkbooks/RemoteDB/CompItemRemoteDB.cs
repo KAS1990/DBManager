@@ -1,11 +1,7 @@
 ﻿using DBManager.Excel.GeneratingWorkbooks.Interfaces;
 using DBManager.Global;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
 
 namespace DBManager.Excel.GeneratingWorkbooks
 {
@@ -18,7 +14,7 @@ namespace DBManager.Excel.GeneratingWorkbooks
         private static readonly string DescPropertyName = GlobalDefines.GetPropertyName<CompItemRemoteDB>(m => m.Desc);
         public ICompDesc Desc { get; set; } = null;
         #endregion
-        
+
         #region Groups
         public ObservableCollection<GroupItemRemoteDB> Groups { get; private set; } = new ObservableCollection<GroupItemRemoteDB>();
         #endregion

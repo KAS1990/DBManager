@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using DBManager.Global;
+﻿using DBManager.Global;
+using System;
 using System.ComponentModel;
 
 namespace DBManager.OnlineResults
@@ -27,7 +24,7 @@ namespace DBManager.OnlineResults
             }
         }
         #endregion
-                
+
         #region CreationDate
         private static readonly string CreationDatePropertyName = GlobalDefines.GetPropertyName<CLogItem>(m => m.CreationDate);
         private DateTime m_CreationDate = DateTime.Now;
@@ -71,8 +68,8 @@ namespace DBManager.OnlineResults
             }
         }
         #endregion
-        
-        
+
+
         #region Text
         private static readonly string TextPropertyName = GlobalDefines.GetPropertyName<CLogItem>(m => m.Text);
         private string m_Text = null;

@@ -1,20 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Windows;
-using System.Threading;
-using System.Reflection;
-using System.Drawing;
+﻿using DBManager.Global;
 using DBManager.SettingsWriter;
-using Hardcodet.Wpf.TaskbarNotification;
 using DBManager.TrayNotification;
-using DBManager.Global;
+using Hardcodet.Wpf.TaskbarNotification;
+using System;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
-using System.Data.Entity;
-using System.Collections;
+using System.Reflection;
+using System.Threading;
+using System.Windows;
 
 namespace DBManager
 {
@@ -27,7 +21,7 @@ namespace DBManager
         /// Mutex, который запрещает повторный запуск приложения.
         /// Он должен быть объявлен глобально, иначе будет закрыт после выхода из процедуры, где был объявлен
         /// </summary>
-        Mutex m_SyncMutex = null;
+        private Mutex m_SyncMutex = null;
 
         public static DBManagerApp m_App = null;
 
@@ -137,7 +131,7 @@ namespace DBManager
             base.OnStartup(e);
         }
 
-        void CloseWndOwnedWnds(Window wnd)
+        private void CloseWndOwnedWnds(Window wnd)
         {
             if (wnd == null)
                 return;
@@ -157,17 +151,15 @@ namespace DBManager
                 ActivateMainWndCommand.Execute(null);
         }
     }
-    
 
-    static class AppAttributes
+    internal static class AppAttributes
     {
-        static readonly Assembly m_Assembly = null;
-
-        static readonly AssemblyTitleAttribute m_Title = null;
-        static readonly AssemblyCompanyAttribute m_Company = null;
-        static readonly AssemblyCopyrightAttribute m_Copyright = null;
-        static readonly AssemblyProductAttribute m_Product = null;
-        static readonly Icon m_Icon = null;
+        private static readonly Assembly m_Assembly = null;
+        private static readonly AssemblyTitleAttribute m_Title = null;
+        private static readonly AssemblyCompanyAttribute m_Company = null;
+        private static readonly AssemblyCopyrightAttribute m_Copyright = null;
+        private static readonly AssemblyProductAttribute m_Product = null;
+        private static readonly Icon m_Icon = null;
 
         public static string Title { get; private set; }
         public static string CompanyName { get; private set; }
@@ -175,7 +167,7 @@ namespace DBManager
         public static string ProductName { get; private set; }
         public static Icon AppIcon { get; private set; }
 
-        static Version m_Version = null;
+        private static readonly Version m_Version = null;
         public static string Version
         {
             get { return m_Version == null ? "" : m_Version.ToString(); }
@@ -221,7 +213,7 @@ namespace DBManager
                     Copyright = m_Copyright.Copyright;
                 if (m_Product != null)
                     ProductName = m_Product.Product;
-                
+
                 if (m_Icon != null)
                     AppIcon = m_Icon;
             }

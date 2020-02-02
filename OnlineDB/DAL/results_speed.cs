@@ -1,9 +1,5 @@
 ﻿using DBManager.Global;
 using DBManager.Scanning.DBAdditionalDataClasses;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace DBManager.OnlineDB.Data
 {
@@ -31,17 +27,17 @@ namespace DBManager.OnlineDB.Data
                         && rhs.MemberInfo.InitGradeForShow == rang
                         && rhs.MemberInfo.YearOfBirth == age
                         && rhs.MemberInfo.SecondCol == team
-                        
+
                         && rhs.StartNumber == number
                         && rhs.Place == place
-                        
+
                         && rhs.Results.Route1.Time == route1
                         && rhs.Results.Route2.Time == route2
                         && rhs.Results.Sum.Time == sum;
 
             return res;
         }
-        
+
         public void UpdateFromLocalData(CFullMemberInfo localMemberInfo)
         {
             local_member_id = (int)localMemberInfo.IDMember;

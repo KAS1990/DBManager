@@ -1,8 +1,5 @@
 ﻿using DBManager.Scanning.DBAdditionalDataClasses;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace DBManager.Excel.GeneratingWorkbooks.Interfaces
 {

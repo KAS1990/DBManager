@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml.Serialization;
-using System.IO;
-using Microsoft.Windows.Controls.Ribbon;
-using System.Windows;
-using System.Runtime.Serialization;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Xml.Schema;
-using System.Xml;
-using System.ComponentModel;
-using DBManager.Global;
+﻿using DBManager.Global;
 using DBManager.Scanning.XMLDataClasses;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Windows;
+using System.Windows.Media;
+using System.Xml;
+using System.Xml.Schema;
+using System.Xml.Serialization;
 
 namespace DBManager.SettingsWriter
 {
@@ -37,7 +32,7 @@ namespace DBManager.SettingsWriter
         /// </summary>
         [XmlAttribute]
         public string FullFilePath { get; set; }
-        
+
         /// <summary>
         /// Идентификатор группы
         /// </summary>
@@ -265,7 +260,7 @@ namespace DBManager.SettingsWriter
         /// </summary>
         [DefaultValue(GlobalDefines.DEFAULT_XML_INT_VAL)]
         public int TeamColumnIndex = GlobalDefines.DEFAULT_XML_INT_VAL;
-                    
+
         /// <summary>
         /// Номера листов в протоколе трудности для каждой группы
         /// Ключ - идентификатор группы
@@ -354,7 +349,7 @@ namespace DBManager.SettingsWriter
         /// </summary>
         [DefaultValue(0)]
         public int MaxSheetNameLen = 31;
-        
+
         /// <summary>
         /// Название файла с шаблонами отчётов 
         /// </summary>
@@ -369,7 +364,7 @@ namespace DBManager.SettingsWriter
         [XmlElement("ReportTemplates")]
         [DefaultValue(null)]
         public SerializableDictionary<enReportTypes, int> dictReportTemplates = null;
-        
+
         public void ToDefault()
         {
             MaxSheetNameLen = 31;
@@ -462,7 +457,7 @@ namespace DBManager.SettingsWriter
         /// Запустили программу после автоматической перезагрузки.
         /// </summary>
         public bool IsRestarting = false;
-                
+
         /// <summary>
         /// 
         /// </summary>
@@ -485,7 +480,7 @@ namespace DBManager.SettingsWriter
 
         [DefaultValue(null)]
         public CCompSpecificSets DefaultCompSettings = null;
-                
+
         /// <summary>
         /// Метод, с помощью которого вычисляются места для присвоения разрядов
         /// </summary>
@@ -559,7 +554,7 @@ namespace DBManager.SettingsWriter
         [XmlElement]
         [DefaultValue(null)]
         public CFontStyleSettings FalsestartFontStyle = null;
-        
+
 
         /// <summary>
         /// Шрифт
@@ -590,25 +585,25 @@ namespace DBManager.SettingsWriter
         [XmlElement("CompSettings")]
         [DefaultValue(null)]
         public SerializableDictionary<long, CCompSpecificSets> dictCompSettings = null;
-                
+
         /// <summary>
         /// Настройки для экспорта в Excel
         /// </summary>
         [DefaultValue(null)]
         public CExcelSettings ExcelSettings = null;
-                
+
         /// <summary>
         /// Полный путь к bat-нику, запускаеющему MySQL.
         /// </summary>
         [DefaultValue(GlobalDefines.DEFAULT_XML_STRING_VAL)]
         public string MySQLBatFullPath = GlobalDefines.DEFAULT_XML_STRING_VAL;
-                
+
         /// <summary>
         /// Полный путь к папке, где содержится текущий шаблон книги.
         /// </summary>
         [DefaultValue(GlobalDefines.DEFAULT_XML_STRING_VAL)]
         public string WorkbookTemplateFolder = GlobalDefines.DEFAULT_XML_STRING_VAL;
-                
+
         /// <summary>
         /// Название книги-шаблона.
         /// </summary>
@@ -703,10 +698,10 @@ namespace DBManager.SettingsWriter
                 BackgroundColor = (m_GlobalResources["FalsestartBrush"] as SolidColorBrush).Color,
                 ForeColor = (m_GlobalResources["FalsestartForeBrush"] as SolidColorBrush).Color
             };
-                        
+
             FontSize = 14.0;
             FontFamilyName = "Arial";
-            
+
             dictFileScannerSettings = new SerializableDictionary<string, CFileScannerSettings>();
 
             dictCompSettings = new SerializableDictionary<long, CCompSpecificSets>();
@@ -745,7 +740,7 @@ namespace DBManager.SettingsWriter
                     BackgroundColor = (m_GlobalResources["DataGridLinesBrush"] as SolidColorBrush).Color,
                 };
             }
-            
+
             if (PlainResultsFontStyle == null)
             {
                 PlainResultsFontStyle = new CFontStyleSettings()
@@ -754,7 +749,7 @@ namespace DBManager.SettingsWriter
                     ForeColor = (m_GlobalResources["PlainResultsForeBrush"] as SolidColorBrush).Color
                 };
             }
-                        
+
             if (NextRoundMembersCountFontStyle == null)
             {
                 NextRoundMembersCountFontStyle = new CFontStyleSettings()

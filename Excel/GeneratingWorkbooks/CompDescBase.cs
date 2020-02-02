@@ -1,14 +1,11 @@
 ﻿using DBManager.Excel.GeneratingWorkbooks.Interfaces;
 using DBManager.Global;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
 
 namespace DBManager.Excel.GeneratingWorkbooks
 {
-    public abstract class CompDescBase  : ICompDesc, INotifyPropertyChanged
+    public abstract class CompDescBase : ICompDesc, INotifyPropertyChanged
     {
         #region Name
         private static readonly string NamePropertyName = GlobalDefines.GetPropertyName<CompDescBase>(m => m.Name);

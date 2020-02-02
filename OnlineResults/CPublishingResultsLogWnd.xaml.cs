@@ -1,22 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+﻿using DBManager.Commands;
 using DBManager.Global;
-using System.IO;
 using DBManager.Scanning.XMLDataClasses;
-using System.ComponentModel;
-using DBManager.Commands;
+using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
-using DBManager.Global.Converters;
+using System.ComponentModel;
+using System.IO;
+using System.Linq;
+using System.Windows;
 
 namespace DBManager.OnlineResults
 {
@@ -24,7 +15,7 @@ namespace DBManager.OnlineResults
     /// Interaction logic for CPublishingResultsLogWnd.xaml
     /// </summary>
     public partial class CPublishingResultsLogWnd : CNotifyPropertyChangedWnd
-    {		
+    {
         public class CGroupItem : INotifyPropertyChanged
         {
             #region id
@@ -101,7 +92,7 @@ namespace DBManager.OnlineResults
                 }
             }
             #endregion
-            
+
 
             #region Items
             private ObservableCollectionEx<CLogItem> m_Items = new ObservableCollectionEx<CLogItem>();
@@ -274,7 +265,8 @@ namespace DBManager.OnlineResults
 
 
             public event EventHandler DeleteMe;
-            void RaiseDeleteMe()
+
+            private void RaiseDeleteMe()
             {
                 if (DeleteMe != null)
                     DeleteMe(this, new EventArgs());
@@ -296,7 +288,7 @@ namespace DBManager.OnlineResults
 
         #region Comps
         private static readonly string CompsPropertyName = GlobalDefines.GetPropertyName<CPublishingResultsLogWnd>(m => m.Comps);
-        private ObservableCollectionEx<CCompItem> m_Comps = new ObservableCollectionEx<CCompItem>();
+        private readonly ObservableCollectionEx<CCompItem> m_Comps = new ObservableCollectionEx<CCompItem>();
         /// <summary>
         /// Коллекция, содержащий все соревнования
         /// </summary>
@@ -312,7 +304,7 @@ namespace DBManager.OnlineResults
         /// Все изменения отслеживаются с помощью событий, которые вызываются не в потоке интерфейса,
         /// а в каком-то отдельном, созданном FileSystemWatcher
         /// </summary>
-        private FileSystemWatcher m_LogFileWatcher = new FileSystemWatcher()
+        private readonly FileSystemWatcher m_LogFileWatcher = new FileSystemWatcher()
         {
             NotifyFilter = NotifyFilters.LastWrite, /* нас интересует только изменение названия файла,
                                                      * а также дата последнего изменения */
@@ -337,7 +329,7 @@ namespace DBManager.OnlineResults
             m_LogFileWatcher.EndInit();
 
             Comps.CollectionChanged += Comps_CollectionChanged;
-            
+
             RefreshItems();
         }
 
@@ -367,8 +359,7 @@ namespace DBManager.OnlineResults
             }
         }
 
-
-        CGroupItem AddNewGroup(CCompItem Comp, long GroupId)
+        private CGroupItem AddNewGroup(CCompItem Comp, long GroupId)
         {
             CGroupItem result = new CGroupItem(GroupId)
             {
@@ -387,8 +378,7 @@ namespace DBManager.OnlineResults
             return result;
         }
 
-
-        bool HandleFile(string FullFilePath)
+        private bool HandleFile(string FullFilePath)
         {
             CGroupItem GroupChanged = null;
             CCompItem Comp = null;
@@ -484,11 +474,11 @@ namespace DBManager.OnlineResults
                                     Type = ItemType,
                                     CreationDate = ItemDateTime,
                                 };
-                                
+
                                 if (Fields.Length > Index)
                                     CurLogItem.PCWbkName = Fields[Index].Trim();
                                 Index++;
-                                
+
                                 if (Fields.Length > Index)
                                     CurLogItem.Text = Fields[Index].Trim();
                                 Index++;
@@ -509,8 +499,7 @@ namespace DBManager.OnlineResults
             return true;
         }
 
-
-        bool RefreshItems(string FullFilePath = null)
+        private bool RefreshItems(string FullFilePath = null)
         {
             if (FullFilePath == null)
             {
@@ -540,8 +529,7 @@ namespace DBManager.OnlineResults
             RefreshItems();
         }
 
-
-        bool m_IsLoaded = false;
+        private bool m_IsLoaded = false;
 
         private void CPublishingResultsLogWnd_SizeChanged(object sender, SizeChangedEventArgs e)
         {

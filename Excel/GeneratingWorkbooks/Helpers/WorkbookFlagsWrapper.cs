@@ -1,39 +1,38 @@
 ﻿using DBManager.Global;
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace DBManager.Excel.GeneratingWorkbooks.Helpers
 {
     public class WorkbookFlagsWrapper
     {
         #region Флаги
-        const int ONE_DAY_COMPETITION_BIT = 1;
-        const int SOME_DAYS_COMPETITION_BIT = 2;
-        const int CMB_YYYY_SELECTED_INDEX_BIT = 3;
+        private const int ONE_DAY_COMPETITION_BIT = 1;
+        private const int SOME_DAYS_COMPETITION_BIT = 2;
+        private const int CMB_YYYY_SELECTED_INDEX_BIT = 3;
+
         /// <summary>
         /// 0 - м, 1 - ж
         /// </summary>
-        const int SEX_BIT = 4;
-        const int GROUP_YEARS_NEEDED_BIT = 5;
-        const int SHOW_ROW_6_BIT = 8;
+        private const int SEX_BIT = 4;
+        private const int GROUP_YEARS_NEEDED_BIT = 5;
+        private const int SHOW_ROW_6_BIT = 8;
+
         /// <summary>
         /// Вводилось ли примерное количество участников (= открыли форму frmStartForm первый раз)
         /// </summary>
-        const int WBK_IS_OPENED_FIRST_TIME_BIT = 9;
+        private const int WBK_IS_OPENED_FIRST_TIME_BIT = 9;
+
         /// <summary>
         /// 0 - команда, 1 - тренер
         /// </summary>
-        const int TEAM_COACH_BIT = 11;
-
-        const int GROUP_INDEX_1ST_BIT = 6;
-        const int GROUP_INDEX_2ND_BIT = 7;
-        const int GROUP_INDEX_3RD_BIT = 14;
+        private const int TEAM_COACH_BIT = 11;
+        private const int GROUP_INDEX_1ST_BIT = 6;
+        private const int GROUP_INDEX_2ND_BIT = 7;
+        private const int GROUP_INDEX_3RD_BIT = 14;
         #endregion
 
-        BitArray m_flags = new BitArray(16);
+        private readonly BitArray m_flags = new BitArray(16);
 
         public ushort Value
         {

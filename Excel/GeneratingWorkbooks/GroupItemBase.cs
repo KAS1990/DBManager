@@ -2,11 +2,8 @@
 using DBManager.Excel.GeneratingWorkbooks.Interfaces;
 using DBManager.Global;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
-using System.Linq;
-using System.Text;
 using static DBManager.Scanning.XMLDataClasses.CAgeGroup;
 
 namespace DBManager.Excel.GeneratingWorkbooks

@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using DBManager.Global;
+﻿using DBManager.Global;
 using DBManager.OnlineResults.Tasks;
-using DBManager.Scanning.DBAdditionalDataClasses;
 using DBManager.Scanning.XMLDataClasses;
 
 namespace DBManager.OnlineResults

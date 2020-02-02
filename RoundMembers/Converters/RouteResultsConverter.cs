@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Data;
-using System.Globalization;
-using DBManager.Global;
-using DBManager.Global.Converters;
+﻿using DBManager.Global;
 using DBManager.Scanning.XMLDataClasses;
+using System;
 
 namespace DBManager.RoundMembers.Converters
 {

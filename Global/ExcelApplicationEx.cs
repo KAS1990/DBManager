@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MSExcel = Microsoft.Office.Interop.Excel;
+﻿using MSExcel = Microsoft.Office.Interop.Excel;
 
 namespace DBManager.Global
 {

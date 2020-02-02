@@ -1,26 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using DBManager.Excel.Exporting.Tabs;
 using DBManager.Global;
-using DBManager.Excel.Exporting.Tabs;
-using MSExcel = Microsoft.Office.Interop.Excel;
-using DBManager.Scanning.XMLDataClasses;
-using System.Windows;
-using DBManager.RoundMembers.Converters;
-using System.Globalization;
 using DBManager.ReportGenerators;
+using DBManager.RoundMembers.Converters;
+using DBManager.Scanning.XMLDataClasses;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Windows;
+using MSExcel = Microsoft.Office.Interop.Excel;
 
 namespace DBManager.Excel.Exporting.ExportingClasses
 {
     public class CPersonalExporter : CReportExporterBase
     {
         #region Номера столбцов в листе Excel
-        private int EXCEL_PLACE_COL_NUM = 1;
-        private int EXCEL_PERSONAL_COL_NUM = 2;
-        private int EXCEL_TEAM_COL_NUM = 3;
-        private int EXCEL_YEAR_OF_BIRTH_COL_NUM = 4;
-        private int EXCEL_GRADE_COL_NUM = 5;
+        private readonly int EXCEL_PLACE_COL_NUM = 1;
+        private readonly int EXCEL_PERSONAL_COL_NUM = 2;
+        private readonly int EXCEL_TEAM_COL_NUM = 3;
+        private readonly int EXCEL_YEAR_OF_BIRTH_COL_NUM = 4;
+        private readonly int EXCEL_GRADE_COL_NUM = 5;
         #endregion
 
         protected string RN_RESULT = "Result";
@@ -40,9 +39,8 @@ namespace DBManager.Excel.Exporting.ExportingClasses
             /// </summary>
             public CLeadReportInfo m_LeadReportInfo = new CLeadReportInfo();
         }
-        
-        
-        CPersonalTask CurTask
+
+        private CPersonalTask CurTask
         {
             get
             {
@@ -53,11 +51,11 @@ namespace DBManager.Excel.Exporting.ExportingClasses
             }
         }
 
-                
+
         public CPersonalExporter(CTask Task) :
             base(Task)
         {
-            
+
         }
 
 
@@ -104,11 +102,11 @@ namespace DBManager.Excel.Exporting.ExportingClasses
                 CCompSettings CompSettings = new CCompSettings(GroupInDB);
 
                 wsh.Range[RN_COMP_NAME].Value = CompSettings.CompName;
-                                
+
                 wsh.Range[RN_MAIN_JUDGE].Value = CompSettings.MainJudge;
                 wsh.Range[RN_MAIN_SECRETARY].Value = CompSettings.MainSecretary;
                 wsh.Range[RN_SECOND_COL_NAME].Value = CompSettings.SecondColName;
-                
+
                 string ReportName = wsh.Range[RN_REPORT_NAME].Value;
                 int SelectedStartYear, SelectedEndYear;
                 wsh.Range[RN_REPORT_NAME].Value = ReportName.Replace(GlobalDefines.EXCEL_REPORT_NAME_TEXT_TO_REPLACE,
@@ -208,7 +206,7 @@ namespace DBManager.Excel.Exporting.ExportingClasses
                                             MessageBoxImage.Error);
                             continue;
                         }
-                        
+
                         item = lstResults.Find(arg => arg.m_SurnameAndName == NameAndSurnameInLead && arg.m_YearOfBirth == YoBInLead);
                         if (item == null)
                         {   // Не нашли => он не может участвовать в многоборье
@@ -224,7 +222,7 @@ namespace DBManager.Excel.Exporting.ExportingClasses
                             case enPersRepPlacesAggregationMethod.Sum:
                                 item.m_TotalPlace = item.m_LeadPlace + item.m_SpeedPlace;
                                 break;
-                            
+
                             case enPersRepPlacesAggregationMethod.Mul:
                                 item.m_TotalPlace = item.m_LeadPlace * item.m_SpeedPlace;
                                 break;
@@ -272,7 +270,7 @@ namespace DBManager.Excel.Exporting.ExportingClasses
                     // Окончательно сортируем участников
                     lstResults.Sort((lhs, rhs) => (lhs.m_Place.CompareTo(rhs.m_Place)));
                 }
-                                                
+
                 // Выводим полученные места в протокол двоеборья
                 int FirstRowInSpeed = wsh.Range[RN_FIRST_DATA_ROW].Row;
                 int RowInSpeed = 0;

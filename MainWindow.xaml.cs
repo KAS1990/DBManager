@@ -1,43 +1,41 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Collections.Specialized;
-using System.ComponentModel;
-using System.Collections;
-using System.Threading;
-using DBManager.Global;
-using Microsoft.Windows.Controls.Ribbon;
-using System.Reflection;
-using DBManager.SettingWnds;
-using DBManager.Scanning;
-using DBManager.Scanning.XMLDataClasses;
-using System.IO;
-using DBManager.SettingsWriter;
-using System.Globalization;
-using DBManager.Scanning.DBAdditionalDataClasses;
-using System.Windows.Threading;
-using System.Windows.Interop;
-using DBManager.TrayNotification;
-using DBManager.Global.Converters;
-using DBManager.RoundMembers.Converters;
-using DBManager.AttachedProperties;
-using System.Windows.Controls.Primitives;
-using DBManager.RoundResultsControl.FilterControl;
-using WPFLocalization;
-using DBManager.Stuff;
-using DBManager.Excel.Exporting;
-using DBManager.RightPanels;
+﻿using DBManager.AttachedProperties;
 using DBManager.DAL;
-using MSExcel = Microsoft.Office.Interop.Excel;
+using DBManager.Excel.Exporting;
+using DBManager.Excel.GeneratingWorkbooks;
+using DBManager.Global;
+using DBManager.Global.Converters;
 using DBManager.OnlineResults;
 using DBManager.OnlineResults.Tasks;
-using DBManager.Excel.GeneratingWorkbooks;
+using DBManager.RightPanels;
+using DBManager.RoundMembers.Converters;
+using DBManager.RoundResultsControl.FilterControl;
+using DBManager.Scanning;
+using DBManager.Scanning.DBAdditionalDataClasses;
+using DBManager.Scanning.XMLDataClasses;
+using DBManager.SettingsWriter;
+using DBManager.SettingWnds;
+using DBManager.Stuff;
+using DBManager.TrayNotification;
+using Microsoft.Windows.Controls.Ribbon;
+using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.ComponentModel;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Threading;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Data;
+using System.Windows.Input;
+using System.Windows.Interop;
+using System.Windows.Media;
+using System.Windows.Threading;
+using WPFLocalization;
+using MSExcel = Microsoft.Office.Interop.Excel;
 
 namespace DBManager
 {
@@ -46,21 +44,18 @@ namespace DBManager
     /// </summary>
     public partial class MainWindow : CNotifyPropertyChangedWnd
     {
-        const double SCROLL_VIEWER_SCROLL_PART = 0.9;
-
-        bool m_ShowMsgBeforeClose = true;
-
-        CDirScanner m_DirScanner = null;
-        ResourceDictionary m_RightPanelTemplates = new ResourceDictionary()
+        private const double SCROLL_VIEWER_SCROLL_PART = 0.9;
+        private readonly bool m_ShowMsgBeforeClose = true;
+        private readonly CDirScanner m_DirScanner = null;
+        private readonly ResourceDictionary m_RightPanelTemplates = new ResourceDictionary()
         {
             Source = new Uri("RightPanels\\RightPanelTemplates.xaml", UriKind.RelativeOrAbsolute)
         };
-
-        bool m_RestartingThreads = false;
+        private bool m_RestartingThreads = false;
 
         #region CurrentGroups
 
-        private ObservableDictionary<long, CKeyValuePairEx<long, CCompSettings>> m_CurrentGroups = new ObservableDictionary<long, CKeyValuePairEx<long, CCompSettings>>();
+        private readonly ObservableDictionary<long, CKeyValuePairEx<long, CCompSettings>> m_CurrentGroups = new ObservableDictionary<long, CKeyValuePairEx<long, CCompSettings>>();
         /// <summary>
         /// Словарь, содержащий все группы
         /// </summary>
@@ -68,12 +63,12 @@ namespace DBManager
         {
             get { return m_CurrentGroups; }
         }
-        
+
         #endregion
 
         #region CurrentRounds
 
-        private ObservableDictionary<byte, CKeyValuePairEx<byte, CRoundAndDate>> m_CurrentRounds = new ObservableDictionary<byte, CKeyValuePairEx<byte, CRoundAndDate>>();
+        private readonly ObservableDictionary<byte, CKeyValuePairEx<byte, CRoundAndDate>> m_CurrentRounds = new ObservableDictionary<byte, CKeyValuePairEx<byte, CRoundAndDate>>();
         /// <summary>
         /// Словарь, содержащий все раунды текущей группы
         /// </summary>
@@ -81,11 +76,11 @@ namespace DBManager
         {
             get { return m_CurrentRounds; }
         }
-        
+
         #endregion
 
         #region HighlightTypes
-        private ObservableCollectionEx<CKeyValuePairEx<enHighlightGradesType, string>> m_HighlightTypes = new ObservableCollectionEx<CKeyValuePairEx<enHighlightGradesType, string>>();
+        private readonly ObservableCollectionEx<CKeyValuePairEx<enHighlightGradesType, string>> m_HighlightTypes = new ObservableCollectionEx<CKeyValuePairEx<enHighlightGradesType, string>>();
         /// <summary>
         /// Словарь, содержащий все типы подсветок разрядов в итоговом протоколе
         /// </summary>
@@ -100,16 +95,17 @@ namespace DBManager
         /// <summary>
         /// Результаты запроса на получения списка участников текущего раунда
         /// </summary>
-        IList<CDBAdditionalClassBase> m_CurrentRoundMembers = null;
+        private IList<CDBAdditionalClassBase> m_CurrentRoundMembers = null;
+
         /// <summary>
         /// Source для vsrcCurrentRoundMembers
         /// </summary>
-        ObservableCollectionEx<CDBAdditionalClassBase> collectionCurrentRoundMembers { get; set; }
+        private ObservableCollectionEx<CDBAdditionalClassBase> collectionCurrentRoundMembers { get; set; }
 
         /// <summary>
         /// Source для vsrcCurrentRoundMembers2
         /// </summary>
-        ObservableCollectionEx<CDBAdditionalClassBase> collectionCurrentRoundMembers2 { get; set; }
+        private ObservableCollectionEx<CDBAdditionalClassBase> collectionCurrentRoundMembers2 { get; set; }
 
         #endregion
 
@@ -132,9 +128,9 @@ namespace DBManager
                 }
             }
         }
-        
+
         #endregion
-        
+
         #region QualifFinished
 
         private static readonly string QualifFinishedPropertyName = GlobalDefines.GetPropertyName<MainWindow>(m => m.QualifFinished);
@@ -153,9 +149,9 @@ namespace DBManager
                 }
             }
         }
-        
+
         #endregion
-        
+
         #region MembersFromQualif
 
         private static readonly string MembersFromQualifPropertyName = GlobalDefines.GetPropertyName<MainWindow>(m => m.MembersFromQualif);
@@ -174,7 +170,7 @@ namespace DBManager
                 }
             }
         }
-        
+
         #endregion
 
         #region CurHighlightGradesType
@@ -234,59 +230,52 @@ namespace DBManager
 
         private ScrollViewer m_svwrDataGrid = null;
         private ScrollViewer m_svwrDataGrid2 = null;
-        
+
         private CollectionViewSource vsrcCurrentRoundMembers
         {
             get { return Resources["vsrcCurrentRoundMembers"] as CollectionViewSource; }
         }
-        
+
         private CollectionViewSource vsrcCurrentRoundMembers2
         {
             get { return Resources["vsrcCurrentRoundMembers2"] as CollectionViewSource; }
         }
-        
+
         private bool IsTotal
         {
             get { return (enRounds)CurrentRounds.SelectedKey == enRounds.Total; }
         }
-        
+
         /// <summary>
         /// Смещения, на которые нужно выполнять прокрутку
         /// </summary>
-        private PushPullList<double> m_lstScrollingOffsets = new PushPullList<double>();
+        private readonly PushPullList<double> m_lstScrollingOffsets = new PushPullList<double>();
 
         /// <summary>
         /// Таймер, который выполняет автоматическую прокрутку списка
         /// </summary>
-        private DispatcherTimer m_tmrAutoscroll = new DispatcherTimer() { Interval = new TimeSpan(0, 0, 5) };
-
-
-        int m_MembersInLeftGrid = -1;
-
-
-        List<string> m_NamesToUnregister = new List<string>();
+        private readonly DispatcherTimer m_tmrAutoscroll = new DispatcherTimer() { Interval = new TimeSpan(0, 0, 5) };
+        private int m_MembersInLeftGrid = -1;
+        private readonly List<string> m_NamesToUnregister = new List<string>();
 
         /// <summary>
         /// Все активные сейчас фильтры
         /// </summary>
-        Dictionary<enFilterTarget, List<FilterPredicate>> m_dictFilters = new Dictionary<enFilterTarget, List<FilterPredicate>>();
-        
+        private readonly Dictionary<enFilterTarget, List<FilterPredicate>> m_dictFilters = new Dictionary<enFilterTarget, List<FilterPredicate>>();
+
         /// <summary>
         /// Результаты фильтрации.
         /// Они не используются для вывода данных на экран
         /// </summary>
-        List<CDBAdditionalClassBase> m_lstFilteredMembers = null;
-        
-        CLogWnd m_wndLog = null;
+        private List<CDBAdditionalClassBase> m_lstFilteredMembers = null;
+        private CLogWnd m_wndLog = null;
+        private CRemoteControlWnd m_remoteControlWnd = null;
+        private readonly COnlineResultsGenerator m_OnlineResult = new COnlineResultsGenerator();
 
-        CRemoteControlWnd m_remoteControlWnd = null;
-
-        COnlineResultsGenerator m_OnlineResult = new COnlineResultsGenerator();
-        
         #region hsActiveFilters
         private static readonly string ActiveFiltersPropertyName = GlobalDefines.GetPropertyName<MainWindow>(m => m.ActiveFilters);
 
-        private List<enFilterTarget> m_ActiveFilters = new List<enFilterTarget>();
+        private readonly List<enFilterTarget> m_ActiveFilters = new List<enFilterTarget>();
         /// <summary>
         /// Все активные фильтры
         /// </summary>
@@ -295,7 +284,7 @@ namespace DBManager
             get { return m_ActiveFilters; }
         }
         #endregion
-        
+
         #region Типо команды
 
         /// <summary>
@@ -317,7 +306,7 @@ namespace DBManager
             OnPropertyChanged(PublishingNowPropertyName);
             OnPropertyChanged(CalcGradesEnabledPropertyName);
             OnPropertyChanged(CurHighlightGradesTypePropertyName);
-                        
+
             CommandManager.InvalidateRequerySuggested();
         }
 
@@ -340,7 +329,7 @@ namespace DBManager
                 if (res.HasValue && res.Value)
                 {
                     long selectedGroupId = CurrentGroups.SelectedKey;
-                    
+
                     m_RestartingThreads = true;
                     RefreshCommandEnable();
 
@@ -365,16 +354,16 @@ namespace DBManager
                     foreach (string fullFilePath in AllXMLFullFilePaths)
                     {
                         SyncParam.m_lstFileScannerSettings.Add(new CFileScannerSettings()
-                            {
-                                FullFilePath = fullFilePath,
-                                GroupId = -1
-                            });
+                        {
+                            FullFilePath = fullFilePath,
+                            GroupId = -1
+                        });
                     }
                     m_DirScanner.Restart(SyncParam.m_Dir, SyncParam);
                     // Выводим информацию на форму
                     DBToGrid(selectedGroupId);
                     SyncStartStopBtnWithThState();
-                    
+
                     m_RestartingThreads = false;
                     RefreshCommandEnable();
 
@@ -386,7 +375,7 @@ namespace DBManager
 
                     if (hFinishedSearchEvent != null)
                         hFinishedSearchEvent.Set();
-                }				
+                }
             }
             catch (Exception ex)
             {
@@ -453,7 +442,7 @@ namespace DBManager
             {
                 Owner = this,
             };
-                        
+
             try
             {
                 bool? res = wnd.ShowDialog();
@@ -487,8 +476,7 @@ namespace DBManager
 
 
         public static readonly string GodsModePropertyName = GlobalDefines.GetPropertyName<MainWindow>(m => m.GodsMode);
-
-        bool m_GodsMode = false;
+        private bool m_GodsMode = false;
         /// <summary>
         /// Режим Бога
         /// </summary>
@@ -563,14 +551,14 @@ namespace DBManager
             }
 
             ToStopStyle();
-                        
+
             m_RestartingThreads = true;
             RefreshCommandEnable();
 
             RefreshCmdExecuted(sender, e);
             m_DirScanner.Start(DBManagerApp.m_AppSettings.m_Settings.CompDir);
             SyncStartStopBtnWithThState();
-            
+
             m_RestartingThreads = false;
             RefreshCommandEnable();
         }
@@ -720,7 +708,7 @@ namespace DBManager
             if (excelApp != null)
             {
                 MSExcel.Workbook wbk = null;
-                
+
                 try
                 {
                     foreach (MSExcel.Workbook book in excelApp.Workbooks)
@@ -759,7 +747,7 @@ namespace DBManager
                                 break;
                         }
                     }
-            
+
                     return;
                 }
                 catch (Exception ex)
@@ -901,7 +889,7 @@ namespace DBManager
                 }
             }
         }
-        
+
         #endregion
 
 
@@ -1050,7 +1038,7 @@ namespace DBManager
             }
         }
         /*----------------------------------------------------------*/
-        
+
 
         /// <summary>
         /// Команда отображения выпадающего меню с параметрами фильтрации
@@ -1170,12 +1158,12 @@ namespace DBManager
                     if (IsTotal)
                     {
                         lstPredicatesInDB = (from member in PredicatesSource.Cast<CMemberInTotal>()
-                                              select member.MemberInfo.SecondCol as object).Distinct().ToList();
+                                             select member.MemberInfo.SecondCol as object).Distinct().ToList();
                     }
                     else
                     {
                         lstPredicatesInDB = (from member in PredicatesSource.Cast<CMemberAndResults>()
-                                              select member.MemberInfo.SecondCol as object).Distinct().ToList();
+                                             select member.MemberInfo.SecondCol as object).Distinct().ToList();
                     }
                     TargetType = typeof(string);
                     Comparer.CompareProperty = RoundResultsControl.FilterControl.enCompareProperty.FilterValue;
@@ -1192,7 +1180,7 @@ namespace DBManager
                     else
                     {
                         lstPredicatesInDB = (from member in PredicatesSource.Cast<CMemberAndResults>()
-                                              select member.MemberInfo.YearOfBirth as object).Distinct().ToList();
+                                             select member.MemberInfo.YearOfBirth as object).Distinct().ToList();
                     }
                     Converter = new YearOfBirthMarkupConverter();
                     TargetType = typeof(short?);
@@ -1205,12 +1193,12 @@ namespace DBManager
                     if (IsTotal)
                     {
                         lstPredicatesInDB = (from member in PredicatesSource.Cast<CMemberInTotal>()
-                                              select member.MemberInfo.InitGrade as object).Distinct().ToList();
+                                             select member.MemberInfo.InitGrade as object).Distinct().ToList();
                     }
                     else
                     {
                         lstPredicatesInDB = (from member in PredicatesSource.Cast<CMemberAndResults>()
-                                              select member.MemberInfo.InitGrade as object).Distinct().ToList();
+                                             select member.MemberInfo.InitGrade as object).Distinct().ToList();
                     }
                     Converter = new GradeMarkupConverter();
                     TargetType = typeof(byte?);
@@ -1224,7 +1212,7 @@ namespace DBManager
             {
                 bool HasSelectedItems = false;
                 // Сравниваем категории в CathegoriesInDB и lstCurCathegories
-                for (int i = 0; i < lstCurPredicates.Count; )
+                for (int i = 0; i < lstCurPredicates.Count;)
                 {
                     object Item = null;
                     if (lstCurPredicates[i].FilterValue == null)
@@ -1251,7 +1239,7 @@ namespace DBManager
                 }
 
                 bool ItemsAdded = false;
-                for (int i = 0; i < lstPredicatesInDB.Count; )
+                for (int i = 0; i < lstPredicatesInDB.Count;)
                 {
                     bool ItemExists = false;
 
@@ -1269,10 +1257,10 @@ namespace DBManager
                                                             null,
                                                             LocalizationManager.UICulture).ToString();
                         lstCurPredicates.Add(new FilterPredicate()
-                            {
-                                FilterValue = lstPredicatesInDB[i],
-                                Name = string.IsNullOrWhiteSpace(Name) ? Properties.Resources.resEmpty : Name
-                            });
+                        {
+                            FilterValue = lstPredicatesInDB[i],
+                            Name = string.IsNullOrWhiteSpace(Name) ? Properties.Resources.resEmpty : Name
+                        });
                     }
                     else
                         i++;
@@ -1309,9 +1297,9 @@ namespace DBManager
         {
             e.CanExecute = true;
         }
-        
+
         #endregion
-        
+
         public MainWindow()
         {
             InitializeComponent();
@@ -1326,7 +1314,7 @@ namespace DBManager
                 collectionCurrentRoundMembers2 = new ObservableCollectionEx<CDBAdditionalClassBase>();
 
                 CTaskBarIconTuning.ResetProgressValue(); // Чтобы объект создался в основном потоке
-                                
+
                 #region Настройка пунктов стандартного меню Ribbon
                 FieldInfo fi;
                 /* Меняем названия пунктов в стандартном меню Ribbon */
@@ -1367,7 +1355,7 @@ namespace DBManager
                 HighlightTypes.Add(new CKeyValuePairEx<enHighlightGradesType, string>(enHighlightGradesType.ResultGrades, Properties.Resources.resHighlightResultGrades, HighlightGradeTypeCommamdHandler));
                 HighlightTypes.Add(new CKeyValuePairEx<enHighlightGradesType, string>(enHighlightGradesType.CarryoutGrades, Properties.Resources.resHighlightCarryoutGrades, HighlightGradeTypeCommamdHandler));
                 HighlightTypes.Add(new CKeyValuePairEx<enHighlightGradesType, string>(enHighlightGradesType.СonfirmGrades, Properties.Resources.resHighlightСonfirmGrades, HighlightGradeTypeCommamdHandler));
-                
+
                 CurrentGroups.CollectionChanged += CurrentGroups_CollectionChanged;
                 CurrentRounds.CollectionChanged += CurrentRounds_CollectionChanged;
 
@@ -1392,7 +1380,7 @@ namespace DBManager
                                                     true);
                     m_DirScanner.DataChanged += DirScaner_DataChanged;
                 }
-                
+
                 CurrentGroups.Clear();
                 if (m_DirScanner.SyncSuccessfully ||
                     m_DirScanner.State == enScanningThreadState.Worked ||
@@ -1407,7 +1395,7 @@ namespace DBManager
                 RefreshCommandEnable();
 
                 rchkShowGroupHead_Click(rchkShowGroupHead, null);
-                                
+
                 vsrcCurrentRoundMembers.Source = collectionCurrentRoundMembers;
                 vsrcCurrentRoundMembers2.Source = collectionCurrentRoundMembers2;
                 SetFilterFunc(null, false);
@@ -1426,9 +1414,9 @@ namespace DBManager
         {
             return IntPtr.Zero;
         }
-        
+
         #endregion
-        
+
         protected override void OnClosing(CancelEventArgs e)
         {
             if (!m_ShowMsgBeforeClose ||
@@ -1448,13 +1436,13 @@ namespace DBManager
             }
             else
                 e.Cancel = true;
-            
+
             base.OnClosing(e);
         }
-        
+
         #region Фильтрация
 
-        void pppFilter_Closed(object sender, EventArgs e)
+        private void pppFilter_Closed(object sender, EventArgs e)
         {
             Popup pppFilter = sender as Popup;
             if (pppFilter != null && pppFilter.Tag != null && pppFilter.Child is CFilterControl)
@@ -1478,12 +1466,12 @@ namespace DBManager
                 }
             }
         }
-        
+
         /// <summary>
         /// Фильтруем
         /// </summary>
         /// <param name="sender"></param>
-        void FilterControl_Filter(CFilterControl sender)
+        private void FilterControl_Filter(CFilterControl sender)
         {
             if (sender.FilterPredicates.All(arg => arg.IsSelected))
             {	// Фильтрация по столбцу отменена => удаляем его предикаты из m_dictFilters
@@ -1501,12 +1489,12 @@ namespace DBManager
                     OnPropertyChanged(ActiveFiltersPropertyName);
                 }
             }
-            
+
             if (sender.PredicatesChanged)
             {	// Изменились условия фильтрации
                 // Удаляем места во всех предыдущих результатах фильтрации
                 m_lstFilteredMembers.ForEach(arg => arg.PlaceInFilter = null);
-                
+
                 // Результаты фильтрации
                 m_lstFilteredMembers.Clear();
                 foreach (CDBAdditionalClassBase Member in m_CurrentRoundMembers)
@@ -1563,14 +1551,14 @@ namespace DBManager
 
             sender.ParentPopup.IsOpen = false;
         }
-        
+
         private void ResetFilters()
         {
             m_dictFilters.Clear();
             ActiveFilters.Clear();
             SetFilterFunc(null, true);
             m_MembersInLeftGrid = -1;
-        
+
             OnPropertyChanged(ActiveFiltersPropertyName);
 
             if ((enRounds)CurrentRounds.SelectedKey == enRounds.Qualif || (enRounds)CurrentRounds.SelectedKey == enRounds.Qualif2)
@@ -1578,7 +1566,7 @@ namespace DBManager
                 grdRoundMembersHost_SizeChanged(grdRoundMembersHost, null);
             }
         }
-        
+
         private void SetFilterFunc(Predicate<object> Func, bool Refresh)
         {
             ThreadManager.Instance.InvokeUI(new Action(() =>
@@ -1591,7 +1579,7 @@ namespace DBManager
                 }
             }));
         }
-        
+
         private bool FilterFunc(object item)
         {
             CFullMemberInfo CheckingMember = null;
@@ -1636,12 +1624,12 @@ namespace DBManager
 
             return true;
         }
-        
+
         /// <summary>
         /// Не нужно ничего фильтровать => просто закрываем popup
         /// </summary>
         /// <param name="sender"></param>
-        void FilterControl_DontFilter(CFilterControl sender)
+        private void FilterControl_DontFilter(CFilterControl sender)
         {
             RightPanel.FilteredMembersQ = null;
             sender.ParentPopup.IsOpen = false;
@@ -1668,7 +1656,7 @@ namespace DBManager
             }
         }
 
-        void ToStopStyle()
+        private void ToStopStyle()
         {
             rbtnStartStop.Tag = "StopStyle";
             rbtnStartStop.Click -= StartCmdExecuted;
@@ -1681,8 +1669,7 @@ namespace DBManager
             ScannerStopped = false;
         }
 
-
-        void ToStartStyle()
+        private void ToStartStyle()
         {
             rbtnStartStop.Tag = "StartStyle";
             rbtnStartStop.Click -= StopCmdExecuted;
@@ -1696,8 +1683,7 @@ namespace DBManager
             ScannerStopped = true;
         }
 
-
-        void SyncStartStopBtnWithThState()
+        private void SyncStartStopBtnWithThState()
         {
             switch (m_DirScanner.State)
             {
@@ -1711,8 +1697,8 @@ namespace DBManager
             }
         }
         #endregion
-        
-        void OnFontStyliesChanged()
+
+        private void OnFontStyliesChanged()
         {
             dgrdRoundMembers2.FontFamily =
                 dgrdRoundMembers.FontFamily = new System.Windows.Media.FontFamily(DBManagerApp.m_AppSettings.m_Settings.FontFamilyName);
@@ -1720,7 +1706,7 @@ namespace DBManager
                 dgrdRoundMembers.FontSize = DBManagerApp.m_AppSettings.m_Settings.FontSize;
             dgrdRoundMembers2.ColumnHeaderHeight =
                 dgrdRoundMembers.ColumnHeaderHeight = dgrdRoundMembers.FontSize * 30.0 / 14.0;
-            
+
             RightPanel.PlainResultsFontStyle = DBManagerApp.m_AppSettings.m_Settings.PlainResultsFontStyle;
             RightPanel.InvitedToStartFontStyle = DBManagerApp.m_AppSettings.m_Settings.InvitedToStartFontStyle;
             RightPanel.JustRecievedResultFontStyle = DBManagerApp.m_AppSettings.m_Settings.JustRecievedResultFontStyle;
@@ -1728,7 +1714,7 @@ namespace DBManager
             RightPanel.PreparingFontStyle = DBManagerApp.m_AppSettings.m_Settings.PreparingFontStyle;
             RightPanel.StayOnStartFontStyle = DBManagerApp.m_AppSettings.m_Settings.StayOnStartFontStyle;
             RightPanel.FalsestartFontStyle = DBManagerApp.m_AppSettings.m_Settings.FalsestartFontStyle;
-            
+
 
             OnPropertyChanged(CRightPanelControl.PlainResultsFontStylePropertyName);
             OnPropertyChanged(CRightPanelControl.InvitedToStartFontStylePropertyName);
@@ -1739,8 +1725,8 @@ namespace DBManager
             OnPropertyChanged(CRightPanelControl.FalsestartFontStylePropertyName);
             OnPropertyChanged(GridLinesFontStylePropertyName);
         }
-        
-        void DirScaner_DataChanged(CScannerBase sender, DataChangedEventArgs e)
+
+        private void DirScaner_DataChanged(CScannerBase sender, DataChangedEventArgs e)
         {
             if (e != null)
             {
@@ -1852,7 +1838,7 @@ namespace DBManager
                                             {
                                                 CurrentGroups[CurrentGroups.Keys.First()].Command.DoExecute();
                                             }));
-                                        }										
+                                        }
                                     }
 
                                     // Удаляем группу из DBManagerApp.m_AppSettings.m_Settings
@@ -1888,7 +1874,7 @@ namespace DBManager
                                 }
                                 else
                                 {
-                                    List < int > ChangedRows = new List<int>();
+                                    List<int> ChangedRows = new List<int>();
                                     switch (Changing.ChangeReason)
                                     {
                                         case enChangeReason.crOnlySomeRowsChanged:
@@ -1939,7 +1925,7 @@ namespace DBManager
                                             break;
 
                                     }
-                                        
+
                                     if (Changing.ChangeReason != enChangeReason.crNone
                                         && Changing.ChangeReason != enChangeReason.crOnlySomeRowsChanged)
                                     {   // Нужно обновить общее число участников
@@ -1957,7 +1943,7 @@ namespace DBManager
                         // Проверяем, нужно ли публиковать этот раунд
                         CCompSpecificSets CompSets = null;
                         CPublishedGroupItemInSets PublishedGroupItemInSets = null;
-                                            
+
                         lock (DBManagerApp.m_AppSettings.m_SettingsSyncObj)
                         {
                             if (!m_OnlineResult.IsStarted ||
@@ -2019,8 +2005,8 @@ namespace DBManager
                 }
             }
         }
-        
-        void CurrentGroups_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+
+        private void CurrentGroups_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (CurrentGroups.Count == 0)
             {
@@ -2032,13 +2018,13 @@ namespace DBManager
             OnPropertyChanged(CalcGradesEnabledPropertyName);
         }
 
-        void CurrentRounds_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void CurrentRounds_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (CurrentRounds.Count == 0)
             {
                 rmbtnRound.Label = Properties.Resources.resSelectRound;
                 lblRoundDate.Content = lblRoundName.Content = "";
-                
+
                 m_CurrentRoundMembers = null;
                 collectionCurrentRoundMembers.Clear();
                 collectionCurrentRoundMembers2.Clear();
@@ -2050,8 +2036,8 @@ namespace DBManager
             OnPropertyChanged(PublishEnabledPropertyName);
             OnPropertyChanged(CalcGradesEnabledPropertyName);
         }
-        
-        void CurrentGroupSettings_PropertyChanged(object sender, PropertyChangedEventArgs e)
+
+        private void CurrentGroupSettings_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == CKeyValuePairEx<long, CCompSettings>.ValuePropertyName)
             {
@@ -2062,8 +2048,8 @@ namespace DBManager
                 }
             }
         }
-        
-        void SetDesc(descriptions Desc)
+
+        private void SetDesc(descriptions Desc)
         {
             if (Desc == null)
             {
@@ -2083,7 +2069,7 @@ namespace DBManager
             }
         }
 
-        void DBToGrid(long initialGroupId)
+        private void DBToGrid(long initialGroupId)
         {
             if (m_DirScanner == null)
                 return;
@@ -2132,16 +2118,16 @@ namespace DBManager
                 }
             }
         }
-        
-        void GroupCommamdHandler(CKeyValuePairEx<long, CCompSettings> sender)
+
+        private void GroupCommamdHandler(CKeyValuePairEx<long, CCompSettings> sender)
         {
             ResetFilters(); // Очищаем все фильтры при переходе к новой группе
 
             bool GroupChanged = CurrentGroups.SelectedKey != sender.Key;
             CurrentGroups.SelectedKey = sender.Key;
-                                    
+
             SecondColName = sender.Value.SecondColName;
-                                    
+
             rmbtnGroup.Label = sender.Value.AgeGroup.FullGroupName;
             lblMainJudge.Content = sender.Value.MainJudge ?? Properties.Resources.resDontSet;
             lblMainSecretary.Content = sender.Value.MainSecretary ?? Properties.Resources.resDontSet;
@@ -2170,7 +2156,7 @@ namespace DBManager
                     continue;
 
                 byte RoundID = RoundInfo.RoundID;
-                
+
                 RoundAndDate = new CRoundAndDate()
                 {
                     Name = RoundInfo.RoundName.Replace('_', ' '),
@@ -2198,7 +2184,7 @@ namespace DBManager
                                                                 sender.Value.EndDate == null ? (DateTime?)null : sender.Value.EndDate.Date);
             GroupRounds.Add((byte)enRounds.Total,
                             new CKeyValuePairEx<byte, CRoundAndDate>((byte)enRounds.Total, RoundAndDate, RoundCommamdHandler));
-            
+
             byte CurSelectedRound = CurrentRounds.SelectedKey;
             CurrentRounds.Clear();
             CurrentRounds.AddRange(GroupRounds);
@@ -2219,8 +2205,8 @@ namespace DBManager
 
             RefreshCommandEnable();
         }
-        
-        void RoundCommamdHandler(CKeyValuePairEx<byte, CRoundAndDate> sender)
+
+        private void RoundCommamdHandler(CKeyValuePairEx<byte, CRoundAndDate> sender)
         {
             //GlobalDefines.m_swchGlobal.Restart();
             ResetFilters(); // Очищаем все фильтры при переходе к новому раунду
@@ -2229,7 +2215,7 @@ namespace DBManager
 
             rmbtnRound.Label = sender.Value.Name;
             m_MembersInLeftGrid = -1;
-                                    
+
             enRounds SelectedRound = (enRounds)CurrentRounds.SelectedKey;
 
             lblRoundDate.Content = sender.Value.Date;
@@ -2244,11 +2230,11 @@ namespace DBManager
                 tckrMembersOnStart.Visibility = Visibility.Collapsed;
 #endif
                 scrlvwrAdditionalDataGridHeader.Visibility = Visibility.Visible;
-                
+
                 lblRoundName.Content = string.Format("{0} - {1}.",
                                                         CurrentGroups.SelectedItem.Value.AgeGroup.FullGroupName,
                                                         Properties.Resources.resSpeed);
-                                                                
+
                 List<results_speed> AllGroupResultsInDB = (from part in DBManagerApp.m_Entities.participations
                                                            join result in DBManagerApp.m_Entities.results_speed on part.id_participation equals result.participation
                                                            where part.Group == CurrentGroups.SelectedKey
@@ -2603,8 +2589,8 @@ namespace DBManager
             }
 
             dgrdRoundMembers.Columns.Clear();
-            DataGridColumn[] columns = null; 
-            
+            DataGridColumn[] columns = null;
+
             CMemberAndResultsComparer Comparer1 = new CMemberAndResultsComparer();
             CMemberAndResultsComparer Comparer2 = new CMemberAndResultsComparer();
             switch (SelectedRound)
@@ -2613,7 +2599,7 @@ namespace DBManager
                     RightPanel.ClearTemplate();
                     ShowRightDataGrid(false);
                     break;
-                
+
                 case enRounds.Qualif:
                     RightPanel.Template = m_RightPanelTemplates["QualifRightPanel"] as ControlTemplate;
                     if (QualifFinished)
@@ -2636,7 +2622,7 @@ namespace DBManager
                                                     .ThenBy(n => n, Comparer2)
                                                     .ToList<CDBAdditionalClassBase>(); ;
                     }
-                                        
+
                     RightPanel.RoundMembersQ = m_CurrentRoundMembers.Count();	// Число участников в раунде
 
                     if (CurrentRounds.PrevSelectedKey != CurrentRounds.SelectedKey)
@@ -2648,10 +2634,10 @@ namespace DBManager
 
                         dgrdRoundMembers2.RowHeight = dgrdRoundMembers.FontSize * 25.0 / 14.0;
                     }
-                    
+
                     grdRoundMembersHost_SizeChanged(grdRoundMembersHost, null);
                     break;
-                
+
                 case enRounds.Qualif2:
                     RightPanel.Template = m_RightPanelTemplates["QualifRightPanel"] as ControlTemplate;
                     if (QualifFinished)
@@ -2689,7 +2675,7 @@ namespace DBManager
 
                     grdRoundMembersHost_SizeChanged(grdRoundMembersHost, null);
                     break;
-                
+
                 case enRounds.OneEighthFinal:
                     RightPanel.NextRoundMembersQ = 8;
                     RightPanel.Template = m_RightPanelTemplates["MiddleRoundsRightPanel"] as ControlTemplate;
@@ -2707,7 +2693,7 @@ namespace DBManager
                         columns = Resources["MiddleSheetsColumns"] as DataGridColumn[];
                     }
                     break;
-                
+
                 case enRounds.QuaterFinal:
                     RightPanel.NextRoundMembersQ = 4;
                     RightPanel.Template = m_RightPanelTemplates["MiddleRoundsRightPanel"] as ControlTemplate;
@@ -2725,7 +2711,7 @@ namespace DBManager
                         columns = Resources["MiddleSheetsColumns"] as DataGridColumn[];
                     }
                     break;
-                
+
                 case enRounds.SemiFinal:
                     RightPanel.NextRoundMembersQ = 4;
                     RightPanel.Template = m_RightPanelTemplates["MiddleRoundsRightPanel"] as ControlTemplate;
@@ -2743,7 +2729,7 @@ namespace DBManager
                         columns = Resources["MiddleSheetsColumns"] as DataGridColumn[];
                     }
                     break;
-                
+
                 case enRounds.Final:
                     RightPanel.NextRoundMembersQ = 0;
                     RightPanel.Template = m_RightPanelTemplates["FinalRightPanel"] as ControlTemplate;
@@ -2815,21 +2801,21 @@ namespace DBManager
                                 Converter = new ResultsExtraHeaderWidthMarkupConverter()
                             };
                             bindWidth.Bindings.Add(new Binding("ActualWidth")
-                                {
-                                    ElementName = "TotalColumnsPlace"
-                                });
+                            {
+                                ElementName = "TotalColumnsPlace"
+                            });
                             bindWidth.Bindings.Add(new Binding("ActualWidth")
-                                {
-                                    ElementName = "TotalColumnsSurnameAndName"
-                                });
+                            {
+                                ElementName = "TotalColumnsSurnameAndName"
+                            });
                             bindWidth.Bindings.Add(new Binding("ActualWidth")
                             {
                                 ElementName = "TotalColumnsSecondCol"
                             });
                             bindWidth.Bindings.Add(new Binding("ActualWidth")
-                                {
-                                    ElementName = "TotalColumnsYearOfBirth"
-                                });
+                            {
+                                ElementName = "TotalColumnsYearOfBirth"
+                            });
                             bindWidth.Bindings.Add(new Binding("ActualWidth")
                             {
                                 ElementName = "TotalColumnsInitGrade"
@@ -2967,17 +2953,17 @@ namespace DBManager
                                     Converter = new ResultsExtraHeaderWidthMarkupConverter()
                                 };
                                 bindWidth.Bindings.Add(new Binding("ActualWidth")
-                                    {
-                                        ElementName = RoundEnumName + "Route1"
-                                    });
+                                {
+                                    ElementName = RoundEnumName + "Route1"
+                                });
                                 bindWidth.Bindings.Add(new Binding("ActualWidth")
-                                    {
-                                        ElementName = RoundEnumName + "Route2"
-                                    });
+                                {
+                                    ElementName = RoundEnumName + "Route2"
+                                });
                                 bindWidth.Bindings.Add(new Binding("ActualWidth")
-                                    {
-                                        ElementName = RoundEnumName + "Sum"
-                                    });
+                                {
+                                    ElementName = RoundEnumName + "Sum"
+                                });
                                 BindingOperations.SetBinding(lblExtraResultsHeader, Label.WidthProperty, bindWidth);
                             }
 
@@ -3037,7 +3023,7 @@ namespace DBManager
             //System.Diagnostics.Debug.WriteLine(GlobalDefines.m_swchGlobal.Elapsed.TotalSeconds);
         }
 
-        byte GetRountIdForSelect(byte curSelectedRound, bool groupChanged)
+        private byte GetRountIdForSelect(byte curSelectedRound, bool groupChanged)
         {
             if (!groupChanged && CurrentRounds.ContainsKey(curSelectedRound))
                 return curSelectedRound;
@@ -3066,8 +3052,8 @@ namespace DBManager
                     return 255;
             }
         }
-        
-        void RefreshRoundResults(CDataChangedInfo Changing, List<int> ChangedRows, enOnlySomeRowsChangedReason OnlySomeRowsChangedReason)
+
+        private void RefreshRoundResults(CDataChangedInfo Changing, List<int> ChangedRows, enOnlySomeRowsChangedReason OnlySomeRowsChangedReason)
         {
             if (CurrentRounds.SelectedItem == null || IsTotal)
                 return;
@@ -3124,45 +3110,45 @@ namespace DBManager
 
                         // Список участников раунда со всей необходимой информацией 
                         List<CMemberAndResults> RoundResultsFromDB = (from member in DBManagerApp.m_Entities.members
-                                                                        join part in DBManagerApp.m_Entities.participations on member.id_member equals part.member
-                                                                        join result in DBManagerApp.m_Entities.results_speed on part.id_participation equals result.participation
-                                                                        where result.round == CurrentRounds.SelectedKey
-                                                                                && part.Group == CurrentGroups.SelectedKey
-                                                                        select new CMemberAndResults
-                                                                        {
-                                                                            Results = new COneRoundResults()
-                                                                            {
-                                                                                m_Round = (enRounds)result.round,
-                                                                                Route1 = new CResult()
-                                                                                {
-                                                                                    ResultInDB = result,
-                                                                                    ResultColumnNumber = enResultColumnNumber.Route1,
-                                                                                    CondFormating = (enCondFormating?)result.cond_formating_1,
-                                                                                    AdditionalEventTypes = (enAdditionalEventTypes?)result.event_1,
-                                                                                    Time = result.route1,
-                                                                                },
-                                                                                Route2 = new CResult()
-                                                                                {
-                                                                                    ResultInDB = result,
-                                                                                    ResultColumnNumber = enResultColumnNumber.Route2,
-                                                                                    CondFormating = (enCondFormating?)result.cond_formating_2,
-                                                                                    AdditionalEventTypes = (enAdditionalEventTypes?)result.event_2,
-                                                                                    Time = result.route2,
-                                                                                },
-                                                                                Sum = new CResult()
-                                                                                {
-                                                                                    ResultInDB = result,
-                                                                                    ResultColumnNumber = enResultColumnNumber.Sum,
-                                                                                    CondFormating = (enCondFormating?)result.cond_formating_sum,
-                                                                                    AdditionalEventTypes = (enAdditionalEventTypes?)result.event_sum,
-                                                                                    Time = result.sum,
-                                                                                },
-                                                                            },
+                                                                      join part in DBManagerApp.m_Entities.participations on member.id_member equals part.member
+                                                                      join result in DBManagerApp.m_Entities.results_speed on part.id_participation equals result.participation
+                                                                      where result.round == CurrentRounds.SelectedKey
+                                                                              && part.Group == CurrentGroups.SelectedKey
+                                                                      select new CMemberAndResults
+                                                                      {
+                                                                          Results = new COneRoundResults()
+                                                                          {
+                                                                              m_Round = (enRounds)result.round,
+                                                                              Route1 = new CResult()
+                                                                              {
+                                                                                  ResultInDB = result,
+                                                                                  ResultColumnNumber = enResultColumnNumber.Route1,
+                                                                                  CondFormating = (enCondFormating?)result.cond_formating_1,
+                                                                                  AdditionalEventTypes = (enAdditionalEventTypes?)result.event_1,
+                                                                                  Time = result.route1,
+                                                                              },
+                                                                              Route2 = new CResult()
+                                                                              {
+                                                                                  ResultInDB = result,
+                                                                                  ResultColumnNumber = enResultColumnNumber.Route2,
+                                                                                  CondFormating = (enCondFormating?)result.cond_formating_2,
+                                                                                  AdditionalEventTypes = (enAdditionalEventTypes?)result.event_2,
+                                                                                  Time = result.route2,
+                                                                              },
+                                                                              Sum = new CResult()
+                                                                              {
+                                                                                  ResultInDB = result,
+                                                                                  ResultColumnNumber = enResultColumnNumber.Sum,
+                                                                                  CondFormating = (enCondFormating?)result.cond_formating_sum,
+                                                                                  AdditionalEventTypes = (enAdditionalEventTypes?)result.event_sum,
+                                                                                  Time = result.sum,
+                                                                              },
+                                                                          },
 
-                                                                            StartNumber = result.number,
-                                                                            Place = result.place,
-                                                                            id_part = result.participation
-                                                                        }).ToList();
+                                                                          StartNumber = result.number,
+                                                                          Place = result.place,
+                                                                          id_part = result.participation
+                                                                      }).ToList();
 
                         foreach (CMemberAndResults MemberResultsFromDB in RoundResultsFromDB)
                         {
@@ -3191,7 +3177,7 @@ namespace DBManager
 
                             if (MemberResults == null)
                                 continue;
-                                                                                    
+
                             // Нужно восстановить старые значения VisibilityInMainTable
                             Visibility PrevVisibilityInMainTable = MemberResults.VisibilityInMainTable;
 
@@ -3397,7 +3383,7 @@ namespace DBManager
                                     break;
                             }
                         }
-                                                                                                                    
+
                         switch (SelectedRound)
                         {
                             case enRounds.None:
@@ -3571,7 +3557,7 @@ namespace DBManager
                             }
                             else
                                 RightPanel.InvitedToStartMember = RightPanel.PreparingMember = null;
-                            
+
                             switch (Comparers.Length)
                             {
                                 case 1:
@@ -3611,13 +3597,13 @@ namespace DBManager
                                                              where part.id_participation == Changing.ID
                                                              select new CFullMemberInfo()
                                                              {
-                                                                IDMember = member.id_member,
-                                                                Surname = member.surname,
-                                                                Name = member.name,
-                                                                YearOfBirth = member.year_of_birth,
-                                                                Coach = part.coach,
-                                                                Team = part.team,
-                                                                InitGrade = part.init_grade,
+                                                                 IDMember = member.id_member,
+                                                                 Surname = member.surname,
+                                                                 Name = member.name,
+                                                                 YearOfBirth = member.year_of_birth,
+                                                                 Coach = part.coach,
+                                                                 Team = part.team,
+                                                                 InitGrade = part.init_grade,
                                                              }).FirstOrDefault();
                             if (NewMemberInfo != null)
                             {
@@ -3736,20 +3722,20 @@ namespace DBManager
                 default:
                     break;
             }
-                                
+
 #if TICKER
             tckrMembersOnStart.TickerText = string.IsNullOrWhiteSpace(TickerText) ? null : TickerText.Left(TickerText.Length - 1);
 #endif
 
-            
+
         }
-        
-        void HighlightGradeTypeCommamdHandler(CKeyValuePairEx<enHighlightGradesType, string> sender)
+
+        private void HighlightGradeTypeCommamdHandler(CKeyValuePairEx<enHighlightGradesType, string> sender)
         {
             mbtnHighlightGrades.Label = sender.Value;
             CurHighlightGradesType = sender.Key;
         }
-                                        
+
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             CTaskBarIconTuning.hWnd = (new WindowInteropHelper(this)).Handle;
@@ -3802,7 +3788,7 @@ namespace DBManager
                 //}
             }
         }
-                
+
         /// <summary>
         /// Показывать шапку листа
         /// </summary>
@@ -3816,27 +3802,27 @@ namespace DBManager
                 {	// Строка с названием раунда всегда будет видна
                     continue;
                 }
-                
+
                 if (rchkShowGroupHead.IsChecked.HasValue && rchkShowGroupHead.IsChecked.Value)
                     grdGroupHead.RowDefinitions[row].Height = new GridLength(0, GridUnitType.Auto);
                 else
                     grdGroupHead.RowDefinitions[row].Height = new GridLength(0, GridUnitType.Pixel);
             }
         }
-        
+
         private void dgrdRoundMembers_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
             if (scrlvwrAdditionalDataGridHeader.Visibility == Visibility.Visible)
                 scrlvwrAdditionalDataGridHeader.ScrollToHorizontalOffset(e.HorizontalOffset);
         }
-        
+
         private void ShowRightDataGrid(bool Show)
         {
             if (Show)
             {
                 if (grdspltrRoundMembers.Visibility != Visibility.Visible)
-                {	/* Если правая поле не отображается, то показываем её,
-                     * в противном случае - ничего не делаем, чтобы не менять выставленную ширину полей */ 
+                {   /* Если правая поле не отображается, то показываем её,
+                     * в противном случае - ничего не делаем, чтобы не менять выставленную ширину полей */
                     grdRoundMembersHost.ColumnDefinitions[2].Width = new GridLength(1, GridUnitType.Star);
                     grdRoundMembersHost.ColumnDefinitions[2].MinWidth = grdRoundMembersHost.ColumnDefinitions[0].MinWidth;
                     grdspltrRoundMembers.Visibility = Visibility.Visible;
@@ -3852,7 +3838,7 @@ namespace DBManager
                 }
             }
         }
-        
+
         private void grdRoundMembersHost_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (m_CurrentRoundMembers == null)
@@ -3907,7 +3893,7 @@ namespace DBManager
                     collectionCurrentRoundMembers2.Clear();
             }
         }
-        
+
         private void RefreshVisibilityInMainTable(CMemberAndResultsComparer[] ComparersForSort, bool refreshingRequired)
         {
             if (m_CurrentRoundMembers == null)
@@ -4032,7 +4018,7 @@ namespace DBManager
             }
         }
 
-        
+
         public void rchkAutoscrollEnabled_CheckedUnchecked(object sender, RoutedEventArgs e)
         {
             m_tmrAutoscroll.IsEnabled = rchkAutoscrollEnabled.IsChecked.Value;
@@ -4054,7 +4040,7 @@ namespace DBManager
             }
         }
         #endregion
-        
+
         #region Публикация данных на сайте
 
         public void rchkAutoPublishing_Click(object sender, RoutedEventArgs e)
@@ -4064,7 +4050,7 @@ namespace DBManager
             else
                 m_OnlineResult.Stop();
         }
-        
+
         /// <summary>
         /// 
         /// </summary>
@@ -4098,7 +4084,7 @@ namespace DBManager
                 CompSettings = new CCompSettings(CompSettings),
                 Round = RoundToSend
             };
-            
+
             switch (RoundToSend)
             {
                 case enRounds.Qualif:
@@ -4151,7 +4137,7 @@ namespace DBManager
     /// </summary>
     public class CollectionsCountToBoolMarkupConverter : MarkupConverterBase
     {
-        bool m_IsInverse = false;
+        private bool m_IsInverse = false;
         /// <summary>
         /// Инверсное преобразование, т.е. если true, то UnvisibleValue -> true 
         /// </summary>
@@ -4162,7 +4148,7 @@ namespace DBManager
         }
 
 
-        public CollectionsCountToBoolMarkupConverter(): base()
+        public CollectionsCountToBoolMarkupConverter() : base()
         {
         }
 
@@ -4176,7 +4162,7 @@ namespace DBManager
         public override object ConvertBack(object value, Type targetType,
             object parameter, CultureInfo culture)
         {
-            throw new NotFiniteNumberException("ConvertBack is not implemented in CollectionsCountToBoolConverter"); 
+            throw new NotFiniteNumberException("ConvertBack is not implemented in CollectionsCountToBoolConverter");
         }
     }
 }

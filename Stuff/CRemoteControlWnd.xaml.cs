@@ -1,20 +1,11 @@
 ﻿using DBManager.Global;
 using Microsoft.Windows.Controls.Ribbon;
 using System;
-using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Globalization;
-using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace DBManager.Stuff
 {
@@ -23,7 +14,7 @@ namespace DBManager.Stuff
     /// </summary>
     public partial class CRemoteControlWnd : CNotifyPropertyChangedWnd
     {
-        readonly MainWindow m_mainWnd = null;
+        private readonly MainWindow m_mainWnd = null;
 
         #region Конструкторы
 
@@ -56,7 +47,7 @@ namespace DBManager.Stuff
 
             chkShowRibbon.IsChecked = !m_mainWnd.Ribbon.IsMinimized;
             (m_mainWnd.Ribbon.ContextMenu.Items[0] as RibbonMenuItem).Click += m_mainWnd_Ribbon_ContextMenu_Items_0_Click;
-            
+
             chkAutoPublishing.IsChecked = m_mainWnd.rchkAutoPublishing.IsChecked;
             m_mainWnd.rchkAutoPublishing.Checked += m_mainWnd_rchkAutoPublishing_CheckedOrUnchecked;
             m_mainWnd.rchkAutoPublishing.Unchecked += m_mainWnd_rchkAutoPublishing_CheckedOrUnchecked;
@@ -91,7 +82,7 @@ namespace DBManager.Stuff
             OnPropertyChanged(MainWindow.CalcGradesEnabledPropertyName);
 
             OnPropertyChanged(MainWindow.ExportToXlsEnabledPropertyName);
-                        
+
             SetTopMost();
         }
 
@@ -252,9 +243,9 @@ namespace DBManager.Stuff
 
             foreach (var group in m_mainWnd.CurrentGroups)
             {
-                
+
                 var cmbi = GlobalDefines.AddItemToCmb<long>(cmbGroups, group.Value.Value.AgeGroup.FullGroupName, group.Key);
-                
+
                 if (m_mainWnd.CurrentGroups.SelectedKey == group.Key)
                     cmbGroups.SelectedItem = cmbi;
             }
@@ -299,7 +290,7 @@ namespace DBManager.Stuff
             }
         }
 
-        void m_mainWnd_CurrentGroups_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void m_mainWnd_CurrentGroups_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             cmbGroups.SelectionChanged -= cmbGroups_SelectionChanged;
 
@@ -323,7 +314,7 @@ namespace DBManager.Stuff
             RefreshRounds();
         }
 
-        void m_mainWnd_CurrentGroups_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void m_mainWnd_CurrentGroups_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             RefreshGroups();
         }
@@ -341,7 +332,7 @@ namespace DBManager.Stuff
             foreach (var round in m_mainWnd.CurrentRounds)
             {
                 var cmbi = GlobalDefines.AddItemToCmb<byte>(cmbRounds, round.Value.Value.Name, round.Key);
-                
+
                 if (m_mainWnd.CurrentRounds.SelectedKey == round.Key)
                     cmbRounds.SelectedItem = cmbi;
             }
@@ -384,7 +375,7 @@ namespace DBManager.Stuff
             }
         }
 
-        void m_mainWnd_CurrentRounds_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void m_mainWnd_CurrentRounds_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             cmbRounds.SelectionChanged -= cmbRounds_SelectionChanged;
 
@@ -406,7 +397,7 @@ namespace DBManager.Stuff
             cmbRounds.SelectionChanged += cmbRounds_SelectionChanged;
         }
 
-        void m_mainWnd_CurrentRounds_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void m_mainWnd_CurrentRounds_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             RefreshRounds();
         }
@@ -450,7 +441,7 @@ namespace DBManager.Stuff
 
         public bool GodsMode
         {
-            get {  return m_mainWnd?.GodsMode ?? false; }
+            get { return m_mainWnd?.GodsMode ?? false; }
             set
             {
                 if (m_mainWnd != null)
@@ -491,7 +482,7 @@ namespace DBManager.Stuff
 
         #endregion
 
-        void m_mainWnd_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void m_mainWnd_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {	// Транслируем изменение свойства в эту форму 
             OnPropertyChanged(e.PropertyName);
 

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace DBManager.Global
 {
@@ -104,10 +101,10 @@ namespace DBManager.Global
         None = -1,
         /// <summary> б/р </summary>
         WithoutGrade = 1,
-        
+
         /// <summary> 3 ю </summary>
         Young3 = 2,
-        
+
         /// <summary> 2 ю </summary>
         Young2 = 3,
 
@@ -172,7 +169,7 @@ namespace DBManager.Global
     {
         /// <summary> Вызывающая функция должна вернуть true </summary>
         True,
-        
+
         /// <summary> Вызывающая функция должна вернуть false </summary>
         False,
 
@@ -197,11 +194,11 @@ namespace DBManager.Global
     public enum enChangedResult
     {
         None = 0,
-        
+
         Route1Time = 1 << 0,
         Route2Time = 1 << 1,
         SumTime = 1 << 2,
-        
+
         Route1CondFormatting = 1 << 3,
         Route2CondFormatting = 1 << 4,
         SumCondFormatting = 1 << 5,

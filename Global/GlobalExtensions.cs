@@ -1,14 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core.Objects;
+using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Reflection;
-using System.Data.Common;
-using System.Collections;
-using System.Drawing;
-using System.Data.Entity.Core.EntityClient;
-using System.Data.Entity.Core.Objects;
-using MySql.Data.MySqlClient;
 
 namespace DBManager.Global
 {
@@ -30,13 +25,13 @@ namespace DBManager.Global
             {
                 throw new ArgumentOutOfRangeException("index", index, "string.ReplaceAt(): Index must be less then string length");
             }
-            
+
             StringBuilder builder = new StringBuilder(source);
             builder[index] = newChar;
             return builder.ToString();
         }
 
-        
+
         public static string ReplaceAt(this string source, int index, string newString)
         {
             if (source == null)
@@ -122,7 +117,7 @@ namespace DBManager.Global
             return (enAdditionalEventTypes)(ExcelCondFormatingFlags >> 4);
         }
 
-                
+
         public static bool TryAddValue<TKey, TValue>(this IDictionary<TKey, TValue> dict, TKey key, TValue value)
         {
             if (dict.ContainsKey(key))
@@ -135,7 +130,7 @@ namespace DBManager.Global
                 return true;
             }
         }
-                                
+
 
         /// <summary>
         /// Сравнение TimeSpan с учётом того, что в БД хранятся не миллисекунды а сотые доли секунды

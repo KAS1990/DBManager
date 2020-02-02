@@ -1,21 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Xceed.Wpf.Toolkit;
-using DBManager.Global;
-using DBManager.SettingsWriter;
+﻿using DBManager.Global;
 using DBManager.Global.Converters;
+using DBManager.SettingsWriter;
+using System;
 using System.Globalization;
+using System.Windows;
+using System.Windows.Media;
 
 namespace DBManager.InterfaceElements
 {
@@ -42,7 +31,7 @@ namespace DBManager.InterfaceElements
             }
         }
         #endregion
-                
+
 
         #region MyFontWeight
         private static readonly string MyFontWeightPropertyName = GlobalDefines.GetPropertyName<CFontStylePicker>(m => m.MyFontWeight);
@@ -64,7 +53,7 @@ namespace DBManager.InterfaceElements
         }
         #endregion
 
-        
+
         #region MyFontStyle
         private static readonly string MyFontStylePropertyName = GlobalDefines.GetPropertyName<CFontStylePicker>(m => m.MyFontStyle);
 
@@ -106,7 +95,7 @@ namespace DBManager.InterfaceElements
         }
         #endregion
 
-        
+
         #region ForeColor
         private static readonly string ForeColorPropertyName = GlobalDefines.GetPropertyName<CFontStylePicker>(m => m.ForeColor);
 
@@ -127,7 +116,7 @@ namespace DBManager.InterfaceElements
         }
         #endregion
 
-        
+
         #region TextSample
         private static readonly string TextSamplePropertyName = GlobalDefines.GetPropertyName<CFontStylePicker>(m => m.TextSample);
 
@@ -147,8 +136,8 @@ namespace DBManager.InterfaceElements
             }
         }
         #endregion
-        
-        
+
+
         #region FieldsToShow
         private static readonly string FieldsToShowPropertyName = GlobalDefines.GetPropertyName<CFontStylePicker>(m => m.FieldsToShow);
 
@@ -167,8 +156,8 @@ namespace DBManager.InterfaceElements
             }
         }
         #endregion
-        
-        
+
+
         #region FontFamilyName
         private static readonly string FontFamilyNamePropertyName = GlobalDefines.GetPropertyName<CFontStylePicker>(m => m.FontFamilyName);
 
@@ -188,7 +177,7 @@ namespace DBManager.InterfaceElements
         }
         #endregion
 
-        
+
         public CFontStyleSettings FontStyleSettings
         {
             get
@@ -209,7 +198,7 @@ namespace DBManager.InterfaceElements
                 this.BackgroundColor = value.BackgroundColor;
             }
         }
-            
+
 
         public CFontStylePicker()
         {
@@ -233,7 +222,7 @@ namespace DBManager.InterfaceElements
 
     public class FieldsToShowToVisibilityConverter : MarkupConverterBase
     {
-        Visibility m_UnvisibleValue = Visibility.Collapsed;
+        private Visibility m_UnvisibleValue = Visibility.Collapsed;
         /// <summary>
         /// Значение, которое используется в качестве Visible = false
         /// </summary>
@@ -272,14 +261,14 @@ namespace DBManager.InterfaceElements
 
     public class FontWeightToBoolConverter : MarkupConverterBase
     {
-        FontWeight m_TrueValue = FontWeights.Bold;
+        private FontWeight m_TrueValue = FontWeights.Bold;
         public FontWeight TrueValue
         {
             get { return m_TrueValue; }
             set { m_TrueValue = value; }
         }
 
-        FontWeight m_FalseValue = FontWeights.Normal;
+        private FontWeight m_FalseValue = FontWeights.Normal;
         public FontWeight FalseValue
         {
             get { return m_FalseValue; }
@@ -316,14 +305,14 @@ namespace DBManager.InterfaceElements
 
     public class FontStyleToBoolConverter : MarkupConverterBase
     {
-        FontStyle m_TrueValue = FontStyles.Italic;
+        private FontStyle m_TrueValue = FontStyles.Italic;
         public FontStyle TrueValue
         {
             get { return m_TrueValue; }
             set { m_TrueValue = value; }
         }
 
-        FontStyle m_FalseValue = FontStyles.Normal;
+        private FontStyle m_FalseValue = FontStyles.Normal;
         public FontStyle FalseValue
         {
             get { return m_FalseValue; }

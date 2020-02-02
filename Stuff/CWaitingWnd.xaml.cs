@@ -1,13 +1,12 @@
-﻿using System.Windows;
-using System.Threading;
-using System;
-using DBManager;
-using System.Windows.Threading;
-using System.Windows.Interop;
-using System.ComponentModel;
+﻿using DBManager.Global;
 using DBManager.TrayNotification;
-using DBManager.Global;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Threading;
+using System.Windows;
+using System.Windows.Interop;
+using System.Windows.Threading;
 
 namespace DBManager.Stuff
 {
@@ -23,19 +22,17 @@ namespace DBManager.Stuff
         /// Key - id окна
         /// </summary>
         private readonly static Dictionary<int, CWaitingWnd> m_dictAllWnds = new Dictionary<int, CWaitingWnd>();
+        private readonly int m_ID = 0;
+        private bool m_AllowClose = false;
+        private readonly AutoResetEvent m_CloseEvent = null;
+        private Window m_OwnerWindow = null;
+        private int m_RemTimersCountForShow = 0;
+        private IntPtr m_hwnd = new IntPtr();
+        private IntPtr m_OldParent = new IntPtr();
+        private double m_OldTop = 0;
+        private double m_OldLeft = 0;
 
-        readonly int m_ID = 0;
-        bool m_AllowClose = false;
-        AutoResetEvent m_CloseEvent = null;
-        Window m_OwnerWindow = null;
-        
-        int m_RemTimersCountForShow = 0;
-        IntPtr m_hwnd = new IntPtr();
-        IntPtr m_OldParent = new IntPtr();
-        double m_OldTop = 0;
-        double m_OldLeft = 0;
-        
-        
+
         public CWaitingWnd()
         {
             InitializeComponent();
@@ -76,7 +73,7 @@ namespace DBManager.Stuff
 
             m_CloseEvent = CloseEvent;
             m_OwnerWindow = OwnerWindow;
-            
+
             CTaskBarIconTuning.SetProgressState(enTaskbarStates.Indeterminate);
 
             DispatcherTimer tmrSearching = new DispatcherTimer() { Interval = new TimeSpan(0, 0, 0, 0, TimerIntervalInMs) };
@@ -135,7 +132,7 @@ namespace DBManager.Stuff
                 CTaskBarIconTuning.ResetProgressValue();
                 CTaskBarIconTuning.Flash();
             }
-            
+
             base.OnClosing(e);
         }
 
@@ -167,8 +164,7 @@ namespace DBManager.Stuff
             }
         }
 
-
-        class CShowAsyncParam
+        private class CShowAsyncParam
         {
             public int m_ID;
             public AutoResetEvent m_hFinishedSearchEvent;
@@ -177,7 +173,7 @@ namespace DBManager.Stuff
             public Window m_OwnerWindow;
         }
 
-        static int? m_csShowCounter = 0;
+        private static int? m_csShowCounter = 0;
         /// <summary>
         /// Запуск формы в другом потоке
         /// </summary>
@@ -210,7 +206,7 @@ namespace DBManager.Stuff
                 m_WndText = WndText,
                 m_OwnerWindow = OwnerWindow
             };
-                        
+
             th.SetApartmentState(ApartmentState.STA);
             th.Start(ThreadParam);
 
@@ -238,7 +234,7 @@ namespace DBManager.Stuff
         /// Отдельная функция сделана для того, чтобы в неё можно было передать "out AutoResetEvent hFinishedSearchEvent"
         /// </summary>
         /// <param name="Parameter"></param>
-        static void ShowAsyncThreadFunc(object Parameter)
+        private static void ShowAsyncThreadFunc(object Parameter)
         {
             CShowAsyncParam ThreadParam = Parameter as CShowAsyncParam;
             CWaitingWnd wnd = new CWaitingWnd(ThreadParam.m_ID,

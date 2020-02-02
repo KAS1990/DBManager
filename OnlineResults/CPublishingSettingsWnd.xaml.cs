@@ -1,20 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using DBManager.Global;
+﻿using DBManager.Global;
 using DBManager.Scanning.XMLDataClasses;
-using System.ComponentModel;
-using System.Collections.ObjectModel;
 using DBManager.SettingsWriter;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Linq;
+using System.Windows;
 
 namespace DBManager.OnlineResults
 {
@@ -84,7 +75,7 @@ namespace DBManager.OnlineResults
                 }
             }
             #endregion
-                                    
+
 
             #region Constructors
             public CPublishingGroupItem()
@@ -111,8 +102,7 @@ namespace DBManager.OnlineResults
             #endregion
         }
 
-
-        ObservableCollection<CPublishingGroupItem> m_Groups = new ObservableCollection<CPublishingGroupItem>();
+        private readonly ObservableCollection<CPublishingGroupItem> m_Groups = new ObservableCollection<CPublishingGroupItem>();
         public ObservableCollection<CPublishingGroupItem> Groups
         {
             get { return m_Groups; }
@@ -124,8 +114,7 @@ namespace DBManager.OnlineResults
             get { return Groups.Where(arg => arg.IsSelected).ToList(); }
         }
 
-                
-        readonly long m_CompId = -1;
+        private readonly long m_CompId = -1;
 
 
         #region Конструкторы
@@ -146,9 +135,9 @@ namespace DBManager.OnlineResults
                 foreach (KeyValuePair<long, CKeyValuePairEx<long, CCompSettings>> item in CompGroups)
                 {
                     CPublishingGroupItem GroupItem = new CPublishingGroupItem(item.Key)
-                        {
-                            GroupName = item.Value.Value.AgeGroup.FullGroupName,
-                        };
+                    {
+                        GroupName = item.Value.Value.AgeGroup.FullGroupName,
+                    };
                     CCompSpecificSets CompSets;
                     CPublishedGroupItemInSets SettingsPublishedGroupItem;
                     if (DBManagerApp.m_AppSettings.m_Settings.dictCompSettings.TryGetValue(CompId, out CompSets) &&
@@ -185,10 +174,10 @@ namespace DBManager.OnlineResults
                 {
                     CompSets.dictGroupsForAutopublish.Add(item.GroupId,
                                                         new CPublishedGroupItemInSets()
-                                                            {
-                                                                GroupId = item.GroupId,
-                                                                IsSelected = item.IsSelected
-                                                            });
+                                                        {
+                                                            GroupId = item.GroupId,
+                                                            IsSelected = item.IsSelected
+                                                        });
                 }
                 DBManagerApp.m_AppSettings.m_Settings.dictCompSettings[m_CompId] = CompSets;
 
@@ -204,7 +193,7 @@ namespace DBManager.OnlineResults
             lstvGroups.Width = lstvGroups.ActualWidth;
         }
 
-        
+
         private void chkSelectAll_Click(object sender, RoutedEventArgs e)
         {
             if (chkSelectAll.IsChecked.HasValue)

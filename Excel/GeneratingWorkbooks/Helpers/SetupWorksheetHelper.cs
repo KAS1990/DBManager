@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using static DBManager.Scanning.XMLDataClasses.CAgeGroup;
 using MSExcel = Microsoft.Office.Interop.Excel;
@@ -12,43 +9,37 @@ namespace DBManager.Excel.GeneratingWorkbooks.Helpers
     public class SetupWorksheetHelper
     {
         #region Consts
-        const string SETUP_SHEET_NAME = "Setup";
-
-        const string RN_FLAGS = "FLAGS";
-        const string RN_HIDE_FLAGS = "HideFlags";
-        const string RN_TRANS_FLAGS = "TransFlags";
-        const string RN_ON_SHEET_FLAGS = "OnSheetFlags";
-
-        const string RN_INIT_ON_SHEET_FLAGS_VALUE = "InitOnSheetFlagsValue";
-        const string RN_REQUEST = "Request";
-
-        const string RN_COMP_NAME_INDEX = "CompNameIndex";
-        const string RN_MAIN_JUDGE_INDEX = "MainJudgeIndex";
-        const string RN_MAIN_SECRETARY_INDEX = "MainSecretaryIndex";
-        const string RN_ROW_6_INDEX = "Row6Index";
-
-        const string RN_START_COMP_DATE = "StartCompDate";
-        const string RN_END_COMP_DATE = "EndCompDate";
-
-        const string RN_START_GROUP_YEAR = "StartGroupYear";
-        const string RN_END_GROUP_YEAR_INDEX = "EndGroupYearIndex";
-
-        const int REQUEST_LOAD_FLAGS = 1;
-        const int REQUEST_CLEAR_BOOK_SILENTLY = 2;
-        const int REQUEST_FILL_WBK_BASED_ON_SETUP_SHEET = 3;
-        const int CLEAR_WBK_FLAGS_VALUE = 64;
-        const int INIT_HIDE_FLAGS_VALUE = 0;
-        const int INIT_TRANS_FLAGS_VALUE = 0;
+        private const string SETUP_SHEET_NAME = "Setup";
+        private const string RN_FLAGS = "FLAGS";
+        private const string RN_HIDE_FLAGS = "HideFlags";
+        private const string RN_TRANS_FLAGS = "TransFlags";
+        private const string RN_ON_SHEET_FLAGS = "OnSheetFlags";
+        private const string RN_INIT_ON_SHEET_FLAGS_VALUE = "InitOnSheetFlagsValue";
+        private const string RN_REQUEST = "Request";
+        private const string RN_COMP_NAME_INDEX = "CompNameIndex";
+        private const string RN_MAIN_JUDGE_INDEX = "MainJudgeIndex";
+        private const string RN_MAIN_SECRETARY_INDEX = "MainSecretaryIndex";
+        private const string RN_ROW_6_INDEX = "Row6Index";
+        private const string RN_START_COMP_DATE = "StartCompDate";
+        private const string RN_END_COMP_DATE = "EndCompDate";
+        private const string RN_START_GROUP_YEAR = "StartGroupYear";
+        private const string RN_END_GROUP_YEAR_INDEX = "EndGroupYearIndex";
+        private const int REQUEST_LOAD_FLAGS = 1;
+        private const int REQUEST_CLEAR_BOOK_SILENTLY = 2;
+        private const int REQUEST_FILL_WBK_BASED_ON_SETUP_SHEET = 3;
+        private const int CLEAR_WBK_FLAGS_VALUE = 64;
+        private const int INIT_HIDE_FLAGS_VALUE = 0;
+        private const int INIT_TRANS_FLAGS_VALUE = 0;
 
         #endregion
 
-        readonly WorkbookDataFileWrapper m_DataFileWrapper = null;
-        readonly MSExcel.Workbook m_wbk = null;
-        readonly MSExcel.Worksheet m_wshSetup = null;
+        private readonly WorkbookDataFileWrapper m_DataFileWrapper = null;
+        private readonly MSExcel.Workbook m_wbk = null;
+        private readonly MSExcel.Worksheet m_wshSetup = null;
 
         #region CompName
 
-        string m_CompName = null;
+        private string m_CompName = null;
         public string CompName
         {
             get
@@ -75,7 +66,7 @@ namespace DBManager.Excel.GeneratingWorkbooks.Helpers
 
         #region MainJudge
 
-        string m_MainJudge = null;
+        private string m_MainJudge = null;
         public string MainJudge
         {
             get
@@ -102,7 +93,7 @@ namespace DBManager.Excel.GeneratingWorkbooks.Helpers
 
         #region MainSecretary
 
-        string m_MainSecretary = null;
+        private string m_MainSecretary = null;
         public string MainSecretary
         {
             get
@@ -129,7 +120,7 @@ namespace DBManager.Excel.GeneratingWorkbooks.Helpers
 
         #region Row6
 
-        string m_Row6 = null;
+        private string m_Row6 = null;
         public string Row6
         {
             get
@@ -156,7 +147,7 @@ namespace DBManager.Excel.GeneratingWorkbooks.Helpers
 
         #region StartCompDate
 
-        DateTime? m_StartCompDate = null;
+        private DateTime? m_StartCompDate = null;
         public DateTime? StartCompDate
         {
             get
@@ -180,7 +171,7 @@ namespace DBManager.Excel.GeneratingWorkbooks.Helpers
 
         #region EndCompDate
 
-        DateTime? m_EndCompDate = null;
+        private DateTime? m_EndCompDate = null;
         public DateTime? EndCompDate
         {
             get
@@ -205,7 +196,7 @@ namespace DBManager.Excel.GeneratingWorkbooks.Helpers
 
         #region StartGroupYear
 
-        int? m_StartGroupYear = null;
+        private int? m_StartGroupYear = null;
         public int? StartGroupYear
         {
             get
@@ -243,7 +234,7 @@ namespace DBManager.Excel.GeneratingWorkbooks.Helpers
 
         #region EndGroupYear
 
-        int? m_EndGroupYear = null;
+        private int? m_EndGroupYear = null;
         public int? EndGroupYear
         {
             get
@@ -271,7 +262,7 @@ namespace DBManager.Excel.GeneratingWorkbooks.Helpers
                                 break;
 
                             case 2: // и старше
-                                m_EndGroupYear =(int)enEndYearSpecVals.AndElder;
+                                m_EndGroupYear = (int)enEndYearSpecVals.AndElder;
                                 break;
 
                             default:
@@ -316,7 +307,7 @@ namespace DBManager.Excel.GeneratingWorkbooks.Helpers
 
         #region FLAGS
 
-        ushort? m_FLAGS = null;
+        private ushort? m_FLAGS = null;
         public ushort FLAGS
         {
             get

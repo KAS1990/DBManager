@@ -1,8 +1,4 @@
 ﻿using DBManager.Scanning.DBAdditionalDataClasses;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using MSExcel = Microsoft.Office.Interop.Excel;
 
 namespace DBManager.Excel.GeneratingWorkbooks.Helpers
@@ -11,18 +7,17 @@ namespace DBManager.Excel.GeneratingWorkbooks.Helpers
     {
         #region Consts
 
-        const int FIRST_DATA_ROW_INDEX = 8;
-
-        const int NUMBER_COLUMN_INDEX = 1;
-        const int NAME_AND_LASTNAME_COLUMN_INDEX = 2;
-        const int TEAM_COLUMN_INDEX = 3;
-        const int YoB_COLUMN_INDEX = 4;
-        const int GRADE_COLUMN_INDEX = 5;
+        private const int FIRST_DATA_ROW_INDEX = 8;
+        private const int NUMBER_COLUMN_INDEX = 1;
+        private const int NAME_AND_LASTNAME_COLUMN_INDEX = 2;
+        private const int TEAM_COLUMN_INDEX = 3;
+        private const int YoB_COLUMN_INDEX = 4;
+        private const int GRADE_COLUMN_INDEX = 5;
 
         #endregion
 
-        readonly MSExcel.Workbook m_wbk = null;
-        readonly MSExcel.Worksheet m_wshStartList = null;
+        private readonly MSExcel.Workbook m_wbk = null;
+        private readonly MSExcel.Worksheet m_wshStartList = null;
 
         public StartListWorksheetHelper(MSExcel.Workbook wbk)
         {
