@@ -529,22 +529,23 @@ namespace DBManager.Excel.Exporting
                     {   // Удалось добавить хотя бы 1 лист
                         // Удаляем первый лист, который был создан автоматически при создании книги
                         // Перед этим обязательно нужно показать книгу, т.к. без этого метод Delete падает
-                        excelApp.WindowState = MSExcel.XlWindowState.xlMinimized;
                         excelApp.Visible = true;
+                        excelApp.WindowState = MSExcel.XlWindowState.xlMinimized;
+                        excelApp.WindowState = MSExcel.XlWindowState.xlNormal;
+                        excelApp.WindowState = MSExcel.XlWindowState.xlMinimized;
                         wbkTarget.Worksheets[1].Delete();
                         wbkTarget.SaveAs(WbkTargetPath);
+
                         if (ShowWbkAfterExport)
                         {
-                            if (NewAppCreated)
-                            {
-                                excelApp.Visible = true;
-                                NewAppCreated = false;
-                            }
-
+                            NewAppCreated = false;
                             wbkTarget.Activate();
                         }
                         else
+                        {
+                            excelApp.Visible = false;
                             wbkTarget.Close();
+                        }
                     }
                     else
                     {
