@@ -100,12 +100,12 @@ namespace DBManager
         /// <summary>
         /// Source для vsrcCurrentRoundMembers
         /// </summary>
-        private ObservableCollectionEx<CDBAdditionalClassBase> collectionCurrentRoundMembers { get; set; }
+        private ObservableCollectionEx<CDBAdditionalClassBase> CollectionCurrentRoundMembers { get; set; }
 
         /// <summary>
         /// Source для vsrcCurrentRoundMembers2
         /// </summary>
-        private ObservableCollectionEx<CDBAdditionalClassBase> collectionCurrentRoundMembers2 { get; set; }
+        private ObservableCollectionEx<CDBAdditionalClassBase> CollectionCurrentRoundMembers2 { get; set; }
 
         #endregion
 
@@ -702,8 +702,7 @@ namespace DBManager
             else
                 wbkFullPath = Path.ChangeExtension(selGroupInDB.xml_file_name, GlobalDefines.MAIN_WBK_EXTENSION);
 
-            bool NewAppCreated;
-            MSExcel.Application excelApp = GlobalDefines.StartExcel(out NewAppCreated);
+            MSExcel.Application excelApp = GlobalDefines.StartExcel(out bool NewAppCreated);
 
             if (excelApp != null)
             {
@@ -1052,15 +1051,13 @@ namespace DBManager
         /// <param name="e"></param>
         protected void OpenFilterPopupCmdExecuted(object sender, ExecutedRoutedEventArgs e)
         {
-            CheckBox chkShowFilterPopup = e.OriginalSource as CheckBox;
-            if (chkShowFilterPopup == null || !chkShowFilterPopup.IsChecked.Value)
+            if (!(e.OriginalSource is CheckBox chkShowFilterPopup) || !chkShowFilterPopup.IsChecked.Value)
                 return;
 
             Popup pppFilter = (chkShowFilterPopup.Parent as Panel).Children.OfType<Popup>().FirstOrDefault();
             if (pppFilter == null)
                 return;
 
-            List<FilterPredicate> lstCurPredicates; // Текущие настройки фильтрации
             List<object> lstPredicatesInDB = null; // Категории на основе информации, имеющейся в БД 
 
             enFilterTarget FilterTarget = (enFilterTarget)e.Parameter;
@@ -1068,7 +1065,8 @@ namespace DBManager
             Type TargetType = null;
             FilterPredicateComparer Comparer = new FilterPredicateComparer();
 
-            if (!m_dictFilters.TryGetValue(FilterTarget, out lstCurPredicates))
+            // Текущие настройки фильтрации
+            if (!m_dictFilters.TryGetValue(FilterTarget, out List<FilterPredicate> lstCurPredicates))
             {
                 lstCurPredicates = new List<FilterPredicate>();
                 m_dictFilters.Add(FilterTarget, lstCurPredicates);
@@ -1310,8 +1308,8 @@ namespace DBManager
 
                 ThreadManager.Instance.UISynchronizationContext = SynchronizationContext.Current;
 
-                collectionCurrentRoundMembers = new ObservableCollectionEx<CDBAdditionalClassBase>();
-                collectionCurrentRoundMembers2 = new ObservableCollectionEx<CDBAdditionalClassBase>();
+                CollectionCurrentRoundMembers = new ObservableCollectionEx<CDBAdditionalClassBase>();
+                CollectionCurrentRoundMembers2 = new ObservableCollectionEx<CDBAdditionalClassBase>();
 
                 CTaskBarIconTuning.ResetProgressValue(); // Чтобы объект создался в основном потоке
 
@@ -1396,8 +1394,8 @@ namespace DBManager
 
                 rchkShowGroupHead_Click(rchkShowGroupHead, null);
 
-                vsrcCurrentRoundMembers.Source = collectionCurrentRoundMembers;
-                vsrcCurrentRoundMembers2.Source = collectionCurrentRoundMembers2;
+                vsrcCurrentRoundMembers.Source = CollectionCurrentRoundMembers;
+                vsrcCurrentRoundMembers2.Source = CollectionCurrentRoundMembers2;
                 SetFilterFunc(null, false);
 
                 m_tmrAutoscroll.Tick += m_tmrAutoscroll_Tick;
@@ -1444,8 +1442,7 @@ namespace DBManager
 
         private void pppFilter_Closed(object sender, EventArgs e)
         {
-            Popup pppFilter = sender as Popup;
-            if (pppFilter != null && pppFilter.Tag != null && pppFilter.Child is CFilterControl)
+            if (sender is Popup pppFilter && pppFilter.Tag != null && pppFilter.Child is CFilterControl)
             {
                 pppFilter.Closed -= pppFilter_Closed;
                 (pppFilter.Tag as CheckBox).IsChecked = false;
@@ -1765,8 +1762,7 @@ namespace DBManager
 
                                 case enDataChangesTypes.Changing:
                                     {
-                                        CKeyValuePairEx<long, CCompSettings> CurrentGroupSettings;
-                                        if (CurrentGroups.TryGetValue(Changing.GroupID, out CurrentGroupSettings))
+                                        if (CurrentGroups.TryGetValue(Changing.GroupID, out CKeyValuePairEx<long, CCompSettings> CurrentGroupSettings))
                                         {
                                             // Если настройки группы изменятся, то сработает событие
                                             CurrentGroupSettings.PropertyChanged += CurrentGroupSettings_PropertyChanged;
@@ -1814,8 +1810,7 @@ namespace DBManager
                                     lock (scanner.DataSyncObj)
                                         GroupSettings = new CCompSettings(scanner.DataFromXml.Settings);
 
-                                    CKeyValuePairEx<long, CCompSettings> CurrentGroupSettings;
-                                    if (CurrentGroups.TryGetValue(Changing.GroupID, out CurrentGroupSettings))
+                                    if (CurrentGroups.TryGetValue(Changing.GroupID, out CKeyValuePairEx<long, CCompSettings> CurrentGroupSettings))
                                     {
                                         // Если настройки группы изменятся, то сработает событие
                                         CurrentGroupSettings.PropertyChanged += CurrentGroupSettings_PropertyChanged;
@@ -2026,8 +2021,8 @@ namespace DBManager
                 lblRoundDate.Content = lblRoundName.Content = "";
 
                 m_CurrentRoundMembers = null;
-                collectionCurrentRoundMembers.Clear();
-                collectionCurrentRoundMembers2.Clear();
+                CollectionCurrentRoundMembers.Clear();
+                CollectionCurrentRoundMembers2.Clear();
                 dgrdRoundMembers.Columns.Clear();
                 dgrdRoundMembers.Style = null;
                 RightPanel.ClearTemplate();
@@ -3001,7 +2996,7 @@ namespace DBManager
                     dgrdRoundMembers.Columns.Add(item);
             }
 
-            collectionCurrentRoundMembers.ReplaceRange(m_CurrentRoundMembers);
+            CollectionCurrentRoundMembers.ReplaceRange(m_CurrentRoundMembers);
             m_lstFilteredMembers = m_CurrentRoundMembers.ToList(); // Изначально ничего не отфильтровано 
 
             HighlightTypes[0].Command.DoExecute(); // При смене раундов подсветку разрядов выключаем
@@ -3438,7 +3433,7 @@ namespace DBManager
                                                                 .ToList<CDBAdditionalClassBase>();
                                     break;
                             }
-                            collectionCurrentRoundMembers.Sort(Comparers);
+                            CollectionCurrentRoundMembers.Sort(Comparers);
 
                             RefreshVisibilityInMainTable(Comparers, false);
                         }
@@ -3517,7 +3512,7 @@ namespace DBManager
                                 NewMemberResultsFromDB.MemberInfo.SecondCol = DBManagerApp.m_Entities.teams.First(arg => arg.id_team == NewMemberResultsFromDB.MemberInfo.Team).name;
 
                             m_CurrentRoundMembers.Insert(0, NewMemberResultsFromDB);
-                            collectionCurrentRoundMembers.Insert(0, NewMemberResultsFromDB);
+                            CollectionCurrentRoundMembers.Insert(0, NewMemberResultsFromDB);
 
                             NewMemberResultsFromDB.RefreshColors();
 
@@ -3575,7 +3570,7 @@ namespace DBManager
                                                                 .ToList<CDBAdditionalClassBase>();
                                     break;
                             }
-                            collectionCurrentRoundMembers.Sort(Comparers);
+                            CollectionCurrentRoundMembers.Sort(Comparers);
 
                             RefreshVisibilityInMainTable(Comparers, false);
 
@@ -3658,7 +3653,7 @@ namespace DBManager
                         {
                             int Index = m_CurrentRoundMembers.IndexOf(MemberResults);
                             m_CurrentRoundMembers.RemoveAt(Index);
-                            collectionCurrentRoundMembers.RemoveAt(Index);
+                            CollectionCurrentRoundMembers.RemoveAt(Index);
 
                             foreach (CMemberAndResults item in m_CurrentRoundMembers.Where(arg => (arg as CMemberAndResults).StartNumber > Index))
                             {
@@ -3753,11 +3748,12 @@ namespace DBManager
 
             dgrdRoundMembers2.Style = Resources["RoundResultsQualifStyle2"] as Style;
             dgrdRoundMembers2.FrozenColumnCount = 3;
-            DataGridColumn[] columns = Resources["QualifColumns2"] as DataGridColumn[];
 
-            if (columns != null)
+            if (Resources["QualifColumns2"] is DataGridColumn[] columns)
+            {
                 foreach (DataGridColumn item in columns)
                     dgrdRoundMembers2.Columns.Add(item);
+            }
 
             RefreshScrollingOffsets();
         }
@@ -3888,9 +3884,9 @@ namespace DBManager
                 }
 
                 if (RightGridShown)
-                    collectionCurrentRoundMembers2.ReplaceRange(CurrentRoundMembers2);
+                    CollectionCurrentRoundMembers2.ReplaceRange(CurrentRoundMembers2);
                 else
-                    collectionCurrentRoundMembers2.Clear();
+                    CollectionCurrentRoundMembers2.Clear();
             }
         }
 
@@ -3938,7 +3934,7 @@ namespace DBManager
                 {
                     if (item.VisibilityInMainTable != Visibility.Visible)
                     {   // Раньше этот участник был в правой таблице => преносим его в левую
-                        collectionCurrentRoundMembers2.Remove(item);
+                        CollectionCurrentRoundMembers2.Remove(item);
                         item.VisibilityInMainTable = Visibility.Visible;
                     }
                 }
@@ -3946,16 +3942,16 @@ namespace DBManager
                 {
                     if (item.VisibilityInMainTable != Visibility.Collapsed)
                     {   // Раньше этот участник был в левой таблице => преносим его в правую
-                        collectionCurrentRoundMembers2.Add(item);
+                        CollectionCurrentRoundMembers2.Add(item);
                         item.VisibilityInMainTable = Visibility.Collapsed;
                     }
                 }
             }
 
-            foreach (var deletedMemeber in collectionCurrentRoundMembers2.Where(arg => !m_CurrentRoundMembers.Contains(arg)).ToList())
-                collectionCurrentRoundMembers2.Remove(deletedMemeber);
+            foreach (var deletedMemeber in CollectionCurrentRoundMembers2.Where(arg => !m_CurrentRoundMembers.Contains(arg)).ToList())
+                CollectionCurrentRoundMembers2.Remove(deletedMemeber);
 
-            collectionCurrentRoundMembers2.Sort(ComparersForSort);
+            CollectionCurrentRoundMembers2.Sort(ComparersForSort);
         }
 
         #region Автопрокрутка списка участников

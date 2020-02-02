@@ -19,10 +19,10 @@ namespace DBManager
         private static string StackTraceFileName = "";
 
         [DllImport("kernel32.dll")]
-        private static uint GetCurrentThreadId();
+        private extern static uint GetCurrentThreadId();
 
         [DllImport("Dbghelp.dll")]
-        private static bool MiniDumpWriteDump(IntPtr hProcess, uint ProcessId, IntPtr hFile, int DumpType, ref MINIDUMP_EXCEPTION_INFORMATION ExceptionParam, IntPtr UserStreamParam, IntPtr CallbackParam);
+        private extern static bool MiniDumpWriteDump(IntPtr hProcess, uint ProcessId, IntPtr hFile, int DumpType, ref MINIDUMP_EXCEPTION_INFORMATION ExceptionParam, IntPtr UserStreamParam, IntPtr CallbackParam);
 
         [StructLayout(LayoutKind.Sequential, Pack = 4)]
         public struct MINIDUMP_EXCEPTION_INFORMATION
@@ -59,7 +59,7 @@ namespace DBManager
         };
 
         [DllImport("user32.dll")]
-        private static IntPtr GetActiveWindow();
+        private extern static IntPtr GetActiveWindow();
 
         [DllImport("user32.dll")]
         public extern static IntPtr GetDesktopWindow();
@@ -117,7 +117,7 @@ namespace DBManager
                 sw.WriteLine("StackTrace: ");
 
                 /* Записываем кадр стека в файл порциями, потому что StreamWriter может писать данные в файл кусками ограниченного размера.
-				 * Размер ограничения узнать не удалось, поэтому выбрал STACK_TRACE_WRITE_PORTION, чтобы точно было меньше */
+                 * Размер ограничения узнать не удалось, поэтому выбрал STACK_TRACE_WRITE_PORTION, чтобы точно было меньше */
                 char[] arrStackTrace = ex.StackTrace.ToCharArray();
                 int BytesWritten = 0;
                 while (BytesWritten < arrStackTrace.Length)
@@ -150,9 +150,8 @@ namespace DBManager
                 {
                     sw.WriteLine("Data: ");
                     foreach (object val in ex.Data)
-                        if (val is System.Collections.DictionaryEntry)
+                        if (val is System.Collections.DictionaryEntry DictEntry)
                         {
-                            System.Collections.DictionaryEntry DictEntry = (System.Collections.DictionaryEntry)val;
                             sw.WriteLine(string.Format("\tSystem.Collections.DictionaryEntry: Key = {0}, value = {1}",
                                                         DictEntry.Key.ToString(),
                                                         DictEntry.Value == null ? "null" : DictEntry.Value.ToString()));
@@ -273,11 +272,12 @@ namespace DBManager
         {
             using (System.Diagnostics.Process process = System.Diagnostics.Process.GetCurrentProcess())
             {
-                MINIDUMP_EXCEPTION_INFORMATION Mdinfo = new MINIDUMP_EXCEPTION_INFORMATION();
-
-                Mdinfo.ThreadId = GetCurrentThreadId();
-                Mdinfo.ExceptionPointers = Marshal.GetExceptionPointers();
-                Mdinfo.ClientPointers = 1;
+                MINIDUMP_EXCEPTION_INFORMATION Mdinfo = new MINIDUMP_EXCEPTION_INFORMATION
+                {
+                    ThreadId = GetCurrentThreadId(),
+                    ExceptionPointers = Marshal.GetExceptionPointers(),
+                    ClientPointers = 1
+                };
 
                 using (FileStream fs = new FileStream(FileName, FileMode.Create))
                 {

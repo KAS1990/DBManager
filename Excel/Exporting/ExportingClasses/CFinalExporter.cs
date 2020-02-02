@@ -102,12 +102,11 @@ namespace DBManager.Excel.Exporting.ExportingClasses
 				wsh.Range[RN_ROW_6].Value = CompSettings.Row6;
 
 			string ReportName = wsh.Range[RN_REPORT_NAME].Value;
-			int SelectedStartYear, SelectedEndYear;
 			wsh.Range[RN_REPORT_NAME].Value = ReportName.Replace(GlobalDefines.EXCEL_REPORT_NAME_TEXT_TO_REPLACE,
 																CreateGroupName(CurTask.m_GroupToExport,
 																				CompSettings.AgeGroup,
-																				out SelectedStartYear,
-																				out SelectedEndYear));
+																				out int SelectedStartYear,
+																				out int SelectedEndYear));
 
 			// Выводим участников соревнования
 			List<enRounds> CompRounds = (from round in CurTask.m_GroupToExport.Rounds

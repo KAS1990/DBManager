@@ -374,9 +374,9 @@ namespace DBManager.Global
             cmb.Measure(STD_SIZE_FOR_MEASURE);
 
             if (width == 0)
-                width = cmb.Width = cmb.DesiredSize.Width;
+                cmb.Width = cmb.DesiredSize.Width;
             else
-                width = cmb.Width = (UseCmbWidth ? Math.Max(cmb.Width, width) : width);
+                cmb.Width = (UseCmbWidth ? Math.Max(cmb.Width, width) : width);
         }
 
 
@@ -404,9 +404,9 @@ namespace DBManager.Global
             cmb.Measure(STD_SIZE_FOR_MEASURE);
 
             if (width == 0)
-                width = cmb.Width = cmb.DesiredSize.Width;
+                cmb.Width = cmb.DesiredSize.Width;
             else
-                width = cmb.Width = (UseCmbWidth ? Math.Max(cmb.Width, width) : width);
+                cmb.Width = (UseCmbWidth ? Math.Max(cmb.Width, width) : width);
         }
 
         /// <summary>
@@ -438,9 +438,9 @@ namespace DBManager.Global
             cmb.Measure(STD_SIZE_FOR_MEASURE);
 
             if (width == 0)
-                width = cmb.Width = cmb.DesiredSize.Width;
+                cmb.Width = cmb.DesiredSize.Width;
             else
-                width = cmb.Width = (UseCmbWidth ? Math.Max(cmb.Width, width) : width);
+                cmb.Width = (UseCmbWidth ? Math.Max(cmb.Width, width) : width);
         }
         #endregion
 
@@ -1129,8 +1129,7 @@ namespace DBManager.Global
                 return DISQUALIF_TIME_SPAN_VAL;
             }
 
-            double ResInDbl;
-            if (!double.TryParse(ResInStr, out ResInDbl))
+            if (!double.TryParse(ResInStr, out double ResInDbl))
             {
                 // попробуем заменить точки на запятые
                 if (!double.TryParse(ResInStr.Replace('.', ','), out ResInDbl))
@@ -1321,8 +1320,7 @@ namespace DBManager.Global
 
         public static string GetPropertyName<TEntity>(Expression<Func<TEntity, object>> property)
         {
-            UnaryExpression convertExpression = property.Body as UnaryExpression;
-            if (convertExpression != null)
+            if (property.Body is UnaryExpression convertExpression)
                 return ((MemberExpression)convertExpression.Operand).Member.Name;
 
             return ((MemberExpression)property.Body).Member.Name;
@@ -1361,7 +1359,7 @@ namespace DBManager.Global
         }
 
 
-        public static void SetRoundFinished(int? Flags, enRounds round)
+        public static void SetRoundFinished(ref int? Flags, enRounds round)
         {
             if (Flags.HasValue)
                 Flags = (1 << (int)round);
@@ -1393,11 +1391,9 @@ namespace DBManager.Global
 
             for (int i = 0; i < VisualTreeHelper.GetChildrenCount(ctrl); i++)
             {
-                FrameworkElement child = VisualTreeHelper.GetChild(ctrl, i) as FrameworkElement;
-                if (child != null)
+                if (VisualTreeHelper.GetChild(ctrl, i) is FrameworkElement child)
                 {
-                    ScrollViewer result = child as ScrollViewer;
-                    if (result != null)
+                    if (child is ScrollViewer result)
                         return result;
                     else
                     {

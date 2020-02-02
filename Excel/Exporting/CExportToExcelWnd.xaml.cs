@@ -187,8 +187,7 @@ namespace DBManager.Excel.Exporting
                                         this);
             }
 
-            bool NewAppCreated;
-            MSExcel.Application excelApp = GlobalDefines.StartExcel(out NewAppCreated);
+            MSExcel.Application excelApp = GlobalDefines.StartExcel(out bool NewAppCreated);
 
             if (excelApp != null)
             {
