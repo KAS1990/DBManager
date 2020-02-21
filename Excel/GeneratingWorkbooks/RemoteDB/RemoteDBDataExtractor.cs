@@ -38,9 +38,11 @@ namespace DBManager.Excel.GeneratingWorkbooks
                              pupil.firstname,
                              pupil.age,
                              pupil.team,
-                             part.rang_id
+                             part.rang_id,
+                             part.status,
                          })
-                         .ToList();
+                         .ToList()
+                         .Where(x => x.status); // Почему-то это условие не срабатывает в запросе к БД
 
                     var members = pupils
                                     .Select(pupil =>

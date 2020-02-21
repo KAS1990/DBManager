@@ -3,128 +3,128 @@ using System.ComponentModel;
 
 namespace DBManager.ReportGenerators
 {
-	public class CExtraOption : INotifyPropertyChanged
-	{
-		#region id
-		private readonly enRounds m_id = enRounds.None;
+    public class CExtraOption : INotifyPropertyChanged
+    {
+        #region id
+        private readonly enRounds m_id = enRounds.None;
 
-		public enRounds id
-		{
-			get { return m_id; }
-		}
-		#endregion
-
-
-		#region Value
-		private static readonly string ValuePropertyName = GlobalDefines.GetPropertyName<CExtraOption>(m => m.Value);
-
-		private bool m_Value = false;
-
-		public bool Value
-		{
-			get { return m_Value; }
-			set
-			{
-				if (m_Value != value)
-				{
-					m_Value = value;
-					OnPropertyChanged(ValuePropertyName);
-				}
-			}
-		}
-		#endregion
+        public enRounds id
+        {
+            get { return m_id; }
+        }
+        #endregion
 
 
+        #region Value
+        private static readonly string ValuePropertyName = GlobalDefines.GetPropertyName<CExtraOption>(m => m.Value);
 
-		#region Show
-		private static readonly string ShowPropertyName = GlobalDefines.GetPropertyName<CExtraOption>(m => m.Show);
+        private bool m_Value = false;
 
-		public bool Show
-		{
-			get
-			{
-				if (GlobalDefines.ROUND_NAMES.ContainsKey((byte)id))
-				{
-					switch (id)
-					{
-						case enRounds.Qualif:
-						case enRounds.Qualif2:
-						case enRounds.Total:
-							return true;
-
-						case enRounds.OneEighthFinal:
-						case enRounds.QuaterFinal:
-						case enRounds.SemiFinal:
-						case enRounds.Final:
-							return false;
-
-						default:
-							return false;
-					}
-				}
-				else
-					return false;
-			}
-		}
-		#endregion
+        public bool Value
+        {
+            get { return m_Value; }
+            set
+            {
+                if (m_Value != value)
+                {
+                    m_Value = value;
+                    OnPropertyChanged(ValuePropertyName);
+                }
+            }
+        }
+        #endregion
 
 
 
-		#region Name
-		private static readonly string NamePropertyName = GlobalDefines.GetPropertyName<CExtraOption>(m => m.Name);
+        #region Show
+        private static readonly string ShowPropertyName = GlobalDefines.GetPropertyName<CExtraOption>(m => m.Show);
 
-		public string Name
-		{
-			get
-			{
-				if (GlobalDefines.ROUND_NAMES.ContainsKey((byte)id))
-				{
-					switch (id)
-					{
-						case enRounds.Qualif:
-						case enRounds.Qualif2:
-							return Properties.Resources.resOnlyStartList;
+        public bool Show
+        {
+            get
+            {
+                if (GlobalDefines.ROUND_NAMES.ContainsKey((byte)id))
+                {
+                    switch (id)
+                    {
+                        case enRounds.Qualif:
+                        case enRounds.Qualif2:
+                        case enRounds.Total:
+                            return true;
 
-						case enRounds.OneEighthFinal:
-						case enRounds.QuaterFinal:
-						case enRounds.SemiFinal:
-						case enRounds.Final:
-							return null;
+                        case enRounds.OneEighthFinal:
+                        case enRounds.QuaterFinal:
+                        case enRounds.SemiFinal:
+                        case enRounds.Final:
+                            return false;
 
-						case enRounds.Total:
-							return Properties.Resources.resShowBallsInTotal;
-
-						default:
-							return null;
-					}
-				}
-				else
-					return null;
-			}
-		}
-		#endregion
+                        default:
+                            return false;
+                    }
+                }
+                else
+                    return false;
+            }
+        }
+        #endregion
 
 
-		#region OnPropertyChanged and PropertyChanged event
-		public event PropertyChangedEventHandler PropertyChanged;
+
+        #region Name
+        private static readonly string NamePropertyName = GlobalDefines.GetPropertyName<CExtraOption>(m => m.Name);
+
+        public string Name
+        {
+            get
+            {
+                if (GlobalDefines.ROUND_NAMES.ContainsKey((byte)id))
+                {
+                    switch (id)
+                    {
+                        case enRounds.Qualif:
+                        case enRounds.Qualif2:
+                            return Properties.Resources.resOnlyStartList;
+
+                        case enRounds.OneEighthFinal:
+                        case enRounds.QuaterFinal:
+                        case enRounds.SemiFinal:
+                        case enRounds.Final:
+                            return null;
+
+                        case enRounds.Total:
+                            return Properties.Resources.resShowBallsInTotal;
+
+                        default:
+                            return null;
+                    }
+                }
+                else
+                    return null;
+            }
+        }
+        #endregion
 
 
-		public virtual void OnPropertyChanged(string info)
-		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
-		}
-		#endregion
+        #region OnPropertyChanged and PropertyChanged event
+        public event PropertyChangedEventHandler PropertyChanged;
 
 
-		public CExtraOption()
-		{
-		}
+        public virtual void OnPropertyChanged(string info)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
+        }
+        #endregion
 
-		public CExtraOption(enRounds id)
-		{
-			m_id = id;
-			OnPropertyChanged(NamePropertyName);
-			OnPropertyChanged(ShowPropertyName);
-		}
-	}
+
+        public CExtraOption()
+        {
+        }
+
+        public CExtraOption(enRounds id)
+        {
+            m_id = id;
+            OnPropertyChanged(NamePropertyName);
+            OnPropertyChanged(ShowPropertyName);
+        }
+    }
 }

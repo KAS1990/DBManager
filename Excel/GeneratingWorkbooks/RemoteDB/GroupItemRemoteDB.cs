@@ -88,9 +88,12 @@ namespace DBManager.Excel.GeneratingWorkbooks
                     .Instance
                     .Entities
                     .participants
-                    .Count(arg => arg.group_id == ID
+                    .Where(arg => arg.group_id == ID
                             && arg.competition_id == compID
-                            && arg.participants_kind.Any(kind => kind.kind_id == (int)enOnlineDBKind.Speed));
+                            && arg.participants_kind.Any(kind => kind.kind_id == (int)enOnlineDBKind.Speed))
+                    .Select(arg => arg.status)
+                    .ToList()
+                    .Count(status => status); // Почему-то это условие не срабатывает в запросе к БД
                 OnPropertyChanged(MembersCountPropertyName);
             }
         }
