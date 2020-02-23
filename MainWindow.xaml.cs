@@ -3847,7 +3847,7 @@ namespace DBManager
                 List<CMemberAndResults> CurrentRoundMembers2 = new List<CMemberAndResults>();
 
                 // Делаем так, чтобы в левом поле не было вертикальной полосы прогрутки
-                int MembersInLeftGrid = (int)Math.Floor((GlobalDefines.GetActualControlHeight(grdRoundMembersHost) - dgrdRoundMembers.ColumnHeaderHeight - 5.0) /
+                int MembersInLeftGrid = (int)Math.Floor((GlobalDefines.GetActualControlHeight(grdRoundMembersHost) - dgrdRoundMembers.ColumnHeaderHeight - 5.0 - 24.0) /
                                                         dgrdRoundMembers.RowHeight);
                 if (MembersInLeftGrid < 0)
                 {
@@ -3898,7 +3898,7 @@ namespace DBManager
             bool RightGridShown = false;
 
             // Делаем так, чтобы в левом поле не было вертикальной полосы прогрутки
-            int MembersInLeftGrid = (int)Math.Floor((GlobalDefines.GetActualControlHeight(grdRoundMembersHost) - dgrdRoundMembers.ColumnHeaderHeight - 5.0) /
+            int MembersInLeftGrid = (int)Math.Floor((GlobalDefines.GetActualControlHeight(grdRoundMembersHost) - dgrdRoundMembers.ColumnHeaderHeight - 5.0 - 24.0) /
                                                     dgrdRoundMembers.RowHeight);
             if (MembersInLeftGrid < 0)
             {
