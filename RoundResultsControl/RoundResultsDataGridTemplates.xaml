@@ -330,7 +330,7 @@
             </DataGridTextColumn.ElementStyle>
         </DataGridTextColumn>
                     
-        <DataGridTextColumn Binding="{Binding MemberInfo.SecondCol}" ElementStyle="{StaticResource RndResStdTextBlockStyle}" >
+        <DataGridTextColumn Binding="{Binding MemberInfo.SecondCol}" >
             <DataGridTextColumn.HeaderStyle>
                 <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGridColumnHeaderWithFilterStyle}">
                     <Setter Property="Content" >
@@ -352,6 +352,12 @@
                     </Setter>
                 </Style>
             </DataGridTextColumn.HeaderStyle>
+
+            <DataGridTextColumn.ElementStyle>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource RndResStdTextBlockStyle}" >
+                    <Setter Property="TextAlignment" Value="Left" />
+                </Style>
+            </DataGridTextColumn.ElementStyle>
         </DataGridTextColumn>
 
         <DataGridTextColumn Binding="{Binding MemberInfo.YearOfBirthForShow}"
@@ -488,11 +494,15 @@
             </DataGridTextColumn.ElementStyle>
         </DataGridTextColumn>
                     
-        <DataGridTextColumn Binding="{Binding MemberInfo.SecondCol}"
-                            ElementStyle="{StaticResource RndResStdTextBlockStyle}" >
+        <DataGridTextColumn Binding="{Binding MemberInfo.SecondCol}" >
             <DataGridTextColumn.Header>
                 <TextBlock Text="{Binding SecondColName, RelativeSource={RelativeSource AncestorType={x:Type mainwnd:MainWindow}}}" />
             </DataGridTextColumn.Header>
+            <DataGridTextColumn.ElementStyle>
+                <Style TargetType="TextBlock" BasedOn="{StaticResource RndResStdTextBlockStyle}" >
+                    <Setter Property="TextAlignment" Value="Left" />
+                </Style>
+            </DataGridTextColumn.ElementStyle>
         </DataGridTextColumn>
 
         <DataGridTextColumn Binding="{Binding MemberInfo.YearOfBirthForShow}"
@@ -746,11 +756,21 @@
                             <RowDefinition />
                             <RowDefinition />
                         </Grid.RowDefinitions>
-                        
-                        <Label Content="{Binding First.MemberInfo.SecondCol}"
-                               Style="{StaticResource RndResBorderedLabel1stStyle}" />
-                        <Label Content="{Binding Second.MemberInfo.SecondCol}"
-                               Style="{StaticResource RndResBorderedLabel2ndStyle}" />
+
+                        <Label Content="{Binding First.MemberInfo.SecondCol}" >
+                            <Label.Style>
+                                <Style TargetType="Label" BasedOn="{StaticResource RndResBorderedLabel1stStyle}">
+                                    <Setter Property="HorizontalContentAlignment" Value="Left" />
+                                </Style>
+                            </Label.Style>
+                        </Label>
+                        <Label Content="{Binding Second.MemberInfo.SecondCol}" >
+                            <Label.Style>
+                                <Style TargetType="Label" BasedOn="{StaticResource RndResBorderedLabel2ndStyle}">
+                                    <Setter Property="HorizontalContentAlignment" Value="Left" />
+                                </Style>
+                            </Label.Style>
+                        </Label>
                         
                         <Border Style="{StaticResource RndResBorderHighlightSelectionStyle}" />
                     </Grid>
@@ -1123,11 +1143,21 @@
                             <RowDefinition />
                             <RowDefinition />
                         </Grid.RowDefinitions>
-                        
-                        <Label Content="{Binding First.MemberInfo.SecondCol}"
-                               Style="{StaticResource RndResBorderedLabel1stStyle}" />
-                        <Label Content="{Binding Second.MemberInfo.SecondCol}"
-                               Style="{StaticResource RndResBorderedLabel2ndStyle}" />
+
+                        <Label Content="{Binding First.MemberInfo.SecondCol}" >
+                            <Label.Style>
+                                <Style TargetType="Label" BasedOn="{StaticResource RndResBorderedLabel1stStyle}">
+                                    <Setter Property="HorizontalContentAlignment" Value="Left" />
+                                </Style>
+                            </Label.Style>
+                        </Label>
+                        <Label Content="{Binding Second.MemberInfo.SecondCol}" >
+                            <Label.Style>
+                                <Style TargetType="Label" BasedOn="{StaticResource RndResBorderedLabel2ndStyle}">
+                                    <Setter Property="HorizontalContentAlignment" Value="Left" />
+                                </Style>
+                            </Label.Style>
+                        </Label>
                         
                         <Border Style="{StaticResource RndResBorderHighlightSelectionStyle}" />
                     </Grid>
