@@ -202,81 +202,99 @@ namespace DBManager.Stuff
         private void btnCalcPlaces_Click(object sender, RoutedEventArgs e)
         {
             // Присвоение разрядов
-            IEnumerable<CMemberInTotal> MembersForGradesCalc = from member in m_CompMembers
-                                                               where member.MemberInfo.InitGrade.HasValue && SelectedYears.Contains(member.MemberInfo.YearOfBirth.Value)
-                                                               where member.Place.HasValue
-                                                               select member;
+            var MembersForGradesCalc
+                = from member in m_CompMembers
+                  where member.MemberInfo.InitGrade.HasValue
+                          && SelectedYears.Contains(member.MemberInfo.YearOfBirth.Value)
+                          && !member.AllFilledResults
+                                  .Any(result
+                                      => result.Sum.AdditionalEventTypes == enAdditionalEventTypes.DontAppear)
+                          && member.Place.HasValue
+                  select member;
             if (chkOnly75PercentForCalcGrades.IsChecked.Value)
             {   // Учитываем только 75% участников
                 MembersForGradesCalc = (from member in MembersForGradesCalc
                                         orderby member.Place
                                         select member).Take((int)(Math.Floor(MembersForGradesCalc.Count() * 0.75)));
             }
-            Dictionary<enGrade?, int> GradesStat = (from member in MembersForGradesCalc
-                                                    group member by member.MemberInfo.InitGrade into MembersGrades
-                                                    select new Scanning.CGroupResultsManager.CGradeStat
-                                                    {
-                                                        Grade = (enGrade?)MembersGrades.Key,
-                                                        MembersWithGrade = MembersGrades.Count(arg => arg.MemberInfo.InitGrade == MembersGrades.Key)
-                                                    }).ToDictionary(key => key.Grade, item => item.MembersWithGrade);
-            int tmp = 0;
+            var GradesStat
+                = (from member in MembersForGradesCalc
+                   group member by member.MemberInfo.InitGrade into MembersGrades
+                   select new Scanning.CGroupResultsManager.CGradeStat
+                   {
+                       Grade = (enGrade?)MembersGrades.Key,
+                       MembersWithGrade = MembersGrades.Count(arg => arg.MemberInfo.InitGrade == MembersGrades.Key)
+                   }).ToDictionary(key => key.Grade, item => item.MembersWithGrade);
+            var prevRawPlace = 0.0;
 
-            for (enGrade grade = enGrade.WithoutGrade; grade <= enGrade.Master; grade++)
+            for (var grade = enGrade.WithoutGrade; grade <= enGrade.Master; grade++)
             {
-                if (!GradesStat.TryGetValue(grade, out tmp))
+                if (!GradesStat.TryGetValue(grade, out _))
                     GradesStat[grade] = 0;
             }
 
             m_MinPlaceForNewGrade.Clear();
 
             // 1 разряд
-            tmp = GlobalDefines.CalcMinPlaceForNewGrade((enResultGradeCalcMethod)cmbResultGradeCalcMethod.SelectedIndex,
-                                            1.0 * GradesStat[enGrade.Master] +
-                                            0.8 * GradesStat[enGrade.BeforeMaster] +
-                                            0.4 * GradesStat[enGrade.Adult1] +
-                                            0.2 * GradesStat[enGrade.Adult2]);
-            m_MinPlaceForNewGrade.Add(new KeyValuePair<enGrade, int>(enGrade.Adult1, tmp));
-            m_dictLblsPlaces[enGrade.Adult1].Content = tmp == 0 ? null : tmp.ToString();
+            prevRawPlace
+                = 1.0 * GradesStat[enGrade.Master] +
+                  0.8 * GradesStat[enGrade.BeforeMaster] +
+                  0.4 * GradesStat[enGrade.Adult1] +
+                  0.2 * GradesStat[enGrade.Adult2];
+            var place
+                = GlobalDefines.CalcMinPlaceForNewGrade((enResultGradeCalcMethod)cmbResultGradeCalcMethod.SelectedIndex, prevRawPlace);
+            m_MinPlaceForNewGrade.Add(new KeyValuePair<enGrade, int>(enGrade.Adult1, place));
+            m_dictLblsPlaces[enGrade.Adult1].Content = place == 0 ? null : place.ToString();
 
             // 2 разряд
-            tmp += GlobalDefines.CalcMinPlaceForNewGrade((enResultGradeCalcMethod)cmbResultGradeCalcMethod.SelectedIndex,
-                                                        0.2 * GradesStat[enGrade.Adult1] +
-                                                        0.4 * GradesStat[enGrade.Adult2] +
-                                                        0.2 * GradesStat[enGrade.Adult3]);
-            m_MinPlaceForNewGrade.Add(new KeyValuePair<enGrade, int>(enGrade.Adult2, tmp));
-            m_dictLblsPlaces[enGrade.Adult2].Content = tmp == 0 ? null : tmp.ToString();
+            prevRawPlace
+                = Math.Round(prevRawPlace, 2) +
+                   0.2 * GradesStat[enGrade.Adult1] +
+                   0.4 * GradesStat[enGrade.Adult2] +
+                   0.2 * GradesStat[enGrade.Adult3];
+            place = GlobalDefines.CalcMinPlaceForNewGrade((enResultGradeCalcMethod)cmbResultGradeCalcMethod.SelectedIndex, prevRawPlace);
+            m_MinPlaceForNewGrade.Add(new KeyValuePair<enGrade, int>(enGrade.Adult2, place));
+            m_dictLblsPlaces[enGrade.Adult2].Content = place == 0 ? null : place.ToString();
 
             // 3 разряд
-            tmp += GlobalDefines.CalcMinPlaceForNewGrade((enResultGradeCalcMethod)cmbResultGradeCalcMethod.SelectedIndex,
-                                                        0.2 * GradesStat[enGrade.Adult2] +
-                                                        0.4 * GradesStat[enGrade.Adult3] +
-                                                        0.3 * GradesStat[enGrade.Young1]);
-            m_MinPlaceForNewGrade.Add(new KeyValuePair<enGrade, int>(enGrade.Adult3, tmp));
-            m_dictLblsPlaces[enGrade.Adult3].Content = tmp == 0 ? null : tmp.ToString();
+            prevRawPlace
+                = Math.Round(prevRawPlace, 2) +
+                   0.2 * GradesStat[enGrade.Adult2] +
+                   0.4 * GradesStat[enGrade.Adult3] +
+                   0.3 * GradesStat[enGrade.Young1];
+            place = GlobalDefines.CalcMinPlaceForNewGrade((enResultGradeCalcMethod)cmbResultGradeCalcMethod.SelectedIndex, prevRawPlace);
+            m_MinPlaceForNewGrade.Add(new KeyValuePair<enGrade, int>(enGrade.Adult3, place));
+            m_dictLblsPlaces[enGrade.Adult3].Content = place == 0 ? null : place.ToString();
 
             // 1 ю разряд
-            tmp += GlobalDefines.CalcMinPlaceForNewGrade((enResultGradeCalcMethod)cmbResultGradeCalcMethod.SelectedIndex,
-                                                        0.2 * GradesStat[enGrade.Adult3] +
-                                                        0.4 * GradesStat[enGrade.Young1] +
-                                                        0.2 * GradesStat[enGrade.Young2]);
-            m_MinPlaceForNewGrade.Add(new KeyValuePair<enGrade, int>(enGrade.Young1, tmp));
-            m_dictLblsPlaces[enGrade.Young1].Content = tmp == 0 ? null : tmp.ToString();
+            prevRawPlace
+                = Math.Round(prevRawPlace, 2) +
+                   0.2 * GradesStat[enGrade.Adult3] +
+                   0.4 * GradesStat[enGrade.Young1] +
+                   0.2 * GradesStat[enGrade.Young2];
+            place = GlobalDefines.CalcMinPlaceForNewGrade((enResultGradeCalcMethod)cmbResultGradeCalcMethod.SelectedIndex, prevRawPlace);
+            m_MinPlaceForNewGrade.Add(new KeyValuePair<enGrade, int>(enGrade.Young1, place));
+            m_dictLblsPlaces[enGrade.Young1].Content = place == 0 ? null : place.ToString();
 
             // 2 ю разряд
-            tmp += GlobalDefines.CalcMinPlaceForNewGrade((enResultGradeCalcMethod)cmbResultGradeCalcMethod.SelectedIndex,
-                                                        0.2 * GradesStat[enGrade.Young1] +
-                                                        0.4 * GradesStat[enGrade.Young2] +
-                                                        0.2 * GradesStat[enGrade.Young3]);
-            m_MinPlaceForNewGrade.Add(new KeyValuePair<enGrade, int>(enGrade.Young2, tmp));
-            m_dictLblsPlaces[enGrade.Young2].Content = tmp == 0 ? null : tmp.ToString();
+            prevRawPlace
+                = Math.Round(prevRawPlace, 2) +
+                   0.2 * GradesStat[enGrade.Young1] +
+                   0.4 * GradesStat[enGrade.Young2] +
+                   0.2 * GradesStat[enGrade.Young3];
+            place = GlobalDefines.CalcMinPlaceForNewGrade((enResultGradeCalcMethod)cmbResultGradeCalcMethod.SelectedIndex, prevRawPlace);
+            m_MinPlaceForNewGrade.Add(new KeyValuePair<enGrade, int>(enGrade.Young2, place));
+            m_dictLblsPlaces[enGrade.Young2].Content = place == 0 ? null : place.ToString();
 
             // 3 ю разряд
-            tmp += GlobalDefines.CalcMinPlaceForNewGrade((enResultGradeCalcMethod)cmbResultGradeCalcMethod.SelectedIndex,
-                                                        0.2 * GradesStat[enGrade.Young2] +
-                                                        0.4 * GradesStat[enGrade.Young3] +
-                                                        0.3 * GradesStat[enGrade.WithoutGrade]);
-            m_MinPlaceForNewGrade.Add(new KeyValuePair<enGrade, int>(enGrade.Young3, tmp));
-            m_dictLblsPlaces[enGrade.Young3].Content = tmp == 0 ? null : tmp.ToString();
+            prevRawPlace
+                = Math.Round(prevRawPlace, 2) +
+                   0.2 * GradesStat[enGrade.Young2] +
+                   0.4 * GradesStat[enGrade.Young3] +
+                   0.3 * GradesStat[enGrade.WithoutGrade];
+            place = GlobalDefines.CalcMinPlaceForNewGrade((enResultGradeCalcMethod)cmbResultGradeCalcMethod.SelectedIndex, prevRawPlace);
+            m_MinPlaceForNewGrade.Add(new KeyValuePair<enGrade, int>(enGrade.Young3, place));
+            m_dictLblsPlaces[enGrade.Young3].Content = place == 0 ? null : place.ToString();
         }
 
         private void btnSetGrades_Click(object sender, RoutedEventArgs e)
